@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Flats4us</string>
+    <string name="witaj_ponownie">Witaj ponownie</string>
+    <string name="nazwa_email_com">nazwa@email.com</string>
+    <string name="email">Email</string>
+    <string name="password_hint">*******</string>
+    <string name="password">Hasło</string>
+    <string name="title_activity_offer_detail">OfferDetailActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+</resources>
