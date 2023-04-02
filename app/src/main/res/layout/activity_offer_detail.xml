@@ -29,7 +29,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="zdjęcie nieruchomości"/>
 
             <LinearLayout
                 android:id="@+id/ownerLayout"
@@ -58,14 +59,13 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/owner"
-                    android:contentDescription="parent" />
+                    android:contentDescription="właściciel" />
                 <TextView
                     android:id="@+id/owner"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:text="Jan Kowalski"
                     android:gravity="center"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -89,7 +89,6 @@
                     android:id="@+id/dateIssue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="12-12-2020"
                     android:textStyle="italic"
                     android:textSize="16sp"
                     android:layout_weight="1"/>
@@ -103,7 +102,6 @@
                     android:id="@+id/price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2000"
                     android:textSize="30sp"
                     android:textStyle="bold"/>
                 <TextView
@@ -139,7 +137,6 @@
                     android:id="@+id/address"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Warszawa"
                     android:textSize="18sp"
                     android:layout_weight="1"/>
             </LinearLayout>
@@ -166,12 +163,11 @@
                         android:id="@+id/size"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="45"
                         android:textSize="18sp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="m^2"
+                        android:text="@string/unit"
                         android:textSize="18sp"/>
                 </LinearLayout>
             </LinearLayout>
@@ -225,7 +221,6 @@
                     android:id="@+id/maxResidents"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:text="2"
                     android:textSize="18sp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"/>
@@ -238,17 +233,16 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Wyposarzenie:"
-                    android:textStyle="italic"
-                    android:textSize="18sp"
                     android:layout_marginEnd="10dp"
                     android:layout_weight="1"
-                    android:gravity="right"/>
+                    android:gravity="right"
+                    android:text="Wyposarzenie:"
+                    android:textSize="18sp"
+                    android:textStyle="italic"/>
                 <TextView
                     android:id="@+id/equipment"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="BRAK"
                     android:textSize="18sp"
                     android:layout_weight="1"/>
             </LinearLayout>
@@ -263,7 +257,7 @@
             <TextView
                 android:id="@+id/description"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:ellipsize="none"
                 android:maxLines="100"
@@ -282,7 +276,6 @@
                 android:id="@+id/interestedPeople"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="10"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:gravity="center_horizontal"
@@ -295,10 +288,11 @@
                     android:id="@+id/chat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/baseline_message_24"
+                    android:drawableLeft="@drawable/baseline_message_24"
                     android:drawablePadding="10dp"
                     android:gravity="center"
                     android:text="NAPISZ"
+                    android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -307,10 +301,11 @@
                     android:id="@+id/rent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/baseline_add_24"
+                    android:drawableLeft="@drawable/baseline_add_24"
                     android:drawablePadding="10dp"
                     android:gravity="center"
                     android:text="WYNAJMIJ"
+                    android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
