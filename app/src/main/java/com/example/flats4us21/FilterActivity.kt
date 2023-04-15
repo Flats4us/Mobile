@@ -5,11 +5,21 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import com.example.flats4us21.data.Offer
+import com.example.flats4us21.databinding.ActivityFilterBinding
+import com.example.flats4us21.viewmodels.MainViewModel
 
 class FilterActivity : AppCompatActivity() {
+    private lateinit var binding :  ActivityFilterBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_filter)
+        binding = ActivityFilterBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val filterButton = binding.filterButton
+        filterButton.setOnClickListener {
+
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -24,5 +34,9 @@ class FilterActivity : AppCompatActivity() {
             R.id.exit -> Toast.makeText(this,"Exit Selected", Toast.LENGTH_SHORT).show()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    fun filterData(offers : List<Offer>) {
+
     }
 }

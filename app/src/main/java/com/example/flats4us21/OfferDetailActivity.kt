@@ -28,7 +28,7 @@ class OfferDetailActivity : AppCompatActivity() {
 
         binding.image.setImageResource(offer.property.image)
         binding.dateIssue.text = offer.dateIssue
-        binding.price.text = offer.price.toString()
+        binding.price.text = offer.price
         binding.address.text = "${offer.property.city} ${offer.property.street}"
         binding.period.text = offer.rentalPeriod
         binding.maxResidents.text = offer.property.maxResidents.toString()

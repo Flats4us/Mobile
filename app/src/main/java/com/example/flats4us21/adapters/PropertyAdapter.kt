@@ -15,6 +15,7 @@ class PropertyAdapter(
         val image = binding.imageView
         val city = binding.city
         val street = binding.street
+        val size = binding.size
         val price = binding.price
 
         init {
@@ -40,6 +41,7 @@ class PropertyAdapter(
         holder.image.setImageResource(offers[position].property.image)
         holder.city.text = offers[position].property.city
         holder.street.text = offers[position].property.street
-        holder.price.text = offers[position].price.toString()
+        holder.size.text = "40"
+        holder.price.text = offers[position].price
     }
 }
