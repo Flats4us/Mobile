@@ -1,7 +1,5 @@
 package com.example.flats4us21.viewmodels
 
-import android.os.Parcel
-import android.os.Parcelable
 import androidx.lifecycle.ViewModel
 import com.example.flats4us21.R
 
@@ -12,7 +10,7 @@ private val offer1 =
     Offer(
         dateIssue = "20-03-2023",
         status = "aktywny",
-        price = 2500.50F,
+        price = "%.2f".format(2500.50F),
         description = "Lorem ipsum",
         rentalPeriod = "3 lata",
         interestedPeople = 48,
@@ -28,7 +26,7 @@ private val offer2 =
     Offer(
         dateIssue = "21-03-2023",
         status = "aktywny",
-        price = 3500.50F,
+        price = "%.2f".format(3500.50F),
         description = "Lorem ipsum",
         rentalPeriod = "2 lata",
         interestedPeople = 18,
@@ -44,7 +42,7 @@ private val offer3 =
     Offer(
         dateIssue = "21-03-2023",
         status = "aktywny",
-        price = 3500.50F,
+        price = "%.2f".format(3500.50F),
         description = "Lorem ipsum",
         rentalPeriod = "2 lata",
         interestedPeople = 18,

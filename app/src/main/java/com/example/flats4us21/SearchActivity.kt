@@ -32,14 +32,19 @@ class SearchActivity : AppCompatActivity() {
         val offers = viewModel.loadDataFromDb()
         val onUserClick = {offer : Offer ->
             viewModel.setOffer(offer)
-            val intent = Intent(this, OfferDetailActivity::class.java)
-            intent.putExtra("index", viewModel.getOffer())
-            startActivity(intent)
+            val intentDetail = Intent(this, OfferDetailActivity::class.java)
+            intentDetail.putExtra("index", viewModel.getOffer())
+            startActivity(intentDetail)
         }
         adapter = PropertyAdapter(offers, onUserClick)
         recyclerview.adapter = adapter
         recyclerview.layoutManager = LinearLayoutManager(this)
 
+        val filterButton = binding.filterButton
+        filterButton.setOnClickListener {
+            val intentFilter = Intent(this, FilterActivity::class.java)
+            startActivity(intentFilter)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
