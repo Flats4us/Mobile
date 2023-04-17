@@ -46,6 +46,9 @@
         <activity
             android:name=".EditProfileActivity"
             android:exported="true" />
+        <activity
+            android:name=".SurveyActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
