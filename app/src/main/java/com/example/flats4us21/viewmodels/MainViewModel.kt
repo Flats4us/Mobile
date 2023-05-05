@@ -1,10 +1,13 @@
 package com.example.flats4us21.viewmodels
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.flats4us21.R
-
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.Property
+import com.example.flats4us21.data.SurveyQuestion
 
 private val offer1 =
     Offer(
@@ -19,7 +22,9 @@ private val offer1 =
             street = "Kościuszki 10A",
             maxResidents = 2,
             equipment = "Brak",
-            image = R.drawable.property
+            area = 40,
+            image = listOf<Int>(R.drawable.property),
+            numberOfRooms = 1
         )
     )
 private val offer2 =
@@ -35,7 +40,9 @@ private val offer2 =
             street = "Pruszkowska 10A",
             maxResidents = 4,
             equipment = "Sofa",
-            image = R.drawable.property
+            area = 60,
+            image = listOf<Int>(R.drawable.property),
+            numberOfRooms = 3
         )
     )
 private val offer3 =
@@ -51,7 +58,9 @@ private val offer3 =
             street = "Pruszkowska 10A",
             maxResidents = 4,
             equipment = "Sofa",
-            image = R.drawable.property
+            area = 50,
+            image = listOf<Int>(R.drawable.property),
+            numberOfRooms = 2
         )
     )
 private val data = listOf<Offer>(offer1, offer2, offer3)
@@ -62,6 +71,7 @@ interface Server {
 
 class MainViewModel() : ViewModel(), Server {
     private var offerIndex: Int? = null
+    private val QuestionList = MutableLiveData<List<SurveyQuestion>>()
 
 
     override fun loadDataFromDb(): List<Offer> {
@@ -73,6 +83,13 @@ class MainViewModel() : ViewModel(), Server {
     }
     fun getOffer() = offerIndex
 
+    fun setQuestions(list: List<SurveyQuestion>){
+        this.QuestionList.value = list
+    }
+
+    fun getQuestionList() : LiveData<List<SurveyQuestion>>{
+        return this.QuestionList
+    }
 
 
 }

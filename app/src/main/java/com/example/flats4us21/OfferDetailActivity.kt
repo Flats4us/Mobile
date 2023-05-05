@@ -26,13 +26,14 @@ class OfferDetailActivity : AppCompatActivity() {
     private fun bindOfferData(offer: Offer?) {
         offer ?: return
 
-        binding.image.setImageResource(offer.property.image)
+        binding.image.setImageResource(offer.property.image.get(0))
         binding.dateIssue.text = offer.dateIssue
         binding.price.text = offer.price
         binding.address.text = "${offer.property.city} ${offer.property.street}"
         binding.period.text = offer.rentalPeriod
         binding.maxResidents.text = offer.property.maxResidents.toString()
         binding.equipment.text = offer.property.equipment
+        binding.area.text = offer.property.area.toString()
         binding.interestedPeople.text = offer.interestedPeople.toString()
     }
 

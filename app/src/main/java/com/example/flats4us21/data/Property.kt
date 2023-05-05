@@ -7,5 +7,7 @@ data class Property(
     val street : String,
     val maxResidents : Int,
     val equipment : String,
-    @DrawableRes val image : Int
+    val area : Int,
+    val image : List<Int>,
+    val numberOfRooms : Int
 )
