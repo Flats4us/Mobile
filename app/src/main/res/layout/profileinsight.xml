@@ -23,7 +23,7 @@
         android:layout_below="@id/profile_picture"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="Anna"
+        android:text="Beata"
         android:textSize="24sp" />
 
     <!-- Age -->
@@ -119,7 +119,38 @@
         android:layout_marginTop="24dp"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
-        android:text="Jestem osobą ożywczą i entuzjastyczną, która zawsze stara się podchodzić do życia z uśmiechem na twarzy. Interesuję się sztuką i kulturą, zwłaszcza filmem i muzyką. Często chodzę na koncerty i festiwale muzyczne, gdzie uwielbiam tańczyć i cieszyć się życiem. Lubię również podróżować i odkrywać nowe miejsca i kultury. W wolnym czasie lubię czytać książki i oglądać filmy, a także spędzać czas na ćwiczeniach i joggingu, co pomaga mi zachować dobry stan zdrowia i kondycji. Obecnie pracuję jako specjalista ds. marketingu, gdzie wykorzystuję swoje umiejętności w tworzeniu strategii reklamowych i działań promocyjnych dla klientów. Jestem osobą ambitną i zawsze staram się rozwijać swoje umiejętności, dlatego też chętnie uczęszczam na szkolenia i kursy z zakresu marketingu i biznesu." />
+        android:text="" />
+
+    <!-- Previous and Next buttons -->
+    <Button
+        android:id="@+id/previous_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="poprzednia osoba"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/next_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="następna osoba"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- End message button -->
+    <Button
+        android:id="@+id/end_message_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wyślij wiadomość"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/description_textview"
+        android:layout_marginTop="24dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_view"
@@ -134,4 +165,5 @@
         app:itemTextColor="@color/black"
         app:menu="@menu/bottom_nav_menu"
         tools:ignore="MissingConstraints" />
+
 </RelativeLayout>

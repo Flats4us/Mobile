@@ -51,11 +51,10 @@ class ProfileInsightActivity : AppCompatActivity() {
 
         val descriptionTextView = findViewById<TextView>(R.id.description_textview)
         descriptionTextView.text =
-            "Jestem osobą ożywczą i entuzjastyczną, która zawsze stara się podchodzić do życia z uśmiechem na twarzy. Interesuję się sztuką i kulturą, zwłaszcza filmem i muzyką. Często chodzę na koncerty i festiwale muzyczne, gdzie uwielbiam tańczyć i cieszyć się życiem. Lubię również podróżować i odkrywać nowe miejsca i kultury. W wolnym czasie lubię czytać książki i oglądać filmy, a także spędzać czas na ćwiczeniach i joggingu, co pomaga mi zachować dobry stan zdrowia i kondycji. Obecnie pracuję jako specjalista ds. marketingu, gdzie wykorzystuję swoje umiejętności w tworzeniu strategii reklamowych i działań promocyjnych dla klientów. Jestem osobą ambitną i zawsze staram się rozwijać swoje umiejętności, dlatego też chętnie uczęszczam na szkolenia i kursy z zakresu marketingu i biznesu."
+            "Jestem osobą ożywczą i entuzjastyczną, która ...(CZYTAJ WIĘĆEJ)"
 
-        // Obsługa przycisków na pasku nawigacji
-//        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
-//        bottomNavigationView.selectedItemId = R.id.action_profile
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
+        bottomNavigationView.selectedItemId = R.id.profile_picture
 
 //        bottomNavigationView.setOnNavigationItemSelectedListener {
 //            when (it.itemId) {
