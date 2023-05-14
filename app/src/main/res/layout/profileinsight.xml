@@ -121,26 +121,7 @@
         android:paddingEnd="24dp"
         android:text="" />
 
-    <!-- Previous and Next buttons -->
-    <Button
-        android:id="@+id/previous_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="poprzednia osoba"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp" />
 
-    <Button
-        android:id="@+id/next_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="następna osoba"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp" />
 
     <!-- End message button -->
     <Button

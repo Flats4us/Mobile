@@ -51,7 +51,7 @@ class ProfileInsightActivity : AppCompatActivity() {
 
         val descriptionTextView = findViewById<TextView>(R.id.description_textview)
         descriptionTextView.text =
-            "Jestem osobą ożywczą i entuzjastyczną, która ...(CZYTAJ WIĘĆEJ)"
+            "Jestem osobą ożywczą i entuzjastyczną, która ...(CZYTAJ WIĘCEJ)"
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
         bottomNavigationView.selectedItemId = R.id.profile_picture
