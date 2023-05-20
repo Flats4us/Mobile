@@ -12,5 +12,5 @@ data class SurveyQuestion(
     @SerializedName("type_name")
     val responseType : String,
     @SerializedName("answers")
-    val answers : List<String>
+    val answers : List<@JvmSuppressWildcards Any?>
 )

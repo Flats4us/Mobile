@@ -34,6 +34,11 @@ class QuestionAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.content.text = questions[position].content
         holder.recyclerView.adapter = AnswerAdapter(questions[position].responseType ,questions[position].answers)
-        holder.recyclerView.layoutManager = LinearLayoutManager(holder.itemView.context)
+        val layoutManager : LinearLayoutManager = if(questions[position].responseType == "SUB-QUESTION"){
+            LinearLayoutManager(holder.itemView.context)
+        } else{
+            LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
+        }
+        holder.recyclerView.layoutManager = layoutManager
     }
 }

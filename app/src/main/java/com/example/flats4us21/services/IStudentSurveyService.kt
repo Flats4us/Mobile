@@ -6,6 +6,6 @@ import retrofit2.http.GET
 
 interface IStudentSurveyService {
 
-    @GET("s22677/JSON-data-example/main/JSON.json")
+    @GET("s22677/JSON-data-example/main/OWNER/JSON.json")
     fun getSurveyQuestions (): Call<List<SurveyQuestion>>
 }
