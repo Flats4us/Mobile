@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/profileImage"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/baseline_person_24" />
+
+        <TextView
+            android:id="@+id/addOpinionLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/profileImage"
+            android:text="Dodaj opinię o" />
+
+        <TextView
+            android:id="@+id/personName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/addOpinionLabel"
+            android:layout_toStartOf="@id/profileImage"
+            android:text="Imię Nazwisko" />
+
+        <RatingBar
+            android:id="@+id/starRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/personName"
+            android:layout_toStartOf="@id/profileImage"
+            android:numStars="5"
+            android:stepSize="1" />
+
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/opinionEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Dodaj opinię" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tagi:" />
+
+        <CheckBox
+            android:id="@+id/tag1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Komunikatywna" />
+
+        <CheckBox
+            android:id="@+id/tag2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Spokojna" />
+
+        <CheckBox
+            android:id="@+id/tag3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Głośna" />
+
+        <!-- Dodaj więcej tagów CheckBox jeśli potrzebujesz -->
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dodaj" />
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Anuluj" />
+
+    </LinearLayout>
+
+</LinearLayout>
