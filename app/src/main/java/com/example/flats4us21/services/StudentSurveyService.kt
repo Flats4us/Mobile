@@ -1,9 +1,11 @@
 package com.example.flats4us21.services
 
 import android.util.Log
+import com.example.flats4us21.data.QuestionResponse
 import com.example.flats4us21.data.SurveyQuestion
 import com.example.flats4us21.deserializer.SurveyDeserializer
 import com.example.flats4us21.viewmodels.MainViewModel
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import retrofit2.Call
 import retrofit2.Callback
@@ -15,7 +17,7 @@ class StudentSurveyService(private val viewModel: MainViewModel) {
 
     private  val BASE_URL = "https://raw.githubusercontent.com/"
 
-    fun getClient() {
+    fun getSurveyQuestion() {
         val gson = GsonBuilder()
             .registerTypeAdapter(SurveyQuestion::class.java, SurveyDeserializer())
             .create()
@@ -33,7 +35,6 @@ class StudentSurveyService(private val viewModel: MainViewModel) {
                 response: Response<List<SurveyQuestion>?>
             ) {
                 if (response.isSuccessful) {
-                    Log.e("StudentSurveyService", "Failed to get survey questions: ${response.body()}")
                     viewModel.setQuestions(response.body()!!)
                 } else {
                     Log.e("StudentSurveyService", "Failed to get survey questions: ${response.message()}")
@@ -44,5 +45,11 @@ class StudentSurveyService(private val viewModel: MainViewModel) {
                 Log.e("StudentSurveyService", "Failed to get survey questions", t)
             }
         })
+    }
+
+    fun postSurveyQuestions(list : List<QuestionResponse>){
+        val gson = Gson()
+        val jsonString = gson.toJson(list)
+        Log.i("StudentSurveyService", "Json: ${jsonString}")
     }
 }
