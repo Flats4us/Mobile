@@ -56,6 +56,10 @@
         <activity
             android:name=".ProfileInsightActivity"
             android:exported="true" />
+
+        <activity
+            android:name=".ReviewSubmissionScreen"
+            android:exported="true" />
     </application>
 
 </manifest>
