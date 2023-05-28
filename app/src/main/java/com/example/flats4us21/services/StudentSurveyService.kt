@@ -50,6 +50,6 @@ class StudentSurveyService(private val viewModel: MainViewModel) {
     fun postSurveyQuestions(list : List<QuestionResponse>){
         val gson = Gson()
         val jsonString = gson.toJson(list)
-        Log.i("StudentSurveyService", "Json: ${jsonString}")
+        Log.i("StudentSurveyService", "Json: $jsonString")
     }
 }

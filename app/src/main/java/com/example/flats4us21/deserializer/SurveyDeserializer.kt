@@ -28,7 +28,7 @@ class SurveyDeserializer : JsonDeserializer<SurveyQuestion>  {
         val responseType = when (responseTypeString) {
             "RADIOBUTTON" -> ResponseType.RADIOBUTTON
             "TEXT" -> ResponseType.TEXT
-            "SUB-QUESTION" -> ResponseType.SUBQUESTION
+            "SUBQUESTION" -> ResponseType.SUBQUESTION
             else -> ResponseType.TEXT
         }
         val answers : List<Any?>
