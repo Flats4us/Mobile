@@ -33,7 +33,7 @@ class SearchActivity : AppCompatActivity() {
         val onUserClick = {offer : Offer ->
             viewModel.setOffer(offer)
             val intentDetail = Intent(this, OfferDetailActivity::class.java)
-            intentDetail.putExtra("index", viewModel.getOffer())
+            //intentDetail.putExtra("index", viewModel.getOffer())
             startActivity(intentDetail)
         }
         adapter = PropertyAdapter(offers, onUserClick)

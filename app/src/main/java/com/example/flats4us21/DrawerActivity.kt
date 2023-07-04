@@ -9,17 +9,24 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
+import com.example.flats4us21.ui.CalendarFragment
+import com.example.flats4us21.ui.SearchFragment
+import com.example.flats4us21.ui.StartScreenFragment
 import com.google.android.material.navigation.NavigationView
 
 class DrawerActivity : AppCompatActivity() {
 
     lateinit var toggle : ActionBarDrawerToggle
+    lateinit var drawerLayout : DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_drawer)
 
-        val drawerLayout : DrawerLayout = findViewById(R.id.drawerLayout)
+        drawerLayout = findViewById(R.id.drawerLayout)
         val navView : NavigationView = findViewById(R.id.nav_view)
 
         toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
@@ -29,8 +36,8 @@ class DrawerActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         navView.setNavigationItemSelectedListener {
             when(it.itemId){
-                R.id.nav_start -> Toast.makeText(this, "Clicked Strona główna", Toast.LENGTH_SHORT).show()
-                R.id.nav_observed -> Toast.makeText(this, "Clicked Obserwowane", Toast.LENGTH_SHORT).show()
+                R.id.nav_start -> replaceFragment(SearchFragment())
+                R.id.nav_observed -> replaceFragment(CalendarFragment())
                 R.id.nav_map -> Toast.makeText(this, "Clicked Mapa ofert", Toast.LENGTH_SHORT).show()
                 R.id.nav_messages -> Toast.makeText(this, "Wiadomości", Toast.LENGTH_SHORT).show()
                 R.id.nav_profile -> Toast.makeText(this, "Clicked Konto", Toast.LENGTH_SHORT).show()
@@ -42,6 +49,16 @@ class DrawerActivity : AppCompatActivity() {
             }
             true
         }
+        supportFragmentManager.commit {
+            add(R.id.frameLayout,StartScreenFragment(), null)
+        }
+    }
+
+    private fun replaceFragment(fragment : Fragment){
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frameLayout, fragment)
+        fragmentTransaction.commit()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
