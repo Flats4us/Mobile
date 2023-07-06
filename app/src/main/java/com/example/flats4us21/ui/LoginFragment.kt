@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
+import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.R
 import com.example.flats4us21.databinding.FragmentLoginBinding
 
@@ -33,10 +34,8 @@ class LoginFragment : Fragment() {
 
         val buttonLogin = binding.buttonLogin
         buttonLogin.setOnClickListener {
-            val transaction = activity?.supportFragmentManager?.beginTransaction()
-            transaction!!.replace(R.id.frameLayout, SearchFragment())
-            transaction.addToBackStack(null)
-            transaction.commit()
+            val fragment = SearchFragment()
+            (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
 
     }

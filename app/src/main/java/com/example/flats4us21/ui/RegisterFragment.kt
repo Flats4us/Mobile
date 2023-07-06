@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
+import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.R
 import com.example.flats4us21.databinding.FragmentRegisterBinding
 
@@ -40,10 +41,8 @@ class RegisterFragment : Fragment() {
 
         val buttonLogin = binding.buttonRegister
         buttonLogin.setOnClickListener {
-            val transaction = activity?.supportFragmentManager?.beginTransaction()
-            transaction!!.replace(R.id.frameLayout, LoginFragment())
-            transaction.addToBackStack(null)
-            transaction.commit()
+            val fragment = LoginFragment()
+            (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
     }
 
