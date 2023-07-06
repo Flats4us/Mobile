@@ -40,7 +40,7 @@ private val offer2 =
             maxResidents = 4,
             equipment = "Sofa",
             area = 60,
-            image = listOf(R.drawable.property),
+            image = listOf(R.drawable.property, R.drawable.property, R.drawable.property),
             numberOfRooms = 3
         )
     )

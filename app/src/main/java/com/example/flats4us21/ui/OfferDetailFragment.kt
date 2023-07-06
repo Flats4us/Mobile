@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.flats4us21.adapters.ImageSliderAdapter
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.databinding.FragmentOfferDetailBinding
 import com.example.flats4us21.viewmodels.MainViewModel
@@ -35,7 +36,8 @@ class OfferDetailFragment : Fragment() {
     private fun bindOfferData(offer: Offer?) {
         offer ?: return
 
-        binding.image.setImageResource(offer.property.image[0])
+        val imageSlider = binding.image
+        imageSlider.adapter = ImageSliderAdapter(offer.property.image)
         binding.dateIssue.text = offer.dateIssue
         binding.price.text = offer.price
         binding.address.text = "${offer.property.city} ${offer.property.street}"
