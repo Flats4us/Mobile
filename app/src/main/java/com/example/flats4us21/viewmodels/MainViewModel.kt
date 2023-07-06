@@ -14,7 +14,7 @@ private val offer1 =
         status = "aktywny",
         price = "%.2f".format(2500.50F),
         description = "Lorem ipsum",
-        rentalPeriod = "3 lata",
+        rentalPeriod = "3",
         interestedPeople = 48,
         Property(
             city = "Warszawa",
@@ -32,7 +32,7 @@ private val offer2 =
         status = "aktywny",
         price = "%.2f".format(3500.50F),
         description = "Lorem ipsum",
-        rentalPeriod = "2 lata",
+        rentalPeriod = "2",
         interestedPeople = 18,
         Property(
             city = "Warszawa",
@@ -50,7 +50,7 @@ private val offer3 =
         status = "aktywny",
         price = "%.2f".format(3500.50F),
         description = "Lorem ipsum",
-        rentalPeriod = "2 lata",
+        rentalPeriod = "2",
         interestedPeople = 18,
         Property(
             city = "Warszawa",

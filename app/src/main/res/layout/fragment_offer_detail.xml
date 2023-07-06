@@ -126,13 +126,17 @@
                     android:gravity="center_horizontal"
                     android:layout_marginBottom="@dimen/header_vertical_space"
                     android:background="@drawable/background_header" />
-                <TableLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:stretchColumns="1"
+                    android:orientation="vertical"
                     android:layout_marginBottom="@dimen/regular_vertical_space">
 
-                    <TableRow>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -140,8 +144,7 @@
                             android:text="Adres:"
                             android:textStyle="italic"
                             android:textSize="@dimen/regular_text_size"
-                            android:gravity="end"
-                            android:background="@color/orange"/>
+                            android:gravity="end"/>
 
                         <TextView
                             android:id="@+id/address"
@@ -151,14 +154,13 @@
                             android:textSize="@dimen/regular_text_size"
                             android:paddingStart="@dimen/table_cell_padding"/>
 
-                    </TableRow>
+                    </LinearLayout>
 
-                    <View
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@android:color/black"/>
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                    <TableRow>
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -166,8 +168,7 @@
                             android:text="Metraż:"
                             android:textStyle="italic"
                             android:textSize="@dimen/regular_text_size"
-                            android:gravity="end"
-                            android:background="@color/orange"/>
+                            android:gravity="end"/>
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -180,7 +181,7 @@
                                 android:id="@+id/area"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="@dimen/regular_text_size" />
+                                android:textSize="@dimen/regular_text_size"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -191,14 +192,13 @@
 
                         </LinearLayout>
 
-                    </TableRow>
+                    </LinearLayout>
 
-                    <View
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@android:color/black"/>
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                    <TableRow>
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -206,8 +206,7 @@
                             android:text="Okres wynajęcia:"
                             android:textStyle="italic"
                             android:textSize="@dimen/regular_text_size"
-                            android:gravity="end"
-                            android:background="@color/orange"/>
+                            android:gravity="end"/>
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -230,14 +229,13 @@
 
                         </LinearLayout>
 
-                    </TableRow>
+                    </LinearLayout>
 
-                    <View
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@android:color/black"/>
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                    <TableRow>
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -245,8 +243,7 @@
                             android:text="Max liczba mieszkańców:"
                             android:textStyle="italic"
                             android:textSize="@dimen/regular_text_size"
-                            android:gravity="end"
-                            android:background="@color/orange"/>
+                            android:gravity="end"/>
 
                         <TextView
                             android:id="@+id/maxResidents"
@@ -256,14 +253,13 @@
                             android:textSize="@dimen/regular_text_size"
                             android:paddingStart="@dimen/table_cell_padding"/>
 
-                    </TableRow>
+                    </LinearLayout>
 
-                    <View
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@android:color/black"/>
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                    <TableRow>
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -271,8 +267,7 @@
                             android:text="Wyposażenie:"
                             android:textStyle="italic"
                             android:textSize="@dimen/regular_text_size"
-                            android:gravity="end"
-                            android:background="@color/orange"/>
+                            android:gravity="end"/>
 
                         <TextView
                             android:id="@+id/equipment"
@@ -282,14 +277,9 @@
                             android:textSize="@dimen/regular_text_size"
                             android:paddingStart="@dimen/table_cell_padding"/>
 
-                    </TableRow>
+                    </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@android:color/black"/>
-
-                </TableLayout>
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
