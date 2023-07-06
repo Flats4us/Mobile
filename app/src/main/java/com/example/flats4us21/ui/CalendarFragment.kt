@@ -3,15 +3,14 @@ package com.example.flats4us21.ui
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.flats4us21.R
 import com.example.flats4us21.adapters.CalendarAdapter
 import com.example.flats4us21.databinding.FragmentCalendarBinding
 import java.time.LocalDate
@@ -51,13 +50,13 @@ class CalendarFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun daysInMonthArray(selectedDate: LocalDate): List<String> {
         val daysInMonthArray = mutableListOf<String>()
-        val yearMonth : YearMonth = YearMonth.from(selectedDate)
-        val daysInMonth : Int = yearMonth.lengthOfMonth()
+        val yearMonth: YearMonth = YearMonth.from(selectedDate)
+        val daysInMonth: Int = yearMonth.lengthOfMonth()
 
-        val firstDayOfMonth : LocalDate = selectedDate.withDayOfMonth(1)
-        val dayOfWeek : Int = firstDayOfMonth.dayOfWeek.value
+        val firstDayOfMonth: LocalDate = selectedDate.withDayOfMonth(1)
+        val dayOfWeek: Int = firstDayOfMonth.dayOfWeek.value
 
-        for (i in 1 until 42) {
+        for (i in 1..42) {
             if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {
                 daysInMonthArray.add("")
             } else {
@@ -66,6 +65,7 @@ class CalendarFragment : Fragment() {
         }
         return daysInMonthArray
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

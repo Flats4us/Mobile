@@ -17,6 +17,8 @@ import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
 
+//TODO: Zmienić na fragment
+
 class ReviewSubmissionScreen : AppCompatActivity() {
 
     private lateinit var profileImage: ImageView

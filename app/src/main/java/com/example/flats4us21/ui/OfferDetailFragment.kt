@@ -1,7 +1,6 @@
 package com.example.flats4us21.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,5 +44,10 @@ class OfferDetailFragment : Fragment() {
         binding.equipment.text = offer.property.equipment
         binding.area.text = offer.property.area.toString()
         binding.interestedPeople.text = offer.interestedPeople.toString()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -1,7 +1,6 @@
 package com.example.flats4us21.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,8 @@ import com.example.flats4us21.viewmodels.MainViewModel
 
 
 class SearchFragment : Fragment() {
-    private lateinit var binding: FragmentSearchBinding
+    private var _binding : FragmentSearchBinding? = null
+    private val binding get() = _binding!!
     private lateinit var recyclerview: RecyclerView
     private lateinit var viewModel: MainViewModel
 
@@ -25,7 +25,7 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSearchBinding.inflate(inflater, container, false)
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -51,5 +51,10 @@ class SearchFragment : Fragment() {
         filterButton.setOnClickListener {
             // TODO: Filtry
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
