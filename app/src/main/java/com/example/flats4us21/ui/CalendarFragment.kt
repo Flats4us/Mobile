@@ -2,14 +2,13 @@ package com.example.flats4us21.ui
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flats4us21.adapters.CalendarAdapter
 import com.example.flats4us21.databinding.FragmentCalendarBinding
@@ -17,11 +16,12 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
-
 class CalendarFragment : Fragment() {
-    private var _binding : FragmentCalendarBinding? = null
+    private var _binding: FragmentCalendarBinding? = null
     private val binding get() = _binding!!
-    private lateinit var calendarAdapter: CalendarAdapter
+    private lateinit var calendarRecyclerView : RecyclerView
+    private lateinit var monthYearText : TextView
+    private lateinit var selectedDate : LocalDate
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,27 +34,46 @@ class CalendarFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val selectedDate : LocalDate = LocalDate.now()
+        initWidgets()
+        selectedDate = LocalDate.now()
+        setMonthView()
+        val nextButton = binding.nextButton
+        val prevButton = binding.prevButton
+        nextButton.setOnClickListener {
+            selectedDate = selectedDate.plusMonths(1)
+            setMonthView()
+        }
+        prevButton.setOnClickListener {
+            selectedDate = selectedDate.minusMonths(1)
+            setMonthView()
+        }
+    }
 
-        val calendarRecyclerView : RecyclerView = binding.calendarRecyclerView
-        val monthYearText : TextView = binding.monthYearTV
-        val formatter : DateTimeFormatter = DateTimeFormatter.ofPattern("MMMM yyyy")
-        val daysInMonth : List<String> = daysInMonthArray(selectedDate)
-        monthYearText.text = selectedDate.format(formatter)
-        Log.e("CalendarFragment", "Failed to setAdapter: ${daysInMonth.toString()}")
-        calendarAdapter = CalendarAdapter(daysInMonth)
-        calendarRecyclerView.adapter = calendarAdapter
-        calendarRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+    private fun initWidgets() {
+        calendarRecyclerView = binding.calendarRecyclerView
+        monthYearText = binding.monthYearTV
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun daysInMonthArray(selectedDate: LocalDate): List<String> {
-        val daysInMonthArray = mutableListOf<String>()
-        val yearMonth: YearMonth = YearMonth.from(selectedDate)
-        val daysInMonth: Int = yearMonth.lengthOfMonth()
+    private fun setMonthView() {
+        monthYearText.text = monthYearFromDate(selectedDate)
+        val daysInMonth = daysInMonthArray(selectedDate)
 
-        val firstDayOfMonth: LocalDate = selectedDate.withDayOfMonth(1)
-        val dayOfWeek: Int = firstDayOfMonth.dayOfWeek.value
+        val calendarAdapter = CalendarAdapter(daysInMonth)
+        val layoutManager = GridLayoutManager(requireContext(), 7)
+        calendarRecyclerView.layoutManager = layoutManager
+        calendarRecyclerView.adapter = calendarAdapter
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun daysInMonthArray(date: LocalDate): ArrayList<String> {
+        val daysInMonthArray = ArrayList<String>()
+        val yearMonth = YearMonth.from(date)
+
+        val daysInMonth = yearMonth.lengthOfMonth()
+
+        val firstOfMonth = date.withDayOfMonth(1)
+        val dayOfWeek = firstOfMonth.dayOfWeek.value
 
         for (i in 1..42) {
             if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {
@@ -64,6 +83,12 @@ class CalendarFragment : Fragment() {
             }
         }
         return daysInMonthArray
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun monthYearFromDate(date: LocalDate): String {
+        val formatter = DateTimeFormatter.ofPattern("MMMM yyyy")
+        return date.format(formatter)
     }
 
 
