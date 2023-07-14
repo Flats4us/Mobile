@@ -3,14 +3,29 @@ package com.example.flats4us21.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.flats4us21.R
+import com.example.flats4us21.data.Meeting
 import com.example.flats4us21.databinding.CalendarCellBinding
 
 class CalendarAdapter(
-    private val daysOfMonth: List<String>
+    private val daysOfMonth: List<String>,
+    private val onCellClickListener: OnCellClickListener,
+    private val meetingsOfMonth: List<Meeting>
 ) : RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>() {
-    inner class CalendarViewHolder(binding: CalendarCellBinding) :
+
+    interface OnCellClickListener {
+        fun onCellClick(date: String)
+    }
+    inner class CalendarViewHolder(val binding: CalendarCellBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val dayOfMonth = binding.cellDay
+
+        init {
+            binding.root.setOnClickListener {
+                val date = daysOfMonth[adapterPosition]
+                onCellClickListener.onCellClick(date)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
@@ -27,6 +42,26 @@ class CalendarAdapter(
     }
 
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
-        holder.dayOfMonth.text = daysOfMonth[position]
+        val day = daysOfMonth[position]
+        holder.dayOfMonth.text = day
+
+        val hasMeeting = hasMeetingOnDay(day)
+        if (hasMeeting) {
+            holder.binding.root.setBackgroundResource(R.drawable.background_meeting)
+        } else {
+            holder.binding.root.setBackgroundResource(R.drawable.background_cell)
+        }
+    }
+
+    private fun hasMeetingOnDay(day: String): Boolean {
+        val meetingDay = day.toIntOrNull()
+        if (meetingDay != null) {
+            for (meeting in meetingsOfMonth) {
+                if (meeting.date.dayOfMonth == meetingDay) {
+                    return true
+                }
+            }
+        }
+        return false
     }
 }

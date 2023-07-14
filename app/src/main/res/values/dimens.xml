@@ -11,4 +11,5 @@
     <dimen name="h2">24sp</dimen>
     <dimen name="regular_text_size">18sp</dimen>
     <dimen name="table_cell_padding">8dp</dimen>
+    <dimen name="horizontal_space">16dp</dimen>
 </resources>

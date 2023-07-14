@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="orange">#FFAA66</color>
     <color name="colorDivider">#BDBDBD</color>
+    <color name="red">#FF0000</color>
 </resources>

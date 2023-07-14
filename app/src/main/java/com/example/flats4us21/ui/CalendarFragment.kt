@@ -1,37 +1,39 @@
 package com.example.flats4us21.ui
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.flats4us21.R
 import com.example.flats4us21.adapters.CalendarAdapter
 import com.example.flats4us21.databinding.FragmentCalendarBinding
+import com.example.flats4us21.viewmodels.MeetingViewModel
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
-class CalendarFragment : Fragment() {
+class CalendarFragment : Fragment(), CalendarAdapter.OnCellClickListener {
     private var _binding: FragmentCalendarBinding? = null
     private val binding get() = _binding!!
-    private lateinit var calendarRecyclerView : RecyclerView
-    private lateinit var monthYearText : TextView
-    private lateinit var selectedDate : LocalDate
+    private lateinit var calendarRecyclerView: RecyclerView
+    private lateinit var monthYearText: TextView
+    private lateinit var selectedDate: LocalDate
+    private lateinit var meetingViewModel: MeetingViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        meetingViewModel = ViewModelProvider(requireActivity())[MeetingViewModel::class.java]
         _binding = FragmentCalendarBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initWidgets()
@@ -54,18 +56,16 @@ class CalendarFragment : Fragment() {
         monthYearText = binding.monthYearTV
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun setMonthView() {
         monthYearText.text = monthYearFromDate(selectedDate)
         val daysInMonth = daysInMonthArray(selectedDate)
-
-        val calendarAdapter = CalendarAdapter(daysInMonth)
+        val meetingsOfMonth = meetingViewModel.getMeetingsOfMonth(selectedDate.month, selectedDate.year)
+        val calendarAdapter = CalendarAdapter(daysInMonth, this, meetingsOfMonth)
         val layoutManager = GridLayoutManager(requireContext(), 7)
         calendarRecyclerView.layoutManager = layoutManager
         calendarRecyclerView.adapter = calendarAdapter
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun daysInMonthArray(date: LocalDate): ArrayList<String> {
         val daysInMonthArray = ArrayList<String>()
         val yearMonth = YearMonth.from(date)
@@ -85,12 +85,27 @@ class CalendarFragment : Fragment() {
         return daysInMonthArray
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun monthYearFromDate(date: LocalDate): String {
         val formatter = DateTimeFormatter.ofPattern("MMMM yyyy")
         return date.format(formatter)
     }
 
+    override fun onCellClick(date: String) {
+        if (date.isNotEmpty()) {
+            val day = date.toInt()
+            val month = selectedDate.monthValue
+            val year = selectedDate.year
+            val selectedLocalDate = LocalDate.of(year, month, day)
+            val meetingListFragment = MeetingListFragment().apply {
+                arguments = Bundle().apply {
+                    putSerializable("selectedDate", selectedLocalDate)
+                }
+            }
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.meetingfragment, meetingListFragment)
+                .commit()
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
