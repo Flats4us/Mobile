@@ -6,5 +6,6 @@ data class Meeting(
     val date : LocalDateTime,
     val reason : String,
     val student : Student,
-    val offer : Offer
+    val offer : Offer,
+    val status : MeetingStatus
 ) : java.io.Serializable

@@ -2,10 +2,7 @@ package com.example.flats4us21.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.example.flats4us21.R
-import com.example.flats4us21.data.Meeting
-import com.example.flats4us21.data.Offer
-import com.example.flats4us21.data.Property
-import com.example.flats4us21.data.Student
+import com.example.flats4us21.data.*
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.Month
@@ -38,7 +35,8 @@ private val meeting1 = Meeting(
             image = listOf(R.drawable.property),
             numberOfRooms = 2
         )
-    )
+    ),
+    MeetingStatus.CONFIRMED
 )
 private val data = listOf(meeting1)
 

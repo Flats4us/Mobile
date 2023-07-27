@@ -1,95 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MeetingDetailsFragment"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="@dimen/h1"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:gravity="center_horizontal"
-        android:layout_marginVertical="@dimen/header_vertical_space"
-        android:background="@drawable/background_header"/>
+    tools:context=".ui.MeetingDetailsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Godzina:"
-            android:textStyle="italic"
-            android:textSize="@dimen/regular_text_size"
-            android:gravity="end"/>
+            android:layout_marginVertical="@dimen/header_vertical_space"
+            android:background="@drawable/background_header"
+            android:gravity="center_horizontal"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="@dimen/h1"
+            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:textSize="@dimen/regular_text_size"
-            android:paddingStart="@dimen/table_cell_padding"/>
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="Godzina:"
+                android:textSize="@dimen/regular_text_size"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:paddingStart="@dimen/table_cell_padding"
+                android:textSize="@dimen/regular_text_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="Miejsce:"
+                android:textSize="@dimen/regular_text_size"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/place"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:paddingStart="@dimen/table_cell_padding"
+                android:textSize="@dimen/regular_text_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="Powód:"
+                android:textSize="@dimen/regular_text_size"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/reason"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:paddingStart="@dimen/table_cell_padding"
+                android:textSize="@dimen/regular_text_size" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation_view"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:itemIconTint="@color/black"
+        app:itemTextColor="@color/black"
+        app:menu="@menu/bottom_meeting_nav_bar"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Miejsce:"
-            android:textStyle="italic"
-            android:textSize="@dimen/regular_text_size"
-            android:gravity="end"/>
-
-        <TextView
-            android:id="@+id/place"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:textSize="@dimen/regular_text_size"
-            android:paddingStart="@dimen/table_cell_padding"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Powód:"
-            android:textStyle="italic"
-            android:textSize="@dimen/regular_text_size"
-            android:gravity="end"/>
-
-        <TextView
-            android:id="@+id/reason"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:textSize="@dimen/regular_text_size"
-            android:paddingStart="@dimen/table_cell_padding"/>
-
-    </LinearLayout>
-
-
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
