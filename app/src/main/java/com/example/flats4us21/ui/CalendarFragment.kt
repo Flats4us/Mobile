@@ -60,7 +60,7 @@ class CalendarFragment : Fragment(), CalendarAdapter.OnCellClickListener {
         monthYearText.text = monthYearFromDate(selectedDate)
         val daysInMonth = daysInMonthArray(selectedDate)
         val meetingsOfMonth = meetingViewModel.getMeetingsOfMonth(selectedDate.month, selectedDate.year)
-        val calendarAdapter = CalendarAdapter(daysInMonth, this, meetingsOfMonth)
+        val calendarAdapter = CalendarAdapter(daysInMonth, this, meetingsOfMonth, viewLifecycleOwner)
         val layoutManager = GridLayoutManager(requireContext(), 7)
         calendarRecyclerView.layoutManager = layoutManager
         calendarRecyclerView.adapter = calendarAdapter

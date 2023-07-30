@@ -53,8 +53,12 @@ class MeetingListFragment : Fragment() {
             adapter = meetingAdapter
         }
 
-        val meetings = meetingViewModel.getMeetings(selectedDate)
-        updateMeetingsList(meetings)
+
+        val meetingViewModel = ViewModelProvider(requireActivity())[MeetingViewModel::class.java]
+
+        meetingViewModel.getMeetings(selectedDate).observe(viewLifecycleOwner) { meetings ->
+            updateMeetingsList(meetings)
+        }
     }
 
     private fun updateMeetingsList(meetings: List<Meeting>) {
