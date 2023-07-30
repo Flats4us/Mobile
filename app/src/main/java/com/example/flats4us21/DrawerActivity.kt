@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.example.flats4us21.ui.CalendarFragment
+import com.example.flats4us21.ui.ProfileFragment
 import com.example.flats4us21.ui.SearchFragment
 import com.example.flats4us21.ui.StartScreenFragment
 import com.google.android.material.navigation.NavigationView
@@ -40,11 +41,12 @@ class DrawerActivity : AppCompatActivity() {
                 R.id.nav_observed -> replaceFragment(CalendarFragment())
                 R.id.nav_map -> Toast.makeText(this, "Clicked Mapa ofert", Toast.LENGTH_SHORT).show()
                 R.id.nav_messages -> Toast.makeText(this, "Wiadomości", Toast.LENGTH_SHORT).show()
-                R.id.nav_profile -> Toast.makeText(this, "Clicked Konto", Toast.LENGTH_SHORT).show()
+                R.id.nav_profile -> replaceFragment(ProfileFragment())
                 R.id.nav_settings -> Toast.makeText(this, "Clicked Ustawienia", Toast.LENGTH_SHORT).show()
                 R.id.nav_his -> Toast.makeText(this, "Clicked Historia płatności", Toast.LENGTH_SHORT).show()
                 R.id.nav_method -> Toast.makeText(this, "Clicked Metody płatności", Toast.LENGTH_SHORT).show()
                 R.id.nav_rent -> Toast.makeText(this, "Clicked opłaty", Toast.LENGTH_SHORT).show()
+                R.id.nav_calendar -> replaceFragment(CalendarFragment())
                 R.id.nav_logout -> Toast.makeText(this, "Clicked Wyloguj się", Toast.LENGTH_SHORT).show()
             }
             true
@@ -58,6 +60,7 @@ class DrawerActivity : AppCompatActivity() {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout, fragment)
+        fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
     }
 

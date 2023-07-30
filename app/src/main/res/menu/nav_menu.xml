@@ -9,13 +9,18 @@
 
     <item
         android:id="@+id/nav_observed"
-        android:icon="@drawable/baseline_visibility_24"
+        android:icon="@drawable/heart"
         android:title="Obserwowane"/>
 
     <item
         android:id="@+id/nav_map"
         android:icon="@drawable/baseline_location_on_24"
         android:title="Mapa ofert"/>
+
+    <item
+        android:id="@+id/nav_last_viewed"
+        android:icon="@drawable/baseline_visibility_24"
+        android:title="Ostatnio oglądane"/>
 
     <item
         android:id="@+id/nav_messages"
@@ -26,6 +31,11 @@
         android:id="@+id/nav_profile"
         android:icon="@drawable/baseline_person_24"
         android:title="Konto"/>
+
+    <item
+        android:id="@+id/reviews"
+        android:icon="@drawable/baseline_edit_24"
+        android:title="Opinie"/>
 
     <item
         android:id="@+id/nav_settings"
@@ -51,6 +61,31 @@
 
         </menu>
     </item>
+
+    <item
+        android:id="@+id/nav_my_rentals"
+        android:icon="@drawable/baseline_home_work_24"
+        android:title="Moje wynajmy"/>
+
+    <item
+        android:id="@+id/nav_conflicts"
+        android:icon="@drawable/baseline_feedback_24"
+        android:title="Spory"/>
+
+    <item
+        android:id="@+id/nav_calendar"
+        android:icon="@drawable/baseline_calendar_month_24"
+        android:title="Kalendarz"/>
+
+    <item
+        android:id="@+id/nav_roommates"
+        android:icon="@drawable/baseline_people_24"
+        android:title="Współlokatorzy"/>
+
+    <item
+        android:id="@+id/nav_contact"
+        android:icon="@drawable/baseline_phone_24"
+        android:title="Kontakt"/>
 
     <item
         android:id="@+id/nav_logout"
