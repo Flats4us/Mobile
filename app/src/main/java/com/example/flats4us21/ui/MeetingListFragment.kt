@@ -34,6 +34,7 @@ class MeetingListFragment : Fragment() {
         recyclerView = binding.recyclerView
         emptyTextView = binding.emptyTextView
         meetingViewModel = ViewModelProvider(requireActivity())[MeetingViewModel::class.java]
+        @Suppress("DEPRECATION")
         selectedDate = (arguments?.getSerializable("selectedDate") as? LocalDate)!!
         dateTextView = binding.dateTextView
         return binding.root

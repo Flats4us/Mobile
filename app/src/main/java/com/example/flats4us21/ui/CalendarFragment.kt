@@ -102,7 +102,7 @@ class CalendarFragment : Fragment(), CalendarAdapter.OnCellClickListener {
                 }
             }
             parentFragmentManager.beginTransaction()
-                .replace(R.id.meetingfragment, meetingListFragment)
+                .replace(R.id.meetingFragment, meetingListFragment)
                 .commit()
         }
     }

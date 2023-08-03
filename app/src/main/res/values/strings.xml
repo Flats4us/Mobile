@@ -6,6 +6,8 @@
     <string name="password_hint">*******</string>
     <string name="password">Hasło</string>
     <string name="title_activity_offer_detail">OfferDetailActivity</string>
+    <string name="city_street_format">%1$s %2$s</string>
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -33,4 +35,14 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="empty">Empty</string>
+    <string name="calendar">Kalendarz</string>
+    <string name="previous_short">prev</string>
+    <string name="example_of_month">Feb 2021</string>
+    <string name="sunday_short">SUN</string>
+    <string name="monday_short">MON</string>
+    <string name="tuesday_short">TUE</string>
+    <string name="wednesday_short">WED</string>
+    <string name="thursday_short">THUR</string>
+    <string name="friday_short">FRI</string>
+    <string name="saturday_short">SAT</string>
 </resources>

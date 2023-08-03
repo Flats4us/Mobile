@@ -20,7 +20,8 @@ class MeetingDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        meeting = (arguments?.get(ARG_MEETING) as? Meeting)!!
+        @Suppress("DEPRECATION")
+        meeting = (arguments?.getParcelable("MEETING") as? Meeting)!!
         _binding = FragmentMeetingDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -53,7 +54,8 @@ class MeetingDetailsFragment : Fragment() {
         binding.title.text = meeting.date.toLocalDate().toString()
         binding.time.text = meeting.date.toLocalTime().format(ofPattern("HH:mm")).toString()
         binding.reason.text = meeting.reason
-        binding.place.text = "${meeting.offer.property.city} ${meeting.offer.property.street}"
+        binding.place.text = getString(R.string.city_street_format, meeting.offer.property.city, meeting.offer.property.street)
+
     }
 
     override fun onDestroy() {
@@ -62,12 +64,12 @@ class MeetingDetailsFragment : Fragment() {
     }
 
     companion object {
-        private const val ARG_MEETING = "meeting"
+        private const val ARG_MEETING = "MEETING"
 
         fun newInstance(meeting: Meeting): MeetingDetailsFragment {
             val fragment = MeetingDetailsFragment()
             val args = Bundle().apply {
-                putSerializable(ARG_MEETING, meeting)
+                putParcelable(ARG_MEETING, meeting)
             }
             fragment.arguments = args
             return fragment
