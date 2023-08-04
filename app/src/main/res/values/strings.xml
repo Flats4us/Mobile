@@ -13,6 +13,13 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="register">Zarejestruj się</string>
+    <string name="name">Imie</string>
+    <string name="surname">Nazwisko</string>
+    <string name="phone_numbre">Numer telefonu</string>
+    <string name="repeat_password">Powtórz hasło</string>
+    <string name="login">Zaloguj się</string>
+    <string name="forgot_your_password">Zapomniałeś hasło?</string>
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
@@ -45,4 +52,59 @@
     <string name="thursday_short">THUR</string>
     <string name="friday_short">FRI</string>
     <string name="saturday_short">SAT</string>
+
+    <string name="filter_offers">Filtruj oferty</string>
+    <string name="location">Lokalizacja</string>
+    <string name="price">Cena</string>
+    <string name="min_price">Cena minimalna</string>
+    <string name="max_price">Cena maksymalna</string>
+    <string name="size">Cena Powierzchnia</string>
+    <string name="min_size">Cena Powierzchnia minimalna</string>
+    <string name="max_size">Cena Powierzchnia maksymalna</string>
+    <string name="rooms">Liczba pokoi</string>
+    <string name="rooms_hint">2</string>
+    <string name="floor">Piętro</string>
+    <string name="residents">Liczba mieszkańców</string>
+    <string name="from">Od</string>
+    <string name="to">Do</string>
+    <string name="filter">Filtruj</string>
+
+    <string name="hour">Godzina:</string>
+    <string name="place">Miejsce:</string>
+    <string name="reason">Powód:</string>
+    <string name="offer_details">Szczegóły oferty</string>
+    <string name="address">Adres:</string>
+    <string name="area">Metraż:</string>
+    <string name="period">Okres wynajęcia:</string>
+    <string name="max_residents">Max liczba mieszkańców:</string>
+    <string name="equipment">Wyposażenie:</string>
+    <string name="description">Opis</string>
+    <string name="interested_people">Zainteresowani</string>
+    <string name="chat">Napisz</string>
+    <string name="rent">Wynajmij</string>
+    <string name="owner_survey">Ankieta właściciela</string>
+    <string name="student_survey">Ankieta studenta</string>
+    <string name="send">Wyślij</string>
+    <string name="name_example">Jan</string>
+    <string name="surname_example">Kowalski</string>
+    <string name="mail_example">jan.kowalski@gmail.com</string>
+    <string name="start">Strona główna</string>
+    <string name="observed">Obserwowane</string>
+    <string name="map">Mapa ofert</string>
+    <string name="last_viewed">Ostatnio oglądane</string>
+    <string name="messages">Wiadomości</string>
+    <string name="profile">Konto</string>
+    <string name="reviews">Opinie</string>
+    <string name="settings">Ustawienia</string>
+    <string name="payment">Płatności</string>
+    <string name="payment_history">Historia płatności</string>
+    <string name="payment_methods">Metody płatności</string>
+    <string name="fee">Opłaty</string>
+    <string name="my_rentals">Moje wynajmy</string>
+    <string name="roommates">Współlokatorzy</string>
+    <string name="contact">Kontakt</string>
+    <string name="logout">Wyloguj się</string>
+    <string name="conflicts">Spory</string>
+
+    <!-- TODO: meeting_row -->
 </resources>

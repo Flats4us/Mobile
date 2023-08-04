@@ -5,59 +5,59 @@
     <item
         android:id="@+id/nav_start"
         android:icon="@drawable/baseline_home_24"
-        android:title="Strona główna"/>
+        android:title="@string/start"/>
 
     <item
         android:id="@+id/nav_observed"
         android:icon="@drawable/heart"
-        android:title="Obserwowane"/>
+        android:title="@string/observed"/>
 
     <item
         android:id="@+id/nav_map"
         android:icon="@drawable/baseline_location_on_24"
-        android:title="Mapa ofert"/>
+        android:title="@string/map"/>
 
     <item
         android:id="@+id/nav_last_viewed"
         android:icon="@drawable/baseline_visibility_24"
-        android:title="Ostatnio oglądane"/>
+        android:title="@string/last_viewed"/>
 
     <item
         android:id="@+id/nav_messages"
         android:icon="@drawable/baseline_message_24"
-        android:title="Wiadomości"/>
+        android:title="@string/messages"/>
 
     <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/baseline_person_24"
-        android:title="Konto"/>
+        android:title="@string/profile"/>
 
     <item
         android:id="@+id/reviews"
         android:icon="@drawable/baseline_edit_24"
-        android:title="Opinie"/>
+        android:title="@string/reviews"/>
 
     <item
         android:id="@+id/nav_settings"
         android:icon="@drawable/baseline_settings_24"
-        android:title="Ustawienia"/>
+        android:title="@string/settings"/>
 
 
     <item
-        android:title="Płatności">
+        android:title="@string/payment">
         <menu>
 
             <item
                 android:id="@+id/nav_his"
-                android:title="Historia płatności"/>
+                android:title="@string/payment_history"/>
 
             <item
                 android:id="@+id/nav_method"
-                android:title="Metody płatności"/>
+                android:title="@string/payment_methods"/>
 
             <item
                 android:id="@+id/nav_rent"
-                android:title="Opłaty"/>
+                android:title="@string/fee"/>
 
         </menu>
     </item>
@@ -65,30 +65,30 @@
     <item
         android:id="@+id/nav_my_rentals"
         android:icon="@drawable/baseline_home_work_24"
-        android:title="Moje wynajmy"/>
+        android:title="@string/my_rentals"/>
 
     <item
         android:id="@+id/nav_conflicts"
         android:icon="@drawable/baseline_feedback_24"
-        android:title="Spory"/>
+        android:title="@string/conflicts"/>
 
     <item
         android:id="@+id/nav_calendar"
         android:icon="@drawable/baseline_calendar_month_24"
-        android:title="Kalendarz"/>
+        android:title="@string/calendar"/>
 
     <item
         android:id="@+id/nav_roommates"
         android:icon="@drawable/baseline_people_24"
-        android:title="Współlokatorzy"/>
+        android:title="@string/roommates"/>
 
     <item
         android:id="@+id/nav_contact"
         android:icon="@drawable/baseline_phone_24"
-        android:title="Kontakt"/>
+        android:title="@string/contact"/>
 
     <item
         android:id="@+id/nav_logout"
         android:icon="@drawable/baseline_logout_24"
-        android:title="Wyloguj się"/>
+        android:title="@string/logout"/>
 </menu>
