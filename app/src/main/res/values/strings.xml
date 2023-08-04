@@ -59,8 +59,8 @@
     <string name="min_price">Cena minimalna</string>
     <string name="max_price">Cena maksymalna</string>
     <string name="size">Cena Powierzchnia</string>
-    <string name="min_size">Cena Powierzchnia minimalna</string>
-    <string name="max_size">Cena Powierzchnia maksymalna</string>
+    <string name="min_size">Powierzchnia minimalna</string>
+    <string name="max_size">Powierzchnia maksymalna</string>
     <string name="rooms">Liczba pokoi</string>
     <string name="rooms_hint">2</string>
     <string name="floor">Piętro</string>
@@ -68,6 +68,7 @@
     <string name="from">Od</string>
     <string name="to">Do</string>
     <string name="filter">Filtruj</string>
+    <string name="clear">Wyczyść</string>
 
     <string name="hour">Godzina:</string>
     <string name="place">Miejsce:</string>
@@ -105,6 +106,9 @@
     <string name="contact">Kontakt</string>
     <string name="logout">Wyloguj się</string>
     <string name="conflicts">Spory</string>
+    <string name="example">Example</string>
+    <string name="min_floor">Liczba pięter</string>
+
 
     <!-- TODO: meeting_row -->
 </resources>

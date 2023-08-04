@@ -47,7 +47,8 @@ class SearchFragment : Fragment() {
 
         val filterButton = binding.filterButton
         filterButton.setOnClickListener {
-            // TODO: Filtry
+            val fragment = FilterFragment()
+            (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
     }
 

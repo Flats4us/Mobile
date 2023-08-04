@@ -16,8 +16,7 @@
             app:layout_constraintBottom_toTopOf="@id/constraintLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="10dp">
+            app:layout_constraintTop_toTopOf="parent">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -25,9 +24,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Szukaj nieruchomości"
+                    android:text="@string/filter_offers"
                     android:gravity="center"
-                    android:textSize="26sp"
+                    android:textSize="@dimen/h1"
                     android:textStyle="bold"/>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -35,28 +34,27 @@
                     android:orientation="horizontal"
                     android:background="@drawable/background_input"
                     android:layout_weight="1"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginHorizontal="@dimen/layout_with_edit_text_horizontal_margin"
+                    android:layout_marginTop="@dimen/layout_with_edit_text_vertical_margin">
                     <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/baseline_location_on_24"
-                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginHorizontal="@dimen/icon_margin"
                         tools:ignore="ContentDescription" />
                     <EditText
                         android:id="@+id/location"
                         android:layout_width="match_parent"
-                        android:layout_height="55dp"
-                        android:hint="Lokalizacja"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:hint="@string/location"
                         android:background="@null"
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
                         android:inputType="text"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="5dp"/>
+                        android:layout_marginVertical="@dimen/edit_text_horizontal_margin"/>
                 </LinearLayout>
 
 
@@ -64,21 +62,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginHorizontal="@dimen/layout_with_edit_text_horizontal_margin"
+                    android:layout_marginTop="@dimen/layout_with_edit_text_vertical_margin">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Cena"
+                        android:text="@string/price"
                         android:textStyle="bold"
-                        android:textSize="22sp"/>
+                        android:textSize="@dimen/h2"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="fill_horizontal">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:background="@drawable/background_input"
@@ -86,8 +84,8 @@
                             <EditText
                                 android:id="@+id/minPrice"
                                 android:layout_width="0dp"
-                                android:layout_height="55dp"
-                                android:hint="Cena minimalna"
+                                android:layout_height="@dimen/edit_text_height"
+                                android:hint="@string/min_price"
                                 android:background="@null"
                                 android:imeOptions="actionNext"
                                 android:importantForAutofill="no"
@@ -95,29 +93,30 @@
                                 android:ellipsize="end"
                                 android:maxLines="1"
                                 android:layout_weight="1"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginEnd="5dp"
+                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
                                 tools:ignore="NestedWeights" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/currency"
                                 android:textStyle="bold"
-                                android:textSize="20sp"
-                                android:layout_marginEnd="5dp"/>
+                                android:textSize="@dimen/edit_text_size"
+                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"/>
                         </LinearLayout>
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="55dp"
+                            android:layout_height="@dimen/edit_text_height"
                             android:gravity="center_vertical"
                             android:text="-"
-                            android:textSize="20sp"
+                            android:textSize="@dimen/edit_text_size"
                             android:textStyle="bold"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"/>
+                            android:layout_marginStart="@dimen/regular_vertical_space"
+                            android:layout_marginEnd="@dimen/regular_vertical_space"
+                            tools:ignore="HardcodedText" />
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:background="@drawable/background_input"
@@ -125,8 +124,8 @@
                             <EditText
                                 android:id="@+id/maxPrice"
                                 android:layout_width="0dp"
-                                android:layout_height="55dp"
-                                android:hint="Cena maksymalna"
+                                android:layout_height="@dimen/edit_text_height"
+                                android:hint="@string/max_price"
                                 android:background="@null"
                                 android:imeOptions="actionNext"
                                 android:importantForAutofill="no"
@@ -134,16 +133,16 @@
                                 android:ellipsize="end"
                                 android:maxLines="1"
                                 android:layout_weight="1"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginEnd="5dp"
+                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
                                 tools:ignore="NestedWeights" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/currency"
                                 android:textStyle="bold"
-                                android:textSize="20sp"
-                                android:layout_marginEnd="5dp"/>
+                                android:textSize="@dimen/edit_text_size"
+                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"/>
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -152,21 +151,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginHorizontal="@dimen/layout_with_edit_text_horizontal_margin"
+                    android:layout_marginTop="@dimen/layout_with_edit_text_vertical_margin">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Powierzchnia"
+                        android:text="@string/area"
                         android:textStyle="bold"
-                        android:textSize="22sp"/>
+                        android:textSize="@dimen/h2"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="fill_horizontal">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:background="@drawable/background_input"
@@ -174,8 +173,8 @@
                             <EditText
                                 android:id="@+id/minSize"
                                 android:layout_width="0dp"
-                                android:layout_height="55dp"
-                                android:hint="Powierzchnia minimalna"
+                                android:layout_height="@dimen/edit_text_height"
+                                android:hint="@string/min_size"
                                 android:background="@null"
                                 android:imeOptions="actionNext"
                                 android:importantForAutofill="no"
@@ -183,30 +182,30 @@
                                 android:ellipsize="end"
                                 android:maxLines="1"
                                 android:layout_weight="1"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginEnd="5dp"
+                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
                                 tools:ignore="NestedWeights" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/unit"
                                 android:textStyle="bold"
-                                android:textSize="20sp"
-                                android:layout_marginEnd="5dp"/>
+                                android:textSize="@dimen/edit_text_size"
+                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"/>
                         </LinearLayout>
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="55dp"
+                            android:layout_height="@dimen/edit_text_height"
                             android:gravity="center_vertical"
                             android:text="-"
-                            android:textSize="20sp"
+                            android:textSize="@dimen/edit_text_size"
                             android:textStyle="bold"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"
+                            android:layout_marginStart="@dimen/text_view_horizontal_margin"
+                            android:layout_marginEnd="@dimen/text_view_horizontal_margin"
                             tools:ignore="HardcodedText" />
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:background="@drawable/background_input"
@@ -214,8 +213,8 @@
                             <EditText
                                 android:id="@+id/maxSize"
                                 android:layout_width="0dp"
-                                android:layout_height="55dp"
-                                android:hint="Powierzchnia maksymalna"
+                                android:layout_height="@dimen/edit_text_height"
+                                android:hint="@string/max_size"
                                 android:background="@null"
                                 android:imeOptions="actionNext"
                                 android:importantForAutofill="no"
@@ -223,16 +222,16 @@
                                 android:ellipsize="end"
                                 android:maxLines="1"
                                 android:layout_weight="1"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginEnd="5dp"
+                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
                                 tools:ignore="NestedWeights" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/unit"
                                 android:textStyle="bold"
-                                android:textSize="20sp"
-                                android:layout_marginEnd="5dp"/>
+                                android:textSize="@dimen/edit_text_size"
+                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"/>
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -241,14 +240,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginHorizontal="@dimen/layout_with_edit_text_horizontal_margin"
+                    android:layout_marginTop="@dimen/layout_with_edit_text_vertical_margin">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Liczba pokoi"
+                        android:text="@string/rooms"
                         android:textStyle="bold"
-                        android:textSize="22sp"/>
+                        android:textSize="@dimen/h2"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -258,8 +257,8 @@
                         <EditText
                             android:id="@+id/rooms"
                             android:layout_width="0dp"
-                            android:layout_height="55dp"
-                            android:hint="Dowolna"
+                            android:layout_height="@dimen/edit_text_height"
+                            android:hint="@string/rooms_hint"
                             android:background="@null"
                             android:imeOptions="actionNext"
                             android:importantForAutofill="no"
@@ -267,8 +266,8 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:layout_weight="1"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"
+                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
                             tools:ignore="NestedWeights" />
                     </LinearLayout>
                 </LinearLayout>
@@ -277,14 +276,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginHorizontal="@dimen/layout_with_edit_text_horizontal_margin"
+                    android:layout_marginTop="@dimen/layout_with_edit_text_vertical_margin">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Piętro"
+                        android:text="@string/floor"
                         android:textStyle="bold"
-                        android:textSize="22sp"/>
+                        android:textSize="@dimen/h2"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -294,8 +293,8 @@
                         <EditText
                             android:id="@+id/floor"
                             android:layout_width="0dp"
-                            android:layout_height="55dp"
-                            android:hint="Dowolne"
+                            android:layout_height="@dimen/edit_text_height"
+                            android:hint="2"
                             android:background="@null"
                             android:imeOptions="actionNext"
                             android:importantForAutofill="no"
@@ -303,9 +302,9 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:layout_weight="1"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"
-                            tools:ignore="NestedWeights" />
+                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                            tools:ignore="HardcodedText,NestedWeights" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -313,14 +312,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginHorizontal="@dimen/layout_with_edit_text_horizontal_margin"
+                    android:layout_marginTop="@dimen/layout_with_edit_text_vertical_margin">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Liczba pięter"
+                        android:text="@string/min_floor"
                         android:textStyle="bold"
-                        android:textSize="22sp"/>
+                        android:textSize="@dimen/h2"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -335,8 +334,8 @@
                             <EditText
                                 android:id="@+id/minFloor"
                                 android:layout_width="0dp"
-                                android:layout_height="55dp"
-                                android:hint="Od"
+                                android:layout_height="@dimen/edit_text_height"
+                                android:hint="@string/from"
                                 android:background="@null"
                                 android:imeOptions="actionNext"
                                 android:importantForAutofill="no"
@@ -344,20 +343,20 @@
                                 android:ellipsize="end"
                                 android:maxLines="1"
                                 android:layout_weight="1"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginEnd="5dp"
+                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
                                 tools:ignore="NestedWeights" />
                         </LinearLayout>
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="55dp"
+                            android:layout_height="@dimen/edit_text_height"
                             android:gravity="center_vertical"
                             android:text="-"
-                            android:textSize="20sp"
+                            android:textSize="@dimen/edit_text_size"
                             android:textStyle="bold"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"
+                            android:layout_marginStart="@dimen/text_view_horizontal_margin"
+                            android:layout_marginEnd="@dimen/text_view_horizontal_margin"
                             tools:ignore="HardcodedText" />
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -368,8 +367,8 @@
                             <EditText
                                 android:id="@+id/maxFloor"
                                 android:layout_width="0dp"
-                                android:layout_height="55dp"
-                                android:hint="Do"
+                                android:layout_height="@dimen/edit_text_height"
+                                android:hint="@string/to"
                                 android:background="@null"
                                 android:imeOptions="actionNext"
                                 android:importantForAutofill="no"
@@ -377,8 +376,8 @@
                                 android:ellipsize="end"
                                 android:maxLines="1"
                                 android:layout_weight="1"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginEnd="5dp"
+                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
                                 tools:ignore="NestedWeights" />
                         </LinearLayout>
                     </LinearLayout>
@@ -388,14 +387,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginHorizontal="@dimen/layout_with_edit_text_horizontal_margin"
+                    android:layout_marginTop="@dimen/layout_with_edit_text_vertical_margin">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Liczba mieszkańców"
+                        android:text="@string/residents"
                         android:textStyle="bold"
-                        android:textSize="22sp"/>
+                        android:textSize="@dimen/h2"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -410,8 +409,8 @@
                             <EditText
                                 android:id="@+id/minResidents"
                                 android:layout_width="0dp"
-                                android:layout_height="55dp"
-                                android:hint="Od"
+                                android:layout_height="@dimen/edit_text_height"
+                                android:hint="@string/from"
                                 android:background="@null"
                                 android:imeOptions="actionNext"
                                 android:importantForAutofill="no"
@@ -419,20 +418,20 @@
                                 android:ellipsize="end"
                                 android:maxLines="1"
                                 android:layout_weight="1"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginEnd="5dp"
+                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
                                 tools:ignore="NestedWeights" />
                         </LinearLayout>
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="55dp"
+                            android:layout_height="@dimen/edit_text_height"
                             android:gravity="center_vertical"
                             android:text="-"
-                            android:textSize="20sp"
+                            android:textSize="@dimen/edit_text_size"
                             android:textStyle="bold"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"
+                            android:layout_marginStart="@dimen/text_view_horizontal_margin"
+                            android:layout_marginEnd="@dimen/text_view_horizontal_margin"
                             tools:ignore="HardcodedText" />
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -443,8 +442,8 @@
                             <EditText
                                 android:id="@+id/maxResidents"
                                 android:layout_width="0dp"
-                                android:layout_height="55dp"
-                                android:hint="Do"
+                                android:layout_height="@dimen/edit_text_height"
+                                android:hint="@string/to"
                                 android:background="@null"
                                 android:imeOptions="actionNext"
                                 android:importantForAutofill="no"
@@ -452,8 +451,8 @@
                                 android:ellipsize="end"
                                 android:maxLines="1"
                                 android:layout_weight="1"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginEnd="5dp"
+                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
                                 tools:ignore="NestedWeights" />
                         </LinearLayout>
                     </LinearLayout>
@@ -466,41 +465,31 @@
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_view"
+            android:layout_marginHorizontal="@dimen/layout_with_buttons_horizontal_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <Button
                 android:id="@+id/clearButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/button_height"
                 android:layout_gravity="start"
-                android:text="Wyczyść"
+                android:text="@string/clear"
+                android:textSize="@dimen/regular_text_size"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <Button
                 android:id="@+id/filterButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/button_height"
                 android:layout_gravity="end"
-                android:text="Filtruj"
+                android:text="@string/filter"
+                android:textSize="@dimen/regular_text_size"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:backgroundTint="@color/orange"
-            app:itemIconTint="@color/black"
-            app:itemTextColor="@color/black"
-            app:menu="@menu/bottom_nav_menu"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
