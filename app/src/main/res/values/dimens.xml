@@ -7,28 +7,47 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="header_vertical_space">16dp</dimen>
     <dimen name="regular_vertical_space">8dp</dimen>
+    <!-- Text size -->
     <dimen name="h1">30sp</dimen>
     <dimen name="h2">24sp</dimen>
     <dimen name="regular_text_size">18sp</dimen>
-    <dimen name="edit_text_size">20sp</dimen>
-    <dimen name="table_cell_padding">8dp</dimen>
-    <dimen name="horizontal_space">16dp</dimen>
-    <dimen name="button_height">55dp</dimen>
-    <dimen name="layout_vertical_margin">10dp</dimen>
+    <!-- icon -->
     <dimen name="icon_width">22dp</dimen>
     <dimen name="icon_height">22dp</dimen>
     <dimen name="icon_margin">10dp</dimen>
-    <dimen name="edit_text_padding_vertical">10dp</dimen>
-    <dimen name="edit_text_height">55dp</dimen>
+    <!-- random shit -->
     <dimen name="layout_name_padding_vertical">6dp</dimen>
     <dimen name="layout_name_margin_vertical">41dp</dimen>
-    <dimen name="layout_with_edit_text_vertical_margin">10dp</dimen>
-    <dimen name="layout_with_edit_text_horizontal_margin">10dp</dimen>
-    <dimen name="layout_with_buttons_horizontal_margin">10dp</dimen>
+    <dimen name="layout_login_margin_top">40dp</dimen>
+    <dimen name="table_cell_padding">8dp</dimen>
+    <dimen name="horizontal_space">16dp</dimen>
+    <dimen name="layout_vertical_margin">10dp</dimen>
+    <!-- TextView -->
     <dimen name="text_view_vertical_margin">10dp</dimen>
     <dimen name="text_view_horizontal_margin">10dp</dimen>
+    <dimen name="text_view_forgot_your_password_horizontal_margin">10dp</dimen>
+    <dimen name="text_view_forgot_your_password_vertical_margin">15dp</dimen>
+    <!-- EditText -->
+    <dimen name="edit_text_size">20sp</dimen>
+    <dimen name="edit_text_height">55dp</dimen>
     <dimen name="edit_text_horizontal_margin">5dp</dimen>
-
+    <dimen name="edit_text_vertical_margin">5dp</dimen>
+    <dimen name="edit_text_padding_vertical">10dp</dimen>
+    <dimen name="layout_with_edit_text_vertical_margin">10dp</dimen>
+    <dimen name="layout_with_edit_text_horizontal_margin">10dp</dimen>
+    <!-- button -->
+    <dimen name="button_height">55dp</dimen>
+    <dimen name="layout_with_buttons_horizontal_margin">10dp</dimen>
+    <dimen name="buttons_margin_horizontal">10dp</dimen>
+    <!-- RecyclerView -->
     <dimen name="recyclerview_padding">16dp</dimen>
+    <!-- ImageButton -->
+    <dimen name="image_button_min_width">48dp</dimen>
+    <dimen name="image_button_min_height">48dp</dimen>
+    <!-- ImageView -->
+    <dimen name="image_view_logo_width">200dp</dimen>
+    <dimen name="image_view_logo_height">100dp</dimen>
+    <dimen name="image_view_logo_margin_top">50dp</dimen>
+
 
 </resources>
