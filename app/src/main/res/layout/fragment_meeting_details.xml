@@ -18,7 +18,8 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/header_vertical_space"
+            android:layout_marginTop="@dimen/header_vertical_space"
+            android:layout_marginBottom="@dimen/header_vertical_space"
             android:background="@drawable/background_header"
             android:gravity="center_horizontal"
             android:text=""
@@ -36,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:text="Godzina:"
+                android:text="@string/hour"
                 android:textSize="@dimen/regular_text_size"
                 android:textStyle="italic" />
 
@@ -46,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:paddingStart="@dimen/table_cell_padding"
+                android:paddingEnd="@dimen/table_cell_padding"
                 android:textSize="@dimen/regular_text_size" />
 
         </LinearLayout>
@@ -60,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:text="Miejsce:"
+                android:text="@string/place"
                 android:textSize="@dimen/regular_text_size"
                 android:textStyle="italic" />
 
@@ -70,6 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:paddingStart="@dimen/table_cell_padding"
+                android:paddingEnd="@dimen/table_cell_padding"
                 android:textSize="@dimen/regular_text_size" />
 
         </LinearLayout>
@@ -84,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:text="Powód:"
+                android:text="@string/reason"
                 android:textSize="@dimen/regular_text_size"
                 android:textStyle="italic" />
 
@@ -94,6 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:paddingStart="@dimen/table_cell_padding"
+                android:paddingEnd="@dimen/table_cell_padding"
                 android:textSize="@dimen/regular_text_size" />
 
         </LinearLayout>
