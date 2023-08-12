@@ -27,8 +27,8 @@
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/image"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_width="@dimen/image_view_image_width"
+                    android:layout_height="@dimen/image_view_image_height"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -41,34 +41,33 @@
                     android:orientation="horizontal"
                     android:gravity="center_horizontal"
                     app:layout_constraintTop_toBottomOf="@+id/image"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp">
+                    android:layout_marginTop="@dimen/header_vertical_space"
+                    android:layout_marginBottom="@dimen/header_vertical_space">
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:text="Właściciel:"
+                        android:layout_height="wrap_content"
+                        android:text="@string/owner"
                         android:textSize="@dimen/regular_text_size"
-                        android:gravity="center"
-                        android:layout_marginEnd="20dp" />
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/text_view_horizontal_margin" />
                     <ImageView
                         android:id="@+id/ownerPhoto"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="@dimen/image_view_small_profile_picture_width"
+                        android:layout_height="@dimen/image_view_small_profile_picture_height"
                         android:layout_gravity="center"
                         android:src="@drawable/baseline_person_24"
-                        android:layout_marginEnd="10dp"
+                        android:layout_marginEnd="@dimen/text_view_horizontal_margin"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/owner"
-                        android:contentDescription="właściciel" />
+                        app:layout_constraintEnd_toStartOf="@+id/owner" />
                     <TextView
                         android:id="@+id/owner"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="wrap_content"
                         android:textSize="@dimen/regular_text_size"
                         android:textStyle="bold"
-                        android:gravity="center"
+                        android:layout_gravity="center"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"/>
@@ -77,14 +76,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:layout_marginBottom="10dp">
+                    android:layout_marginBottom="@dimen/regular_vertical_space">
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Data wystawienia:"
+                        android:text="@string/date"
                         android:textStyle="italic"
-                        android:textSize="16sp"
-                        android:layout_marginEnd="10dp"
+                        android:textSize="@dimen/subtext_text_size"
+                        android:layout_marginEnd="@dimen/text_view_horizontal_margin"
                         android:layout_weight="1"
                         android:gravity="end"/>
                     <TextView
@@ -92,7 +91,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textStyle="italic"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/subtext_text_size"
                         android:layout_weight="1"/>
                 </LinearLayout>
                 <LinearLayout
@@ -111,7 +110,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="zł/miesiąc"
+                        android:text="@string/monthly_price"
                         android:textSize="@dimen/h1"
                         android:textStyle="bold"
                         android:textColor="@color/white"/>
@@ -119,7 +118,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Szczegóły oferty"
+                    android:text="@string/offer_details"
                     android:textSize="@dimen/h2"
                     android:textStyle="bold"
                     android:textColor="@color/white"
@@ -140,8 +139,8 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Adres:"
+                            android:layout_weight="@dimen/text_view_column_name_weight"
+                            android:text="@string/address"
                             android:textStyle="italic"
                             android:textSize="@dimen/regular_text_size"
                             android:gravity="end"/>
@@ -150,7 +149,7 @@
                             android:id="@+id/address"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
+                            android:layout_weight="@dimen/text_view_column_value_weight"
                             android:textSize="@dimen/regular_text_size"
                             android:paddingStart="@dimen/table_cell_padding"/>
 
@@ -164,8 +163,8 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Metraż:"
+                            android:layout_weight="@dimen/text_view_column_name_weight"
+                            android:text="@string/area"
                             android:textStyle="italic"
                             android:textSize="@dimen/regular_text_size"
                             android:gravity="end"/>
@@ -174,7 +173,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_weight="2"
+                            android:layout_weight="@dimen/text_view_column_value_weight"
                             android:paddingStart="@dimen/table_cell_padding">
 
                             <TextView
@@ -202,8 +201,8 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Okres wynajęcia:"
+                            android:layout_weight="@dimen/text_view_column_name_weight"
+                            android:text="@string/period"
                             android:textStyle="italic"
                             android:textSize="@dimen/regular_text_size"
                             android:gravity="end"/>
@@ -212,7 +211,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_weight="2"
+                            android:layout_weight="@dimen/text_view_column_value_weight"
                             android:paddingStart="@dimen/table_cell_padding">
 
                             <TextView
@@ -224,7 +223,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text=" lata"
+                                android:text="@string/years"
                                 android:textSize="@dimen/regular_text_size"/>
 
                         </LinearLayout>
@@ -239,8 +238,8 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Max liczba mieszkańców:"
+                            android:layout_weight="@dimen/text_view_column_name_weight"
+                            android:text="@string/max_residents"
                             android:textStyle="italic"
                             android:textSize="@dimen/regular_text_size"
                             android:gravity="end"/>
@@ -249,7 +248,7 @@
                             android:id="@+id/maxResidents"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
+                            android:layout_weight="@dimen/text_view_column_value_weight"
                             android:textSize="@dimen/regular_text_size"
                             android:paddingStart="@dimen/table_cell_padding"/>
 
@@ -263,8 +262,8 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Wyposażenie:"
+                            android:layout_weight="@dimen/text_view_column_name_weight"
+                            android:text="@string/equipment"
                             android:textStyle="italic"
                             android:textSize="@dimen/regular_text_size"
                             android:gravity="end"/>
@@ -273,7 +272,7 @@
                             android:id="@+id/equipment"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
+                            android:layout_weight="@dimen/text_view_column_value_weight"
                             android:textSize="@dimen/regular_text_size"
                             android:paddingStart="@dimen/table_cell_padding"/>
 
@@ -284,7 +283,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Opis"
+                    android:text="@string/description"
                     android:textSize="@dimen/h2"
                     android:textStyle="bold"
                     android:textColor="@color/white"
@@ -297,7 +296,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:ellipsize="none"
-                    android:maxLines="100"
+                    android:maxLines="@dimen/text_view_max_lines"
                     android:scrollHorizontally="false"
                     android:textSize="@dimen/regular_text_size"
                     android:text="@string/lorem_ipsum"
@@ -305,7 +304,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Zainteresowani"
+                    android:text="@string/interested_people"
                     android:textSize="@dimen/h2"
                     android:textStyle="bold"
                     android:textColor="@color/white"
@@ -331,7 +330,7 @@
                         android:drawableLeft="@drawable/baseline_message_24"
                         android:drawablePadding="10dp"
                         android:gravity="center"
-                        android:text="NAPISZ"
+                        android:text="@string/chat"
                         android:textColor="@color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -344,7 +343,7 @@
                         android:drawableLeft="@drawable/baseline_add_24"
                         android:drawablePadding="10dp"
                         android:gravity="center"
-                        android:text="WYNAJMIJ"
+                        android:text="@string/rent"
                         android:textColor="@color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

@@ -73,10 +73,15 @@
     <string name="hour">Godzina:</string>
     <string name="place">Miejsce:</string>
     <string name="reason">Powód:</string>
+
+    <string name="owner">Właściciel:</string>
+    <string name="date">Data wystawienia:</string>
+    <string name="monthly_price">zł/miesiąc</string>
     <string name="offer_details">Szczegóły oferty</string>
     <string name="address">Adres:</string>
     <string name="area">Metraż:</string>
     <string name="period">Okres wynajęcia:</string>
+    <string name="years"> lata</string>
     <string name="max_residents">Max liczba mieszkańców:</string>
     <string name="equipment">Wyposażenie:</string>
     <string name="description">Opis</string>
