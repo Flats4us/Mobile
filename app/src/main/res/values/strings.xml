@@ -115,6 +115,7 @@
     <string name="min_floor">Liczba pięter</string>
     <string name="logo">logo</string>
     <string name="sign_up">Zarejestruj się</string>
+    <string name="FilteringAndSorting">Filtrowanie i sortowanie</string>
 
 
     <!-- TODO: meeting_row -->
