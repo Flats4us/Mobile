@@ -20,6 +20,7 @@
     <dimen name="layout_name_padding_vertical">6dp</dimen>
     <dimen name="layout_name_margin_vertical">41dp</dimen>
     <dimen name="layout_login_margin_top">40dp</dimen>
+    <dimen name="layout_register_margin_top">30dp</dimen>
     <dimen name="table_cell_padding">8dp</dimen>
     <dimen name="horizontal_space">16dp</dimen>
     <dimen name="layout_vertical_margin">10dp</dimen>

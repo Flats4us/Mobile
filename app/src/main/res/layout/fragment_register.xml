@@ -25,55 +25,55 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="Zarejestruj się"
+                    android:layout_marginTop="@dimen/header_vertical_space"
+                    android:text="@string/register"
                     android:textColor="@color/black"
-                    android:textSize="30sp"
+                    android:textSize="@dimen/h1"
                     android:textStyle="bold"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp">
+                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
                     <LinearLayout
                         android:id="@+id/layoutName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="60dp"
+                        android:layout_marginTop="@dimen/layout_register_margin_top"
                         android:background="@drawable/background_input"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         app:layout_constraintTop_toTopOf="parent">
                         <ImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:layout_marginStart="10dp"
+                            android:layout_width="@dimen/icon_width"
+                            android:layout_height="@dimen/icon_height"
+                            android:layout_marginStart="@dimen/icon_margin"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/baseline_person_24"
                             app:tint="@color/black" />
                         <EditText
                             android:layout_width="match_parent"
-                            android:layout_height="55dp"
+                            android:layout_height="@dimen/edit_text_height"
                             android:background="@null"
-                            android:hint="Imie"
+                            android:hint="@string/name"
                             android:imeOptions="actionNext"
                             android:importantForAutofill="no"
                             android:inputType="text"
-                            android:paddingStart="10dp"
-                            android:paddingEnd="10dp"
-                            android:textSize="18sp"
+                            android:marignStart="@dimen/edit_text_horizontal_margin"
+                            android:marginEnd="@dimen/edit_text_horizontal_margin"
+                            android:textSize="@dimen/regular_text_size"
                             android:textStyle="bold" />
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="41dp"
+                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
                         android:background="@color/white"
-                        android:paddingStart="6dp"
-                        android:paddingEnd="6dp"
-                        android:text="Imię"
+                        android:paddingStart="@dimen/layout_name_padding_vertical"
+                        android:paddingEnd="@dimen/layout_name_padding_vertical"
+                        android:text="@string/name"
                         android:textAllCaps="true"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@id/layoutName"
@@ -86,46 +86,46 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp">
+                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
                     <LinearLayout
                         android:id="@+id/layoutSurname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="40dp"
+                        android:layout_marginTop="@dimen/layout_register_margin_top"
                         android:background="@drawable/background_input"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         app:layout_constraintTop_toTopOf="parent">
                         <ImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:layout_marginStart="10dp"
+                            android:layout_width="@dimen/icon_width"
+                            android:layout_height="@dimen/icon_height"
+                            android:layout_marginStart="@dimen/icon_margin"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/baseline_person_24"
                             app:tint="@color/black" />
                         <EditText
                             android:layout_width="match_parent"
-                            android:layout_height="55dp"
+                            android:layout_height="@dimen/edit_text_height"
                             android:background="@null"
-                            android:hint="Nazwisko"
+                            android:hint="@string/surname"
                             android:imeOptions="actionNext"
                             android:importantForAutofill="no"
                             android:inputType="text"
-                            android:paddingStart="10dp"
-                            android:paddingEnd="10dp"
-                            android:textSize="18sp"
+                            android:marignStart="@dimen/edit_text_horizontal_margin"
+                            android:marginEnd="@dimen/edit_text_horizontal_margin"
+                            android:textSize="@dimen/regular_text_size"
                             android:textStyle="bold"/>
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="41dp"
+                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
                         android:background="@color/white"
-                        android:paddingStart="6dp"
-                        android:paddingEnd="6dp"
-                        android:text="Nazwisko"
+                        android:paddingStart="@dimen/layout_name_padding_vertical"
+                        android:paddingEnd="@dimen/layout_name_padding_vertical"
+                        android:text="@string/surname"
                         android:textAllCaps="true"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@id/layoutSurname"
@@ -137,45 +137,45 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp">
+                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
                     <LinearLayout
                         android:id="@+id/layoutEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="40dp"
+                        android:layout_marginTop="@dimen/layout_register_margin_top"
                         android:background="@drawable/background_input"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         app:layout_constraintTop_toTopOf="parent">
                         <ImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:layout_marginStart="10dp"
+                            android:layout_width="@dimen/icon_width"
+                            android:layout_height="@dimen/icon_height"
+                            android:layout_marginStart="@dimen/icon_margin"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/baseline_email_24"
                             app:tint="@color/black" />
                         <EditText
                             android:layout_width="match_parent"
-                            android:layout_height="55dp"
+                            android:layout_height="@dimen/edit_text_height"
                             android:background="@null"
                             android:hint="@string/nazwa_email_com"
                             android:imeOptions="actionNext"
                             android:importantForAutofill="no"
                             android:inputType="textEmailAddress"
-                            android:paddingStart="10dp"
-                            android:paddingEnd="10dp"
-                            android:textSize="18sp"
+                            android:marignStart="@dimen/edit_text_horizontal_margin"
+                            android:marginEnd="@dimen/edit_text_horizontal_margin"
+                            android:textSize="@dimen/regular_text_size"
                             android:textStyle="bold"/>
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="41dp"
+                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
                         android:background="@color/white"
-                        android:paddingStart="6dp"
-                        android:paddingEnd="6dp"
+                        android:paddingStart="@dimen/layout_name_padding_vertical"
+                        android:paddingEnd="@dimen/layout_name_padding_vertical"
                         android:text="@string/email"
                         android:textAllCaps="true"
                         android:textStyle="bold"
@@ -188,46 +188,46 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp">
+                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
                     <LinearLayout
                         android:id="@+id/layoutPhonenumber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="40dp"
+                        android:layout_marginTop="@dimen/layout_register_margin_top"
                         android:background="@drawable/background_input"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         app:layout_constraintTop_toTopOf="parent">
                         <ImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:layout_marginStart="10dp"
+                            android:layout_width="@dimen/icon_width"
+                            android:layout_height="@dimen/icon_height"
+                            android:layout_marginStart="@dimen/icon_margin"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/baseline_phone_24"
                             app:tint="@color/black" />
                         <EditText
                             android:layout_width="match_parent"
-                            android:layout_height="55dp"
+                            android:layout_height="@dimen/edit_text_height"
                             android:background="@null"
-                            android:hint="Numer telefonu"
+                            android:hint="@string/phone_number"
                             android:imeOptions="actionNext"
                             android:importantForAutofill="no"
                             android:inputType="phone"
-                            android:paddingStart="10dp"
-                            android:paddingEnd="10dp"
-                            android:textSize="18sp"
+                            android:marignStart="@dimen/edit_text_horizontal_margin"
+                            android:marginEnd="@dimen/edit_text_horizontal_margin"
+                            android:textSize="@dimen/regular_text_size"
                             android:textStyle="bold"/>
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="41dp"
+                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
                         android:background="@color/white"
-                        android:paddingStart="6dp"
-                        android:paddingEnd="6dp"
-                        android:text="Numer telefonu"
+                        android:paddingStart="@dimen/layout_name_padding_vertical"
+                        android:paddingEnd="@dimen/layout_name_padding_vertical"
+                        android:text="@string/phone_number"
                         android:textAllCaps="true"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@id/layoutPhonenumber"
@@ -239,21 +239,21 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp">
+                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
                     <LinearLayout
                         android:id="@+id/layoutPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="40dp"
+                        android:layout_marginTop="@dimen/layout_register_margin_top"
                         android:background="@drawable/background_input"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         app:layout_constraintTop_toTopOf="parent">
                         <ImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:layout_marginStart="10dp"
+                            android:layout_width="@dimen/icon_width"
+                            android:layout_height="@dimen/icon_height"
+                            android:layout_marginStart="@dimen/icon_margin"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/baseline_lock_24"
                             app:tint="@color/black" />
@@ -261,19 +261,18 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-
                             <EditText
                                 android:id="@+id/textPassword"
                                 android:layout_width="0dp"
-                                android:layout_height="55dp"
+                                android:layout_height="@dimen/edit_text_height"
                                 android:background="@null"
-                                android:hint="*******"
+                                android:hint="@string/password_hint"
                                 android:imeOptions="actionNext"
                                 android:importantForAutofill="no"
                                 android:inputType="textPassword"
-                                android:paddingStart="10dp"
-                                android:paddingEnd="10dp"
-                                android:textSize="18sp"
+                                android:marignStart="@dimen/edit_text_horizontal_margin"
+                                android:marginEnd="@dimen/edit_text_horizontal_margin"
+                                android:textSize="@dimen/regular_text_size"
                                 android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toStartOf="@+id/passwordToggle"
@@ -282,8 +281,8 @@
 
                             <ImageButton
                                 android:id="@+id/passwordToggle"
-                                android:layout_width="48dp"
-                                android:layout_height="48dp"
+                                android:layout_width="@dimen/image_button_min_width"
+                                android:layout_height="@dimen/image_button_min_height"
                                 android:layout_marginEnd="1dp"
                                 android:background="@color/white"
                                 android:contentDescription="@string/app_name"
@@ -299,10 +298,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="41dp"
+                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
                         android:background="@color/white"
-                        android:paddingStart="6dp"
-                        android:paddingEnd="6dp"
+                        android:paddingStart="@dimen/layout_name_padding_vertical"
+                        android:paddingEnd="@dimen/layout_name_padding_vertical"
                         android:text="@string/password"
                         android:textAllCaps="true"
                         android:textStyle="bold"
@@ -317,21 +316,21 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp">
+                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
                     <LinearLayout
                         android:id="@+id/layoutRepeatPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="40dp"
+                        android:layout_marginTop="@dimen/layout_register_margin_top"
                         android:background="@drawable/background_input"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         app:layout_constraintTop_toTopOf="parent">
                         <ImageView
-                            android:layout_width="22dp"
-                            android:layout_height="22dp"
-                            android:layout_marginStart="10dp"
+                            android:layout_width="@dimen/icon_width"
+                            android:layout_height="@dimen/icon_height"
+                            android:layout_marginStart="@dimen/icon_margin"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/baseline_lock_24"
                             app:tint="@color/black" />
@@ -343,15 +342,15 @@
                             <EditText
                                 android:id="@+id/textRepeatPassword"
                                 android:layout_width="0dp"
-                                android:layout_height="55dp"
+                                android:layout_height="@dimen/edit_text_height"
                                 android:background="@null"
-                                android:hint="*******"
+                                android:hint="@string/password_hint"
                                 android:imeOptions="actionNext"
                                 android:importantForAutofill="no"
                                 android:inputType="textPassword"
-                                android:paddingStart="10dp"
-                                android:paddingEnd="10dp"
-                                android:textSize="18sp"
+                                android:marignStart="@dimen/edit_text_horizontal_margin"
+                                android:marginEnd="@dimen/edit_text_horizontal_margin"
+                                android:textSize="@dimen/regular_text_size"
                                 android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toStartOf="@+id/passwordRepeatToggle"
@@ -360,8 +359,8 @@
 
                             <ImageButton
                                 android:id="@+id/passwordRepeatToggle"
-                                android:layout_width="48dp"
-                                android:layout_height="48dp"
+                                android:layout_width="@dimen/image_button_min_width"
+                                android:layout_height="@dimen/image_button_min_height"
                                 android:layout_marginEnd="1dp"
                                 android:background="@color/white"
                                 android:contentDescription="@string/app_name"
@@ -377,11 +376,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="41dp"
+                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
                         android:background="@color/white"
-                        android:paddingStart="6dp"
-                        android:paddingEnd="6dp"
-                        android:text="Powtórz hasło"
+                        android:paddingStart="@dimen/layout_name_padding_vertical"
+                        android:paddingEnd="@dimen/layout_name_padding_vertical"
+                        android:text="@string/repeat_password"
                         android:textAllCaps="true"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@id/layoutRepeatPassword"
@@ -395,12 +394,12 @@
                 <Button
                     android:id="@+id/buttonRegister"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginEnd="30dp"
-                    android:text="Zarejestruj się"
-                    android:textSize="18sp"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginStart="@dimen/buttons_margin_horizontal"
+                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:layout_marginEnd="@dimen/buttons_margin_horizontal"
+                    android:text="@string/register"
+                    android:textSize="@dimen/regular_text_size"
                     android:textStyle="bold"/>
 
             </LinearLayout>

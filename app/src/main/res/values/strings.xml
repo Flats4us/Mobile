@@ -16,7 +16,7 @@
     <string name="register">Zarejestruj się</string>
     <string name="name">Imie</string>
     <string name="surname">Nazwisko</string>
-    <string name="phone_numbre">Numer telefonu</string>
+    <string name="phone_number">Numer telefonu</string>
     <string name="repeat_password">Powtórz hasło</string>
     <string name="login">Zaloguj się</string>
     <string name="forgot_your_password">Zapomniałeś hasło?</string>
@@ -114,6 +114,7 @@
     <string name="example">Example</string>
     <string name="min_floor">Liczba pięter</string>
     <string name="logo">logo</string>
+    <string name="sign_up">Zarejestruj się</string>
 
 
     <!-- TODO: meeting_row -->
