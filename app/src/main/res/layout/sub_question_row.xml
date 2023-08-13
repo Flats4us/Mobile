@@ -9,7 +9,7 @@
         android:id="@+id/subquestionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"/>
+        android:textSize="@dimen/h3"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/subquestionRecyclerView"

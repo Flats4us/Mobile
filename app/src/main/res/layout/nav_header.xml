@@ -7,8 +7,8 @@
     android:orientation="vertical">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="@dimen/image_view_menu_profile_picture_width"
+        android:layout_height="@dimen/image_view_menu_profile_picture_height"
         android:src="@drawable/logo"/>
 
     <LinearLayout
@@ -19,15 +19,15 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Jan"
-            android:textSize="18sp"
+            android:text="@string/name_example"
+            android:textSize="@dimen/regular_text_size"
             android:textStyle="bold"/>
         <TextView
             android:id="@+id/surname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Kowalski"
-            android:textSize="18sp"
+            android:text="@string/surname_example"
+            android:textSize="@dimen/regular_text_size"
             android:textStyle="bold"
             android:layout_marginStart="10dp"/>
     </LinearLayout>
@@ -35,7 +35,7 @@
         android:id="@+id/mail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="jan.kowalski@gmail.com"/>
+        android:text="@string/mail_example"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
