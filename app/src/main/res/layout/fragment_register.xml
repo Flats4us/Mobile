@@ -60,8 +60,8 @@
                             android:imeOptions="actionNext"
                             android:importantForAutofill="no"
                             android:inputType="text"
-                            android:marignStart="@dimen/edit_text_horizontal_margin"
-                            android:marginEnd="@dimen/edit_text_horizontal_margin"
+                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
                             android:textSize="@dimen/regular_text_size"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -112,8 +112,8 @@
                             android:imeOptions="actionNext"
                             android:importantForAutofill="no"
                             android:inputType="text"
-                            android:marignStart="@dimen/edit_text_horizontal_margin"
-                            android:marginEnd="@dimen/edit_text_horizontal_margin"
+                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
                             android:textSize="@dimen/regular_text_size"
                             android:textStyle="bold"/>
                     </LinearLayout>
@@ -163,8 +163,8 @@
                             android:imeOptions="actionNext"
                             android:importantForAutofill="no"
                             android:inputType="textEmailAddress"
-                            android:marignStart="@dimen/edit_text_horizontal_margin"
-                            android:marginEnd="@dimen/edit_text_horizontal_margin"
+                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
                             android:textSize="@dimen/regular_text_size"
                             android:textStyle="bold"/>
                     </LinearLayout>
@@ -214,8 +214,8 @@
                             android:imeOptions="actionNext"
                             android:importantForAutofill="no"
                             android:inputType="phone"
-                            android:marignStart="@dimen/edit_text_horizontal_margin"
-                            android:marginEnd="@dimen/edit_text_horizontal_margin"
+                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
                             android:textSize="@dimen/regular_text_size"
                             android:textStyle="bold"/>
                     </LinearLayout>
@@ -270,8 +270,8 @@
                                 android:imeOptions="actionNext"
                                 android:importantForAutofill="no"
                                 android:inputType="textPassword"
-                                android:marignStart="@dimen/edit_text_horizontal_margin"
-                                android:marginEnd="@dimen/edit_text_horizontal_margin"
+                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
                                 android:textSize="@dimen/regular_text_size"
                                 android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -348,8 +348,8 @@
                                 android:imeOptions="actionNext"
                                 android:importantForAutofill="no"
                                 android:inputType="textPassword"
-                                android:marignStart="@dimen/edit_text_horizontal_margin"
-                                android:marginEnd="@dimen/edit_text_horizontal_margin"
+                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
                                 android:textSize="@dimen/regular_text_size"
                                 android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"
