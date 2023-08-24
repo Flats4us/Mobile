@@ -26,7 +26,7 @@ class MapActivity : AppCompatActivity() {
 //        map.setOnMapClickListener { point, mapView ->
 //            addRentalMarker("New Rental", point)
 //        }
-
+//
         showAvailablePlacesForRent()
     }
 
