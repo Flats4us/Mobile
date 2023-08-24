@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Flats4us</string>
+    <string name="app_name"><font color="#000000">Flats4us</font></string>
     <string name="witaj_ponownie">Witaj ponownie</string>
     <string name="nazwa_email_com">nazwa@email.com</string>
     <string name="email">Email</string>
@@ -16,4 +16,5 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="currency">zł</string>
     <string name="unit">m²</string>
+    <string name="title_activity_google_maps">activity_google_maps</string>
 </resources>

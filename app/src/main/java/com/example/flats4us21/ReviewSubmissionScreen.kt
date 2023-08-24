@@ -16,6 +16,9 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
+import org.json.JSONArray
+import android.widget.RadioButton
+import android.widget.GridLayout
 
 class ReviewSubmissionScreen : AppCompatActivity() {
 
@@ -39,35 +42,38 @@ class ReviewSubmissionScreen : AppCompatActivity() {
         personName = findViewById(R.id.personName)
         starRating = findViewById(R.id.starRating)
         opinionEditText = findViewById(R.id.opinionEditText)
-        tag1 = findViewById(R.id.tag1)
-        tag2 = findViewById(R.id.tag2)
-        tag3 = findViewById(R.id.tag3)
+// tag1 = findViewById(R.id.tag1)
+// tag2 = findViewById(R.id.tag2)
+// tag3 = findViewById(R.id.tag3)
         addButton = findViewById(R.id.addButton)
         cancelButton = findViewById(R.id.cancelButton)
 
-        addButton.setOnClickListener {
-            // Handle add button click
-            val opinion = opinionEditText.text.toString()
-            val rating = starRating.rating
-            val tags = mutableListOf<String>()
-            if (tag1.isChecked) tags.add("Communicative")
-            if (tag2.isChecked) tags.add("Calm")
-            if (tag3.isChecked) tags.add("Loud")
-
-            // Perform action with the review data
-            submitReview(opinion, rating, tags)
+        val radioButtonValues = JSONArray("[\"Fajny\", \"a idź Pan\", \"Godny zaufania\", \"Zadbany\", \"Brzydki jak noc\", \"Uprzejmy\"]")
+        val gridLayout = findViewById<GridLayout>(R.id.gridLayout)
+        for (i in 0 until radioButtonValues.length()) {
+            val radioButton = RadioButton(this)
+            radioButton.text = radioButtonValues.getString(i)
+            gridLayout.addView(radioButton)
         }
 
+//        addButton.setOnClickListener {
+//            val opinion = opinionEditText.text.toString()
+//            val rating = starRating.rating
+//            val tags = mutableListOf<String>()
+//            if (tag1.isChecked) tags.add("Communicative")
+//            if (tag2.isChecked) tags.add("Calm")
+//            if (tag3.isChecked) tags.add("Loud")
+//
+//            submitReview(opinion, rating, tags)
+//        }
+
         cancelButton.setOnClickListener {
-            // Handle cancel button click
             finish()
         }
     }
 
     private fun submitReview(opinion: String, rating: Float, tags: List<String>) {
-        // Perform your logic here to handle the submitted review
-        // You can access the opinion, rating, and tags and perform necessary actions
-        // For example, you can show a toast message indicating the review has been submitted
+
         Toast.makeText(this, "Review submitted!", Toast.LENGTH_SHORT).show()
         finish()
     }
