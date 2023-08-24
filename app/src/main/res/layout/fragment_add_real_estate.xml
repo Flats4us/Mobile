@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.AddRealEstateFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/header_vertical_space"
+        android:layout_marginBottom="@dimen/header_vertical_space"
+        android:background="@drawable/background_header"
+        android:gravity="center_horizontal"
+        android:text="@string/add_real_estate"
+        android:textColor="@color/white"
+        android:textSize="@dimen/h1"
+        android:textStyle="bold"
+        tools:ignore="TextContrastCheck" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/regular_vertical_space">
+
+        <TextView
+            android:id="@+id/firstStep"
+            android:layout_width="@dimen/icon_width"
+            android:layout_height="@dimen/icon_height"
+            android:background="@drawable/background_header"
+            android:text="1"
+            android:textColor="@color/white"
+            android:textSize="@dimen/regular_text_size"
+            android:gravity=""
+            android:layout_marginEnd="@dimen/text_view_horizontal_margin"/>
+
+        <TextView
+            android:id="@+id/secondStep"
+            android:layout_width="@dimen/icon_width"
+            android:layout_height="@dimen/icon_height"
+            android:background="@drawable/background_header"
+            android:text="2"
+            android:textColor="@color/white"
+            android:textSize="@dimen/regular_text_size"
+            android:gravity="center"
+            android:layout_marginEnd="@dimen/text_view_horizontal_margin"/>
+
+        <TextView
+            android:id="@+id/thirdStep"
+            android:layout_width="@dimen/icon_width"
+            android:layout_height="@dimen/icon_height"
+            android:background="@drawable/background_header"
+            android:text="3"
+            android:textColor="@color/white"
+            android:textSize="@dimen/regular_text_size"
+            android:gravity="center"
+            android:layout_marginEnd="@dimen/text_view_horizontal_margin"/>
+
+        <TextView
+            android:id="@+id/fourthStep"
+            android:layout_width="@dimen/icon_width"
+            android:layout_height="@dimen/icon_height"
+            android:background="@drawable/background_header"
+            android:text="4"
+            android:textColor="@color/white"
+            android:textSize="@dimen/regular_text_size"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/addRealEstateStep"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/horizontal_space"
+        tools:layout="@layout/fragment_start_screen"/>
+
+</LinearLayout>
