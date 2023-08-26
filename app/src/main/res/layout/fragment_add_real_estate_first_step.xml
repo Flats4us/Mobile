@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".ui.AddRealEstateFirstStepFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+        android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+        <LinearLayout
+            android:id="@+id/layoutPropertyType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_register_margin_top"
+            android:background="@drawable/background_input"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+            <ImageView
+                android:layout_width="@dimen/icon_width"
+                android:layout_height="@dimen/icon_height"
+                android:layout_marginStart="@dimen/icon_margin"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/baseline_home_24"
+                app:tint="@color/black" />
+
+            <Spinner
+                android:id="@+id/propertyTypeSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spinner_height"
+                android:contentDescription="@string/real_estate_type"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_name_margin_vertical"
+            android:background="@color/white"
+            android:paddingStart="@dimen/layout_name_padding_vertical"
+            android:paddingEnd="@dimen/layout_name_padding_vertical"
+            android:text="@string/property_type"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/layoutPropertyType"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/layoutPropertyType"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+        android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+        <LinearLayout
+            android:id="@+id/layoutVoivodeship"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_register_margin_top"
+            android:background="@drawable/background_input"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+            <ImageView
+                android:layout_width="@dimen/icon_width"
+                android:layout_height="@dimen/icon_height"
+                android:layout_marginStart="@dimen/icon_margin"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/baseline_location_on_24"
+                app:tint="@color/black" />
+            <EditText
+                android:id="@+id/voivodeship"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:background="@null"
+                android:hint="@string/voivodeship"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                android:textSize="@dimen/regular_text_size"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/layout_name_margin_vertical"
+        android:background="@color/white"
+        android:paddingStart="@dimen/layout_name_padding_vertical"
+        android:paddingEnd="@dimen/layout_name_padding_vertical"
+        android:text="@string/voivodeship"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/layoutVoivodeship"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/layoutVoivodeship"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+        android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+    <LinearLayout
+        android:id="@+id/layoutCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layout_register_margin_top"
+        android:background="@drawable/background_input"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:layout_width="@dimen/icon_width"
+            android:layout_height="@dimen/icon_height"
+            android:layout_marginStart="@dimen/icon_margin"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/baseline_location_on_24"
+            app:tint="@color/black" />
+        <EditText
+            android:id="@+id/city"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edit_text_height"
+            android:background="@null"
+            android:hint="@string/city"
+            android:imeOptions="actionNext"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+            android:textSize="@dimen/regular_text_size"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/layout_name_margin_vertical"
+        android:background="@color/white"
+        android:paddingStart="@dimen/layout_name_padding_vertical"
+        android:paddingEnd="@dimen/layout_name_padding_vertical"
+        android:text="@string/city"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/layoutCity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/layoutCity"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+        android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+        <LinearLayout
+            android:id="@+id/layoutDistrict"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_register_margin_top"
+            android:background="@drawable/background_input"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+            <ImageView
+                android:layout_width="@dimen/icon_width"
+                android:layout_height="@dimen/icon_height"
+                android:layout_marginStart="@dimen/icon_margin"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/baseline_location_on_24"
+                app:tint="@color/black" />
+            <EditText
+                android:id="@+id/district"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:background="@null"
+                android:hint="@string/district"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                android:textSize="@dimen/regular_text_size"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_name_margin_vertical"
+            android:background="@color/white"
+            android:paddingStart="@dimen/layout_name_padding_vertical"
+            android:paddingEnd="@dimen/layout_name_padding_vertical"
+            android:text="@string/district"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/layoutDistrict"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/layoutDistrict"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+        android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+        <LinearLayout
+            android:id="@+id/layoutStreet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_register_margin_top"
+            android:background="@drawable/background_input"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+            <ImageView
+                android:layout_width="@dimen/icon_width"
+                android:layout_height="@dimen/icon_height"
+                android:layout_marginStart="@dimen/icon_margin"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/baseline_location_on_24"
+                app:tint="@color/black" />
+            <EditText
+                android:id="@+id/street"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:background="@null"
+                android:hint="@string/street"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                android:textSize="@dimen/regular_text_size"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_name_margin_vertical"
+            android:background="@color/white"
+            android:paddingStart="@dimen/layout_name_padding_vertical"
+            android:paddingEnd="@dimen/layout_name_padding_vertical"
+            android:text="@string/street"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/layoutStreet"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/layoutStreet"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+        android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+        <LinearLayout
+            android:id="@+id/layoutBuildingNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_register_margin_top"
+            android:background="@drawable/background_input"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+            <ImageView
+                android:layout_width="@dimen/icon_width"
+                android:layout_height="@dimen/icon_height"
+                android:layout_marginStart="@dimen/icon_margin"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/baseline_location_on_24"
+                app:tint="@color/black" />
+            <EditText
+                android:id="@+id/buildingNumber"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:background="@null"
+                android:hint="@string/building_number"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                android:textSize="@dimen/regular_text_size"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_name_margin_vertical"
+            android:background="@color/white"
+            android:paddingStart="@dimen/layout_name_padding_vertical"
+            android:paddingEnd="@dimen/layout_name_padding_vertical"
+            android:text="@string/building_number"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/layoutBuildingNumber"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/layoutBuildingNumber"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layout_register_margin_top"
+        android:drawableLeft="@drawable/baseline_navigate_next_24"
+        android:drawablePadding="10dp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/next_button"
+        android:textColor="@color/white" />
+
+</LinearLayout>

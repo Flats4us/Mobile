@@ -10,7 +10,6 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.example.flats4us21.R
 import com.example.flats4us21.databinding.FragmentAddRealEstateBinding
-import com.example.flats4us21.viewmodels.MeetingViewModel
 import com.example.flats4us21.viewmodels.RealEstateViewModel
 
 class AddRealEstateFragment : Fragment() {
@@ -29,6 +28,7 @@ class AddRealEstateFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        replaceFragment(AddRealEstateFirstStepFragment())
     }
 
     fun replaceFragment(fragment : Fragment){

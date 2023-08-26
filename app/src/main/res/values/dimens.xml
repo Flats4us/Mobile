@@ -68,6 +68,8 @@
     <!-- RadioButton -->
     <dimen name="radio_button_vertical_margin">10dp</dimen>
     <dimen name="radio_button_horizontal_margin">10dp</dimen>
+    <!-- Spinner -->
+    <dimen name="spinner_height">55dp</dimen>
 
 
 </resources>
