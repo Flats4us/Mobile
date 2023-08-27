@@ -32,11 +32,10 @@ class AddRealEstateFragment : Fragment() {
     }
 
     fun replaceFragment(fragment : Fragment){
-        val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
-        val transaction: FragmentTransaction = fragmentManager.beginTransaction()
-        transaction.replace(R.id.addRealEstateStep, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
+        childFragmentManager.beginTransaction()
+            .replace(R.id.addRealEstateStep, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
 }

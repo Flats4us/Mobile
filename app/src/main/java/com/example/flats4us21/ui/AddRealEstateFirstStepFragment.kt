@@ -32,6 +32,7 @@ class AddRealEstateFirstStepFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         DEFAULT_PROPERTY_TYPE = requireContext().getString(R.string.real_estate_type)
         val propertyTypeSpinner = binding.propertyTypeSpinner
         val propertyTypeAdapter = ArrayAdapter(
@@ -93,7 +94,7 @@ class AddRealEstateFirstStepFragment : Fragment() {
             realEstateViewModel.city = binding.city.text.toString()
             binding.layoutCity.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_input)
         }
-        realEstateViewModel.district = binding.district.toString()
+        realEstateViewModel.district = binding.district.text.toString()
         if(binding.street.text.toString() == ""){
             binding.layoutStreet.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_wrong_input)
             test = false
@@ -112,7 +113,7 @@ class AddRealEstateFirstStepFragment : Fragment() {
         }
 
         if(test){
-            //TODO: open second step
+            (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateSecondStepFragment())
         }
     }
 
