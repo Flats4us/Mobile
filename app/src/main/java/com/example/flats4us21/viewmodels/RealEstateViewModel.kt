@@ -1,5 +1,6 @@
 package com.example.flats4us21.viewmodels
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import com.example.flats4us21.data.Property
 
@@ -87,6 +88,13 @@ class RealEstateViewModel : ViewModel() {
         get() = _equipment
         set(value) {
             _equipment = value
+        }
+
+    private var _imageUris: MutableList<Uri> = mutableListOf()
+    var imageUris: MutableList<Uri>
+        get() = _imageUris
+        set(value) {
+            _imageUris = value
         }
 
 //    fun createRealEstateObject(): Property {

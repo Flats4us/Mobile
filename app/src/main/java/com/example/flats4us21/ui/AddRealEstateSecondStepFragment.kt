@@ -37,7 +37,7 @@ class AddRealEstateSecondStepFragment : Fragment() {
         binding.nextButton.setOnClickListener {
             collectData()
             if(test){
-                (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateFirstStepFragment())
+                (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateThirdStepFragment())
             }
         }
     }
