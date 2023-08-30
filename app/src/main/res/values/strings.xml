@@ -133,6 +133,7 @@
     <string name="creating_equipment">Wyposażenie</string>
     <string name="prev_button">Poprzedni</string>
     <string name="add_photos">Dodaj zdjęcia</string>
+    <string name="reset">Zresetuj</string>
 
 
     <!-- TODO: meeting_row -->

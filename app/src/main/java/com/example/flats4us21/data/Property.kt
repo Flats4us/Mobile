@@ -1,36 +1,53 @@
 package com.example.flats4us21.data
 
+import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 
 data class Property(
-    val city : String,
-    val street : String,
-    val maxResidents : Int,
-    val equipment : String,
-    val area : Int,
-    val image : List<Int>,
-    val numberOfRooms : Int
+    val propertyType: PropertyType,
+    val voivodeship: String,
+    val city: String,
+    val district: String,
+    val street: String,
+    val buildingNumber: String,
+    val area: Int,
+    val maxResidents: Int,
+    val constructionYear: Int,
+    val numberOfRooms: Int,
+    val numberOfFloors: Int,
+    val equipment: String,
+    val image: MutableList<Int>
 ) : Parcelable {
-    @Suppress("DEPRECATION")
     constructor(parcel: Parcel) : this(
+        propertyType = PropertyType.valueOf(parcel.readString()!!),
+        voivodeship = parcel.readString()!!,
         city = parcel.readString()!!,
+        district = parcel.readString()!!,
         street = parcel.readString()!!,
-        maxResidents = parcel.readInt(),
-        equipment = parcel.readString()!!,
+        buildingNumber = parcel.readString()!!,
         area = parcel.readInt(),
-        image = mutableListOf<Int>().apply { parcel.readList(this, Int::class.java.classLoader) },
-        numberOfRooms = parcel.readInt()
+        maxResidents = parcel.readInt(),
+        constructionYear = parcel.readInt(),
+        numberOfRooms = parcel.readInt(),
+        numberOfFloors = parcel.readInt(),
+        equipment = parcel.readString()!!,
+        image = mutableListOf<Int>().apply { parcel.readList(this, Int::class.java.classLoader) }
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(propertyType.name)
+        parcel.writeString(voivodeship)
         parcel.writeString(city)
+        parcel.writeString(district)
         parcel.writeString(street)
-        parcel.writeInt(maxResidents)
-        parcel.writeString(equipment)
         parcel.writeInt(area)
-        parcel.writeList(image)
+        parcel.writeInt(maxResidents)
+        parcel.writeInt(constructionYear)
         parcel.writeInt(numberOfRooms)
+        parcel.writeInt(numberOfFloors)
+        parcel.writeString(equipment)
+        parcel.writeList(image)
     }
 
     override fun describeContents(): Int {

@@ -35,7 +35,7 @@ class AddRealEstateThirdStepFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setImages()
+        //TODO: CORRECT setImages()
 
         val multiplePhotoPickerLauncher =
             registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(15)) { uris ->
@@ -64,17 +64,23 @@ class AddRealEstateThirdStepFragment : Fragment() {
             )
         }
         binding.prevButton.setOnClickListener {
-            collectData()
+            //TODO: CORRECT collectData()
             (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateSecondStepFragment())
         }
         binding.nextButton.setOnClickListener {
-            collectData()
-            //(requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateFourthStepFragment())
+            //TODO: CORRECT collectData()
+            (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateFourthStepFragment())
         }
     }
 
-    private fun setImages(){
-        selectedImageUris = realEstateViewModel.imageUris
+    private fun setImages() {
+        val intUris = realEstateViewModel.images
+        selectedImageUris = intUris.map { resourceId ->
+            val resourceName = resources.getResourceEntryName(resourceId)
+            val resourceUri = Uri.parse("android.resource://${requireContext().packageName}/drawable/$resourceName")
+            resourceUri
+        }.toMutableList()
+
         lastIndexBeforeUpdate = if (selectedImageUris.size > 0) {
             selectedImageUris.size - 1
         } else {
@@ -83,7 +89,11 @@ class AddRealEstateThirdStepFragment : Fragment() {
     }
 
     private fun collectData() {
-        realEstateViewModel.imageUris = selectedImageUris
+        realEstateViewModel.images = selectedImageUris.map { uri ->
+            val resourceName = resources.getResourceEntryName(resources.getIdentifier(uri.lastPathSegment, "drawable", requireContext().packageName))
+            val resourceId = resources.getIdentifier(resourceName, "drawable", requireContext().packageName)
+            resourceId
+        }.toMutableList()
     }
 
     override fun onDestroyView() {

@@ -30,13 +30,19 @@ class HardcodedMeetingDataSource : MeetingDataSource {
                     rentalPeriod = "2",
                     interestedPeople = 18,
                     Property(
+                        propertyType = PropertyType.FLAT,
+                        voivodeship = "Mazowieckie",
                         city = "Warszawa",
-                        street = "Pruszkowska 10A",
-                        maxResidents = 4,
-                        equipment = "Sofa",
+                        district = "Bielany",
+                        street = "Pruszkowska",
+                        buildingNumber = "10A",
                         area = 50,
-                        image = listOf(R.drawable.property),
-                        numberOfRooms = 2
+                        maxResidents = 4,
+                        constructionYear = 2010,
+                        numberOfRooms = 2,
+                        numberOfFloors = 1,
+                        equipment = "Sofa",
+                        image = mutableListOf(R.drawable.property)
                     )
                 ),
                 MeetingStatus.CONFIRMED

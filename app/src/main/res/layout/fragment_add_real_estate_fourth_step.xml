@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.AddRealEstateFourthStepFragment">
+
+    <Button
+        android:id="@+id/prevButton"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/image_button_min_height"
+        android:layout_gravity="center_horizontal"
+        android:drawableEnd="@drawable/baseline_navigate_before_24"
+        android:drawablePadding="10dp"
+        android:gravity="center"
+        android:text="@string/prev_button"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/addPropertyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/image_button_min_height"
+        android:layout_gravity="center_horizontal"
+        android:drawablePadding="10dp"
+        android:gravity="center"
+        android:text="@string/add_real_estate"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/resetButton"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/image_button_min_height"
+        android:layout_gravity="center_horizontal"
+        android:drawablePadding="10dp"
+        android:gravity="center"
+        android:text="@string/reset"
+        android:textColor="@color/white" />
+
+
+</LinearLayout>

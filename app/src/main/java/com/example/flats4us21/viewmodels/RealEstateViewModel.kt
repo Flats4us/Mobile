@@ -3,6 +3,7 @@ package com.example.flats4us21.viewmodels
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import com.example.flats4us21.data.Property
+import com.example.flats4us21.data.PropertyType
 
 class RealEstateViewModel : ViewModel() {
 
@@ -90,27 +91,28 @@ class RealEstateViewModel : ViewModel() {
             _equipment = value
         }
 
-    private var _imageUris: MutableList<Uri> = mutableListOf()
-    var imageUris: MutableList<Uri>
-        get() = _imageUris
+    private var _images: MutableList<Int> = mutableListOf()
+    var images: MutableList<Int>
+        get() = _images
         set(value) {
-            _imageUris = value
+            _images = value
         }
 
-//    fun createRealEstateObject(): Property {
-//        return Property(
-//            propertyType = propertyType ?: "",
-//            voivodeship = voivodeship,
-//            city = city,
-//            district = district,
-//            street = street,
-//            buildingNumber = buildingNumber,
-//            area = area,
-//            maxResidents = maxResidents,
-//            constructionYear = constructionYear,
-//            numberOfRooms = numberOfRooms,
-//            numberOfFloors = numberOfFloors,
-//            equipment = equipment
-//        )
-//    }
+    fun createRealEstateObject(): Property {
+        return Property(
+            propertyType = PropertyType.valueOf(propertyType!!),
+            voivodeship = voivodeship,
+            city = city,
+            district = district,
+            street = street,
+            buildingNumber = buildingNumber,
+            area = area,
+            maxResidents = maxResidents,
+            constructionYear = constructionYear,
+            numberOfRooms = numberOfRooms,
+            numberOfFloors = numberOfFloors,
+            equipment = equipment,
+            image = images
+        )
+    }
 }
