@@ -2,6 +2,7 @@ package com.example.flats4us21
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import org.json.JSONArray
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
@@ -22,29 +23,43 @@ class MapActivity : AppCompatActivity() {
         map.setBuiltInZoomControls(true)
         map.setMultiTouchControls(true)
 
-        // Add a touch listener to handle user taps
-//        map.setOnMapClickListener { point, mapView ->
-//            addRentalMarker("New Rental", point)
-//        }
-//
-        showAvailablePlacesForRent()
+        // Wczytaj dane i pokaż dostępne miejsca
+        val rentalData = loadData()
+        showAvailablePlacesForRent(rentalData)
     }
 
-    private fun showAvailablePlacesForRent() {
-        val availableRentals = listOf(
-            RentalPlace("Apartment 1", GeoPoint(40.7128, -74.0060)),
-            RentalPlace("House 2", GeoPoint(34.0522, -118.2437)),
-            RentalPlace("Condo 3", GeoPoint(41.8781, -87.6298))
-            // Add more rental places here if needed
-        )
+    // Wczytywanie danych (tutaj przykładowo z ciągu znaków w formacie JSON)
+    private fun loadData(): List<RentalPlace> {
+        // Dodajemy przykładowe miejsca do wynajęcia
+        val jsonData = """
+            [
+                {"name": "Apartament w Warszawie", "lat": 52.2297, "lon": 21.0122},
+                {"name": "Dom w Krakowie", "lat": 50.0647, "lon": 19.9450},
+                {"name": "Kawalerka w Poznaniu", "lat": 52.4064, "lon": 16.9252},
+                {"name": "Mieszkanie w Gdańsku", "lat": 54.3520, "lon": 18.6466}
+            ]
+        """
+        val jsonArray = JSONArray(jsonData)
+        val rentalList = mutableListOf<RentalPlace>()
 
-        for (rental in availableRentals) {
+        for (i in 0 until jsonArray.length()) {
+            val jsonObject = jsonArray.getJSONObject(i)
+            val name = jsonObject.getString("name")
+            val lat = jsonObject.getDouble("lat")
+            val lon = jsonObject.getDouble("lon")
+            rentalList.add(RentalPlace(name, GeoPoint(lat, lon)))
+        }
+
+        return rentalList
+    }
+
+    private fun showAvailablePlacesForRent(rentals: List<RentalPlace>) {
+        for (rental in rentals) {
             addRentalMarker(rental.name, rental.location)
         }
 
-        // Move camera to the first rental location
-        if (availableRentals.isNotEmpty()) {
-            val firstRental = availableRentals[0]
+        if (rentals.isNotEmpty()) {
+            val firstRental = rentals[0]
             map.controller.setCenter(firstRental.location)
             map.controller.setZoom(12.0)
         }
@@ -55,7 +70,7 @@ class MapActivity : AppCompatActivity() {
         marker.position = location
         marker.title = name
         map.overlays.add(marker)
-        map.invalidate() // Refresh the map to show the new marker
+        map.invalidate()
     }
 
     data class RentalPlace(val name: String, val location: GeoPoint)
