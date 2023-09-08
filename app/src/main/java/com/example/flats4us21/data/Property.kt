@@ -1,6 +1,5 @@
 package com.example.flats4us21.data
 
-import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 
