@@ -1,6 +1,5 @@
 package com.example.flats4us21.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,7 +14,7 @@ private val offer1 =
         status = "aktywny",
         price = "%.2f".format(2500.50F),
         description = "Lorem ipsum",
-        rentalPeriod = "3 lata",
+        rentalPeriod = "3",
         interestedPeople = 48,
         Property(
             city = "Warszawa",
@@ -23,7 +22,7 @@ private val offer1 =
             maxResidents = 2,
             equipment = "Brak",
             area = 40,
-            image = listOf<Int>(R.drawable.property),
+            image = listOf(R.drawable.property),
             numberOfRooms = 1
         )
     )
@@ -33,7 +32,7 @@ private val offer2 =
         status = "aktywny",
         price = "%.2f".format(3500.50F),
         description = "Lorem ipsum",
-        rentalPeriod = "2 lata",
+        rentalPeriod = "2",
         interestedPeople = 18,
         Property(
             city = "Warszawa",
@@ -41,7 +40,7 @@ private val offer2 =
             maxResidents = 4,
             equipment = "Sofa",
             area = 60,
-            image = listOf<Int>(R.drawable.property),
+            image = listOf(R.drawable.property, R.drawable.property, R.drawable.property),
             numberOfRooms = 3
         )
     )
@@ -51,7 +50,7 @@ private val offer3 =
         status = "aktywny",
         price = "%.2f".format(3500.50F),
         description = "Lorem ipsum",
-        rentalPeriod = "2 lata",
+        rentalPeriod = "2",
         interestedPeople = 18,
         Property(
             city = "Warszawa",
@@ -59,36 +58,38 @@ private val offer3 =
             maxResidents = 4,
             equipment = "Sofa",
             area = 50,
-            image = listOf<Int>(R.drawable.property),
+            image = listOf(R.drawable.property),
             numberOfRooms = 2
         )
     )
-private val data = listOf<Offer>(offer1, offer2, offer3)
+private val data = listOf(offer1, offer2, offer3)
 
 interface Server {
     fun loadDataFromDb() : List<Offer>
 }
 
-class MainViewModel() : ViewModel(), Server {
-    private var offerIndex: Int? = null
-    private val QuestionList = MutableLiveData<List<SurveyQuestion>>()
+class MainViewModel : ViewModel(), Server {
+    private var selectedOffer: Offer? = null
+    private val questionList = MutableLiveData<List<SurveyQuestion>>()
 
 
     override fun loadDataFromDb(): List<Offer> {
         return data
     }
 
+
     fun setOffer(offer: Offer){
-        this.offerIndex = data.indexOf(offer)
+        this.selectedOffer = offer
     }
-    fun getOffer() = offerIndex
+    fun getOffer() = selectedOffer
+
 
     fun setQuestions(list: List<SurveyQuestion>){
-        this.QuestionList.value = list
+        this.questionList.value = list
     }
 
     fun getQuestionList() : LiveData<List<SurveyQuestion>>{
-        return this.QuestionList
+        return this.questionList
     }
 
 

@@ -40,11 +40,14 @@ class PropertyAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.image.setImageResource(offers[position].property.image.get(0))
+        holder.image.setImageResource(offers[position].property.image[0])
         holder.city.text = offers[position].property.city
         holder.street.text = offers[position].property.street
         holder.size.text = offers[position].property.area.toString()
         holder.price.text = offers[position].price
         holder.room.text = offers[position].property.numberOfRooms.toString()
+        holder.itemView.setOnClickListener {
+            onUserClick(offers[position])
+        }
     }
 }

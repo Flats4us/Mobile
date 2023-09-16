@@ -20,6 +20,8 @@ import org.json.JSONArray
 import android.widget.RadioButton
 import android.widget.GridLayout
 
+//TODO: Zmienić na fragment
+
 class ReviewSubmissionScreen : AppCompatActivity() {
 
     private lateinit var profileImage: ImageView

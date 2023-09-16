@@ -4,12 +4,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.flats4us21.data.QuestionResponse
+import com.example.flats4us21.data.ResponseType
 import com.example.flats4us21.data.SurveyQuestion
 import com.example.flats4us21.databinding.QuestionRowBinding
 
 class QuestionAdapter(
     private val questions : List<SurveyQuestion>
     ) : RecyclerView.Adapter<QuestionAdapter.MyViewHolder>() {
+
+    private val selectedAnswers: MutableMap<Int, AnswerAdapter> = mutableMapOf()
 
     inner class MyViewHolder(binding : QuestionRowBinding
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -33,12 +37,30 @@ class QuestionAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.content.text = questions[position].content
-        holder.recyclerView.adapter = AnswerAdapter(questions[position].responseType ,questions[position].answers)
-        val layoutManager : LinearLayoutManager = if(questions[position].responseType == "SUB-QUESTION"){
+        val adapter = AnswerAdapter(questions[position].responseType ,questions[position].answers)
+        selectedAnswers[questions[position].questionId] = adapter
+        holder.recyclerView.adapter = adapter
+        val layoutManager : LinearLayoutManager = if(questions[position].responseType == ResponseType.SUBQUESTION){
             LinearLayoutManager(holder.itemView.context)
         } else{
             LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
         }
         holder.recyclerView.layoutManager = layoutManager
+    }
+
+    fun getAllAnswers() : List<QuestionResponse>{
+        val answers = mutableListOf<QuestionResponse>();
+        for (question in selectedAnswers){
+            if(question.value.get() == ResponseType.SUBQUESTION){
+                answers.addAll(question.value.getSubanswers())
+            } else {
+                val questionId = question.key
+                val questionAnswer = question.value.getSelectedAnswer()
+                answers.add(QuestionResponse(questionId, questionAnswer!!))
+            }
+
+
+        }
+        return answers
     }
 }

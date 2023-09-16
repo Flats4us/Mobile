@@ -6,11 +6,11 @@ data class SurveyQuestion(
     @SerializedName("id")
     val questionId : Int,
     @SerializedName("title")
-    val type : String,
+    val type : QuestionType,
     @SerializedName("content")
     val content : String,
     @SerializedName("type_name")
-    val responseType : String,
+    val responseType : ResponseType,
     @SerializedName("answers")
     val answers : List<@JvmSuppressWildcards Any?>
 )

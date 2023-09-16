@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/edit"
+        android:icon="@drawable/baseline_edit_24"
+        android:title="Edytuj"  />
+    <item
+        android:id="@+id/cancel"
+        android:icon="@drawable/reject_icon"
+        android:title="Anuluj"  />
+    <item
+        android:id="@+id/accept"
+        android:icon="@drawable/baseline_check_24"
+        android:title="Akceptuj"  />
+    <item
+        android:id="@+id/reject"
+        android:icon="@drawable/reject_icon"
+        android:title="Odrzuć"  />
+</menu>

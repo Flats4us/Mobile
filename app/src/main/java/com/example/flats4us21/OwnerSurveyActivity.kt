@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flats4us21.adapters.QuestionAdapter
+import com.example.flats4us21.data.QuestionResponse
 import com.example.flats4us21.databinding.ActivityOwnerSurveyBinding
 import com.example.flats4us21.services.StudentSurveyService
 import com.example.flats4us21.viewmodels.MainViewModel
@@ -29,13 +30,19 @@ class OwnerSurveyActivity : AppCompatActivity() {
 
         //Setting list of questions in MainViewModel
         val studentSurveyService = StudentSurveyService(viewModel)
-        studentSurveyService.getClient()
+        studentSurveyService.getSurveyQuestion()
         val listOfQuestions = viewModel.getQuestionList()
         listOfQuestions.observe(this) { questions ->
             questionRecyclerView = binding.questionRecyclerView
             questionAdapter = QuestionAdapter(questions)
             questionRecyclerView.adapter = questionAdapter
             questionRecyclerView.layoutManager = LinearLayoutManager(this)
+        }
+
+        val sendButton = binding.sendButton
+        sendButton.setOnClickListener {
+            val answers :  List<QuestionResponse> = questionAdapter.getAllAnswers()
+            studentSurveyService.postSurveyQuestions(answers)
         }
     }
 
