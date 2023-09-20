@@ -1,6 +1,7 @@
 package com.example.flats4us21.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ class AddRealEstateFirstStepFragment : Fragment() {
     private lateinit var realEstateViewModel: RealEstateViewModel
     private lateinit var selectedItem :String
     private lateinit var DEFAULT_PROPERTY_TYPE : String
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,6 +54,16 @@ class AddRealEstateFirstStepFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
         }
+        realEstateViewModel.fetchVoivodeships()
+//        val voivodeshipSuggestionsLiveData = realEstateViewModel.voivodeshipSuggestions
+//        val voivodeshipSuggestions = voivodeshipSuggestionsLiveData.value ?: emptyList()
+        Log.d("AutoCompleteTextView", "Voivodeship suggestions: $realEstateViewModel.voivodeshipSuggestions")
+        val voivodeshipAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_dropdown_item_1line,
+            realEstateViewModel.voivodeshipSuggestions
+        )
+        binding.voivodeship.setAdapter(voivodeshipAdapter)
 
         binding.nextButton.setOnClickListener {
             collectData()
@@ -78,7 +90,7 @@ class AddRealEstateFirstStepFragment : Fragment() {
             realEstateViewModel.propertyType = selectedItem
             binding.layoutPropertyType.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_input)
         }
-        if(binding.voivodeship.text.toString().isEmpty()){
+        if(binding.voivodeship.text.toString().isEmpty() || !realEstateViewModel.checkVoivodeships(binding.voivodeship.text.toString())){
             binding.layoutVoivodeship.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_wrong_input)
             test = false
         }

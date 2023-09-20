@@ -1,11 +1,24 @@
 package com.example.flats4us21.viewmodels
 
-import android.net.Uri
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.flats4us21.data.Property
 import com.example.flats4us21.data.PropertyType
+import com.example.flats4us21.services.HardcodedPlaceDataSource
+import com.example.flats4us21.services.PlaceDataSource
 
 class RealEstateViewModel : ViewModel() {
+    private val placeRepository : PlaceDataSource = HardcodedPlaceDataSource()
+    val voivodeshipSuggestions = ArrayList<String>()
+
+    fun fetchVoivodeships() {
+        val voivodeships = placeRepository.getVoivodeships()
+        voivodeshipSuggestions.addAll(voivodeships)
+    }
+
+    fun checkVoivodeships(voivodeship : String ) : Boolean{
+        return voivodeshipSuggestions.contains(voivodeship)
+    }
 
     private var _propertyType: String? = null
     var propertyType: String?
@@ -91,6 +104,7 @@ class RealEstateViewModel : ViewModel() {
             _equipment = value
         }
 
+    //TODO: change to MutableList<Uri>
     private var _images: MutableList<Int> = mutableListOf()
     var images: MutableList<Int>
         get() = _images
