@@ -116,6 +116,8 @@
     <string name="logo">logo</string>
     <string name="sign_up">Zarejestruj się</string>
     <string name="FilteringAndSorting">Filtrowanie i sortowanie</string>
+    <string name="add_offer">Dodaj ofertę</string>
+    <string name="choose_property">Wybierz nieruchomość</string>
     <string name="add_real_estate">Utwórz nieruchomość</string>
     <string name="voivodeship">Województwo*</string>
     <string name="real_estate_type">Rodzaj nieruchomości*</string>

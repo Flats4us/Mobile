@@ -38,7 +38,7 @@ class DrawerActivity : AppCompatActivity() {
                 R.id.nav_map -> Toast.makeText(this, "Clicked Mapa ofert", Toast.LENGTH_SHORT).show()
                 R.id.nav_messages -> Toast.makeText(this, "Wiadomości", Toast.LENGTH_SHORT).show()
                 R.id.nav_profile -> replaceFragment(ProfileFragment())
-                R.id.nav_settings -> Toast.makeText(this, "Clicked Ustawienia", Toast.LENGTH_SHORT).show()
+                R.id.nav_settings -> replaceFragment(AddOfferFragment())
                 R.id.nav_his -> Toast.makeText(this, "Clicked Historia płatności", Toast.LENGTH_SHORT).show()
                 R.id.nav_method -> Toast.makeText(this, "Clicked Metody płatności", Toast.LENGTH_SHORT).show()
                 R.id.nav_rent -> Toast.makeText(this, "Clicked Metody płatności", Toast.LENGTH_SHORT).show()
