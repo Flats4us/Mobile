@@ -3,19 +3,15 @@
 
 package com.example.flats4us21
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.fragment.app.replace
-import com.example.flats4us21.ui.CalendarFragment
-import com.example.flats4us21.ui.ProfileFragment
-import com.example.flats4us21.ui.SearchFragment
-import com.example.flats4us21.ui.StartScreenFragment
+import com.example.flats4us21.ui.*
 import com.google.android.material.navigation.NavigationView
 
 class DrawerActivity : AppCompatActivity() {
@@ -42,7 +38,7 @@ class DrawerActivity : AppCompatActivity() {
                 R.id.nav_map -> Toast.makeText(this, "Clicked Mapa ofert", Toast.LENGTH_SHORT).show()
                 R.id.nav_messages -> Toast.makeText(this, "Wiadomości", Toast.LENGTH_SHORT).show()
                 R.id.nav_profile -> replaceFragment(ProfileFragment())
-                R.id.nav_settings -> Toast.makeText(this, "Clicked Ustawienia", Toast.LENGTH_SHORT).show()
+                R.id.nav_settings -> replaceFragment(AddOfferFragment())
                 R.id.nav_his -> Toast.makeText(this, "Clicked Historia płatności", Toast.LENGTH_SHORT).show()
                 R.id.nav_method -> Toast.makeText(this, "Clicked Metody płatności", Toast.LENGTH_SHORT).show()
                 R.id.nav_rent -> Toast.makeText(this, "Clicked opłaty", Toast.LENGTH_SHORT).show()
@@ -66,7 +62,7 @@ class DrawerActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(toggle.onOptionsItemSelected(item)){
-            return true;
+            return true
         }
         return super.onOptionsItemSelected(item)
     }
