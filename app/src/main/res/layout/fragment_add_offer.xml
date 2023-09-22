@@ -43,7 +43,7 @@
                 android:background="@null"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
-                android:inputType="numberDecimal"
+                android:inputType="number"
                 android:layout_marginStart="@dimen/edit_text_horizontal_margin"
                 android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
                 android:textSize="@dimen/regular_text_size"
@@ -132,7 +132,7 @@
             <Spinner
                 android:id="@+id/spinner"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_height"
+                android:layout_height="@dimen/spinner_height"
                 android:layout_marginStart="@dimen/edit_text_horizontal_margin"
                 android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
                 android:contentDescription="@string/choose_property"/>
@@ -174,7 +174,7 @@
             <EditText
                 android:id="@+id/description"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_height"
+                android:layout_height="110dp"
                 android:background="@null"
                 android:hint="@string/description"
                 android:imeOptions="actionNext"
@@ -208,6 +208,7 @@
         android:id="@+id/addPhotoButton"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/image_button_min_height"
+        android:drawableLeft="@drawable/baseline_attach_file_24"
         android:text="Dodaj regulamin"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/layout_register_margin_top"

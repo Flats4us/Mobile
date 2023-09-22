@@ -27,12 +27,16 @@ class AddOfferFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val properies = propertyViewModel.getUserProperties()
-        val adapter = PropertySpinnerAdapter(requireContext(), properies)
 
+        val properties = propertyViewModel.getUserProperties()
+        val adapter = PropertySpinnerAdapter(requireContext(), properties)
 
-        binding.spinner
+        binding.spinner.adapter = adapter
+
+        //TODO: set the button to add a file
     }
+
+    //TODO: create method to collect all data
 
     override fun onDestroyView() {
         super.onDestroyView()
