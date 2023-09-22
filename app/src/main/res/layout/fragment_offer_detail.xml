@@ -13,6 +13,7 @@
             android:id="@+id/detailLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:scrollbars="none"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -211,6 +212,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
+                            android:gravity="center_vertical"
                             android:layout_weight="@dimen/text_view_column_value_weight"
                             android:paddingStart="@dimen/table_cell_padding">
 
@@ -248,6 +250,7 @@
                             android:id="@+id/maxResidents"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
                             android:layout_weight="@dimen/text_view_column_value_weight"
                             android:textSize="@dimen/regular_text_size"
                             android:paddingStart="@dimen/table_cell_padding"/>
