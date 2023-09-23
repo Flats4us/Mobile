@@ -136,6 +136,7 @@
     <string name="prev_button">Poprzedni</string>
     <string name="add_photos">Dodaj zdjęcia</string>
     <string name="reset">Zresetuj</string>
+    <string name="add_rules">Dodaj regulamin</string>
 
 
     <!-- TODO: meeting_row -->

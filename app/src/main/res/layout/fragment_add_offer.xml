@@ -204,12 +204,41 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <LinearLayout
+        android:id="@+id/fileNameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/layout_register_margin_top"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/fileName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/example"
+            android:textSize="@dimen/regular_text_size"
+            android:layout_gravity="center_vertical" />
+
+        <ImageButton
+            android:id="@+id/deleteButton"
+            android:layout_width="@dimen/image_button_min_width"
+            android:layout_height="@dimen/image_button_min_height"
+            android:src="@drawable/baseline_delete_24"
+            android:background="@android:color/transparent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="@drawable/baseline_broken_image_24"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </LinearLayout>
+
     <Button
-        android:id="@+id/addPhotoButton"
+        android:id="@+id/addRulesButton"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/image_button_min_height"
-        android:drawableLeft="@drawable/baseline_attach_file_24"
-        android:text="Dodaj regulamin"
+        android:drawableStart="@drawable/baseline_attach_file_24"
+        android:text="@string/add_rules"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/layout_register_margin_top"
         app:layout_constraintEnd_toEndOf="parent"
