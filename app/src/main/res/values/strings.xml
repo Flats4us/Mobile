@@ -137,6 +137,8 @@
     <string name="add_photos">Dodaj zdjęcia</string>
     <string name="reset">Zresetuj</string>
     <string name="add_rules">Dodaj regulamin</string>
+    <string name="month">mies.</string>
+    <string name="rules_warning">Nie dodano regulaminu, albo plik jest pusty!</string>
 
 
     <!-- TODO: meeting_row -->
