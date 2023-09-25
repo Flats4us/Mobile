@@ -26,29 +26,42 @@
         android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
         android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_register_margin_top"
             android:background="@drawable/background_input"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
             app:layout_constraintTop_toTopOf="parent">
+
             <EditText
                 android:id="@+id/price"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/edit_text_height"
-                android:hint="@string/price"
                 android:background="@null"
+                android:hint="@string/price"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
-                android:inputType="number"
-                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                android:textSize="@dimen/regular_text_size"
-                android:textStyle="bold"/>
-        </LinearLayout>
+                android:inputType="numberDecimal"
+                android:textSize="@dimen/edit_text_size"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/currency"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/currency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/currency"
+                android:textSize="@dimen/edit_text_size"
+                android:layout_marginEnd="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -72,7 +85,7 @@
         android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
         android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutRentalPeriod"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -93,9 +106,24 @@
                 android:inputType="number"
                 android:layout_marginStart="@dimen/edit_text_horizontal_margin"
                 android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                android:textSize="@dimen/regular_text_size"
-                android:textStyle="bold" />
-        </LinearLayout>
+                android:textSize="@dimen/edit_text_size"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/month"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/month"
+                android:textSize="@dimen/edit_text_size"
+                android:layout_marginEnd="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -174,7 +202,7 @@
             <EditText
                 android:id="@+id/description"
                 android:layout_width="match_parent"
-                android:layout_height="110dp"
+                android:layout_height="@dimen/edit_text_description_height"
                 android:background="@null"
                 android:hint="@string/description"
                 android:imeOptions="actionNext"
@@ -184,8 +212,9 @@
                 android:minLines="9"
                 android:layout_marginStart="@dimen/edit_text_horizontal_margin"
                 android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                android:textSize="@dimen/regular_text_size"
-                android:textStyle="bold" />
+                android:textSize="@dimen/edit_text_size"
+                android:textStyle="bold"
+                android:maxLength="512"/>
         </LinearLayout>
 
         <TextView
@@ -203,6 +232,18 @@
             app:layout_constraintTop_toTopOf="@id/layoutDescription"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/warning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rules_warning"
+        android:textSize="@dimen/regular_text_size"
+        android:textStyle="bold"
+        android:textColor="@color/red"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/layout_register_margin_top"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:id="@+id/fileNameLayout"

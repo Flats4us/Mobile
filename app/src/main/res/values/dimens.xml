@@ -44,6 +44,7 @@
     <dimen name="edit_text_padding_vertical">10dp</dimen>
     <dimen name="layout_with_edit_text_vertical_margin">10dp</dimen>
     <dimen name="layout_with_edit_text_horizontal_margin">10dp</dimen>
+    <dimen name="edit_text_description_height">110dp</dimen>
     <!-- Button -->
     <dimen name="button_height">55dp</dimen>
     <dimen name="layout_with_buttons_horizontal_margin">10dp</dimen>
