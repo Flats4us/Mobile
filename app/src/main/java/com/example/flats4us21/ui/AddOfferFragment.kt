@@ -24,7 +24,7 @@ import com.example.flats4us21.viewmodels.OfferViewModel
 class AddOfferFragment : Fragment() {
     private var _binding: FragmentAddOfferBinding? = null
     private val binding get() = _binding!!
-    private lateinit var propertyViewModel: OfferViewModel
+    private lateinit var offerViewModel: OfferViewModel
     private var selectedProperty: Property? = null
     private var fileContent: String? = null
 
@@ -32,7 +32,7 @@ class AddOfferFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        propertyViewModel = ViewModelProvider(requireActivity())[OfferViewModel::class.java]
+        offerViewModel = ViewModelProvider(requireActivity())[OfferViewModel::class.java]
         _binding = FragmentAddOfferBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -43,7 +43,7 @@ class AddOfferFragment : Fragment() {
         val filter : InputFilter = CurrencyInputFilter()
         binding.price.filters = arrayOf(filter)
 
-        val properties = propertyViewModel.getUserProperties()
+        val properties = offerViewModel.getUserProperties()
         val adapter = PropertySpinnerAdapter(requireContext(), properties)
 
         binding.spinner.adapter = adapter
@@ -77,6 +77,8 @@ class AddOfferFragment : Fragment() {
         binding.deleteButton.setOnClickListener {
             binding.fileNameLayout.isVisible = false
             binding.addRulesButton.isVisible = true
+            fileContent = null
+
         }
 
         binding.addOfferButton.setOnClickListener {
@@ -104,7 +106,7 @@ class AddOfferFragment : Fragment() {
             binding.layoutPrice.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_wrong_input)
             test = false
         } else{
-            propertyViewModel.price = binding.price.text.toString().toDouble()
+            offerViewModel.price = binding.price.text.toString().toDouble()
             binding.layoutPrice.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_input)
         }
 
@@ -112,21 +114,21 @@ class AddOfferFragment : Fragment() {
             binding.layoutRentalPeriod.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_wrong_input)
             test = false
         } else{
-            propertyViewModel.rentalPeriod = binding.rentalPeriod.text.toString().toInt()
+            offerViewModel.rentalPeriod = binding.rentalPeriod.text.toString().toInt()
             binding.layoutRentalPeriod.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_input)
         }
         if(selectedProperty == null){
             binding.layoutProperty.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_wrong_input)
             test = false
         } else{
-            propertyViewModel.property = selectedProperty
+            offerViewModel.property = selectedProperty
             binding.layoutProperty.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_input)
         }
         if(binding.description.text.isEmpty()){
             binding.layoutDescription.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_wrong_input)
             test = false
         } else{
-            propertyViewModel.description = binding.description.text.toString()
+            offerViewModel.description = binding.description.text.toString()
             binding.layoutDescription.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_input)
         }
         if(fileContent == null || fileContent!!.isEmpty()){
@@ -135,10 +137,11 @@ class AddOfferFragment : Fragment() {
 
         } else{
             binding.warning.isVisible = false
-            propertyViewModel.rules = fileContent.toString()
+            offerViewModel.rules = fileContent.toString()
         }
 
         if(test){
+            offerViewModel.createOffer()
             val fragment = SearchFragment()
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }

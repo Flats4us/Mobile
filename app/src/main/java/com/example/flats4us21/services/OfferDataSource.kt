@@ -4,4 +4,5 @@ import com.example.flats4us21.data.Offer
 
 interface OfferDataSource {
     fun getOffers() : List<Offer>
+    fun addOffer(offer: Offer)
 }
