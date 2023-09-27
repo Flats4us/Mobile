@@ -40,7 +40,7 @@ class AddOfferFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val filter : InputFilter = CurrencyInputFilter()
+        val filter: InputFilter = CurrencyInputFilter()
         binding.price.filters = arrayOf(filter)
 
         val properties = offerViewModel.getUserProperties()
@@ -48,7 +48,7 @@ class AddOfferFragment : Fragment() {
 
         binding.spinner.adapter = adapter
 
-        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 selectedProperty = p0?.getItemAtPosition(p2) as Property
             }
@@ -56,7 +56,6 @@ class AddOfferFragment : Fragment() {
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 selectedProperty = null
             }
-
         }
 
         val getContent = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
@@ -70,7 +69,7 @@ class AddOfferFragment : Fragment() {
                 binding.warning.isVisible = false
             }
         }
-        binding.addRulesButton.setOnClickListener{
+        binding.addRulesButton.setOnClickListener {
             getContent.launch(arrayOf("application/pdf", "text/plain"))
         }
 
@@ -78,7 +77,6 @@ class AddOfferFragment : Fragment() {
             binding.fileNameLayout.isVisible = false
             binding.addRulesButton.isVisible = true
             fileContent = null
-
         }
 
         binding.addOfferButton.setOnClickListener {
@@ -100,66 +98,116 @@ class AddOfferFragment : Fragment() {
         return fileName
     }
 
-    private fun collectData(){
-        var test = true
-        if(binding.price.text.isEmpty()) {
-            binding.layoutPrice.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_wrong_input)
-            test = false
-        } else{
-            offerViewModel.price = binding.price.text.toString().toDouble()
-            binding.layoutPrice.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_input)
-        }
+    private fun collectData() {
+        val isDataValid = validateData()
 
-        if(binding.rentalPeriod.text.isEmpty()){
-            binding.layoutRentalPeriod.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_wrong_input)
-            test = false
-        } else{
-            offerViewModel.rentalPeriod = binding.rentalPeriod.text.toString().toInt()
-            binding.layoutRentalPeriod.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_input)
-        }
-        if(selectedProperty == null){
-            binding.layoutProperty.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_wrong_input)
-            test = false
-        } else{
-            offerViewModel.property = selectedProperty
-            binding.layoutProperty.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_input)
-        }
-        if(binding.description.text.isEmpty()){
-            binding.layoutDescription.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_wrong_input)
-            test = false
-        } else{
-            offerViewModel.description = binding.description.text.toString()
-            binding.layoutDescription.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_input)
-        }
-        if(fileContent == null || fileContent!!.isEmpty()){
-            test = false
-            binding.warning.isVisible = true
-
-        } else{
-            binding.warning.isVisible = false
-            offerViewModel.rules = fileContent.toString()
-        }
-
-        if(test){
+        if (isDataValid) {
             offerViewModel.createOffer()
             val fragment = SearchFragment()
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
     }
 
+    private fun validateData(): Boolean {
+        var test = true
+
+        test = validatePrice() && test
+        test = validateRentalPeriod() && test
+        test = validateSelectedProperty() && test
+        test = validateDescription() && test
+        test = validateFileContent() && test
+
+        return test
+    }
+
+    private fun validatePrice(): Boolean {
+        val priceText = binding.price.text.toString()
+        return if (priceText.isEmpty()) {
+            binding.layoutPrice.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.background_wrong_input)
+            false
+        } else {
+            offerViewModel.price = priceText.toDouble()
+            binding.layoutPrice.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.background_input)
+            true
+        }
+    }
+
+    private fun validateRentalPeriod(): Boolean {
+        val rentalPeriodText = binding.rentalPeriod.text.toString()
+        return if (rentalPeriodText.isEmpty()) {
+            binding.layoutRentalPeriod.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.background_wrong_input)
+            false
+        } else {
+            offerViewModel.rentalPeriod = rentalPeriodText.toInt()
+            binding.layoutRentalPeriod.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.background_input)
+            true
+        }
+    }
+
+    private fun validateSelectedProperty(): Boolean {
+        return if (selectedProperty == null) {
+            binding.layoutProperty.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.background_wrong_input)
+            false
+        } else {
+            offerViewModel.property = selectedProperty
+            binding.layoutProperty.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.background_input)
+            true
+        }
+    }
+
+    private fun validateDescription(): Boolean {
+        val descriptionText = binding.description.text.toString()
+        return if (descriptionText.isEmpty()) {
+            binding.layoutDescription.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.background_wrong_input)
+            false
+        } else {
+            offerViewModel.description = descriptionText
+            binding.layoutDescription.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.background_input)
+            true
+        }
+    }
+
+    private fun validateFileContent(): Boolean {
+        return if (fileContent == null || fileContent!!.isEmpty()) {
+            binding.warning.isVisible = true
+            false
+        } else {
+            binding.warning.isVisible = false
+            offerViewModel.rules = fileContent.toString()
+            true
+        }
+    }
+
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    private inner class CurrencyInputFilter(val maxDigitsBeforeDecimalPoint: Int = 6, val maxDigitsAfterDecimalPoint: Int = 2) : InputFilter {
+    private inner class CurrencyInputFilter(
+        val maxDigitsBeforeDecimalPoint: Int = 6,
+        val maxDigitsAfterDecimalPoint: Int = 2
+    ) : InputFilter {
 
-        override fun filter(source: CharSequence, start: Int, end: Int,
-                            dest: Spanned, dstart: Int, dend: Int): CharSequence? {
+        override fun filter(
+            source: CharSequence, start: Int, end: Int,
+            dest: Spanned, dstart: Int, dend: Int
+        ): CharSequence? {
             val builder = StringBuilder(dest)
             builder.replace(dstart, dend, source
                 .subSequence(start, end).toString())
-            return if (!builder.toString().matches(("(([1-9]{1})([0-9]{0," + (maxDigitsBeforeDecimalPoint - 1) + "})?)?(\\.[0-9]{0," + maxDigitsAfterDecimalPoint + "})?").toRegex())) {
+            return if (!builder.toString().matches(
+                    ("(([1-9]{1})([0-9]{0," + (maxDigitsBeforeDecimalPoint - 1) + "})?)?(\\.[0-9]{0," + maxDigitsAfterDecimalPoint + "})?").toRegex()
+                )
+            ) {
                 if (source.isEmpty()) dest.subSequence(dstart, dend) else ""
             } else null
         }
