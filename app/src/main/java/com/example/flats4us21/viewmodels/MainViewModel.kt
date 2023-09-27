@@ -14,7 +14,7 @@ interface Server {
 }
 
 class MainViewModel : ViewModel(), Server {
-    private val offerRepository : OfferDataSource = HardcodedOfferDataSource()
+    private val offerRepository : OfferDataSource = HardcodedOfferDataSource
     private var selectedOffer: Offer? = null
     private val questionList = MutableLiveData<List<SurveyQuestion>>()
 

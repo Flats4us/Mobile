@@ -1,12 +1,17 @@
 package com.example.flats4us21.viewmodels
 
 import androidx.lifecycle.ViewModel
+import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.Property
+import com.example.flats4us21.services.HardcodedOfferDataSource
 import com.example.flats4us21.services.HardcodedPropertyDataSource
+import com.example.flats4us21.services.OfferDataSource
 import com.example.flats4us21.services.PropertyDataSource
+import java.time.LocalDate
 
 class OfferViewModel: ViewModel() {
     private val propertyRepository : PropertyDataSource = HardcodedPropertyDataSource()
+    private val offerRepository : OfferDataSource = HardcodedOfferDataSource
 
     fun getUserProperties(): List<Property>{
         return propertyRepository.getUserProperties()
@@ -45,5 +50,18 @@ class OfferViewModel: ViewModel() {
     get() = _rules
     set(value) {
         _rules = value
+    }
+
+     fun createOffer(){
+        val offer = Offer(
+            LocalDate.now().toString(),
+            "aktywny",
+            price.toString(),
+            description,
+            rentalPeriod.toString(),
+            0,
+            property!!
+        )
+        offerRepository.addOffer(offer)
     }
 }

@@ -1,14 +1,11 @@
 package com.example.flats4us21.services
 
-import android.content.res.Resources
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import com.example.flats4us21.R
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.Property
 import com.example.flats4us21.data.PropertyType
 
-class HardcodedOfferDataSource : OfferDataSource {
+object HardcodedOfferDataSource : OfferDataSource {
     private val offers : MutableList<Offer> = mutableListOf()
 
     init{
@@ -88,12 +85,14 @@ class HardcodedOfferDataSource : OfferDataSource {
                 )
             )
         )
-
-
     }
 
     override fun getOffers(): List<Offer> {
         return offers
+    }
+
+    override fun addOffer(offer: Offer) {
+        offers.add(offer)
     }
 
 }

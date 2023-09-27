@@ -45,6 +45,7 @@ class OfferDetailFragment : Fragment() {
         binding.maxResidents.text = offer.property.maxResidents.toString()
         binding.equipment.text = offer.property.equipment
         binding.area.text = offer.property.area.toString()
+        binding.description.text = offer.description
         binding.interestedPeople.text = offer.interestedPeople.toString()
     }
 
