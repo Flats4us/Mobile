@@ -149,6 +149,7 @@
     <string name="issue_description">Opis problemu</string>
     <string name="report">Zgłoś</string>
     <string name="report_next_issue">Zgłoś kolejny problem</string>
+    <string name="no_option_selected">Nie wybrano żadnej opcji</string>
 
 
     <!-- TODO: meeting_row -->
