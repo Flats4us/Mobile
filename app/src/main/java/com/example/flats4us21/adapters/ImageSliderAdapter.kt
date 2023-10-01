@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flats4us21.R
 
@@ -20,10 +19,6 @@ class ImageSliderAdapter(private val images: List<Int>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val imageResId = images[position]
         holder.imageView.setImageResource(imageResId)
-        val imageCount = images.size
-        val currentImage = position + 1
-        val imageText = "Image $currentImage of $imageCount"
-        holder.imageCountTextView.text = imageText
     }
 
     override fun getItemCount(): Int {
@@ -32,6 +27,5 @@ class ImageSliderAdapter(private val images: List<Int>) :
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.imageView)
-        val imageCountTextView: TextView = itemView.findViewById(R.id.imageCountTextView)
     }
 }

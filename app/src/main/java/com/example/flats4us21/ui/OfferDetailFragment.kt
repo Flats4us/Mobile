@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager2.widget.ViewPager2
+import com.example.flats4us21.R
 import com.example.flats4us21.adapters.ImageSliderAdapter
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.databinding.FragmentOfferDetailBinding
@@ -30,7 +32,20 @@ class OfferDetailFragment : Fragment() {
 
         viewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         val offer = viewModel.getOffer()
-       bindOfferData(offer)
+        bindOfferData(offer)
+
+        val addButton = binding.addButton
+
+        addButton.tag = false
+        addButton.setOnClickListener {
+            if(addButton.tag == true){
+                addButton.setImageResource(R.drawable.unobserve)
+                addButton.tag = false
+            } else {
+            addButton.setImageResource(R.drawable.observe)
+                addButton.tag = true
+            }
+        }
     }
 
     private fun bindOfferData(offer: Offer?) {
@@ -38,6 +53,15 @@ class OfferDetailFragment : Fragment() {
 
         val imageSlider = binding.image
         imageSlider.adapter = ImageSliderAdapter(offer.property.image)
+        imageSlider.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                val imageCount = imageSlider.adapter?.itemCount ?: 0
+                val currentImage = position + 1
+                val imageText = "Image $currentImage of $imageCount"
+                binding.imageCount.text = imageText
+            }
+        })
         binding.dateIssue.text = offer.dateIssue
         binding.price.text = offer.price
         binding.address.text = "${offer.property.city} ${offer.property.street}"
