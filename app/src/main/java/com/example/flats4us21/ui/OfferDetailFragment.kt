@@ -58,7 +58,7 @@ class OfferDetailFragment : Fragment() {
 
         if(viewModel.checkIfIsWatched(offer)){
             binding.addButton.setImageResource(R.drawable.observe)
-            gitbinding.addButton.tag = true
+            binding.addButton.tag = true
         } else{
             binding.addButton.setImageResource(R.drawable.unobserve)
             binding.addButton.tag = false

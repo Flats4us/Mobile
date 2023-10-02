@@ -65,6 +65,7 @@ class PropertyAdapter(
                 holder.button.tag = true
                 offerViewModel?.watchOffer(offers[position])
             }
+            notifyDataSetChanged()
         }
         holder.image.setImageResource(offers[position].property.image[0])
         holder.city.text = offers[position].property.city
