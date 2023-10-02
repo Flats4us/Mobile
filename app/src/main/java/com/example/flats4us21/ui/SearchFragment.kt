@@ -11,14 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.adapters.PropertyAdapter
 import com.example.flats4us21.databinding.FragmentSearchBinding
-import com.example.flats4us21.viewmodels.MainViewModel
+import com.example.flats4us21.viewmodels.OfferViewModel
 
 
 class SearchFragment : Fragment() {
     private var _binding : FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerview: RecyclerView
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: OfferViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,16 +31,18 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[OfferViewModel::class.java]
 
 
         recyclerview = binding.propertyRecyclerView
-        val offers = viewModel.loadDataFromDb()
+        val offers = viewModel.getOffers()
         val adapter = PropertyAdapter(offers){selectedOffer ->
-            viewModel.setOffer(selectedOffer)
+            viewModel.selectedOffer = selectedOffer
             val fragment = OfferDetailFragment()
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
+
+        adapter.setViewModel(viewModel)
 
         recyclerview.adapter = adapter
         recyclerview.layoutManager = LinearLayoutManager(requireContext())

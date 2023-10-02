@@ -11,13 +11,13 @@ import com.example.flats4us21.R
 import com.example.flats4us21.adapters.ImageSliderAdapter
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.databinding.FragmentOfferDetailBinding
-import com.example.flats4us21.viewmodels.MainViewModel
+import com.example.flats4us21.viewmodels.OfferViewModel
 
 
 class OfferDetailFragment : Fragment() {
     private var _binding : FragmentOfferDetailBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel : MainViewModel
+    private lateinit var viewModel : OfferViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,20 +30,25 @@ class OfferDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
-        val offer = viewModel.getOffer()
+        viewModel = ViewModelProvider(requireActivity())[OfferViewModel::class.java]
+        val offer = viewModel.selectedOffer
         bindOfferData(offer)
 
         val addButton = binding.addButton
 
-        addButton.tag = false
         addButton.setOnClickListener {
             if(addButton.tag == true){
                 addButton.setImageResource(R.drawable.unobserve)
                 addButton.tag = false
+                if (offer != null) {
+                    viewModel.unwatchOffer(offer)
+                }
             } else {
             addButton.setImageResource(R.drawable.observe)
                 addButton.tag = true
+                if (offer != null) {
+                    viewModel.watchOffer(offer)
+                }
             }
         }
     }
@@ -51,6 +56,14 @@ class OfferDetailFragment : Fragment() {
     private fun bindOfferData(offer: Offer?) {
         offer ?: return
 
+        if(viewModel.checkIfIsWatched(offer)){
+            binding.addButton.setImageResource(R.drawable.observe)
+            gitbinding.addButton.tag = true
+        } else{
+            binding.addButton.setImageResource(R.drawable.unobserve)
+            binding.addButton.tag = false
+
+        }
         val imageSlider = binding.image
         imageSlider.adapter = ImageSliderAdapter(offer.property.image)
         imageSlider.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {

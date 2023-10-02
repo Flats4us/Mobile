@@ -76,7 +76,7 @@
 
     <string name="owner">Właściciel:</string>
     <string name="date">Data wystawienia:</string>
-    <string name="monthly_price">zł/miesiąc</string>
+    <string name="monthly_price">zł/msc</string>
     <string name="offer_details">Szczegóły oferty</string>
     <string name="address">Adres:</string>
     <string name="area">Metraż:</string>
@@ -137,7 +137,7 @@
     <string name="add_photos">Dodaj zdjęcia</string>
     <string name="reset">Zresetuj</string>
     <string name="add_rules">Dodaj regulamin</string>
-    <string name="month">mies.</string>
+    <string name="month">msc</string>
     <string name="rules_warning">Nie dodano regulaminu, albo plik jest pusty!</string>
 
     <string name="report_issue">Zgłoś nam problem</string>

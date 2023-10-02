@@ -65,7 +65,7 @@
     <dimen name="image_view_small_profile_picture_height">50dp</dimen>
     <dimen name="image_view_vertical_margin">10dp</dimen>
     <dimen name="image_view_property_row_image_width">300dp</dimen>
-    <dimen name="image_view_property_row_image_height">200dp</dimen>
+    <dimen name="image_view_property_row_image_height">170dp</dimen>
     <dimen name="image_view_photo_margin">10dp</dimen>
     <!-- RadioButton -->
     <dimen name="radio_button_vertical_margin">10dp</dimen>

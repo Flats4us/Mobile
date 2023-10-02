@@ -34,7 +34,7 @@ class DrawerActivity : AppCompatActivity() {
         navView.setNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.nav_start -> replaceFragment(SearchFragment())
-                R.id.nav_observed -> replaceFragment(CalendarFragment())
+                R.id.nav_observed -> replaceFragment(WatchedOffersListFragment())
                 R.id.nav_map -> Toast.makeText(this, "Clicked Mapa ofert", Toast.LENGTH_SHORT).show()
                 R.id.nav_messages -> Toast.makeText(this, "Wiadomości", Toast.LENGTH_SHORT).show()
                 R.id.nav_profile -> replaceFragment(ProfileFragment())

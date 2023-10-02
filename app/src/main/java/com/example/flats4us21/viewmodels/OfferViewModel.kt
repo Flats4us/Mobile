@@ -52,6 +52,13 @@ class OfferViewModel: ViewModel() {
         _rules = value
     }
 
+    private var _selectedOffer: Offer? = null
+    var selectedOffer: Offer?
+    get() = _selectedOffer
+    set(value) {
+        _selectedOffer = value
+    }
+
      fun createOffer(){
         val offer = Offer(
             LocalDate.now().toString(),
@@ -63,5 +70,25 @@ class OfferViewModel: ViewModel() {
             property!!
         )
         offerRepository.addOffer(offer)
+    }
+
+    fun getWatchedOffers(): List<Offer>{
+        return offerRepository.getWatchedOffers()
+    }
+
+    fun getOffers() : List<Offer>{
+        return offerRepository.getOffers()
+    }
+
+    fun checkIfIsWatched(offer: Offer): Boolean{
+        return offerRepository.getWatchedOffers().contains(offer)
+    }
+
+    fun watchOffer(offer: Offer){
+        offerRepository.addOfferToWatched(offer)
+    }
+
+    fun unwatchOffer(offer: Offer){
+        offerRepository.removeOfferToWatched(offer)
     }
 }
