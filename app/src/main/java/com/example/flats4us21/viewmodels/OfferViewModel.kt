@@ -91,4 +91,14 @@ class OfferViewModel: ViewModel() {
     fun unwatchOffer(offer: Offer){
         offerRepository.removeOfferToWatched(offer)
     }
+
+    fun getLastWatchedOffers(): List<Offer>{
+        return offerRepository.getLastViewedOffers()
+    }
+
+    fun addOfferToLastViewed(offer: Offer?){
+        if (offer != null) {
+            offerRepository.addOfferToLastViewed(offer)
+        }
+    }
 }

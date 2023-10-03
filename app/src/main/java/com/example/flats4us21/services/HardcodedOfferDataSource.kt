@@ -8,6 +8,7 @@ import com.example.flats4us21.data.PropertyType
 object HardcodedOfferDataSource : OfferDataSource {
     private val offers : MutableList<Offer> = mutableListOf()
     private val watchedOffers : MutableList<Offer> = mutableListOf()
+    private val lastViewed : MutableList<Offer> = mutableListOf()
 
     init{
         offers.add(
@@ -110,4 +111,16 @@ object HardcodedOfferDataSource : OfferDataSource {
         }
     }
 
+    override fun getLastViewedOffers(): List<Offer> {
+         return lastViewed.reversed()
+    }
+
+    override fun addOfferToLastViewed(offer: Offer) {
+        if(!lastViewed.contains(offer)){
+            lastViewed.add(offer)
+        } else {
+            lastViewed.remove(offer)
+            lastViewed.add(offer)
+        }
+    }
 }
