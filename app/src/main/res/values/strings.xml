@@ -150,6 +150,7 @@
     <string name="report">Zgłoś</string>
     <string name="report_next_issue">Zgłoś kolejny problem</string>
     <string name="no_option_selected">Nie wybrano żadnej opcji</string>
+    <string name="last_viewed_offers">Ostatnio oglądane oferty</string>
 
 
     <!-- TODO: meeting_row -->
