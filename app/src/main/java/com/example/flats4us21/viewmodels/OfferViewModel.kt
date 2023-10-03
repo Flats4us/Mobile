@@ -92,7 +92,7 @@ class OfferViewModel: ViewModel() {
         offerRepository.removeOfferToWatched(offer)
     }
 
-    fun getLastWatchedOffers(): List<Offer>{
+    fun getLastViewedOffers(): List<Offer>{
         return offerRepository.getLastViewedOffers()
     }
 
