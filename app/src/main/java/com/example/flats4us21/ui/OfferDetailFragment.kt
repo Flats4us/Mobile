@@ -32,6 +32,7 @@ class OfferDetailFragment : Fragment() {
 
         viewModel = ViewModelProvider(requireActivity())[OfferViewModel::class.java]
         val offer = viewModel.selectedOffer
+        viewModel.addOfferToLastViewed(offer)
         bindOfferData(offer)
 
         val addButton = binding.addButton

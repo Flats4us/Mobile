@@ -8,4 +8,6 @@ interface OfferDataSource {
     fun addOffer(offer: Offer)
     fun addOfferToWatched(offer: Offer)
     fun removeOfferToWatched(offer: Offer)
+    fun getLastViewedOffers(): List<Offer>
+    fun addOfferToLastViewed(offer: Offer)
 }
