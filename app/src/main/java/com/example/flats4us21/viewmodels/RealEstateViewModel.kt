@@ -1,6 +1,5 @@
 package com.example.flats4us21.viewmodels
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.flats4us21.data.Property
 import com.example.flats4us21.data.PropertyType
@@ -16,8 +15,8 @@ class RealEstateViewModel : ViewModel() {
         voivodeshipSuggestions.addAll(voivodeships)
     }
 
-    fun checkVoivodeships(voivodeship : String ) : Boolean{
-        return voivodeshipSuggestions.contains(voivodeship)
+    fun getDistricts(city: String): MutableList<String>{
+        return placeRepository.getDistricts(city)
     }
 
     private var _propertyType: String? = null

@@ -76,7 +76,12 @@
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/baseline_location_on_24"
                 app:tint="@color/black" />
-            <AutoCompleteTextView
+            <Spinner
+                android:id="@+id/voivodeship"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spinner_height"
+                android:contentDescription="@string/real_estate_type"/>
+            <!--<AutoCompleteTextView
                 android:id="@+id/voivodeship"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
@@ -89,7 +94,7 @@
                 android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
                 android:textSize="@dimen/regular_text_size"
                 android:textStyle="bold"
-                android:completionThreshold="1"/>
+                android:completionThreshold="1"/>-->
         </LinearLayout>
 
     <TextView
@@ -183,7 +188,13 @@
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/baseline_location_on_24"
                 app:tint="@color/black" />
-            <EditText
+            <Spinner
+                android:id="@+id/district"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spinner_height"
+
+                android:contentDescription="@string/real_estate_type"/>
+            <!--<EditText
                 android:id="@+id/district"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
@@ -195,7 +206,7 @@
                 android:layout_marginStart="@dimen/edit_text_horizontal_margin"
                 android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
                 android:textSize="@dimen/regular_text_size"
-                android:textStyle="bold" />
+                android:textStyle="bold" />-->
         </LinearLayout>
 
         <TextView
