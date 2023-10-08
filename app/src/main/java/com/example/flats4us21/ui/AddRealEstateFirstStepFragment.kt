@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flats4us21.R
@@ -54,8 +55,19 @@ class AddRealEstateFirstStepFragment : Fragment() {
         propertyTypeAdapter = createSpinnerAdapter(PropertyType.values().map { it.name })
         propertyTypeSpinner.adapter = propertyTypeAdapter
 
-        val onItemSelectedListener = createOnItemSelectedListener { selectedProperty = it }
+        val onItemSelectedListener = createOnItemSelectedListener {
+            selectedProperty = it
+            Log.d("selectedProperty == PropertyType.FLAT.toString()", "${selectedProperty == PropertyType.FLAT.toString()}")
+            if(selectedProperty == PropertyType.FLAT.toString()){
+                binding.layoutFloorWithHeader.isVisible = true
+                binding.layoutFlatNumberWithHeader.isVisible = true
+            } else {
+                binding.layoutFloorWithHeader.isVisible = false
+                binding.layoutFlatNumberWithHeader.isVisible = false
+            }
+        }
         propertyTypeSpinner.onItemSelectedListener = onItemSelectedListener
+
     }
 
     private fun setupVoivodeshipSpinner() {
@@ -147,6 +159,12 @@ class AddRealEstateFirstStepFragment : Fragment() {
             }
             street.setText(realEstateViewModel.street)
             buildingNumber.setText(realEstateViewModel.buildingNumber)
+            if(realEstateViewModel.propertyType.equals(PropertyType.FLAT.toString())){
+                floor.setText(realEstateViewModel.floor)
+                layoutFloorWithHeader.isVisible = true
+                flatNumber.setText(realEstateViewModel.flatNumber)
+                layoutFlatNumberWithHeader.isVisible = true
+            }
         }
     }
 
@@ -169,14 +187,19 @@ class AddRealEstateFirstStepFragment : Fragment() {
         val isBuildingNumberValid = setAndValidateText(binding.buildingNumber, binding.layoutBuildingNumber) { value ->
             realEstateViewModel.buildingNumber = value
         }
+        val isFloorValid  = setAndValidateText(binding.floor, binding.layoutFloor) { value ->
+            realEstateViewModel.floor = value
+        }
+        val isFlatNumberValid  = setAndValidateText(binding.flatNumber, binding.layoutFlatNumber) { value ->
+            realEstateViewModel.flatNumber = value
+        }
 
-        if (isPropertyTypeValid && isVoivodeshipValid && isCityValid && isDistrictValid && isStreetValid && isBuildingNumberValid) {
-            Log.d("realEstateViewModelDistrict", realEstateViewModel.district)
+        if (isPropertyTypeValid && isVoivodeshipValid && isCityValid && isDistrictValid && isStreetValid && isBuildingNumberValid && isFloorValid && isFlatNumberValid) {
             (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateSecondStepFragment())
         }
     }
 
-    private fun setSelectedItemAndValidate(spinner : Spinner, spinnerLayout : LinearLayout, selectedItem: String, targetProperty: (String) -> Unit): Boolean {
+    private fun setSelectedItemAndValidate(spinner : Spinner, spinnerLayout : ViewGroup, selectedItem: String, targetProperty: (String) -> Unit): Boolean {
         val isValid = selectedItem != DEFAULT_PROPERTY_TYPE
         if (isValid) {
             targetProperty(selectedItem)
@@ -185,14 +208,14 @@ class AddRealEstateFirstStepFragment : Fragment() {
         return isValid || !spinner.isEnabled
     }
 
-    private fun setAndValidateText(editText: EditText, editTextLayout : LinearLayout, targetProperty: (String) -> Unit): Boolean {
+    private fun setAndValidateText(editText: EditText, editTextLayout : ViewGroup, targetProperty: (String) -> Unit): Boolean {
         val text = editText.text.toString()
         val isValid = text.isNotEmpty()
         if (isValid) {
             targetProperty(text)
         }
         editTextLayout.setBackgroundResource(if (isValid) R.drawable.background_input else R.drawable.background_wrong_input)
-        return isValid
+        return isValid || !editText.isVisible
     }
 
     override fun onDestroyView() {

@@ -61,6 +61,20 @@ class RealEstateViewModel : ViewModel() {
             _buildingNumber = value
         }
 
+    private var _floor: String = ""
+    var floor: String
+        get() = _floor
+        set(value) {
+            _floor = value
+        }
+
+    private var _flatNumber: String = ""
+    var flatNumber: String
+        get() = _flatNumber
+        set(value) {
+            _flatNumber = value
+        }
+
     private var _area: Int = 0
     var area: Int
         get() = _area

@@ -152,7 +152,7 @@
     <string name="no_option_selected">Nie wybrano żadnej opcji</string>
     <string name="last_viewed_offers">Ostatnio oglądane oferty</string>
     <string name="choose_an_option">Wybierz opcję</string>
-
+    <string name="flat_number">Numer mieszkania*</string>
 
 
     <!-- TODO: meeting_row -->
