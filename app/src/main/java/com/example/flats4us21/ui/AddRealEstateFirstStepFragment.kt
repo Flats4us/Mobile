@@ -187,10 +187,10 @@ class AddRealEstateFirstStepFragment : Fragment() {
         val isBuildingNumberValid = setAndValidateText(binding.buildingNumber, binding.layoutBuildingNumber) { value ->
             realEstateViewModel.buildingNumber = value
         }
-        val isFloorValid  = setAndValidateText(binding.floor, binding.layoutFloor) { value ->
+        val isFloorValid  = setAndValidateOptionalText(binding.floor, binding.layoutFloor, binding.layoutFloorWithHeader) { value ->
             realEstateViewModel.floor = value
         }
-        val isFlatNumberValid  = setAndValidateText(binding.flatNumber, binding.layoutFlatNumber) { value ->
+        val isFlatNumberValid  = setAndValidateOptionalText(binding.flatNumber, binding.layoutFlatNumber, binding.layoutFlatNumberWithHeader) { value ->
             realEstateViewModel.flatNumber = value
         }
 
@@ -214,8 +214,18 @@ class AddRealEstateFirstStepFragment : Fragment() {
         if (isValid) {
             targetProperty(text)
         }
-        editTextLayout.setBackgroundResource(if (isValid) R.drawable.background_input else R.drawable.background_wrong_input)
-        return isValid || !editText.isVisible
+        editTextLayout.setBackgroundResource(if (isValid || !editTextLayout.isVisible) R.drawable.background_input else R.drawable.background_wrong_input)
+        return isValid || !editTextLayout.isVisible
+    }
+
+    private fun setAndValidateOptionalText(editText: EditText, editTextLayout : ViewGroup, editTextLayoutWithHeader : ViewGroup, targetProperty: (String) -> Unit): Boolean {
+        val text = editText.text.toString()
+        val isValid = text.isNotEmpty()
+        if (isValid) {
+            targetProperty(text)
+        }
+        editTextLayout.setBackgroundResource(if (isValid || !editTextLayoutWithHeader.isVisible) R.drawable.background_input else R.drawable.background_wrong_input)
+        return isValid || !editTextLayoutWithHeader.isVisible
     }
 
     override fun onDestroyView() {

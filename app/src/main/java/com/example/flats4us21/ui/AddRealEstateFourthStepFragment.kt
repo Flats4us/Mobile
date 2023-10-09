@@ -30,7 +30,7 @@ class AddRealEstateFourthStepFragment : Fragment() {
             (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateThirdStepFragment())
         }
         binding.addPropertyButton.setOnClickListener {
-            val property = realEstateViewModel.createRealEstateObject()
+
         }
         binding.resetButton.setOnClickListener {
             reset()
@@ -50,7 +50,7 @@ class AddRealEstateFourthStepFragment : Fragment() {
         realEstateViewModel.constructionYear = 0
         realEstateViewModel.numberOfRooms = 0
         realEstateViewModel.numberOfFloors = 0
-        realEstateViewModel.equipment = ""
+        realEstateViewModel.equipment = mutableListOf()
         realEstateViewModel.images.clear()
     }
 
