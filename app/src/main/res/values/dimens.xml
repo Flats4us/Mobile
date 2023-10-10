@@ -72,6 +72,8 @@
     <dimen name="radio_button_horizontal_margin">10dp</dimen>
     <!-- Spinner -->
     <dimen name="spinner_height">55dp</dimen>
+    <!-- Drawable -->
+    <dimen name="drawable_padding">24dp</dimen>
 
 
 </resources>
