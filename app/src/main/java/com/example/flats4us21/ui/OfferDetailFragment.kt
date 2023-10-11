@@ -81,7 +81,15 @@ class OfferDetailFragment : Fragment() {
         binding.address.text = "${offer.property.city} ${offer.property.street}"
         binding.period.text = offer.rentalPeriod
         binding.maxResidents.text = offer.property.maxResidents.toString()
-        binding.equipment.text = offer.property.equipment
+        val stringBuilder: StringBuilder = StringBuilder()
+        for(j in offer.property.equipment.indices){
+            stringBuilder.append(offer.property.equipment[j])
+
+            if(j != offer.property.equipment.size-1){
+                stringBuilder.append(", ")
+            }
+        }
+        binding.equipment.text = stringBuilder.toString()
         binding.area.text = offer.property.area.toString()
         binding.description.text = offer.description
         binding.interestedPeople.text = offer.interestedPeople.toString()

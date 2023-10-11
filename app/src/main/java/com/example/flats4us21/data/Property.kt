@@ -16,7 +16,7 @@ data class Property(
     val constructionYear: Int,
     val numberOfRooms: Int,
     val numberOfFloors: Int,
-    val equipment: String,
+    val equipment: MutableList<String>,
     val image: MutableList<Uri>
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
@@ -31,7 +31,7 @@ data class Property(
         constructionYear = parcel.readInt(),
         numberOfRooms = parcel.readInt(),
         numberOfFloors = parcel.readInt(),
-        equipment = parcel.readString()!!,
+        equipment = mutableListOf<String>().apply { parcel.readList(this, String::class.java.classLoader) },
         image = mutableListOf<Uri>().apply { parcel.readList(this, Int::class.java.classLoader) }
     )
 
@@ -46,7 +46,7 @@ data class Property(
         parcel.writeInt(constructionYear)
         parcel.writeInt(numberOfRooms)
         parcel.writeInt(numberOfFloors)
-        parcel.writeString(equipment)
+        parcel.writeList(equipment)
         parcel.writeList(image)
     }
 

@@ -31,7 +31,7 @@ object HardcodedOfferDataSource : OfferDataSource {
                     constructionYear = 2010,
                     numberOfRooms = 1,
                     numberOfFloors = 1,
-                    equipment = "Brak",
+                    equipment = mutableListOf(),
                     image = mutableListOf(FileUtils.getUriOfExamplePropertyJpg()),
                 )
             )
@@ -56,7 +56,7 @@ object HardcodedOfferDataSource : OfferDataSource {
                     constructionYear = 2010,
                     numberOfRooms = 3,
                     numberOfFloors = 1,
-                    equipment = "Sofa",
+                    equipment = mutableListOf("Sofa"),
                     image = mutableListOf(FileUtils.getUriOfExamplePropertyJpg(), FileUtils.getUriOfExamplePropertyJpg(), FileUtils.getUriOfExamplePropertyJpg())
                 )
             )
@@ -81,7 +81,7 @@ object HardcodedOfferDataSource : OfferDataSource {
                 constructionYear = 2010,
                 numberOfRooms = 2,
                 numberOfFloors = 1,
-                equipment = "Sofa",
+                equipment = mutableListOf("Sofa"),
                 image = mutableListOf(FileUtils.getUriOfExamplePropertyJpg()),
             )
         )

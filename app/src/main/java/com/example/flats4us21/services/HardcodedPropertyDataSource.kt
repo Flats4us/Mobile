@@ -21,7 +21,7 @@ class HardcodedPropertyDataSource : PropertyDataSource {
             constructionYear = 2010,
             numberOfRooms = 1,
             numberOfFloors = 1,
-            equipment = "Brak",
+            equipment = mutableListOf(),
             image = mutableListOf(FileUtils.getUriOfExamplePropertyJpg()),
             )
         )
@@ -38,7 +38,7 @@ class HardcodedPropertyDataSource : PropertyDataSource {
                 constructionYear = 2010,
                 numberOfRooms = 3,
                 numberOfFloors = 1,
-                equipment = "Sofa",
+                equipment = mutableListOf("Sofa"),
                 image = mutableListOf(FileUtils.getUriOfExamplePropertyJpg(), FileUtils.getUriOfExamplePropertyJpg(), FileUtils.getUriOfExamplePropertyJpg())
             )
         )
@@ -55,7 +55,7 @@ class HardcodedPropertyDataSource : PropertyDataSource {
                 constructionYear = 2010,
                 numberOfRooms = 2,
                 numberOfFloors = 1,
-                equipment = "Sofa",
+                equipment = mutableListOf("Sofa"),
                 image = mutableListOf(FileUtils.getUriOfExamplePropertyJpg()),
             )
         )
@@ -63,5 +63,9 @@ class HardcodedPropertyDataSource : PropertyDataSource {
 
     override fun getUserProperties(): List<Property> {
         return properties
+    }
+
+    override fun addProperty(property: Property) {
+        properties.add(property)
     }
 }

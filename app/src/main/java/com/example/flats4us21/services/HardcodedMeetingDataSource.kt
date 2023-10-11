@@ -41,7 +41,7 @@ class HardcodedMeetingDataSource : MeetingDataSource {
                         constructionYear = 2010,
                         numberOfRooms = 2,
                         numberOfFloors = 1,
-                        equipment = "Sofa",
+                        equipment = mutableListOf("Sofa"),
                         image = mutableListOf(FileUtils.getUriOfExamplePropertyJpg())
                     )
                 ),
