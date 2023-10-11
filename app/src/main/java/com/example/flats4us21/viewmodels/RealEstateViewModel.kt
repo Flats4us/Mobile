@@ -1,5 +1,6 @@
 package com.example.flats4us21.viewmodels
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import com.example.flats4us21.services.EquipmentDataSource
 import com.example.flats4us21.services.HardcodedEquipmentDataSource
@@ -129,9 +130,8 @@ class RealEstateViewModel : ViewModel() {
             _equipment = value
         }
 
-    //TODO: change to MutableList<Uri>
-    private var _images: MutableList<Int> = mutableListOf()
-    var images: MutableList<Int>
+    private var _images: MutableList<Uri> = mutableListOf()
+    var images: MutableList<Uri>
         get() = _images
         set(value) {
             _images = value

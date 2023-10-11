@@ -1,8 +1,8 @@
 package com.example.flats4us21.services
 
-import com.example.flats4us21.R
 import com.example.flats4us21.data.Property
 import com.example.flats4us21.data.PropertyType
+import com.example.flats4us21.data.utils.FileUtils
 
 class HardcodedPropertyDataSource : PropertyDataSource {
     private val properties : MutableList<Property> = mutableListOf()
@@ -22,7 +22,7 @@ class HardcodedPropertyDataSource : PropertyDataSource {
             numberOfRooms = 1,
             numberOfFloors = 1,
             equipment = "Brak",
-            image = mutableListOf(R.drawable.property),
+            image = mutableListOf(FileUtils.getUriOfExamplePropertyJpg()),
             )
         )
         properties.add(
@@ -39,7 +39,7 @@ class HardcodedPropertyDataSource : PropertyDataSource {
                 numberOfRooms = 3,
                 numberOfFloors = 1,
                 equipment = "Sofa",
-                image = mutableListOf(R.drawable.property, R.drawable.property, R.drawable.property)
+                image = mutableListOf(FileUtils.getUriOfExamplePropertyJpg(), FileUtils.getUriOfExamplePropertyJpg(), FileUtils.getUriOfExamplePropertyJpg())
             )
         )
         properties.add(
@@ -56,7 +56,7 @@ class HardcodedPropertyDataSource : PropertyDataSource {
                 numberOfRooms = 2,
                 numberOfFloors = 1,
                 equipment = "Sofa",
-                image = mutableListOf(R.drawable.property),
+                image = mutableListOf(FileUtils.getUriOfExamplePropertyJpg()),
             )
         )
     }

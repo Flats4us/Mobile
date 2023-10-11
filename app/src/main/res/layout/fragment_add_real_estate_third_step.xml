@@ -19,6 +19,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
+    <TextView
+        android:id="@+id/warning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_photo_selected"
+        android:textSize="@dimen/regular_text_size"
+        android:textStyle="bold"
+        android:textColor="@color/red"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/photoRecyclerView"
         android:layout_width="match_parent"

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -35,7 +36,7 @@ class AddRealEstateThirdStepFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //TODO: CORRECT setImages()
+        setImages()
 
         val multiplePhotoPickerLauncher =
             registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(15)) { uris ->
@@ -49,7 +50,7 @@ class AddRealEstateThirdStepFragment : Fragment() {
                     photoAdapter.notifyItemRangeInserted(startIndex, endIndex)
                     lastIndexBeforeUpdate = endIndex
                 } else {
-                    Toast.makeText(requireContext(), "You've reached the maximum limit of 15 images.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Możesz dodać maksymalnie 16 zdjęć!", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -64,22 +65,19 @@ class AddRealEstateThirdStepFragment : Fragment() {
             )
         }
         binding.prevButton.setOnClickListener {
-            //TODO: CORRECT collectData()
+            collectData()
             (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateSecondStepFragment())
         }
         binding.nextButton.setOnClickListener {
-            //TODO: CORRECT collectData()
-            (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateFourthStepFragment())
+            if(validateImages()) {
+                collectData()
+                (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateFourthStepFragment())
+            }
         }
     }
 
     private fun setImages() {
-        val intUris = realEstateViewModel.images
-        selectedImageUris = intUris.map { resourceId ->
-            val resourceName = resources.getResourceEntryName(resourceId)
-            val resourceUri = Uri.parse("android.resource://${requireContext().packageName}/drawable/$resourceName")
-            resourceUri
-        }.toMutableList()
+        selectedImageUris = realEstateViewModel.images
 
         lastIndexBeforeUpdate = if (selectedImageUris.size > 0) {
             selectedImageUris.size - 1
@@ -89,11 +87,18 @@ class AddRealEstateThirdStepFragment : Fragment() {
     }
 
     private fun collectData() {
-        realEstateViewModel.images = selectedImageUris.map { uri ->
-            val resourceName = resources.getResourceEntryName(resources.getIdentifier(uri.lastPathSegment, "drawable", requireContext().packageName))
-            val resourceId = resources.getIdentifier(resourceName, "drawable", requireContext().packageName)
-            resourceId
-        }.toMutableList()
+        realEstateViewModel.images = selectedImageUris
+    }
+
+    private fun validateImages(): Boolean {
+        if(selectedImageUris.size > 0){
+            binding.warning.isVisible = false
+            binding.photoRecyclerView.isVisible = true
+        } else {
+            binding.warning.isVisible = true
+            binding.photoRecyclerView.isVisible = false
+        }
+        return selectedImageUris.size > 0
     }
 
     override fun onDestroyView() {

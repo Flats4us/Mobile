@@ -94,15 +94,15 @@ class AddRealEstateSecondStepFragment : Fragment() {
                     equipmentList.remove(position)
                 }
             }
-            builder.setPositiveButton("OK") { _, _ ->
+            builder.setPositiveButton("Akcepuj") { _, _ ->
                 for (j in 0 until equipmentList.size) {
                     pickedEquipment.add(equipmentArray[equipmentList[j]])
                 }
             }
-            builder.setNegativeButton("Cancel") { dialog, _ ->
+            builder.setNegativeButton("Anuluj") { dialog, _ ->
                 dialog.dismiss()
             }
-            builder.setNeutralButton("Clear All") { _, _ ->
+            builder.setNeutralButton("Wyczyść") { _, _ ->
                 for (j in selectedEquipment.indices) {
                     selectedEquipment[j] = false
                     equipmentList.clear()
@@ -194,8 +194,8 @@ class AddRealEstateSecondStepFragment : Fragment() {
         val isLandAreaValid = validateOptionalText(binding.landArea, binding.layoutLandArea, binding.layoutLandAreaWithHeader)
         val isMaxResidentsValid = validateInteger(binding.maxResidents, binding.layoutMaxResidents)
         val isConstructionYearValid = validateSpinner(binding.constructionYearSpinner, binding.layoutConstructionYear, selectedConstructionYear)
-        val isNumberOfRoomsValid = validateInteger(binding.numberOfRooms, binding.layoutNumberOfRooms)
-        val isNumberOfFloorsValid = validateInteger(binding.numberOfFloors, binding.layoutNumberOfFloors)
+        val isNumberOfRoomsValid = validateOptionalText(binding.numberOfRooms, binding.layoutNumberOfRooms, binding.layoutNumberOfRoomsWithHeader)
+        val isNumberOfFloorsValid = validateOptionalText(binding.numberOfFloors, binding.layoutNumberOfFloors, binding.layoutNumberOfFloorsWithHeader)
 
         test = isAreaValid && isLandAreaValid && isMaxResidentsValid && isConstructionYearValid && isNumberOfRoomsValid && isNumberOfFloorsValid
 
