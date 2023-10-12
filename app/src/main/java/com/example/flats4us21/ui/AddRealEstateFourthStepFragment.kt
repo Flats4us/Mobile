@@ -95,13 +95,13 @@ class AddRealEstateFourthStepFragment : Fragment() {
         }
         binding.constructionYear.text = realEstateViewModel.constructionYear.toString()
         if(realEstateViewModel.propertyType != PropertyType.ROOM.toString()){
-            binding.numberOfRooms.text = realEstateViewModel.landArea.toString()
+            binding.numberOfRooms.text = realEstateViewModel.numberOfRooms.toString()
             binding.layoutNumberOfRooms.isVisible = true
         } else {
             binding.layoutNumberOfRooms.isVisible = false
         }
         if(realEstateViewModel.propertyType != PropertyType.ROOM.toString()){
-            binding.numberOfFloors.text = realEstateViewModel.landArea.toString()
+            binding.numberOfFloors.text = realEstateViewModel.numberOfFloors.toString()
             binding.layoutNumberOfFloors.isVisible = true
         } else {
             binding.layoutNumberOfFloors.isVisible = false

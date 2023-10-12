@@ -4,7 +4,7 @@ import com.example.flats4us21.data.Property
 import com.example.flats4us21.data.PropertyType
 import com.example.flats4us21.data.utils.FileUtils
 
-class HardcodedPropertyDataSource : PropertyDataSource {
+object HardcodedPropertyDataSource : PropertyDataSource {
     private val properties : MutableList<Property> = mutableListOf()
 
     init {
