@@ -152,6 +152,10 @@
     <string name="no_option_selected">Nie wybrano żadnej opcji</string>
     <string name="last_viewed_offers">Ostatnio oglądane oferty</string>
 
+<!--    profile placeholders-->
+    <string name="placeholder_name">Name Placeholder</string>
+    <string name="placeholder_age">Age Placeholder</string>
+    <string name="placeholder_description">Description Placeholder</string>
 
     <!-- TODO: meeting_row -->
 </resources>

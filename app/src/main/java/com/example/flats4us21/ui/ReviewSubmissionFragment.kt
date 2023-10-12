@@ -1,17 +1,18 @@
 package com.example.flats4us21
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 
-//TODO: Zmienić na fragment
-
-class ReviewSubmissionScreen : AppCompatActivity() {
+class ReviewSubmissionFragment : Fragment() {
 
     private lateinit var userImage: ImageView
     private lateinit var addReviewText: TextView
@@ -24,24 +25,22 @@ class ReviewSubmissionScreen : AppCompatActivity() {
     private lateinit var addButton: Button
     private lateinit var cancelButton: Button
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_review_submission_screen)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.activity_review_submission_screen, container, false)
 
-        userImage = findViewById(R.id.userImage)
-        addReviewText = findViewById(R.id.addReviewText)
-        userNameText = findViewById(R.id.userNameText)
-        starRating = findViewById(R.id.starRating)
-        reviewEditText = findViewById(R.id.reviewEditText)
-        tag1 = findViewById(R.id.tag1)
-        tag2 = findViewById(R.id.tag2)
-        tag3 = findViewById(R.id.tag3)
-        addButton = findViewById(R.id.addButton)
-        cancelButton = findViewById(R.id.cancelButton)
-
-        // Assuming that when the tag TextViews are clicked, they change color or some visual indication
-        // of being selected, you can add click listeners to handle the tag selection here.
-        // However, for simplicity, I'm leaving that out in this code.
+        userImage = view.findViewById(R.id.userImage)
+        addReviewText = view.findViewById(R.id.addReviewText)
+        userNameText = view.findViewById(R.id.userNameText)
+        starRating = view.findViewById(R.id.starRating)
+        reviewEditText = view.findViewById(R.id.reviewEditText)
+        tag1 = view.findViewById(R.id.tag1)
+        tag2 = view.findViewById(R.id.tag2)
+        tag3 = view.findViewById(R.id.tag3)
+        addButton = view.findViewById(R.id.addButton)
+        cancelButton = view.findViewById(R.id.cancelButton)
 
         addButton.setOnClickListener {
             // Handle add button click
@@ -57,16 +56,17 @@ class ReviewSubmissionScreen : AppCompatActivity() {
         }
 
         cancelButton.setOnClickListener {
-            // Handle cancel button click
-            finish()
+            // If you want to close the fragment:
+            parentFragmentManager.popBackStack()
         }
+
+        return view
     }
 
     private fun submitReview(opinion: String, rating: Float, tags: List<String>) {
         // Perform your logic here to handle the submitted review
         // You can access the opinion, rating, and tags and perform necessary actions
         // For example, you can show a toast message indicating the review has been submitted
-        Toast.makeText(this, "Review submitted!", Toast.LENGTH_SHORT).show()
-        finish()
+        Toast.makeText(requireContext(), "Review submitted!", Toast.LENGTH_SHORT).show()
     }
 }
