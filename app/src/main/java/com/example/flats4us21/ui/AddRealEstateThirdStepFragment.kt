@@ -52,6 +52,10 @@ class AddRealEstateThirdStepFragment : Fragment() {
                 } else {
                     Toast.makeText(requireContext(), "Możesz dodać maksymalnie 16 zdjęć!", Toast.LENGTH_SHORT).show()
                 }
+                if(selectedImageUris.size > 0){
+                    binding.warning.isVisible = false
+                    binding.photoRecyclerView.isVisible = true
+                }
             }
 
         val recyclerView = binding.photoRecyclerView
@@ -67,11 +71,13 @@ class AddRealEstateThirdStepFragment : Fragment() {
         binding.prevButton.setOnClickListener {
             collectData()
             (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateSecondStepFragment())
+            (requireParentFragment() as AddRealEstateFragment).decreaseProgressBar()
         }
         binding.nextButton.setOnClickListener {
             if(validateImages()) {
                 collectData()
                 (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateFourthStepFragment())
+                (requireParentFragment() as AddRealEstateFragment).increaseProgressBar()
             }
         }
     }

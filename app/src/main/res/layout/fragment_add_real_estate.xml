@@ -19,57 +19,13 @@
         android:textStyle="bold"
         tools:ignore="TextContrastCheck" />
 
-    <LinearLayout
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginBottom="@dimen/regular_vertical_space">
+        android:layout_height="5dp"
+        android:progressDrawable="@drawable/custom_progress_bar"/>
 
-        <TextView
-            android:id="@+id/firstStep"
-            android:layout_width="@dimen/icon_width"
-            android:layout_height="@dimen/icon_height"
-            android:background="@drawable/background_header"
-            android:text="1"
-            android:textColor="@color/white"
-            android:textSize="@dimen/regular_text_size"
-            android:gravity="center"
-            android:layout_marginEnd="@dimen/text_view_horizontal_margin"/>
-
-        <TextView
-            android:id="@+id/secondStep"
-            android:layout_width="@dimen/icon_width"
-            android:layout_height="@dimen/icon_height"
-            android:background="@drawable/background_header"
-            android:text="2"
-            android:textColor="@color/white"
-            android:textSize="@dimen/regular_text_size"
-            android:gravity="center"
-            android:layout_marginEnd="@dimen/text_view_horizontal_margin"/>
-
-        <TextView
-            android:id="@+id/thirdStep"
-            android:layout_width="@dimen/icon_width"
-            android:layout_height="@dimen/icon_height"
-            android:background="@drawable/background_header"
-            android:text="3"
-            android:textColor="@color/white"
-            android:textSize="@dimen/regular_text_size"
-            android:gravity="center"
-            android:layout_marginEnd="@dimen/text_view_horizontal_margin"/>
-
-        <TextView
-            android:id="@+id/fourthStep"
-            android:layout_width="@dimen/icon_width"
-            android:layout_height="@dimen/icon_height"
-            android:background="@drawable/background_header"
-            android:text="4"
-            android:textColor="@color/white"
-            android:textSize="@dimen/regular_text_size"
-            android:gravity="center"/>
-
-    </LinearLayout>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/addRealEstateStep"

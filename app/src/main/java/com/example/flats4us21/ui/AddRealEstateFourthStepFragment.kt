@@ -36,6 +36,7 @@ class AddRealEstateFourthStepFragment : Fragment() {
 
         binding.prevButton.setOnClickListener {
             (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateThirdStepFragment())
+            (requireParentFragment() as AddRealEstateFragment).decreaseProgressBar()
         }
         binding.addPropertyButton.setOnClickListener {
             val property = realEstateViewModel.createRealEstateObject()
@@ -43,10 +44,12 @@ class AddRealEstateFourthStepFragment : Fragment() {
             Toast.makeText(requireContext(), "Utworzono nieruchomość", Toast.LENGTH_SHORT).show()
             val fragment = SearchFragment()
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
+            reset()
         }
         binding.resetButton.setOnClickListener {
             reset()
             (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateFirstStepFragment())
+            (requireParentFragment() as AddRealEstateFragment).decreaseProgressBar(-75)
         }
     }
 

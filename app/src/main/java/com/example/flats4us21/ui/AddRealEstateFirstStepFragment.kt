@@ -197,6 +197,7 @@ class AddRealEstateFirstStepFragment : Fragment() {
 
         if (isPropertyTypeValid && isVoivodeshipValid && isCityValid && isDistrictValid && isStreetValid && isBuildingNumberValid && isFloorValid && isFlatNumberValid) {
             (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateSecondStepFragment())
+            (requireParentFragment() as AddRealEstateFragment).increaseProgressBar()
         }
     }
 

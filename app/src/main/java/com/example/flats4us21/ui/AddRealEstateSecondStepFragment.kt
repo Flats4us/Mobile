@@ -49,12 +49,14 @@ class AddRealEstateSecondStepFragment : Fragment() {
         binding.prevButton.setOnClickListener {
             collectData()
             (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateFirstStepFragment())
+            (requireParentFragment() as AddRealEstateFragment).decreaseProgressBar()
         }
         binding.nextButton.setOnClickListener {
             validateData()
             if(test){
                 collectData()
                 (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateThirdStepFragment())
+                (requireParentFragment() as AddRealEstateFragment).increaseProgressBar()
             }
         }
     }
