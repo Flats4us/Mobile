@@ -9,8 +9,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
-import android.widget.Spinner
-import androidx.core.view.isVisible
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flats4us21.R
@@ -60,11 +59,12 @@ class AddRealEstateFirstStepFragment : Fragment() {
         val onItemSelectedListener = createOnItemSelectedListener {
             selectedProperty = it
             if(selectedProperty == PropertyType.FLAT.toString()){
-                binding.layoutFloorWithHeader.isVisible = true
-                binding.layoutFlatNumberWithHeader.isVisible = true
+                binding.floorHeader.setText(R.string.required_floor)
+                binding.flatNumberHeader.setText(R.string.required_flat_number)
+
             } else {
-                binding.layoutFloorWithHeader.isVisible = false
-                binding.layoutFlatNumberWithHeader.isVisible = false
+                binding.floorHeader.setText(R.string.floor)
+                binding.flatNumberHeader.setText(R.string.flat_number)
             }
         }
         propertyTypeSpinner.onItemSelectedListener = onItemSelectedListener
@@ -74,6 +74,7 @@ class AddRealEstateFirstStepFragment : Fragment() {
     private fun setupVoivodeshipSpinner() {
         val voivodeship = binding.voivodeship
         voivodeshipAdapter = createSpinnerAdapter(realEstateViewModel.voivodeshipSuggestions)
+        voivodeshipAdapter.insert(DEFAULT_PROPERTY_TYPE, 0)
         voivodeship.adapter = voivodeshipAdapter
 
         val onItemSelectedListener = createOnItemSelectedListener { selectedVoivodeship = it }
@@ -105,14 +106,17 @@ class AddRealEstateFirstStepFragment : Fragment() {
 
                         updateDistrictSpinner(districtData)
                         district.isEnabled = true
+                        binding.districtHeader.setText(R.string.required_district)
                     } else {
                         district.isEnabled = false
+                        binding.districtHeader.setText(R.string.district)
                         realEstateViewModel.district = ""
                     }
                 } else {
                     districtData.clear()
                     updateDistrictSpinner(districtData)
                     district.isEnabled = false
+                    binding.districtHeader.setText(R.string.district)
                 }
             }
         })
@@ -130,7 +134,8 @@ class AddRealEstateFirstStepFragment : Fragment() {
     }
     private fun createSpinnerAdapter(data: List<String>): ArrayAdapter<String> {
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, data)
-        adapter.insert(DEFAULT_PROPERTY_TYPE, 0)
+        if(data.isNotEmpty() && data[0] !=DEFAULT_PROPERTY_TYPE)
+            adapter.insert(DEFAULT_PROPERTY_TYPE, 0)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         return adapter
     }
@@ -162,36 +167,48 @@ class AddRealEstateFirstStepFragment : Fragment() {
             buildingNumber.setText(realEstateViewModel.buildingNumber)
             if(realEstateViewModel.propertyType.equals(PropertyType.FLAT.toString())){
                 floor.setText(realEstateViewModel.floor)
-                layoutFloorWithHeader.isVisible = true
+                floorHeader.setText(R.string.required_floor)
                 flatNumber.setText(realEstateViewModel.flatNumber)
-                layoutFlatNumberWithHeader.isVisible = true
+                flatNumberHeader.setText(R.string.required_flat_number)
             }
         }
     }
 
     private fun collectData() {
-        val isPropertyTypeValid = setSelectedItemAndValidate(binding.propertyTypeSpinner, binding.layoutPropertyType, selectedProperty) { value ->
+        val isPropertyTypeValid = setSelectedItemAndValidate(
+            binding.layoutPropertyType,
+            selectedProperty,
+            binding.propertyTypeHeader
+        ) { value ->
             realEstateViewModel.propertyType = value
         }
-        val isVoivodeshipValid = setSelectedItemAndValidate(binding.voivodeship, binding.layoutVoivodeship, selectedVoivodeship) { value ->
+        val isVoivodeshipValid = setSelectedItemAndValidate(
+            binding.layoutVoivodeship,
+            selectedVoivodeship,
+            binding.voivodeshipHeader
+        ) { value ->
             realEstateViewModel.voivodeship = value
         }
-        val isCityValid = setAndValidateText(binding.city, binding.layoutCity) { value ->
+        val isCityValid = setAndValidateText(binding.city, binding.layoutCity, binding.cityHeader) { value ->
             realEstateViewModel.city = value
         }
-        val isDistrictValid = setSelectedItemAndValidate(binding.district, binding.layoutDistrict, selectedDistrict) { value ->
+        val isDistrictValid = setSelectedItemAndValidate(
+            binding.layoutDistrict,
+            selectedDistrict,
+            binding.districtHeader
+        ) { value ->
             realEstateViewModel.district = value
         }
-        val isStreetValid = setAndValidateText(binding.street, binding.layoutStreet) { value ->
+        val isStreetValid = setAndValidateText(binding.street, binding.layoutStreet, binding.streetHeader) { value ->
             realEstateViewModel.street = value
         }
-        val isBuildingNumberValid = setAndValidateText(binding.buildingNumber, binding.layoutBuildingNumber) { value ->
+        val isBuildingNumberValid = setAndValidateText(binding.buildingNumber, binding.layoutBuildingNumber, binding.buildingNumberHeader) { value ->
             realEstateViewModel.buildingNumber = value
         }
-        val isFloorValid  = setAndValidateOptionalText(binding.floor, binding.layoutFloor, binding.layoutFloorWithHeader) { value ->
+        val isFloorValid  = setAndValidateText(binding.floor, binding.layoutFloor, binding.floorHeader) { value ->
             realEstateViewModel.floor = value
         }
-        val isFlatNumberValid  = setAndValidateOptionalText(binding.flatNumber, binding.layoutFlatNumber, binding.layoutFlatNumberWithHeader) { value ->
+        val isFlatNumberValid  = setAndValidateText(binding.flatNumber, binding.layoutFlatNumber, binding.flatNumberHeader) { value ->
             realEstateViewModel.flatNumber = value
         }
 
@@ -201,33 +218,30 @@ class AddRealEstateFirstStepFragment : Fragment() {
         }
     }
 
-    private fun setSelectedItemAndValidate(spinner : Spinner, spinnerLayout : ViewGroup, selectedItem: String, targetProperty: (String) -> Unit): Boolean {
+    private fun setSelectedItemAndValidate(
+        spinnerLayout: ViewGroup,
+        selectedItem: String,
+        header: TextView,
+        targetProperty: (String) -> Unit
+    ): Boolean {
         val isValid = selectedItem != DEFAULT_PROPERTY_TYPE
+        val isRequired = header.text.last() == '*'
         if (isValid) {
             targetProperty(selectedItem)
         }
-        spinnerLayout.setBackgroundResource(if (isValid || !spinner.isEnabled) R.drawable.background_input else R.drawable.background_wrong_input)
-        return isValid || !spinner.isEnabled
+        spinnerLayout.setBackgroundResource(if (isValid || !isRequired) R.drawable.background_input else R.drawable.background_wrong_input)
+        return isValid || !isRequired
     }
 
-    private fun setAndValidateText(editText: EditText, editTextLayout : ViewGroup, targetProperty: (String) -> Unit): Boolean {
+    private fun setAndValidateText(editText: EditText, editTextLayout : ViewGroup, header : TextView, targetProperty: (String) -> Unit): Boolean {
         val text = editText.text.toString()
         val isValid = text.isNotEmpty()
+        val isRequired = header.text.last() == '*'
         if (isValid) {
             targetProperty(text)
         }
-        editTextLayout.setBackgroundResource(if (isValid || !editTextLayout.isVisible) R.drawable.background_input else R.drawable.background_wrong_input)
-        return isValid || !editTextLayout.isVisible
-    }
-
-    private fun setAndValidateOptionalText(editText: EditText, editTextLayout : ViewGroup, editTextLayoutWithHeader : ViewGroup, targetProperty: (String) -> Unit): Boolean {
-        val text = editText.text.toString()
-        val isValid = text.isNotEmpty()
-        if (isValid) {
-            targetProperty(text)
-        }
-        editTextLayout.setBackgroundResource(if (isValid || !editTextLayoutWithHeader.isVisible) R.drawable.background_input else R.drawable.background_wrong_input)
-        return isValid || !editTextLayoutWithHeader.isVisible
+        editTextLayout.setBackgroundResource(if (isValid || !isRequired) R.drawable.background_input else R.drawable.background_wrong_input)
+        return isValid || !isRequired
     }
 
     override fun onDestroyView() {

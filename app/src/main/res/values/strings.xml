@@ -152,9 +152,26 @@
     <string name="no_option_selected">Nie wybrano żadnej opcji</string>
     <string name="last_viewed_offers">Ostatnio oglądane oferty</string>
     <string name="choose_an_option">Wybierz opcję</string>
-    <string name="flat_number">Numer mieszkania*</string>
-    <string name="land_area">Powierzchnia działki*</string>
+    <string name="flat_number">Numer mieszkania</string>
+    <string name="land_area">Powierzchnia działki</string>
     <string name="no_photo_selected">Nie wybrano żadnego zdjęcia</string>
+
+    <string name="required_voivodeship">Województwo*</string>
+    <string name="required_real_estate_type">Rodzaj nieruchomości*</string>
+    <string name="required_city">Miasto*</string>
+    <string name="required_district">Dzielnica*</string>
+    <string name="required_street">Ulica*</string>
+    <string name="required_building_number">Numer budynku*</string>
+    <string name="required_property_type">Rodzaj nieruchomości*</string>
+    <string name="required_creating_area">Powierzchnia*</string>
+    <string name="required_creating_max_residents">Maksymalna liczba mieszkańców*</string>
+    <string name="required_construction_year">Lata budowy*</string>
+    <string name="required_number_of_rooms">Liczba pokoi*</string>
+    <string name="required_number_of_floors">Liczba pięter*</string>
+    <string name="required_creating_equipment">Wyposażenie*</string>
+    <string name="required_flat_number">Numer mieszkania*</string>
+    <string name="required_land_area">Powierzchnia działki*</string>
+    <string name="required_floor">Piętro*</string>
 
 
     <!-- TODO: meeting_row -->

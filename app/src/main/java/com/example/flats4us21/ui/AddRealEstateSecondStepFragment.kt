@@ -5,10 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Spinner
+import android.widget.*
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -153,14 +150,14 @@ class AddRealEstateSecondStepFragment : Fragment() {
                 if(realEstateViewModel.numberOfRooms != 0){
                     numberOfRooms.setText(realEstateViewModel.numberOfRooms.toString())
                 }
-                layoutNumberOfRoomsWithHeader.isVisible = true
+                numberOfRoomsHeader.setText(R.string.required_number_of_rooms)
                 if(realEstateViewModel.numberOfFloors != 0){
                     numberOfFloors.setText(realEstateViewModel.numberOfFloors.toString())
                 }
-                layoutNumberOfFloorsWithHeader.isVisible = true
+                numberOfFloorsHeader.setText(R.string.required_number_of_floors)
             } else {
-                layoutNumberOfRoomsWithHeader.isVisible = false
-                layoutNumberOfFloorsWithHeader.isVisible = false
+                numberOfRoomsHeader.setText(R.string.number_of_rooms)
+                numberOfFloorsHeader.setText(R.string.number_of_floors)
             }
             pickedEquipment.clear()
             pickedEquipment.addAll(realEstateViewModel.equipment)
@@ -193,11 +190,11 @@ class AddRealEstateSecondStepFragment : Fragment() {
 
     private fun validateData() {
         val isAreaValid = validateInteger(binding.area, binding.layoutArea)
-        val isLandAreaValid = validateOptionalText(binding.landArea, binding.layoutLandArea, binding.layoutLandAreaWithHeader)
+        val isLandAreaValid = validateOptionalText(binding.landArea, binding.layoutLandArea, binding.landAreaHeader)
         val isMaxResidentsValid = validateInteger(binding.maxResidents, binding.layoutMaxResidents)
         val isConstructionYearValid = validateSpinner(binding.constructionYearSpinner, binding.layoutConstructionYear, selectedConstructionYear)
-        val isNumberOfRoomsValid = validateOptionalText(binding.numberOfRooms, binding.layoutNumberOfRooms, binding.layoutNumberOfRoomsWithHeader)
-        val isNumberOfFloorsValid = validateOptionalText(binding.numberOfFloors, binding.layoutNumberOfFloors, binding.layoutNumberOfFloorsWithHeader)
+        val isNumberOfRoomsValid = validateOptionalText(binding.numberOfRooms, binding.layoutNumberOfRooms, binding.numberOfRoomsHeader)
+        val isNumberOfFloorsValid = validateOptionalText(binding.numberOfFloors, binding.layoutNumberOfFloors, binding.numberOfFloorsHeader)
 
         test = isAreaValid && isLandAreaValid && isMaxResidentsValid && isConstructionYearValid && isNumberOfRoomsValid && isNumberOfFloorsValid
 
@@ -218,12 +215,13 @@ class AddRealEstateSecondStepFragment : Fragment() {
         return isValid || !spinner.isEnabled
     }
 
-    private fun validateOptionalText(editText: EditText, editTextLayout : ViewGroup, editTextLayoutWithHeader : ViewGroup): Boolean {
+    private fun validateOptionalText(editText: EditText, editTextLayout : ViewGroup, header : TextView): Boolean {
         val text = editText.text.toString().toIntOrNull()
+        val isRequired = header.text.last() == '*'
         val isValid = text != null
 
-        editTextLayout.setBackgroundResource(if (isValid || !editTextLayoutWithHeader.isVisible) R.drawable.background_input else R.drawable.background_wrong_input)
-        return isValid || !editTextLayoutWithHeader.isVisible
+        editTextLayout.setBackgroundResource(if (isValid || !isRequired) R.drawable.background_input else R.drawable.background_wrong_input)
+        return isValid || !isRequired
     }
 
     override fun onDestroyView() {

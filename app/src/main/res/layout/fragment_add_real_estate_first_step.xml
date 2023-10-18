@@ -44,13 +44,14 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/propertyTypeHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_name_margin_vertical"
                 android:background="@color/white"
                 android:paddingStart="@dimen/layout_name_padding_vertical"
                 android:paddingEnd="@dimen/layout_name_padding_vertical"
-                android:text="@string/property_type"
+                android:text="@string/required_property_type"
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/layoutPropertyType"
@@ -90,13 +91,14 @@
             </LinearLayout>
 
         <TextView
+            android:id="@+id/voivodeshipHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/layout_name_margin_vertical"
             android:background="@color/white"
             android:paddingStart="@dimen/layout_name_padding_vertical"
             android:paddingEnd="@dimen/layout_name_padding_vertical"
-            android:text="@string/voivodeship"
+            android:text="@string/required_voivodeship"
             android:textAllCaps="true"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/layoutVoivodeship"
@@ -143,13 +145,14 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/cityHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/layout_name_margin_vertical"
             android:background="@color/white"
             android:paddingStart="@dimen/layout_name_padding_vertical"
             android:paddingEnd="@dimen/layout_name_padding_vertical"
-            android:text="@string/city"
+            android:text="@string/required_city"
             android:textAllCaps="true"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/layoutCity"
@@ -186,22 +189,11 @@
                     android:layout_height="@dimen/spinner_height"
 
                     android:contentDescription="@string/real_estate_type"/>
-                <!--<EditText
-                    android:id="@+id/district"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/edit_text_height"
-                    android:background="@null"
-                    android:hint="@string/district"
-                    android:imeOptions="actionNext"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
-                    android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                    android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                    android:textSize="@dimen/regular_text_size"
-                    android:textStyle="bold" />-->
+
             </LinearLayout>
 
             <TextView
+                android:id="@+id/districtHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_name_margin_vertical"
@@ -255,13 +247,14 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/streetHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_name_margin_vertical"
                 android:background="@color/white"
                 android:paddingStart="@dimen/layout_name_padding_vertical"
                 android:paddingEnd="@dimen/layout_name_padding_vertical"
-                android:text="@string/street"
+                android:text="@string/required_street"
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/layoutStreet"
@@ -309,13 +302,14 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/buildingNumberHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_name_margin_vertical"
                 android:background="@color/white"
                 android:paddingStart="@dimen/layout_name_padding_vertical"
                 android:paddingEnd="@dimen/layout_name_padding_vertical"
-                android:text="@string/building_number"
+                android:text="@string/required_building_number"
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/layoutBuildingNumber"
@@ -329,8 +323,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-            android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin"
-            android:visibility="gone">
+            android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
 
             <LinearLayout
                 android:id="@+id/layoutFloor"
@@ -364,6 +357,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/floorHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_name_margin_vertical"
@@ -384,8 +378,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-            android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin"
-            android:visibility="gone">
+            android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
 
             <LinearLayout
                 android:id="@+id/layoutFlatNumber"
@@ -419,6 +412,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/flatNumberHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_name_margin_vertical"

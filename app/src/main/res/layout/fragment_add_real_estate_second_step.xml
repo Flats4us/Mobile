@@ -68,13 +68,14 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/areaHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_name_margin_vertical"
                 android:background="@color/white"
                 android:paddingStart="@dimen/layout_name_padding_vertical"
                 android:paddingEnd="@dimen/layout_name_padding_vertical"
-                android:text="@string/creating_area"
+                android:text="@string/required_creating_area"
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/layoutArea"
@@ -88,8 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-            android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin"
-            android:visibility="gone">
+            android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
 
             <LinearLayout
                 android:id="@+id/layoutLandArea"
@@ -141,6 +141,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/landAreaHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_name_margin_vertical"
@@ -194,13 +195,14 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/maxResidentsHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_name_margin_vertical"
                 android:background="@color/white"
                 android:paddingStart="@dimen/layout_name_padding_vertical"
                 android:paddingEnd="@dimen/layout_name_padding_vertical"
-                android:text="@string/creating_max_residents"
+                android:text="@string/required_creating_max_residents"
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/layoutMaxResidents"
@@ -239,13 +241,14 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/constructionYearHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_name_margin_vertical"
                 android:background="@color/white"
                 android:paddingStart="@dimen/layout_name_padding_vertical"
                 android:paddingEnd="@dimen/layout_name_padding_vertical"
-                android:text="@string/construction_year"
+                android:text="@string/required_construction_year"
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/layoutConstructionYear"
@@ -293,13 +296,14 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/numberOfRoomsHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_name_margin_vertical"
                 android:background="@color/white"
                 android:paddingStart="@dimen/layout_name_padding_vertical"
                 android:paddingEnd="@dimen/layout_name_padding_vertical"
-                android:text="@string/number_of_rooms"
+                android:text="@string/required_number_of_rooms"
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/layoutNumberOfRooms"
@@ -347,13 +351,14 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/numberOfFloorsHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_name_margin_vertical"
                 android:background="@color/white"
                 android:paddingStart="@dimen/layout_name_padding_vertical"
                 android:paddingEnd="@dimen/layout_name_padding_vertical"
-                android:text="@string/number_of_floors"
+                android:text="@string/required_number_of_floors"
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/layoutNumberOfFloors"
