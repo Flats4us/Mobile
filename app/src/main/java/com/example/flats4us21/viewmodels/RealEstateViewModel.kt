@@ -1,14 +1,16 @@
 package com.example.flats4us21.viewmodels
 
-import androidx.lifecycle.MutableLiveData
+import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.flats4us21.data.Property
 import com.example.flats4us21.data.PropertyType
-import com.example.flats4us21.services.HardcodedPlaceDataSource
-import com.example.flats4us21.services.PlaceDataSource
+import com.example.flats4us21.services.*
 
 class RealEstateViewModel : ViewModel() {
     private val placeRepository : PlaceDataSource = HardcodedPlaceDataSource()
+    private val equipmentRepository : EquipmentDataSource = HardcodedEquipmentDataSource()
+    private val propertyRepository : PropertyDataSource = HardcodedPropertyDataSource
     val voivodeshipSuggestions = ArrayList<String>()
 
     fun fetchVoivodeships() {
@@ -16,8 +18,12 @@ class RealEstateViewModel : ViewModel() {
         voivodeshipSuggestions.addAll(voivodeships)
     }
 
-    fun checkVoivodeships(voivodeship : String ) : Boolean{
-        return voivodeshipSuggestions.contains(voivodeship)
+    fun getDistricts(city: String): MutableList<String>{
+        return placeRepository.getDistricts(city)
+    }
+
+    fun getEquipmentList(): List<String> {
+        return equipmentRepository.getEquipment()
     }
 
     private var _propertyType: String? = null
@@ -62,11 +68,32 @@ class RealEstateViewModel : ViewModel() {
             _buildingNumber = value
         }
 
-    private var _area: Int = 0
-    var area: Int
+    private var _floor: String = ""
+    var floor: String
+        get() = _floor
+        set(value) {
+            _floor = value
+        }
+
+    private var _flatNumber: String = ""
+    var flatNumber: String
+        get() = _flatNumber
+        set(value) {
+            _flatNumber = value
+        }
+
+    private var _area: Int? = 0
+    var area: Int?
         get() = _area
         set(value) {
                 _area = value
+        }
+
+    private var _landArea: Int? = 0
+    var landArea: Int?
+        get() = _landArea
+        set(value) {
+                _landArea = value
         }
 
     private var _maxResidents: Int = 0
@@ -83,8 +110,8 @@ class RealEstateViewModel : ViewModel() {
                 _constructionYear = value
         }
 
-    private var _numberOfRooms: Int = 0
-    var numberOfRooms: Int
+    private var _numberOfRooms: Int? = 0
+    var numberOfRooms: Int?
         get() = _numberOfRooms
         set(value) {
                 _numberOfRooms = value
@@ -97,16 +124,15 @@ class RealEstateViewModel : ViewModel() {
                 _numberOfFloors = value
         }
 
-    private var _equipment: String = ""
-    var equipment: String
+    private var _equipment: MutableList<String> = mutableListOf()
+    var equipment: MutableList<String>
         get() = _equipment
         set(value) {
             _equipment = value
         }
 
-    //TODO: change to MutableList<Uri>
-    private var _images: MutableList<Int> = mutableListOf()
-    var images: MutableList<Int>
+    private var _images: MutableList<Uri> = mutableListOf()
+    var images: MutableList<Uri>
         get() = _images
         set(value) {
             _images = value
@@ -120,13 +146,19 @@ class RealEstateViewModel : ViewModel() {
             district = district,
             street = street,
             buildingNumber = buildingNumber,
-            area = area,
+            area = area!!,
             maxResidents = maxResidents,
             constructionYear = constructionYear,
-            numberOfRooms = numberOfRooms,
+            numberOfRooms = numberOfRooms!!,
             numberOfFloors = numberOfFloors,
             equipment = equipment,
             image = images
         )
+    }
+
+    fun addProperty(property: Property){
+        Log.d("BeforeAdding", "${propertyRepository.getUserProperties().size}")
+        propertyRepository.addProperty(property)
+        Log.d("BeforeAdding", "${propertyRepository.getUserProperties().size}")
     }
 }

@@ -67,7 +67,7 @@ class PropertyAdapter(
             }
             notifyDataSetChanged()
         }
-        holder.image.setImageResource(offers[position].property.image[0])
+        holder.image.setImageURI(offers[position].property.image[0])
         holder.city.text = offers[position].property.city
         holder.street.text = offers[position].property.street
         holder.size.text = offers[position].property.area.toString()

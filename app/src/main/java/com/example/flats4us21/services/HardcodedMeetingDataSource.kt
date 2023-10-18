@@ -1,7 +1,7 @@
 package com.example.flats4us21.services
 
-import com.example.flats4us21.R
 import com.example.flats4us21.data.*
+import com.example.flats4us21.data.utils.FileUtils
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.Month
@@ -41,8 +41,8 @@ class HardcodedMeetingDataSource : MeetingDataSource {
                         constructionYear = 2010,
                         numberOfRooms = 2,
                         numberOfFloors = 1,
-                        equipment = "Sofa",
-                        image = mutableListOf(R.drawable.property)
+                        equipment = mutableListOf("Sofa"),
+                        image = mutableListOf(FileUtils.getUriOfExamplePropertyJpg())
                     )
                 ),
                 MeetingStatus.CONFIRMED

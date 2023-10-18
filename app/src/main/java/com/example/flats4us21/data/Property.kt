@@ -1,5 +1,6 @@
 package com.example.flats4us21.data
 
+import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 
@@ -15,8 +16,8 @@ data class Property(
     val constructionYear: Int,
     val numberOfRooms: Int,
     val numberOfFloors: Int,
-    val equipment: String,
-    val image: MutableList<Int>
+    val equipment: MutableList<String>,
+    val image: MutableList<Uri>
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         propertyType = PropertyType.valueOf(parcel.readString()!!),
@@ -30,8 +31,8 @@ data class Property(
         constructionYear = parcel.readInt(),
         numberOfRooms = parcel.readInt(),
         numberOfFloors = parcel.readInt(),
-        equipment = parcel.readString()!!,
-        image = mutableListOf<Int>().apply { parcel.readList(this, Int::class.java.classLoader) }
+        equipment = mutableListOf<String>().apply { parcel.readList(this, String::class.java.classLoader) },
+        image = mutableListOf<Uri>().apply { parcel.readList(this, Int::class.java.classLoader) }
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -45,7 +46,7 @@ data class Property(
         parcel.writeInt(constructionYear)
         parcel.writeInt(numberOfRooms)
         parcel.writeInt(numberOfFloors)
-        parcel.writeString(equipment)
+        parcel.writeList(equipment)
         parcel.writeList(image)
     }
 

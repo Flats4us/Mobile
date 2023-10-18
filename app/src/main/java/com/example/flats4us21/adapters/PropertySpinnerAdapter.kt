@@ -33,7 +33,7 @@ class PropertySpinnerAdapter(
         val streetTextView = view.findViewById<TextView>(R.id.street)
         val buildingNumberTextView = view.findViewById<TextView>(R.id.building)
 
-        imageView.setImageResource(item.image[0])
+        imageView.setImageURI(item.image[0])
         cityTextView.text = item.city
         streetTextView.text = item.street
         buildingNumberTextView.text = item.buildingNumber

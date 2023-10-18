@@ -119,19 +119,19 @@
     <string name="add_offer">Dodaj ofertę</string>
     <string name="choose_property">Wybierz nieruchomość</string>
     <string name="add_real_estate">Utwórz nieruchomość</string>
-    <string name="voivodeship">Województwo*</string>
-    <string name="real_estate_type">Rodzaj nieruchomości*</string>
-    <string name="city">Miasto*</string>
+    <string name="voivodeship">Województwo</string>
+    <string name="real_estate_type">Rodzaj nieruchomości</string>
+    <string name="city">Miasto</string>
     <string name="district">Dzielnica</string>
-    <string name="street">Ulica*</string>
-    <string name="building_number">Numer budynku*</string>
-    <string name="property_type">Rodzaj nieruchomości*</string>
+    <string name="street">Ulica</string>
+    <string name="building_number">Numer budynku</string>
+    <string name="property_type">Rodzaj nieruchomości</string>
     <string name="next_button">Następny</string>
-    <string name="creating_area">Powierzchnia*</string>
-    <string name="creating_max_residents">Maksymalna liczba mieszkańców*</string>
-    <string name="construction_year">Lata budowy*</string>
-    <string name="number_of_rooms">Liczba pokoi*</string>
-    <string name="number_of_floors">Liczba pięter*</string>
+    <string name="creating_area">Powierzchnia</string>
+    <string name="creating_max_residents">Maksymalna liczba mieszkańców</string>
+    <string name="construction_year">Lata budowy</string>
+    <string name="number_of_rooms">Liczba pokoi</string>
+    <string name="number_of_floors">Liczba pięter</string>
     <string name="creating_equipment">Wyposażenie</string>
     <string name="prev_button">Poprzedni</string>
     <string name="add_photos">Dodaj zdjęcia</string>
@@ -151,6 +151,27 @@
     <string name="report_next_issue">Zgłoś kolejny problem</string>
     <string name="no_option_selected">Nie wybrano żadnej opcji</string>
     <string name="last_viewed_offers">Ostatnio oglądane oferty</string>
+    <string name="choose_an_option">Wybierz opcję</string>
+    <string name="flat_number">Numer mieszkania</string>
+    <string name="land_area">Powierzchnia działki</string>
+    <string name="no_photo_selected">Nie wybrano żadnego zdjęcia</string>
+
+    <string name="required_voivodeship">Województwo*</string>
+    <string name="required_real_estate_type">Rodzaj nieruchomości*</string>
+    <string name="required_city">Miasto*</string>
+    <string name="required_district">Dzielnica*</string>
+    <string name="required_street">Ulica*</string>
+    <string name="required_building_number">Numer budynku*</string>
+    <string name="required_property_type">Rodzaj nieruchomości*</string>
+    <string name="required_creating_area">Powierzchnia*</string>
+    <string name="required_creating_max_residents">Maksymalna liczba mieszkańców*</string>
+    <string name="required_construction_year">Lata budowy*</string>
+    <string name="required_number_of_rooms">Liczba pokoi*</string>
+    <string name="required_number_of_floors">Liczba pięter*</string>
+    <string name="required_creating_equipment">Wyposażenie*</string>
+    <string name="required_flat_number">Numer mieszkania*</string>
+    <string name="required_land_area">Powierzchnia działki*</string>
+    <string name="required_floor">Piętro*</string>
 
 
     <!-- TODO: meeting_row -->

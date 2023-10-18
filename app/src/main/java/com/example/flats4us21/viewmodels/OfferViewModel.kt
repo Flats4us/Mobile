@@ -10,7 +10,7 @@ import com.example.flats4us21.services.PropertyDataSource
 import java.time.LocalDate
 
 class OfferViewModel: ViewModel() {
-    private val propertyRepository : PropertyDataSource = HardcodedPropertyDataSource()
+    private val propertyRepository : PropertyDataSource = HardcodedPropertyDataSource
     private val offerRepository : OfferDataSource = HardcodedOfferDataSource
 
     fun getUserProperties(): List<Property>{

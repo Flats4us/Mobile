@@ -1,9 +1,9 @@
 package com.example.flats4us21.services
 
-import com.example.flats4us21.R
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.Property
 import com.example.flats4us21.data.PropertyType
+import com.example.flats4us21.data.utils.FileUtils
 
 object HardcodedOfferDataSource : OfferDataSource {
     private val offers : MutableList<Offer> = mutableListOf()
@@ -31,8 +31,8 @@ object HardcodedOfferDataSource : OfferDataSource {
                     constructionYear = 2010,
                     numberOfRooms = 1,
                     numberOfFloors = 1,
-                    equipment = "Brak",
-                    image = mutableListOf(R.drawable.property),
+                    equipment = mutableListOf(),
+                    image = mutableListOf(FileUtils.getUriOfExamplePropertyJpg()),
                 )
             )
         )
@@ -56,8 +56,8 @@ object HardcodedOfferDataSource : OfferDataSource {
                     constructionYear = 2010,
                     numberOfRooms = 3,
                     numberOfFloors = 1,
-                    equipment = "Sofa",
-                    image = mutableListOf(R.drawable.property, R.drawable.property, R.drawable.property)
+                    equipment = mutableListOf("Sofa"),
+                    image = mutableListOf(FileUtils.getUriOfExamplePropertyJpg(), FileUtils.getUriOfExamplePropertyJpg(), FileUtils.getUriOfExamplePropertyJpg())
                 )
             )
         )
@@ -81,8 +81,8 @@ object HardcodedOfferDataSource : OfferDataSource {
                 constructionYear = 2010,
                 numberOfRooms = 2,
                 numberOfFloors = 1,
-                equipment = "Sofa",
-                image = mutableListOf(R.drawable.property),
+                equipment = mutableListOf("Sofa"),
+                image = mutableListOf(FileUtils.getUriOfExamplePropertyJpg()),
             )
         )
         offers.add(offer)
