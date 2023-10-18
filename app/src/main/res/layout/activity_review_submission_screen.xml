@@ -1,112 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <!-- Zdjęcie użytkownika -->
-    <ImageView
-        android:id="@+id/userImage"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/baseline_person_24"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Napis 'Dodaj opinię o ...' -->
-    <TextView
-        android:id="@+id/addReviewText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Dodaj opinię o"
-        app:layout_constraintBottom_toTopOf="@+id/userNameText"
-        app:layout_constraintStart_toEndOf="@+id/userImage"
-        app:layout_constraintTop_toTopOf="@+id/userImage" />
-
-    <!-- Imię i nazwisko osoby -->
-    <TextView
-        android:id="@+id/userNameText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Imię Nazwisko"
-        app:layout_constraintBottom_toTopOf="@+id/starRating"
-        app:layout_constraintStart_toEndOf="@+id/userImage"
-        app:layout_constraintTop_toBottomOf="@+id/addReviewText" />
-
-    <!-- Liczba gwiazdek -->
-    <RatingBar
-        android:id="@+id/starRating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="8dp"
-        android:numStars="5"
-        android:stepSize="1"
-        app:layout_constraintStart_toEndOf="@+id/userImage"
-        app:layout_constraintTop_toBottomOf="@+id/userNameText" />
-
-    <!-- Pole na dodanie pisemnej opinii -->
-    <EditText
-        android:id="@+id/reviewEditText"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:hint="Dodaj opinię"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userImage" />
-
-    <!-- Tagi -->
-    <TextView
-        android:id="@+id/tag1"
-        style="@style/TagStyle"
-        android:text="Komunikatywna"
-        app:layout_constraintTop_toBottomOf="@+id/reviewEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tag2" />
-
-    <TextView
-        android:id="@+id/tag2"
-        style="@style/TagStyle"
-        android:text="Miła"
-        app:layout_constraintTop_toBottomOf="@+id/reviewEditText"
-        app:layout_constraintStart_toEndOf="@+id/tag1"
-        app:layout_constraintEnd_toStartOf="@+id/tag3" />
-
-    <TextView
-        android:id="@+id/tag3"
-        style="@style/TagStyle"
-        android:text="Głośna"
-        app:layout_constraintTop_toBottomOf="@+id/reviewEditText"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <TextView
+            android:id="@+id/reviewHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_header"
+            android:gravity="center_horizontal"
+            android:text="Dodaj opinię o użytkowniku"
+            android:textColor="@color/white"
+            android:textSize="@dimen/h1"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/header_vertical_space"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TextContrastCheck" />
 
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scrollbars="none"
+            android:fillViewport="true"
+            app:layout_constraintTop_toBottomOf="@+id/reviewHeader"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/addButton">
 
-    <!-- Przyciski dodaj i anuluj -->
-    <Button
-        android:id="@+id/addButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Dodaj"
-        app:layout_constraintEnd_toStartOf="@+id/cancelButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-    <Button
-        android:id="@+id/cancelButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Anuluj"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/addButton"
-        app:layout_constraintBottom_toBottomOf="parent" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
+                    <ImageView
+                        android:id="@+id/userImage"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:src="@drawable/baseline_person_24"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/addReviewText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="Dodaj opinię o"
+                        app:layout_constraintBottom_toTopOf="@+id/userNameText"
+                        app:layout_constraintStart_toEndOf="@+id/userImage"
+                        app:layout_constraintTop_toTopOf="@+id/userImage" />
+
+                    <TextView
+                        android:id="@+id/userNameText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="Imię Nazwisko"
+                        app:layout_constraintBottom_toTopOf="@+id/starRating"
+                        app:layout_constraintStart_toEndOf="@+id/userImage"
+                        app:layout_constraintTop_toBottomOf="@+id/addReviewText" />
+
+                    <RatingBar
+                        android:id="@+id/starRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="8dp"
+                        android:numStars="5"
+                        android:stepSize="1"
+                        app:layout_constraintStart_toEndOf="@+id/userImage"
+                        app:layout_constraintTop_toBottomOf="@+id/userNameText" />
+
+                    <EditText
+                        android:id="@+id/reviewEditText"
+                        android:layout_width="0dp"
+                        android:layout_height="200dp"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:hint="Dodaj opinię"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/userImage" />
+
+                    <TextView
+                        android:id="@+id/tag1"
+                        style="@style/TagStyle"
+                        android:text="Komunikatywna"
+                        app:layout_constraintTop_toBottomOf="@+id/reviewEditText"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/tag2" />
+
+                    <TextView
+                        android:id="@+id/tag2"
+                        style="@style/TagStyle"
+                        android:text="Miła"
+                        app:layout_constraintTop_toBottomOf="@+id/reviewEditText"
+                        app:layout_constraintStart_toEndOf="@+id/tag1"
+                        app:layout_constraintEnd_toStartOf="@+id/tag3" />
+
+                    <TextView
+                        android:id="@+id/tag3"
+                        style="@style/TagStyle"
+                        android:text="Głośna"
+                        app:layout_constraintTop_toBottomOf="@+id/reviewEditText"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/baseline_cancel_24"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:text="@string/cancel"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/baseline_add_24"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:text="@string/add"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

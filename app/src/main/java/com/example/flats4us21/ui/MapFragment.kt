@@ -1,4 +1,4 @@
-package com.example.flats4us21
+package com.example.flats4us21.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,14 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
+import com.example.flats4us21.data.RentalPlace
 import com.example.flats4us21.databinding.ActivityMapBinding
 import com.example.flats4us21.viewmodels.MapViewModel
 import kotlinx.coroutines.launch
-import org.json.JSONArray
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
-import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 
 class MapFragment : Fragment() {
@@ -47,12 +46,12 @@ class MapFragment : Fragment() {
 
     private fun showAvailablePlacesForRent(rentals: List<RentalPlace>) {
         for (rental in rentals) {
-            addRentalMarker(rental.name, rental.location)
+            addRentalMarker(rental.name, GeoPoint(rental.latitude, rental.longitude))
         }
 
         if (rentals.isNotEmpty()) {
             val firstRental = rentals[0]
-            binding.mapFragment.controller.setCenter(firstRental.location)
+            binding.mapFragment.controller.setCenter(GeoPoint(firstRental.latitude, firstRental.longitude))
             binding.mapFragment.controller.setZoom(12.0)
         }
     }
@@ -64,8 +63,4 @@ class MapFragment : Fragment() {
         binding.mapFragment.overlays.add(marker)
         binding.mapFragment.invalidate()
     }
-
-    data class RentalPlace(val name: String, val location: GeoPoint)
 }
-
-

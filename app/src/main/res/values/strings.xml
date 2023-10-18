@@ -139,6 +139,9 @@
     <string name="add_rules">Dodaj regulamin</string>
     <string name="month">msc</string>
     <string name="rules_warning">Nie dodano regulaminu, albo plik jest pusty!</string>
+    <string name="cancel">Anuluj</string>
+    <string name="add">Dodaj</string>
+
 
     <string name="report_issue">Zgłoś nam problem</string>
     <string name="what_it_concerns">Czego dotyczy:</string>

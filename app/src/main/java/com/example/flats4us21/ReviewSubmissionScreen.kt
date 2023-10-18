@@ -36,8 +36,8 @@ class ReviewSubmissionScreen : AppCompatActivity() {
         tag1 = findViewById(R.id.tag1)
         tag2 = findViewById(R.id.tag2)
         tag3 = findViewById(R.id.tag3)
-        addButton = findViewById(R.id.addButton)
-        cancelButton = findViewById(R.id.cancelButton)
+//        addButton = findViewById(R.id.addButton)
+//        cancelButton = findViewById(R.id.cancelButton)
 
         // Assuming that when the tag TextViews are clicked, they change color or some visual indication
         // of being selected, you can add click listeners to handle the tag selection here.
