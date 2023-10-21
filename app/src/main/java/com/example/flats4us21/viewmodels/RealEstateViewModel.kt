@@ -3,8 +3,9 @@ package com.example.flats4us21.viewmodels
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.example.flats4us21.data.Address
 import com.example.flats4us21.data.Property
-import com.example.flats4us21.data.PropertyType
+import com.example.flats4us21.data.dto.PropertyDTO
 import com.example.flats4us21.services.*
 
 class RealEstateViewModel : ViewModel() {
@@ -138,19 +139,20 @@ class RealEstateViewModel : ViewModel() {
             _images = value
         }
 
-    fun createRealEstateObject(): Property {
-        return Property(
-            propertyType = PropertyType.valueOf(propertyType!!),
-            voivodeship = voivodeship,
-            city = city,
-            district = district,
-            street = street,
-            buildingNumber = buildingNumber,
+    fun createRealEstateObject(): PropertyDTO {
+        return PropertyDTO(
+            12345,
+            Address(voivodeship = voivodeship,
+                city = city,
+                district = district,
+                street = street,
+                buildingNumber = buildingNumber,
+                flatNumber = flatNumber
+            ),
             area = area!!,
             maxResidents = maxResidents,
             constructionYear = constructionYear,
             numberOfRooms = numberOfRooms!!,
-            numberOfFloors = numberOfFloors,
             equipment = equipment,
             image = images
         )
