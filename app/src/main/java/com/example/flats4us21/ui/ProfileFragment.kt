@@ -33,7 +33,6 @@ class ProfileFragment : Fragment() {
         binding.profilePicture.setImageResource(userProfile.profilePictureResId)
         binding.nameTextview.text = "${userProfile.firstName} ${userProfile.lastName}"
         binding.ageTextview.text = userProfile.age.toString()
-        binding.bioTextView.text = userProfile.bio
 
         // Ustawienie gwiazdek na podstawie oceny
         // In onViewCreated:
@@ -46,6 +45,7 @@ class ProfileFragment : Fragment() {
         binding.star5.setImageResource(if (rating >= 5) R.drawable.baseline_star_24 else R.drawable.baseline_star_outline_24)
 
 
+        binding.bioTextView.text = userProfile.bio
 
         // Opcjonalnie: Ustawienie ikonek na podstawie atrybutów użytkownika (jeśli są dynamiczne)
         // Przykład:

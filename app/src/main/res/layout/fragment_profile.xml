@@ -10,6 +10,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!-- Profile Header -->
+        <TextView
+            android:id="@+id/profileHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_header"
+            android:gravity="center_horizontal"
+            android:text="Twój Profil"
+            android:textColor="@color/white"
+            android:textSize="@dimen/h1"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/header_vertical_space" />
+
         <!-- Profile picture -->
         <ImageView
             android:id="@+id/profile_picture"
@@ -41,17 +54,7 @@
 
 
 
-        <!-- Bio Description -->
-        <TextView
-            android:id="@+id/bioTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/age_textview"
-            android:layout_marginTop="24dp"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
-            android:gravity="center"
-            android:textSize="16sp" />
+
 
         <!-- Edit Profile Button -->
         <Button
@@ -68,7 +71,7 @@
             android:id="@+id/star_rating_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/bioTextView"
+            android:layout_below="@id/age_textview"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
             android:orientation="horizontal">
@@ -108,6 +111,17 @@
                 android:src="@drawable/baseline_star_outline_24" />
         </LinearLayout>
 
+        <!-- Bio Description -->
+        <TextView
+            android:id="@+id/bioTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/star_rating_layout"
+            android:layout_marginTop="24dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:gravity="center"
+            android:textSize="16sp" />
 
     </RelativeLayout>
 </FrameLayout>

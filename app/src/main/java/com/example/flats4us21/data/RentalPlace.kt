@@ -5,23 +5,20 @@ import android.os.Parcelable
 
 data class RentalPlace(
     val name: String,
-    val latitude: Double,
-    val longitude: Double,
+    val address: String,
     val description: String,
     val images: MutableList<Int>
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         name = parcel.readString()!!,
-        latitude = parcel.readDouble(),
-        longitude = parcel.readDouble(),
+        address = parcel.readString()!!,
         description = parcel.readString()!!,
         images = mutableListOf<Int>().apply { parcel.readList(this, Int::class.java.classLoader) }
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)
-        parcel.writeDouble(latitude)
-        parcel.writeDouble(longitude)
+        parcel.writeString(address)
         parcel.writeString(description)
         parcel.writeList(images)
     }
