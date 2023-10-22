@@ -7,6 +7,7 @@ open class Property(
     open val owner: Owner,
     open val address: Address,
     open val area: Int,
+    open val landArea: Int?,
     open val maxResidents: Int,
     open val constructionYear: Int,
     open val numberOfRooms: Int,

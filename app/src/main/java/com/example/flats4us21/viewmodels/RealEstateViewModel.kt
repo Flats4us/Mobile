@@ -1,7 +1,6 @@
 package com.example.flats4us21.viewmodels
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.flats4us21.data.Address
 import com.example.flats4us21.data.Property
@@ -11,7 +10,7 @@ import com.example.flats4us21.services.*
 class RealEstateViewModel : ViewModel() {
     private val placeRepository : PlaceDataSource = HardcodedPlaceDataSource()
     private val equipmentRepository : EquipmentDataSource = HardcodedEquipmentDataSource()
-    private val propertyRepository : PropertyDataSource = HardcodedPropertyDataSource
+    private val propertyRepository : PropertyDataSource = ApiPropertyDataSource
     val voivodeshipSuggestions = ArrayList<String>()
 
     fun fetchVoivodeships() {
@@ -159,8 +158,6 @@ class RealEstateViewModel : ViewModel() {
     }
 
     fun addProperty(property: Property){
-        Log.d("BeforeAdding", "${propertyRepository.getUserProperties().size}")
-        propertyRepository.addProperty(property)
-        Log.d("BeforeAdding", "${propertyRepository.getUserProperties().size}")
+        TODO("Not yet implemented")
     }
 }

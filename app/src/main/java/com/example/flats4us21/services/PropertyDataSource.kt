@@ -4,7 +4,7 @@ import com.example.flats4us21.data.Property
 
 interface PropertyDataSource {
 
-    fun getUserProperties(): List<Property>
-    fun addProperty(property: Property)
+    suspend fun getUserProperties(): List<Property>
+    suspend fun addProperty(property: Property)
 
 }
