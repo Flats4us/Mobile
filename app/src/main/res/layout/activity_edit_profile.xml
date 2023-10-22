@@ -345,6 +345,7 @@
                 android:text="Wybierz zainteresowania"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
     </ScrollView>

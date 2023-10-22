@@ -33,30 +33,30 @@ class ProfileInsightFragment : Fragment() {
 //        val ageTextView = findViewById<TextView>(R.id.age_textview)
 //        ageTextView.text = "28"
 
-        val star1 = binding.star1
-        star1.setImageResource(R.drawable.baseline_star_24)
-
-        val star2 = binding.star2
-        star2.setImageResource(R.drawable.baseline_star_24)
-
-        val star3 = binding.star3
-        star3.setImageResource(R.drawable.baseline_star_24)
-
-        val star4 = binding.star4
-        star4.setImageResource(R.drawable.baseline_star_24)
-
-        val star5 = binding.star5
-        star5.setImageResource(R.drawable.baseline_star_outline_24)
-
-        val badgeDrinking = binding.badgeDrinking
-        badgeDrinking.setBackgroundResource(R.drawable.baseline_no_drinks_24)
-
-        val badgeFacebook = binding.badgeFacebook
-        badgeFacebook.setBackgroundResource(R.drawable.baseline_shower_24)
-
-        val descriptionTextView = binding.descriptionTextview
-        descriptionTextView.text =
-            "Jestem osobą ożywczą i entuzjastyczną, która ...(CZYTAJ WIĘCEJ)"
+//        val star1 = binding.star1
+//        star1.setImageResource(R.drawable.baseline_star_24)
+//
+//        val star2 = binding.star2
+//        star2.setImageResource(R.drawable.baseline_star_24)
+//
+//        val star3 = binding.star3
+//        star3.setImageResource(R.drawable.baseline_star_24)
+//
+//        val star4 = binding.star4
+//        star4.setImageResource(R.drawable.baseline_star_24)
+//
+//        val star5 = binding.star5
+//        star5.setImageResource(R.drawable.baseline_star_outline_24)
+//
+//        val badgeDrinking = binding.badgeDrinking
+//        badgeDrinking.setBackgroundResource(R.drawable.baseline_no_drinks_24)
+//
+//        val badgeFacebook = binding.badgeFacebook
+//        badgeFacebook.setBackgroundResource(R.drawable.baseline_shower_24)
+//
+//        val descriptionTextView = binding.descriptionTextview
+//        descriptionTextView.text =
+//            "Jestem osobą ożywczą i entuzjastyczną, która ...(CZYTAJ WIĘCEJ)"
 
 //        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
 //        bottomNavigationView.selectedItemId = R.id.profile_picture
