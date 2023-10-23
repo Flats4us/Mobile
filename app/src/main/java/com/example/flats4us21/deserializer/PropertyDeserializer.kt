@@ -2,6 +2,7 @@ package com.example.flats4us21.deserializer
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import com.example.flats4us21.data.*
 import com.example.flats4us21.data.dto.Property
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
@@ -17,36 +18,44 @@ class PropertyDeserializer : JsonDeserializer<Property> {
         context: JsonDeserializationContext?
     ): Property {
         val jsonObject = json?.asJsonObject ?: throw JsonParseException("Invalid JSON")
-
-        return Property(
-            propertyId = jsonObject.get("propertyId").asInt,
-            area = jsonObject.get("area").asInt,
-            buildingNumber = jsonObject.get("buildingNumber").asString,
-            city = jsonObject.get("city").asString,
-            constructionYear = jsonObject.get("constructionYear").asInt,
-            district = jsonObject.get("district").asString,
-            equipment = context?.deserialize(jsonObject.get("equipment"), List::class.java)!!,
-            flatNumber = jsonObject.get("flatNumber").asString,
-            floor = jsonObject.get("floor").asString,
-            images = deserializeImages(jsonObject.get("images").asJsonArray),
-            landArea = jsonObject.get("landArea").asInt,
-            maxResidents = jsonObject.get("maxResidents").asInt,
-            numberOfFloors = jsonObject.get("numberOfFloors").asInt,
-            numberOfRooms = jsonObject.get("numberOfRooms").asInt,
-            propertyType = jsonObject.get("propertyType").asString,
-            street = jsonObject.get("street").asString,
-            voivodeship = jsonObject.get("voivodeship").asString
-        )
+        val propertyId = jsonObject.get("propertyId").asInt
+        val owner: Owner = context?.deserialize(jsonObject.get("owner"), Owner::class.java)!!
+        val area = jsonObject.get("area").asInt
+        val buildingNumber = jsonObject.get("buildingNumber").asString
+        val city = jsonObject.get("city").asString
+        val constructionYear = jsonObject.get("constructionYear").asInt
+        val district = jsonObject.get("district").asString
+        val equipment: MutableList<String> = context.deserialize(jsonObject.get("equipment"), List::class.java)!!
+        val flatNumber = jsonObject.get("flatNumber").asString
+        val floor = jsonObject.get("floor").asString
+        val images = deserializeImages(jsonObject.get("images").asJsonArray)
+        val landArea = jsonObject.get("landArea").asInt
+        val maxResidents = jsonObject.get("maxResidents").asInt
+        val numberOfRooms = jsonObject.get("numberOfRooms").asInt
+        val propertyType = jsonObject.get("propertyType").asString
+        val street = jsonObject.get("street").asString
+        val voivodeship = jsonObject.get("voivodeship").asString
+        return when (propertyType) {
+            PropertyType.FLAT.toString() -> {
+                Flat(propertyId, owner, area, buildingNumber, city, constructionYear, district, equipment, images, maxResidents, numberOfRooms, street, voivodeship, floor, flatNumber)
+            }
+            PropertyType.ROOM.toString() -> {
+                Room(propertyId, owner, area, buildingNumber, city, constructionYear, district, equipment, images, maxResidents, numberOfRooms, street, voivodeship, floor, flatNumber)
+            }
+            else -> {
+                House(propertyId, owner, area, buildingNumber, city, constructionYear, district, equipment, images, maxResidents, numberOfRooms, street, voivodeship, landArea)
+            }
+        }
     }
 
-    private fun deserializeImages(jsonArray: JsonElement): List<Bitmap> {
+    private fun deserializeImages(jsonArray: JsonElement): MutableList<Bitmap> {
         val decoder: Base64.Decoder = Base64.getDecoder()
 
         return jsonArray.asJsonArray.map { jsonElement ->
             val base64Image = jsonElement.asString
             val imageBytes = decoder.decode(base64Image)
             BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-        }
+        } as MutableList<Bitmap>
     }
 }
 

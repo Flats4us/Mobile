@@ -1,27 +1,36 @@
 package com.example.flats4us21.data
 
-import android.net.Uri
+import android.graphics.Bitmap
+import com.google.gson.annotations.SerializedName
 
 data class House(
-    override val id: Int,
+    override val propertyId: Int,
     override val owner: Owner,
-    override val address: Address,
     override val area: Int,
-    override val maxResidents: Int,
+    override val buildingNumber: String,
+    override val city: String,
     override val constructionYear: Int,
-    override val numberOfRooms: Int,
+    override val district: String,
     override val equipment: MutableList<String>,
-    override val image: MutableList<Uri>,
-    val floor: Int,
-    val flatNumber: Int
-) : Property(
-    id,
+    override val images: MutableList<Bitmap>,
+    override val maxResidents: Int,
+    override val numberOfRooms: Int,
+    override val street: String,
+    override val voivodeship: String,
+    @SerializedName("landArea")
+    val landArea: Int
+) : com.example.flats4us21.data.dto.Property(
+    propertyId,
     owner,
-    address,
     area,
-    maxResidents,
+    buildingNumber,
+    city,
     constructionYear,
-    numberOfRooms,
+    district,
     equipment,
-    image
+    images,
+    maxResidents,
+    numberOfRooms,
+    street,
+    voivodeship
 )

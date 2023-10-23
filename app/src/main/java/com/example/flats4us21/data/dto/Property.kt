@@ -1,41 +1,34 @@
 package com.example.flats4us21.data.dto
 
 import android.graphics.Bitmap
+import com.example.flats4us21.data.Owner
 import com.google.gson.annotations.SerializedName
 
-data class Property(
+open class Property(
     @SerializedName("propertyId")
-    val propertyId: Int,
+    open val propertyId: Int,
+    @SerializedName("owner")
+    open val owner: Owner,
     @SerializedName("area")
-    val area: Int,
+    open val area: Int,
     @SerializedName("buildingNumber")
-    val buildingNumber: String,
+    open val buildingNumber: String,
     @SerializedName("city")
-    val city: String,
+    open val city: String,
     @SerializedName("constructionYear")
-    val constructionYear: Int,
+    open val constructionYear: Int,
     @SerializedName("district")
-    val district: String,
+    open val district: String,
     @SerializedName("equipment")
-    val equipment: List<String>,
-    @SerializedName("flatNumber")
-    val flatNumber: String,
-    @SerializedName("floor")
-    val floor: String,
+    open val equipment: List<String>,
     @SerializedName("images")
-    val images: List<Bitmap>,
-    @SerializedName("landArea")
-    val landArea: Int,
+    open val images: List<Bitmap>,
     @SerializedName("maxResidents")
-    val maxResidents: Int,
-    @SerializedName("numberOfFloors")
-    val numberOfFloors: Int,
+    open val maxResidents: Int,
     @SerializedName("numberOfRooms")
-    val numberOfRooms: Int,
-    @SerializedName("propertyType")
-    val propertyType: String,
+    open val numberOfRooms: Int,
     @SerializedName("street")
-    val street: String,
+    open val street: String,
     @SerializedName("voivodeship")
-    val voivodeship: String
+    open val voivodeship: String
 )
