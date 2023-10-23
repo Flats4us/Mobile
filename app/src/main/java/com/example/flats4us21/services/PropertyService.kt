@@ -1,6 +1,6 @@
 package com.example.flats4us21.services
 
-import com.example.flats4us21.data.Property
+import com.example.flats4us21.data.dto.Property
 import com.example.flats4us21.data.dto.NewPropertyDto
 import retrofit2.Call
 import retrofit2.Response

@@ -1,20 +1,25 @@
 package com.example.flats4us21.viewmodels
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.flats4us21.data.Offer
-import com.example.flats4us21.data.Property
-import com.example.flats4us21.services.HardcodedOfferDataSource
-import com.example.flats4us21.services.HardcodedPropertyDataSource
-import com.example.flats4us21.services.OfferDataSource
-import com.example.flats4us21.services.PropertyDataSource
+import com.example.flats4us21.data.dto.NewOfferDto
+import com.example.flats4us21.data.dto.Property
+import com.example.flats4us21.services.*
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 class OfferViewModel: ViewModel() {
-    private val propertyRepository : PropertyDataSource = HardcodedPropertyDataSource
+    private val apiPropertyRepository : PropertyDataSource = ApiPropertyDataSource
     private val offerRepository : OfferDataSource = HardcodedOfferDataSource
+    private val apiOfferRepository : OfferDataSource = ApiOfferDataSource
 
-    fun getUserProperties(): List<Property>{
-        return propertyRepository.getUserProperties()
+    fun getUserProperties(): MutableList<Property>{
+        var property: MutableList<Property> = mutableListOf()
+        viewModelScope.launch {
+            property = apiPropertyRepository.getUserProperties() as MutableList<Property>
+        }
+        return property
     }
 
     private var _price : Double = 0.0
@@ -60,16 +65,14 @@ class OfferViewModel: ViewModel() {
     }
 
      fun createOffer(){
-        val offer = Offer(
+        val offer = NewOfferDto(
             LocalDate.now().toString(),
-            "aktywny",
             price.toString(),
             description,
             rentalPeriod.toString(),
-            0,
-            property!!
+            null,
+            property!!.propertyId
         )
-        offerRepository.addOffer(offer)
     }
 
     fun getWatchedOffers(): List<Offer>{
@@ -77,7 +80,11 @@ class OfferViewModel: ViewModel() {
     }
 
     fun getOffers() : List<Offer>{
-        return offerRepository.getOffers()
+        var offer: MutableList<Offer> = mutableListOf()
+        viewModelScope.launch {
+            offer = apiOfferRepository.getOffers() as MutableList<Offer>
+        }
+        return offer
     }
 
     fun checkIfIsWatched(offer: Offer): Boolean{

@@ -3,6 +3,9 @@ package com.example.flats4us21.services
 import android.util.Log
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.dto.NewOfferDto
+import com.example.flats4us21.deserializer.OfferDeserializer
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -11,17 +14,21 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiOfferDataSource : OfferDataSource {
 
-    private  val baseUrl = "https://raw.githubusercontent.com"
+    private const val baseUrl = "https://raw.githubusercontent.com"
 
-    val api: OfferService by lazy {
+    val gson: Gson = GsonBuilder()
+        .registerTypeAdapter(Offer::class.java, OfferDeserializer())
+        .create()
+
+    private val api: OfferService by lazy {
         Retrofit.Builder()
             .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(OfferService::class.java)
     }
 
-    override suspend fun getOffers(): List<Offer> {
+    override suspend fun getOffers(): MutableList<Offer> {
         var result : List<Offer> = mutableListOf()
         api.getOffers().enqueue(object :
             Callback<List<Offer>?> {
@@ -41,7 +48,7 @@ object ApiOfferDataSource : OfferDataSource {
             }
 
         })
-        return result
+        return result as MutableList<Offer>
     }
 
     override fun getWatchedOffers(): List<Offer> {

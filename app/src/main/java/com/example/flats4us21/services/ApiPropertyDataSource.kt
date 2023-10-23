@@ -1,9 +1,8 @@
 package com.example.flats4us21.services
 
 import android.util.Log
-import com.example.flats4us21.data.Offer
-import com.example.flats4us21.data.Property
-import com.example.flats4us21.deserializer.OfferDeserializer
+import com.example.flats4us21.data.dto.Property
+import com.example.flats4us21.deserializer.PropertyDeserializer
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import retrofit2.Call
@@ -19,7 +18,7 @@ object ApiPropertyDataSource : PropertyDataSource {
     private const val baseUrl = "https://raw.githubusercontent.com"
 
     val gson: Gson = GsonBuilder()
-        .registerTypeAdapter(Offer::class.java, OfferDeserializer())
+        .registerTypeAdapter(Property::class.java, PropertyDeserializer())
         .create()
 
     private val api: PropertyService by lazy {
@@ -30,15 +29,15 @@ object ApiPropertyDataSource : PropertyDataSource {
             .create(PropertyService::class.java)
     }
 
-    override suspend fun getUserProperties(): List<Property> {
-        var result : List<Property> = mutableListOf()
+    override suspend fun getUserProperties(): MutableList<Property> {
+        var result : MutableList<Property> = mutableListOf()
         api.getProperties().enqueue(object : Callback<List<Property>?>{
             override fun onResponse(
                 call: Call<List<Property>?>,
                 response: Response<List<Property>?>
             ) {
                 if (response.isSuccessful && response.body() != null){
-                    result = response.body()!!
+                    result = (response.body() as MutableList<Property>?)!!
                 } else {
                     Log.e(TAG, "onResponse: ${response.message()}" )
                 }
