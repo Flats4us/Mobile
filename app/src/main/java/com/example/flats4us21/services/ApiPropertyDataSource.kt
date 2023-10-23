@@ -1,7 +1,11 @@
 package com.example.flats4us21.services
 
 import android.util.Log
+import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.Property
+import com.example.flats4us21.deserializer.OfferDeserializer
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -12,12 +16,16 @@ const val TAG = "ApiPropertyDataSource"
 
 object ApiPropertyDataSource : PropertyDataSource {
 
-    private  val baseUrl = "https://raw.githubusercontent.com"
+    private const val baseUrl = "https://raw.githubusercontent.com"
 
-    val api: PropertyService by lazy {
+    val gson: Gson = GsonBuilder()
+        .registerTypeAdapter(Offer::class.java, OfferDeserializer())
+        .create()
+
+    private val api: PropertyService by lazy {
         Retrofit.Builder()
             .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(PropertyService::class.java)
     }
