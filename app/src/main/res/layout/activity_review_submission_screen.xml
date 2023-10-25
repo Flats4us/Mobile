@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -20,14 +19,11 @@
             android:textSize="@dimen/h1"
             android:textStyle="bold"
             android:layout_marginTop="@dimen/header_vertical_space"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="TextContrastCheck" />
-
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:scrollbars="none"
             android:fillViewport="true"
             app:layout_constraintTop_toBottomOf="@+id/reviewHeader"
             app:layout_constraintEnd_toEndOf="parent"
@@ -54,24 +50,15 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/addReviewText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:text="Dodaj opinię o"
-                        app:layout_constraintBottom_toTopOf="@+id/userNameText"
-                        app:layout_constraintStart_toEndOf="@+id/userImage"
-                        app:layout_constraintTop_toTopOf="@+id/userImage" />
-
-                    <TextView
                         android:id="@+id/userNameText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:text="Imię Nazwisko"
+                        android:textSize="24sp"
                         app:layout_constraintBottom_toTopOf="@+id/starRating"
                         app:layout_constraintStart_toEndOf="@+id/userImage"
-                        app:layout_constraintTop_toBottomOf="@+id/addReviewText" />
+                        app:layout_constraintTop_toTopOf="@+id/userImage" />
 
                     <RatingBar
                         android:id="@+id/starRating"
@@ -96,30 +83,95 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/userImage" />
 
-                    <TextView
-                        android:id="@+id/tag1"
-                        style="@style/TagStyle"
-                        android:text="Komunikatywna"
-                        app:layout_constraintTop_toBottomOf="@+id/reviewEditText"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/tag2" />
-
-                    <TextView
-                        android:id="@+id/tag2"
-                        style="@style/TagStyle"
-                        android:text="Miła"
-                        app:layout_constraintTop_toBottomOf="@+id/reviewEditText"
-                        app:layout_constraintStart_toEndOf="@+id/tag1"
-                        app:layout_constraintEnd_toStartOf="@+id/tag3" />
-
-                    <TextView
-                        android:id="@+id/tag3"
-                        style="@style/TagStyle"
-                        android:text="Głośna"
-                        app:layout_constraintTop_toBottomOf="@+id/reviewEditText"
-                        app:layout_constraintEnd_toEndOf="parent" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp">
+
+                    <LinearLayout
+                        android:id="@+id/positiveTagsLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/tag1"
+                            style="@style/TagStyle"
+                            android:text="Komunikatywna"
+                            android:layout_marginEnd="16dp" />
+
+                        <CheckBox
+                            android:id="@+id/tag2"
+                            style="@style/TagStyle"
+                            android:text="Miła"
+                            android:layout_marginEnd="16dp" />
+
+                        <CheckBox
+                            android:id="@+id/tag3"
+                            style="@style/TagStyle"
+                            android:text="Uprzejma"
+                            android:layout_marginEnd="16dp" />
+
+                        <CheckBox
+                            android:id="@+id/tag4"
+                            style="@style/TagStyle"
+                            android:text="Otwarta"
+                            android:layout_marginEnd="16dp" />
+
+                        <CheckBox
+                            android:id="@+id/tag5"
+                            style="@style/TagStyle"
+                            android:text="Szczera"
+                            android:layout_marginEnd="16dp" />
+
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp">
+
+                    <LinearLayout
+                        android:id="@+id/negativeTagsLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/tagNeg1"
+                            style="@style/TagStyleNegative"
+                            android:text="Niekomunikatywna"
+                            android:layout_marginEnd="16dp" />
+
+                        <CheckBox
+                            android:id="@+id/tagNeg2"
+                            style="@style/TagStyleNegative"
+                            android:text="Nieuprzejma"
+                            android:layout_marginEnd="16dp" />
+
+                        <CheckBox
+                            android:id="@+id/tagNeg3"
+                            style="@style/TagStyleNegative"
+                            android:text="Głośna"
+                            android:layout_marginEnd="16dp" />
+
+                        <CheckBox
+                            android:id="@+id/tagNeg4"
+                            style="@style/TagStyleNegative"
+                            android:text="Nieotwarta"
+                            android:layout_marginEnd="16dp" />
+
+                        <CheckBox
+                            android:id="@+id/tagNeg5"
+                            style="@style/TagStyleNegative"
+                            android:text="Nieszczera"
+                            android:layout_marginEnd="16dp" />
+
+                    </LinearLayout>
+                </HorizontalScrollView>
 
             </LinearLayout>
         </ScrollView>

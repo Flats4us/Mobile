@@ -29,13 +29,13 @@ class ReviewSubmissionScreen : AppCompatActivity() {
         setContentView(R.layout.activity_review_submission_screen)
 
         userImage = findViewById(R.id.userImage)
-        addReviewText = findViewById(R.id.addReviewText)
+//        addReviewText = findViewById(R.id.addReviewText)
         userNameText = findViewById(R.id.userNameText)
         starRating = findViewById(R.id.starRating)
         reviewEditText = findViewById(R.id.reviewEditText)
         tag1 = findViewById(R.id.tag1)
         tag2 = findViewById(R.id.tag2)
-        tag3 = findViewById(R.id.tag3)
+        tag3 = findViewById(R.id.tag2)
 //        addButton = findViewById(R.id.addButton)
 //        cancelButton = findViewById(R.id.cancelButton)
 

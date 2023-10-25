@@ -9,13 +9,26 @@
     android:layout_height="match_parent"
     tools:context=".MapActivity">
 
+    <TextView
+        android:id="@+id/mapHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_header"
+        android:gravity="center_horizontal"
+        android:text="Mapa Ofert"
+        android:textColor="@color/white"
+        android:textSize="@dimen/h1"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/header_vertical_space"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <org.osmdroid.views.MapView
         android:id="@+id/mapFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mapHeader"
         app:layout_constraintBottom_toTopOf="@+id/addressEditText" />
 
     <EditText
