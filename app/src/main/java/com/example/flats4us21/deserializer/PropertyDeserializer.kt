@@ -2,16 +2,21 @@ package com.example.flats4us21.deserializer
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import com.example.flats4us21.data.*
 import com.example.flats4us21.data.dto.Property
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.JsonParseException
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.lang.reflect.Type
 import java.util.*
+import java.util.zip.GZIPInputStream
 
 class PropertyDeserializer : JsonDeserializer<Property> {
+    private val ownerDeserializer = OwnerDeserializer()
     override fun deserialize(
         json: JsonElement?,
         typeOfT: Type?,
@@ -19,17 +24,17 @@ class PropertyDeserializer : JsonDeserializer<Property> {
     ): Property {
         val jsonObject = json?.asJsonObject ?: throw JsonParseException("Invalid JSON")
         val propertyId = jsonObject.get("propertyId").asInt
-        val owner: Owner = context?.deserialize(jsonObject.get("owner"), Owner::class.java)!!
+        val owner: Owner = ownerDeserializer.deserialize(jsonObject.get("owner"), Owner::class.java, context)
         val area = jsonObject.get("area").asInt
         val buildingNumber = jsonObject.get("buildingNumber").asString
         val city = jsonObject.get("city").asString
         val constructionYear = jsonObject.get("constructionYear").asInt
         val district = jsonObject.get("district").asString
-        val equipment: MutableList<String> = context.deserialize(jsonObject.get("equipment"), List::class.java)!!
+        val equipment: MutableList<String> = context?.deserialize(jsonObject.get("equipment"), List::class.java)!!
         val flatNumber = jsonObject.get("flatNumber").asString
         val floor = jsonObject.get("floor").asString
-        val images = deserializeImages(jsonObject.get("images").asJsonArray)
-        val landArea = jsonObject.get("landArea").asInt
+        val images : MutableList<Bitmap> = context.deserialize(jsonObject.get("images"), MutableList::class.java)!!
+        val landArea = if (jsonObject.get("landArea").isJsonNull) 0 else jsonObject.get("landArea").asInt
         val maxResidents = jsonObject.get("maxResidents").asInt
         val numberOfRooms = jsonObject.get("numberOfRooms").asInt
         val propertyType = jsonObject.get("propertyType").asString
@@ -48,16 +53,45 @@ class PropertyDeserializer : JsonDeserializer<Property> {
         }
     }
 
-    private fun deserializeImages(jsonArray: JsonElement): MutableList<Bitmap> {
-        val decoder: Base64.Decoder = Base64.getDecoder()
 
-        return jsonArray.asJsonArray.map { jsonElement ->
+
+    private fun deserializeImages(jsonArray: JsonElement): MutableList<Bitmap> {
+        return jsonArray.asJsonArray.mapNotNull { jsonElement ->
             val base64Image = jsonElement.asString
-            val imageBytes = decoder.decode(base64Image)
-            BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+            val decompressedImageBytes = decompressAndBase64ToImage(base64Image)
+            Log.d("PropertyDeserializer", "$decompressedImageBytes")
+            if (decompressedImageBytes != null) {
+                BitmapFactory.decodeByteArray(decompressedImageBytes, 0, decompressedImageBytes.size)
+            } else {
+                null
+            }
         } as MutableList<Bitmap>
     }
+
+    private fun decompressAndBase64ToImage(compressedBase64Image: String): ByteArray? {
+        return try {
+            val compressedData = Base64.getDecoder().decode(compressedBase64Image)
+
+            val decompressedData = decompressData(compressedData)
+
+            decompressedData
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    private fun decompressData(compressedData: ByteArray): ByteArray {
+        val inputStream = ByteArrayInputStream(compressedData)
+        val gzipInputStream = GZIPInputStream(inputStream)
+        val outputStream = ByteArrayOutputStream()
+        val buffer = ByteArray(1024)
+
+        var bytesRead: Int
+        while (gzipInputStream.read(buffer).also { bytesRead = it } != -1) {
+            outputStream.write(buffer, 0, bytesRead)
+        }
+
+        return outputStream.toByteArray()
+    }
 }
-
-
-

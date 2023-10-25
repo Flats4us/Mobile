@@ -8,6 +8,7 @@ import com.google.gson.JsonElement
 import java.lang.reflect.Type
 
 class OfferDeserializer : JsonDeserializer<Offer> {
+    private val propertyDeserializer = PropertyDeserializer()
     override fun deserialize(
         json: JsonElement,
         typeOfT: Type?,
@@ -17,12 +18,12 @@ class OfferDeserializer : JsonDeserializer<Offer> {
         val offerId = jsonObject.get("offerId").asInt
         val dateIssue = jsonObject.get("dateIssue").asString
         val status = jsonObject.get("status").asString
-        val price = jsonObject.get("price").asString
+        val price = jsonObject.get("price").asDouble.toString()
         val description = jsonObject.get("description").asString
-        val rentalPeriod = jsonObject.get("rentalPeriod").asString
-        val interestedPeople = jsonObject.get("interestPeople").asInt
-        val userRegulation = jsonObject.get("userRegulation")?.asString
-        val property : Property = context?.deserialize(jsonObject.get("property"), Property::class.java)!!
+        val rentalPeriod = jsonObject.get("rentalPeriod").asInt.toString()
+        val interestedPeople = jsonObject.get("interestedPeople").asInt
+        val userRegulation = jsonObject.get("userRegulation")?.asString.orEmpty()
+        val property : Property = propertyDeserializer.deserialize(jsonObject.get("property"), Property::class.java, context)
 
         return Offer(offerId, dateIssue, status, price, description, rentalPeriod, interestedPeople, userRegulation, property)
     }

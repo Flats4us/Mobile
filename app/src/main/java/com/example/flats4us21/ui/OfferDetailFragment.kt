@@ -66,7 +66,7 @@ class OfferDetailFragment : Fragment() {
 
         }
         val imageSlider = binding.image
-        imageSlider.adapter = ImageSliderAdapter(offer.property.image)
+        imageSlider.adapter = ImageSliderAdapter(offer.property.images)
         imageSlider.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)

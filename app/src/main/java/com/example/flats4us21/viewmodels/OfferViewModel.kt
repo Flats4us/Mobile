@@ -11,7 +11,6 @@ import java.time.LocalDate
 
 class OfferViewModel: ViewModel() {
     private val apiPropertyRepository : PropertyDataSource = ApiPropertyDataSource
-    private val offerRepository : OfferDataSource = HardcodedOfferDataSource
     private val apiOfferRepository : OfferDataSource = ApiOfferDataSource
 
     fun getUserProperties(): MutableList<Property>{
@@ -73,10 +72,13 @@ class OfferViewModel: ViewModel() {
             null,
             property!!.propertyId
         )
+         viewModelScope.launch {
+             apiOfferRepository.addOffer(offer)
+         }
     }
 
     fun getWatchedOffers(): List<Offer>{
-        return offerRepository.getWatchedOffers()
+        return apiOfferRepository.getWatchedOffers()
     }
 
     fun getOffers() : List<Offer>{
@@ -88,24 +90,24 @@ class OfferViewModel: ViewModel() {
     }
 
     fun checkIfIsWatched(offer: Offer): Boolean{
-        return offerRepository.getWatchedOffers().contains(offer)
+        return apiOfferRepository.getWatchedOffers().contains(offer)
     }
 
     fun watchOffer(offer: Offer){
-        offerRepository.addOfferToWatched(offer)
+        apiOfferRepository.addOfferToWatched(offer)
     }
 
     fun unwatchOffer(offer: Offer){
-        offerRepository.removeOfferToWatched(offer)
+        apiOfferRepository.removeOfferToWatched(offer)
     }
 
     fun getLastViewedOffers(): List<Offer>{
-        return offerRepository.getLastViewedOffers()
+        return apiOfferRepository.getLastViewedOffers()
     }
 
     fun addOfferToLastViewed(offer: Offer?){
         if (offer != null) {
-            offerRepository.addOfferToLastViewed(offer)
+            apiOfferRepository.addOfferToLastViewed(offer)
         }
     }
 }

@@ -1,5 +1,9 @@
 package com.example.flats4us21.ui
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -55,7 +59,7 @@ class AddRealEstateFourthStepFragment : Fragment() {
 
     private fun bindData() {
         val imageSlider = binding.image
-        imageSlider.adapter = ImageSliderAdapter(realEstateViewModel.images)
+        imageSlider.adapter = ImageSliderAdapter(urisToBitmaps(requireContext(), realEstateViewModel.images))
         imageSlider.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
@@ -136,4 +140,23 @@ class AddRealEstateFourthStepFragment : Fragment() {
         realEstateViewModel.images.clear()
     }
 
+    private fun urisToBitmaps(context: Context, uriList: List<Uri>): List<Bitmap> {
+        val bitmapList = mutableListOf<Bitmap>()
+
+        for (uri in uriList) {
+            try {
+                val inputStream = context.contentResolver.openInputStream(uri)
+                val bitmap = BitmapFactory.decodeStream(inputStream)
+                inputStream?.close()
+
+                if (bitmap != null) {
+                    bitmapList.add(bitmap)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        return bitmapList
+    }
 }

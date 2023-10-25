@@ -10,7 +10,7 @@ import retrofit2.http.POST
 
 interface OfferService {
     @GET("/s22677/JSON-data-example/main/Offer/Offer.json")
-    suspend fun getOffers() : Call<List<Offer>>
+    suspend fun getOffers() : List<Offer>
 
     @POST("/s22677/JSON-data-example/main/Offer/Offer.json")
     suspend fun createOffer(@Body newOffer : NewOfferDto): Response<Void>

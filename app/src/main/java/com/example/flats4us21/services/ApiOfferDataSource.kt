@@ -30,24 +30,25 @@ object ApiOfferDataSource : OfferDataSource {
 
     override suspend fun getOffers(): MutableList<Offer> {
         var result : List<Offer> = mutableListOf()
-        api.getOffers().enqueue(object :
-            Callback<List<Offer>?> {
-            override fun onResponse(
-                call: Call<List<Offer>?>,
-                response: Response<List<Offer>?>
-            ) {
-                if (response.isSuccessful && response.body() != null){
-                    result = response.body()!!
-                } else {
-                    Log.e(TAG, "onResponse: ${response.message()}" )
-                }
-            }
-
-            override fun onFailure(call: Call<List<Offer>?>, t: Throwable) {
-                Log.e(TAG, "onResponse: ${t.message}" )
-            }
-
-        })
+        api.getOffers()
+//            .enqueue(object :
+//            Callback<List<Offer>?> {
+//            override fun onResponse(
+//                call: Call<List<Offer>?>,
+//                response: Response<List<Offer>?>
+//            ) {
+//                if (response.isSuccessful && response.body() != null){
+//                    result = response.body()!!
+//                } else {
+//                    Log.e(TAG, "onResponse: ${response.message()}" )
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<List<Offer>?>, t: Throwable) {
+//                Log.e(TAG, "onResponse: ${t.message}" )
+//            }
+//
+//        })
         return result as MutableList<Offer>
     }
 
