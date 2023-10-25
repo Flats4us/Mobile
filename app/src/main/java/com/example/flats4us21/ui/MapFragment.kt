@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
-import com.example.flats4us21.data.RentalPlace
+import com.example.flats4us21.R
+import com.example.flats4us21.data.FilterCriteria
+import com.example.flats4us21.data.Property
 import com.example.flats4us21.databinding.ActivityMapBinding
 import com.example.flats4us21.viewmodels.MapViewModel
 import kotlinx.coroutines.launch
@@ -18,16 +20,16 @@ import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.overlay.Marker
-import java.net.HttpURLConnection
-import java.net.URL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.net.HttpURLConnection
+import java.net.URL
 
-
-class MapFragment : Fragment() {
+class MapFragment : Fragment(), FilterFragmentListener {
 
     private lateinit var binding: ActivityMapBinding
     private lateinit var viewModel: MapViewModel
+    private var currentFilter: FilterCriteria? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,16 +38,18 @@ class MapFragment : Fragment() {
         binding = ActivityMapBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this).get(MapViewModel::class.java)
 
-        Configuration.getInstance().load(context,
-            context?.let { PreferenceManager.getDefaultSharedPreferences(it) })
+        Configuration.getInstance().load(
+            context,
+            context?.let { PreferenceManager.getDefaultSharedPreferences(it) }
+        )
 
         binding.mapFragment.setTileSource(TileSourceFactory.MAPNIK)
         binding.mapFragment.setBuiltInZoomControls(true)
         binding.mapFragment.setMultiTouchControls(true)
 
         lifecycleScope.launch {
-            val rentalData = viewModel.loadData()
-            showAvailablePlacesForRent(rentalData)
+            val rentalData = viewModel.loadData(currentFilter)
+            showAvailableProperties(rentalData)
         }
 
         binding.searchButton.setOnClickListener {
@@ -61,35 +65,72 @@ class MapFragment : Fragment() {
             }
         }
 
+        binding.filterButton.setOnClickListener {
+            binding.filterButton.visibility = View.GONE
+            binding.searchButton.visibility = View.GONE
+
+            // TU do poprawy
+            val filterFragment = FilterFragment()
+            filterFragment.listener = this@MapFragment
+
+            val transaction = parentFragmentManager.beginTransaction()
+            transaction.replace(R.id.container, filterFragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+
         return binding.root
     }
 
-    private fun showAvailablePlacesForRent(rentals: List<RentalPlace>) {
+    private fun showAvailableProperties(properties: List<Property>) {
         lifecycleScope.launch {
-            for (rental in rentals) {
-                val location = addressToGeoPoint(rental.address)
+            // Clear previous markers
+            binding.mapFragment.overlays.clear()
+
+            for (property in properties) {
+                val location = addressToGeoPoint("${property.street} ${property.buildingNumber}, ${property.city}")
                 if (location != null) {
-                    addRentalMarker(rental.name, location)
+                    val description = getPropertyDescription(property)
+                    addPropertyMarker(description, location)
                 } else {
-                    Toast.makeText(context, "Address not found for ${rental.name}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Address not found for ${property.city}", Toast.LENGTH_SHORT).show()
                 }
             }
-            if (rentals.isNotEmpty()) {
-                val firstLocation = addressToGeoPoint(rentals[0].address)
+            if (properties.isNotEmpty()) {
+                val firstLocation = addressToGeoPoint("${properties[0].street} ${properties[0].buildingNumber}, ${properties[0].city}")
                 if (firstLocation != null) {
                     binding.mapFragment.controller.setCenter(firstLocation)
                     binding.mapFragment.controller.setZoom(12.0)
                 }
             }
+            // Refresh the map
+            binding.mapFragment.invalidate()
         }
     }
 
-    private fun addRentalMarker(name: String, location: GeoPoint) {
+
+    private fun addPropertyMarker(description: String, location: GeoPoint) {
         val marker = Marker(binding.mapFragment)
         marker.position = location
-        marker.title = name
+        marker.title = description
         binding.mapFragment.overlays.add(marker)
         binding.mapFragment.invalidate()
+    }
+
+    private fun getPropertyDescription(property: Property): String {
+        return """
+            Type: ${property.propertyType.name}
+            Voivodeship: ${property.voivodeship}
+            City: ${property.city}
+            District: ${property.district}
+            Street: ${property.street} ${property.buildingNumber}
+            Area: ${property.area}m²
+            Max Residents: ${property.maxResidents}
+            Construction Year: ${property.constructionYear}
+            Number of Rooms: ${property.numberOfRooms}
+            Number of Floors: ${property.numberOfFloors}
+            Equipment: ${property.equipment.joinToString(", ")}
+        """.trimIndent()
     }
 
     private suspend fun addressToGeoPoint(address: String): GeoPoint? = withContext(Dispatchers.IO) {
@@ -108,5 +149,15 @@ class MapFragment : Fragment() {
         val lat = firstResult.getDouble("lat")
         val lon = firstResult.getDouble("lon")
         return@withContext GeoPoint(lat, lon)
+    }
+
+    override fun onFilterApplied(filterCriteria: FilterCriteria) {
+        currentFilter = filterCriteria
+        binding.filterButton.visibility = View.VISIBLE
+        binding.searchButton.visibility = View.VISIBLE
+        lifecycleScope.launch {
+            val rentalData = viewModel.loadData(currentFilter)
+            showAvailableProperties(rentalData)
+        }
     }
 }
