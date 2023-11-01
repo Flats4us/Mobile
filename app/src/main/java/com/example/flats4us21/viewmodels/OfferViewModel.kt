@@ -1,5 +1,8 @@
 package com.example.flats4us21.viewmodels
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.flats4us21.data.Offer
@@ -12,6 +15,14 @@ import java.time.LocalDate
 class OfferViewModel: ViewModel() {
     private val apiPropertyRepository : PropertyDataSource = ApiPropertyDataSource
     private val apiOfferRepository : OfferDataSource = ApiOfferDataSource
+
+    private val _offers: MutableLiveData<List<Offer>> = MutableLiveData()
+    val offers: LiveData<List<Offer>>
+        get() = _offers
+
+    private val _isLoading = MutableLiveData(false)
+    val isLoading: LiveData<Boolean>
+        get() = _isLoading
 
     fun getUserProperties(): MutableList<Property>{
         var property: MutableList<Property> = mutableListOf()
@@ -78,19 +89,29 @@ class OfferViewModel: ViewModel() {
     }
 
     fun getWatchedOffers(): List<Offer>{
-        return apiOfferRepository.getWatchedOffers()
+        var offers: MutableList<Offer> = mutableListOf()
+        viewModelScope.launch {
+            offers = apiOfferRepository.getWatchedOffers() as MutableList<Offer>
+        }
+        return offers
     }
 
-    fun getOffers() : List<Offer>{
-        var offer: MutableList<Offer> = mutableListOf()
-        viewModelScope.launch {
-            offer = apiOfferRepository.getOffers() as MutableList<Offer>
+    fun getOffers() {
+         viewModelScope.launch {
+             _isLoading.value = true
+            val fetchedOffers = apiOfferRepository.getOffers()
+             Log.i("OfferViewModel", "Fetched offers: $fetchedOffers")
+             _offers.value = fetchedOffers
+             _isLoading.value = false
         }
-        return offer
     }
 
     fun checkIfIsWatched(offer: Offer): Boolean{
-        return apiOfferRepository.getWatchedOffers().contains(offer)
+        var offers: MutableList<Offer> = mutableListOf()
+        viewModelScope.launch {
+            offers = apiOfferRepository.getWatchedOffers() as MutableList<Offer>
+        }
+        return offers.contains(offer)
     }
 
     fun watchOffer(offer: Offer){
@@ -102,7 +123,11 @@ class OfferViewModel: ViewModel() {
     }
 
     fun getLastViewedOffers(): List<Offer>{
-        return apiOfferRepository.getLastViewedOffers()
+        var offer: MutableList<Offer> = mutableListOf()
+        viewModelScope.launch {
+            offer = apiOfferRepository.getLastViewedOffers() as MutableList<Offer>
+        }
+        return offer
     }
 
     fun addOfferToLastViewed(offer: Offer?){

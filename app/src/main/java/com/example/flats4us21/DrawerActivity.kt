@@ -3,6 +3,7 @@
 
 package com.example.flats4us21
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
@@ -11,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import com.example.flats4us21.data.utils.FileUtils
+import com.example.flats4us21.deserializer.PropertyDeserializer
 import com.example.flats4us21.ui.*
 import com.google.android.material.navigation.NavigationView
 
@@ -23,7 +24,9 @@ class DrawerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_drawer)
-        FileUtils.setContext(applicationContext)
+        val resourceId = R.drawable.property
+        val defaultBitmap = BitmapFactory.decodeResource(applicationContext.resources, resourceId)
+        PropertyDeserializer.setBitmap(defaultBitmap)
         drawerLayout = findViewById(R.id.drawerLayout)
         val navView : NavigationView = findViewById(R.id.nav_view)
 

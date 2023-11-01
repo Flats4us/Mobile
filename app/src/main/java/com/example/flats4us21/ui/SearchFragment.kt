@@ -1,6 +1,8 @@
 package com.example.flats4us21.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,15 +12,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.adapters.PropertyAdapter
+import com.example.flats4us21.data.Offer
 import com.example.flats4us21.databinding.FragmentSearchBinding
 import com.example.flats4us21.viewmodels.OfferViewModel
 
 
+private const val TAG = "SearchFragment"
 class SearchFragment : Fragment() {
     private var _binding : FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerview: RecyclerView
+    private lateinit var adapter: PropertyAdapter
     private lateinit var viewModel: OfferViewModel
+    private val fetchedOffers: MutableList<Offer> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,14 +35,26 @@ class SearchFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity())[OfferViewModel::class.java]
-
-
+        viewModel.getOffers()
         recyclerview = binding.propertyRecyclerView
-        val offers = viewModel.getOffers()
-        val adapter = PropertyAdapter(offers){selectedOffer ->
+
+        viewModel.offers.observe(viewLifecycleOwner) { offers ->
+            Log.i(TAG, "Number of offers: $offers.size")
+            fetchedOffers.addAll(offers)
+            adapter.notifyDataSetChanged()
+        }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading: Boolean ->
+            Log.i(TAG, "isLoading $isLoading")
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            recyclerview.visibility = if (isLoading) View.GONE else View.VISIBLE
+        }
+
+        adapter = PropertyAdapter(fetchedOffers){selectedOffer ->
             viewModel.selectedOffer = selectedOffer
             val fragment = OfferDetailFragment()
             (activity as? DrawerActivity)!!.replaceFragment(fragment)

@@ -1,5 +1,6 @@
 package com.example.flats4us21.deserializer
 
+import android.util.Log
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.dto.Property
 import com.google.gson.JsonDeserializationContext
@@ -25,6 +26,8 @@ class OfferDeserializer : JsonDeserializer<Offer> {
         val userRegulation = jsonObject.get("userRegulation")?.asString.orEmpty()
         val property : Property = propertyDeserializer.deserialize(jsonObject.get("property"), Property::class.java, context)
 
-        return Offer(offerId, dateIssue, status, price, description, rentalPeriod, interestedPeople, userRegulation, property)
+        val offer = Offer(offerId, dateIssue, status, price, description, rentalPeriod, interestedPeople, userRegulation, property)
+        Log.d("Offer", "This is my offer: $offer")
+        return offer
     }
 }
