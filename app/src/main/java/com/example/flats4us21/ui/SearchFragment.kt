@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,7 @@ import com.example.flats4us21.viewmodels.OfferViewModel
 
 
 private const val TAG = "SearchFragment"
+const val OFFER_ID = "OFFER_ID"
 class SearchFragment : Fragment() {
     private var _binding : FragmentSearchBinding? = null
     private val binding get() = _binding!!
@@ -38,7 +40,7 @@ class SearchFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity())[OfferViewModel::class.java]
+        viewModel = ViewModelProvider(this)[OfferViewModel::class.java]
         viewModel.getOffers()
         recyclerview = binding.propertyRecyclerView
 
@@ -54,9 +56,18 @@ class SearchFragment : Fragment() {
             recyclerview.visibility = if (isLoading) View.GONE else View.VISIBLE
         }
 
+        viewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            if(errorMessage != null) {
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+            }
+        }
+
         adapter = PropertyAdapter(fetchedOffers){selectedOffer ->
+            val bundle = Bundle()
+            bundle.putInt(OFFER_ID, selectedOffer.offerId)
             viewModel.selectedOffer = selectedOffer
             val fragment = OfferDetailFragment()
+            fragment.arguments = bundle
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
 

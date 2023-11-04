@@ -11,4 +11,7 @@ interface OfferDataSource {
     fun removeOfferToWatched(offer: Offer)
     suspend fun getLastViewedOffers(): List<Offer>
     fun addOfferToLastViewed(offer: Offer)
+    suspend fun getOffer(offerId: Int) : Offer{
+        return null!!
+    }
 }

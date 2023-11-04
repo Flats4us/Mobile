@@ -28,6 +28,10 @@ object ApiOfferDataSource : OfferDataSource {
         return api.getOffers()
     }
 
+    override suspend fun getOffer(offerId: Int): Offer {
+        return api.getOffer(offerId)
+    }
+
     override suspend fun getWatchedOffers(): List<Offer> {
         val result : MutableList<Offer> = mutableListOf()
         result.addAll(api.getOffers())

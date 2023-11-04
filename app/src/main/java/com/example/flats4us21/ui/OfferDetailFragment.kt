@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
@@ -11,6 +12,7 @@ import com.example.flats4us21.R
 import com.example.flats4us21.adapters.ImageSliderAdapter
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.databinding.FragmentOfferDetailBinding
+import com.example.flats4us21.viewmodels.DetailOfferViewModel
 import com.example.flats4us21.viewmodels.OfferViewModel
 
 
@@ -18,6 +20,8 @@ class OfferDetailFragment : Fragment() {
     private var _binding : FragmentOfferDetailBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel : OfferViewModel
+    private lateinit var detailOfferViewModel: DetailOfferViewModel
+    private lateinit var addButton: ImageButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,29 +33,34 @@ class OfferDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val offerId = arguments?.getInt(OFFER_ID, -1)
 
+        addButton = binding.addButton
         viewModel = ViewModelProvider(requireActivity())[OfferViewModel::class.java]
-        val offer = viewModel.selectedOffer
-        viewModel.addOfferToLastViewed(offer)
-        bindOfferData(offer)
-
-        val addButton = binding.addButton
-
-        addButton.setOnClickListener {
-            if(addButton.tag == true){
-                addButton.setImageResource(R.drawable.unobserve)
-                addButton.tag = false
-                if (offer != null) {
-                    viewModel.unwatchOffer(offer)
-                }
-            } else {
-            addButton.setImageResource(R.drawable.observe)
-                addButton.tag = true
-                if (offer != null) {
-                    viewModel.watchOffer(offer)
+        detailOfferViewModel = ViewModelProvider(this)[DetailOfferViewModel::class.java]
+        detailOfferViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+        detailOfferViewModel.offer.observe(viewLifecycleOwner) { offer ->
+            //TODO: viewModel.addOfferToLastViewed(offer)
+            bindOfferData(offer)
+            addButton.setOnClickListener {
+                if (addButton.tag == true) {
+                    addButton.setImageResource(R.drawable.unobserve)
+                    addButton.tag = false
+                    if (offer != null) {
+                        //TODO: viewModel.unwatchOffer(offer)
+                    }
+                } else {
+                    addButton.setImageResource(R.drawable.observe)
+                    addButton.tag = true
+                    if (offer != null) {
+                        viewModel.watchOffer(offer)
+                    }
                 }
             }
         }
+        detailOfferViewModel.getOfferDetails(offerId!!)
     }
 
     private fun bindOfferData(offer: Offer?) {

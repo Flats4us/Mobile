@@ -12,6 +12,7 @@ import com.example.flats4us21.services.*
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
+private const val TAG = "OfferViewModel"
 class OfferViewModel: ViewModel() {
     private val apiPropertyRepository : PropertyDataSource = ApiPropertyDataSource
     private val apiOfferRepository : OfferDataSource = ApiOfferDataSource
@@ -23,6 +24,10 @@ class OfferViewModel: ViewModel() {
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean>
         get() = _isLoading
+
+    private val _errorMessage = MutableLiveData<String?>(null)
+    val errorMessage: LiveData<String?>
+        get() = _errorMessage
 
     fun getUserProperties(): MutableList<Property>{
         var property: MutableList<Property> = mutableListOf()
@@ -98,13 +103,21 @@ class OfferViewModel: ViewModel() {
 
     fun getOffers() {
          viewModelScope.launch {
+             _errorMessage.value = null
              _isLoading.value = true
-            val fetchedOffers = apiOfferRepository.getOffers()
-             Log.i("OfferViewModel", "Fetched offers: $fetchedOffers")
-             _offers.value = fetchedOffers
-             _isLoading.value = false
+             try{
+                 val fetchedOffers = apiOfferRepository.getOffers()
+                 Log.i(TAG, "Fetched offers: $fetchedOffers")
+                 _offers.value = fetchedOffers
+             } catch (e: Exception) {
+                 _errorMessage.value = e.message
+                 Log.e(TAG, "Exception $e")
+             } finally {
+                 _isLoading.value = false
+             }
         }
     }
+
 
     fun checkIfIsWatched(offer: Offer): Boolean{
         var offers: MutableList<Offer> = mutableListOf()
