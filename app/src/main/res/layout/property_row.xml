@@ -98,7 +98,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/monthly_price"
                     android:textSize="@dimen/h2"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:paddingStart="@dimen/table_cell_padding"/>
             </LinearLayout>
 
             <LinearLayout

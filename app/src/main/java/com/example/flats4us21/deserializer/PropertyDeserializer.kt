@@ -24,7 +24,7 @@ class PropertyDeserializer : JsonDeserializer<Property> {
         val buildingNumber = jsonObject.get("buildingNumber").asString
         val city = jsonObject.get("city").asString
         val constructionYear = jsonObject.get("constructionYear").asInt
-        val district = if (jsonObject.get("district").isJsonNull) "" else jsonObject.get("district").asString
+        val district = if (jsonObject.get("district").isJsonNull) "-" else jsonObject.get("district").asString
         val equipment: MutableList<String> = context?.deserialize(jsonObject.get("equipment"), List::class.java)!!
         val flatNumber =  if (jsonObject.get("flatNumber").isJsonNull) "" else jsonObject.get("flatNumber").asString
         val floor = if (jsonObject.get("floor").isJsonNull) "" else jsonObject.get("floor").asString

@@ -24,6 +24,9 @@ class HardcodedEquipmentDataSource: EquipmentDataSource {
         equipment.add("Krzesło")
         equipment.add("Sofa")
         equipment.add("Stół jadalniany")
+        equipment.add("Basen")
+        equipment.add("Balkon")
+        equipment.add("Kuchenka gazowa")
     }
 
     override fun getEquipment(): MutableList<String> {
