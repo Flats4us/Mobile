@@ -3,6 +3,7 @@ package com.example.flats4us21.services
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.dto.NewOfferDto
 import com.example.flats4us21.deserializer.OfferDeserializer
+import com.example.flats4us21.serializer.OfferSerializer
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
@@ -14,6 +15,7 @@ object ApiOfferDataSource : OfferDataSource {
 
     val gson: Gson = GsonBuilder()
         .registerTypeAdapter(Offer::class.java, OfferDeserializer())
+        .registerTypeAdapter(Offer::class.java, OfferSerializer())
         .create()
 
     private val api: OfferService by lazy {
