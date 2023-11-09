@@ -30,11 +30,10 @@ import org.osmdroid.views.overlay.infowindow.InfoWindow
 import java.net.HttpURLConnection
 import java.net.URL
 
-class MapFragment : Fragment(), FilterFragmentListener {
+class MapFragment : Fragment() {
 
     private lateinit var binding: ActivityMapBinding
     private lateinit var viewModel: MapViewModel
-    private var currentFilter: FilterCriteria? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +52,7 @@ class MapFragment : Fragment(), FilterFragmentListener {
         binding.mapFragment.setMultiTouchControls(true)
 
         lifecycleScope.launch {
-            val offerData = viewModel.loadOffers(currentFilter)
+            val offerData = viewModel.loadOffers()
             showAvailableOffers(offerData)
         }
 
@@ -69,12 +68,7 @@ class MapFragment : Fragment(), FilterFragmentListener {
         }
 
         binding.filterButton.setOnClickListener {
-            binding.filterButton.visibility = View.GONE
-            binding.searchButton.visibility = View.GONE
-
             val filterFragment = FilterFragment()
-            filterFragment.listener = this@MapFragment
-
             val transaction = parentFragmentManager.beginTransaction()
             transaction.replace(R.id.container, filterFragment)
             transaction.addToBackStack(null)
@@ -87,16 +81,13 @@ class MapFragment : Fragment(), FilterFragmentListener {
     private fun showAvailableOffers(offers: List<Offer>) {
         lifecycleScope.launch {
             binding.mapFragment.overlays.clear()
-
             for (offer in offers) {
                 val property = offer.property
                 val location = addressToGeoPoint("${property.street} ${property.buildingNumber}, ${property.city}")
                 location?.let {
-                    val description = getOfferDescription(offer)
                     addOfferMarker(offer, it)
                 } ?: Toast.makeText(context, "Address not found for ${property.city}", Toast.LENGTH_SHORT).show()
             }
-
             if (offers.isNotEmpty()) {
                 offers.first().property.let { property ->
                     addressToGeoPoint("${property.street} ${property.buildingNumber}, ${property.city}")?.let {
@@ -105,7 +96,6 @@ class MapFragment : Fragment(), FilterFragmentListener {
                     }
                 }
             }
-
             binding.mapFragment.invalidate()
         }
     }
@@ -113,11 +103,10 @@ class MapFragment : Fragment(), FilterFragmentListener {
     private fun addOfferMarker(offer: Offer, location: GeoPoint) {
         val marker = Marker(binding.mapFragment)
         marker.position = location
-        marker.title = offer.property.street // Title for the marker
+        marker.title = offer.property.street
 
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
 
-        // Custom InfoWindow with a button
         val infoWindow = object : InfoWindow(R.layout.info_window_layout, binding.mapFragment) {
             override fun onOpen(item: Any?) {
                 val title = mView.findViewById<TextView>(R.id.info_window_title)
@@ -128,48 +117,33 @@ class MapFragment : Fragment(), FilterFragmentListener {
                 description.text = getOfferDescription(offer)
 
                 button.setOnClickListener {
-                    Log.d("MapFragment", "View Details button clicked for offer: ${offer.description}")
                     viewModel.selectedOffer = offer
-                    Log.d("MapFragment", "Selected offer set in ViewModel")
-
-                    // Perform the fragment transaction to show the OfferDetailFragment
                     val offerDetailFragment = OfferDetailFragment()
                     parentFragmentManager.beginTransaction()
                         .replace(R.id.container, offerDetailFragment)
                         .addToBackStack(null)
-                        .commit() // Using commit() here, you may switch to commitAllowingStateLoss() if necessary
-
-                    Log.d("MapFragment", "Fragment transaction committed")
-                    close() // Close the InfoWindow
+                        .commit()
+                    close()
                 }
             }
 
             override fun onClose() {
-                // Optional: Do something when the InfoWindow is closed if needed.
             }
         }
 
-        // Attach the custom InfoWindow to the marker
         marker.infoWindow = infoWindow
 
-        // Set the listener for marker click
         marker.setOnMarkerClickListener { clickedMarker, mapView ->
-            // Toggle the InfoWindow
             if (!clickedMarker.isInfoWindowShown) {
                 clickedMarker.showInfoWindow()
             } else {
                 clickedMarker.closeInfoWindow()
             }
-            true // Return true to indicate we've consumed the event
+            true
         }
 
         binding.mapFragment.overlays.add(marker)
     }
-
-
-
-
-
 
     private fun getOfferDescription(offer: Offer): String {
         return """
@@ -209,21 +183,12 @@ class MapFragment : Fragment(), FilterFragmentListener {
         connection.disconnect()
         val jsonResponse = JSONArray(response)
         if (jsonResponse.length() == 0) {
-            return@withContext null
-        }
-        val firstResult = jsonResponse.getJSONObject(0)
-        val lat = firstResult.getDouble("lat")
-        val lon = firstResult.getDouble("lon")
-        return@withContext GeoPoint(lat, lon)
-    }
-
-    override fun onFilterApplied(filterCriteria: FilterCriteria) {
-        currentFilter = filterCriteria
-        binding.filterButton.visibility = View.VISIBLE
-        binding.searchButton.visibility = View.VISIBLE
-        lifecycleScope.launch {
-            val offerData = viewModel.loadOffers(currentFilter)
-            showAvailableOffers(offerData)
+            null
+        } else {
+            val firstResult = jsonResponse.getJSONObject(0)
+            val lat = firstResult.getDouble("lat")
+            val lon = firstResult.getDouble("lon")
+            GeoPoint(lat, lon)
         }
     }
 }
