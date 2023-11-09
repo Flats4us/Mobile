@@ -1,7 +1,9 @@
 package com.example.flats4us21.services
 
+import com.example.flats4us21.data.dto.NewPropertyDto
 import com.example.flats4us21.data.dto.Property
 import com.example.flats4us21.deserializer.PropertyDeserializer
+import com.example.flats4us21.serializer.PropertySerializer
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
@@ -15,6 +17,7 @@ object ApiPropertyDataSource : PropertyDataSource {
 
     val gson: Gson = GsonBuilder()
         .registerTypeAdapter(Property::class.java, PropertyDeserializer())
+        .registerTypeAdapter(Property::class.java, PropertySerializer())
         .create()
 
     private val api: PropertyService by lazy {
@@ -30,7 +33,11 @@ object ApiPropertyDataSource : PropertyDataSource {
     }
 
     override suspend fun addProperty(property: Property) {
-        TODO("Not yet implemented")
+        TODO("To delete")
+    }
+
+    override suspend fun addProperty(property: NewPropertyDto) {
+       api.createProperty(property)
     }
 
 }

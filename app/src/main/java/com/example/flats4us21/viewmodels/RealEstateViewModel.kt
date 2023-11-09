@@ -1,12 +1,18 @@
 package com.example.flats4us21.viewmodels
 
 import android.net.Uri
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.flats4us21.data.Address
+import androidx.lifecycle.viewModelScope
 import com.example.flats4us21.data.Property
-import com.example.flats4us21.data.dto.PropertyDTO
+import com.example.flats4us21.data.PropertyType
+import com.example.flats4us21.data.dto.NewPropertyDto
 import com.example.flats4us21.services.*
+import kotlinx.coroutines.launch
 
+private const val TAG = "RealEstateViewModel"
 class RealEstateViewModel : ViewModel() {
     private val placeRepository : PlaceDataSource = HardcodedPlaceDataSource()
     private val equipmentRepository : EquipmentDataSource = HardcodedEquipmentDataSource()
@@ -138,23 +144,53 @@ class RealEstateViewModel : ViewModel() {
             _images = value
         }
 
-    fun createRealEstateObject(): PropertyDTO {
-        return PropertyDTO(
-            12345,
-            Address(voivodeship = voivodeship,
-                city = city,
-                district = district,
-                street = street,
-                buildingNumber = buildingNumber,
-                flatNumber = flatNumber
-            ),
-            area = area!!,
-            maxResidents = maxResidents,
-            constructionYear = constructionYear,
-            numberOfRooms = numberOfRooms!!,
-            equipment = equipment,
-            image = images
+    private var _ownerId: Int = 1
+    var ownerId : Int
+        get() = _ownerId
+        set(value) {
+            _ownerId = value
+        }
+
+    private val _isLoading = MutableLiveData(false)
+    val isLoading: LiveData<Boolean>
+        get() = _isLoading
+
+    private val _errorMessage = MutableLiveData<String?>(null)
+    val errorMessage: LiveData<String?>
+        get() = _errorMessage
+
+    fun createRealEstateObject() {
+        val newProperty = NewPropertyDto(
+            PropertyType.valueOf(propertyType!!),
+            voivodeship,
+            city,
+            district,
+            street,
+            buildingNumber,
+            flatNumber,
+            area!!,
+            landArea,
+            maxResidents,
+            constructionYear,
+            false,
+            numberOfRooms!!,
+            equipment,
+            images,
+            ownerId
         )
+        viewModelScope.launch{
+            _errorMessage.value = null
+            _isLoading.value = true
+            try {
+                propertyRepository.addProperty(newProperty)
+                Log.d(TAG, "New Property to create: $newProperty")
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
     }
 
     fun addProperty(property: Property){

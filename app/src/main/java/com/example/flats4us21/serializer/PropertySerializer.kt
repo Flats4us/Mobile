@@ -1,5 +1,6 @@
 package com.example.flats4us21.serializer
 
+import android.util.Log
 import com.example.flats4us21.data.dto.NewPropertyDto
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
@@ -7,6 +8,7 @@ import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 
+private const val TAG = "PropertySerializer"
 class PropertySerializer : JsonSerializer<NewPropertyDto> {
     override fun serialize(
         src: NewPropertyDto,
@@ -30,7 +32,7 @@ class PropertySerializer : JsonSerializer<NewPropertyDto> {
         jsonObject.add("equipmentList", context?.serialize(src.equipment))
         jsonObject.add("image", context?.serialize(src.image))
         jsonObject.addProperty("equipment", src.ownerId)
-
+        Log.d(TAG, "Json object for new property: $jsonObject")
         return jsonObject
     }
 }
