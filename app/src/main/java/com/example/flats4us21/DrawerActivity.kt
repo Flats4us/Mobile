@@ -3,6 +3,7 @@
 
 package com.example.flats4us21
 
+import DisputeFragment
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
@@ -48,7 +49,7 @@ class DrawerActivity : AppCompatActivity() {
                 R.id.nav_method -> Toast.makeText(this, "Clicked Metody płatności", Toast.LENGTH_SHORT).show()
                 R.id.nav_rent -> Toast.makeText(this, "Clicked Metody płatności", Toast.LENGTH_SHORT).show()
                 R.id.nav_my_rentals -> replaceFragment(AddRealEstateFragment())
-                R.id.nav_conflicts -> replaceFragment(ITIssueReportFragment())
+                R.id.nav_conflicts -> replaceFragment(DisputeFragment())
                 R.id.nav_calendar -> replaceFragment(CalendarFragment())
                 R.id.nav_logout -> Toast.makeText(this, "Clicked Wyloguj się", Toast.LENGTH_SHORT).show()
             }

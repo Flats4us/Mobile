@@ -1,9 +1,11 @@
 package com.example.flats4us21.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
@@ -23,6 +25,7 @@ class OfferDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d("OfferDetailFragment", "onCreateView called")
         _binding = FragmentOfferDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -31,26 +34,39 @@ class OfferDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(requireActivity())[OfferViewModel::class.java]
-        val offer = viewModel.selectedOffer
-        viewModel.addOfferToLastViewed(offer)
-        bindOfferData(offer)
 
-        val addButton = binding.addButton
+        // Retrieve the selected offer from the ViewModel
+        viewModel.selectedOffer?.let { offer ->
+            bindOfferData(offer)
+            viewModel.addOfferToLastViewed(offer)
 
-        addButton.setOnClickListener {
-            if(addButton.tag == true){
-                addButton.setImageResource(R.drawable.unobserve)
-                addButton.tag = false
-                if (offer != null) {
+            // Set up button click listener to toggle watch status
+            val addButton = binding.addButton
+            addButton.tag = viewModel.checkIfIsWatched(offer)
+            updateWatchButton(addButton, addButton.tag as Boolean)
+
+            addButton.setOnClickListener {
+                val isWatched = !(addButton.tag as Boolean)
+                addButton.tag = isWatched
+                updateWatchButton(addButton, isWatched)
+
+                if (isWatched) {
+                    viewModel.watchOffer(offer)
+                } else {
                     viewModel.unwatchOffer(offer)
                 }
-            } else {
-            addButton.setImageResource(R.drawable.observe)
-                addButton.tag = true
-                if (offer != null) {
-                    viewModel.watchOffer(offer)
-                }
             }
+        } ?: run {
+            // Handle the case when offer is null, for example, navigate back
+            parentFragmentManager.popBackStack()
+        }
+    }
+
+    private fun updateWatchButton(button: ImageButton, isWatched: Boolean) {
+        if (isWatched) {
+            button.setImageResource(R.drawable.observe)
+        } else {
+            button.setImageResource(R.drawable.unobserve)
         }
     }
 

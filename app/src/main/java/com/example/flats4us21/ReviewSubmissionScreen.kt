@@ -33,9 +33,9 @@ class ReviewSubmissionScreen : AppCompatActivity() {
         userNameText = findViewById(R.id.userNameText)
         starRating = findViewById(R.id.starRating)
         reviewEditText = findViewById(R.id.reviewEditText)
-        tag1 = findViewById(R.id.tag1)
-        tag2 = findViewById(R.id.tag2)
-        tag3 = findViewById(R.id.tag2)
+//        tag1 = findViewById(R.id.tag1)
+//        tag2 = findViewById(R.id.tag2)
+//        tag3 = findViewById(R.id.tag2)
 //        addButton = findViewById(R.id.addButton)
 //        cancelButton = findViewById(R.id.cancelButton)
 

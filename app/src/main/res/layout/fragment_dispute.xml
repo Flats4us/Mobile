@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA">
+
+    <RelativeLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FF5722"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User3 - Spór, 10.10.23"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/menuButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_menu" />
+    </RelativeLayout>
+
+    <!-- ListView to RecyclerView conversion might be necessary for better performance and flexibility -->
+    <ListView
+        android:id="@+id/messageList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/topBar"
+        android:layout_above="@id/messageInputArea"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+    />
+
+    <RelativeLayout
+        android:id="@+id/messageInputArea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="8dp"
+        android:background="@drawable/message_input_background">
+
+        <EditText
+            android:id="@+id/messageInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/sendButton"
+            android:layout_alignParentStart="true"
+            android:padding="12dp"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:background="@android:color/transparent"
+            android:hint="Text"
+        android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/sendButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:background="@android:color/transparent"
+            android:text="+"
+            android:textColor="@android:color/black"
+            android:textSize="24sp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

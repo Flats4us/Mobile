@@ -1,27 +1,32 @@
 package com.example.flats4us21.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.preference.PreferenceManager
 import com.example.flats4us21.R
 import com.example.flats4us21.data.FilterCriteria
-import com.example.flats4us21.data.Property
+import com.example.flats4us21.data.Offer
 import com.example.flats4us21.databinding.ActivityMapBinding
 import com.example.flats4us21.viewmodels.MapViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.overlay.Marker
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import androidx.preference.PreferenceManager
+import com.example.flats4us21.data.Property
+import org.osmdroid.views.overlay.infowindow.InfoWindow
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -34,7 +39,7 @@ class MapFragment : Fragment(), FilterFragmentListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = ActivityMapBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this).get(MapViewModel::class.java)
 
@@ -48,20 +53,18 @@ class MapFragment : Fragment(), FilterFragmentListener {
         binding.mapFragment.setMultiTouchControls(true)
 
         lifecycleScope.launch {
-            val rentalData = viewModel.loadData(currentFilter)
-            showAvailableProperties(rentalData)
+            val offerData = viewModel.loadOffers(currentFilter)
+            showAvailableOffers(offerData)
         }
 
         binding.searchButton.setOnClickListener {
             val address = binding.addressEditText.text.toString()
             lifecycleScope.launch {
                 val geoPoint = addressToGeoPoint(address)
-                if (geoPoint != null) {
-                    binding.mapFragment.controller.setCenter(geoPoint)
+                geoPoint?.let {
+                    binding.mapFragment.controller.setCenter(it)
                     binding.mapFragment.controller.setZoom(12.0)
-                } else {
-                    Toast.makeText(context, "Address not found", Toast.LENGTH_SHORT).show()
-                }
+                } ?: Toast.makeText(context, "Address not found", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -69,7 +72,6 @@ class MapFragment : Fragment(), FilterFragmentListener {
             binding.filterButton.visibility = View.GONE
             binding.searchButton.visibility = View.GONE
 
-            // TU do poprawy
             val filterFragment = FilterFragment()
             filterFragment.listener = this@MapFragment
 
@@ -82,39 +84,103 @@ class MapFragment : Fragment(), FilterFragmentListener {
         return binding.root
     }
 
-    private fun showAvailableProperties(properties: List<Property>) {
+    private fun showAvailableOffers(offers: List<Offer>) {
         lifecycleScope.launch {
-            // Clear previous markers
             binding.mapFragment.overlays.clear()
 
-            for (property in properties) {
+            for (offer in offers) {
+                val property = offer.property
                 val location = addressToGeoPoint("${property.street} ${property.buildingNumber}, ${property.city}")
-                if (location != null) {
-                    val description = getPropertyDescription(property)
-                    addPropertyMarker(description, location)
-                } else {
-                    Toast.makeText(context, "Address not found for ${property.city}", Toast.LENGTH_SHORT).show()
+                location?.let {
+                    val description = getOfferDescription(offer)
+                    addOfferMarker(offer, it)
+                } ?: Toast.makeText(context, "Address not found for ${property.city}", Toast.LENGTH_SHORT).show()
+            }
+
+            if (offers.isNotEmpty()) {
+                offers.first().property.let { property ->
+                    addressToGeoPoint("${property.street} ${property.buildingNumber}, ${property.city}")?.let {
+                        binding.mapFragment.controller.setCenter(it)
+                        binding.mapFragment.controller.setZoom(12.0)
+                    }
                 }
             }
-            if (properties.isNotEmpty()) {
-                val firstLocation = addressToGeoPoint("${properties[0].street} ${properties[0].buildingNumber}, ${properties[0].city}")
-                if (firstLocation != null) {
-                    binding.mapFragment.controller.setCenter(firstLocation)
-                    binding.mapFragment.controller.setZoom(12.0)
-                }
-            }
-            // Refresh the map
+
             binding.mapFragment.invalidate()
         }
     }
 
-
-    private fun addPropertyMarker(description: String, location: GeoPoint) {
+    private fun addOfferMarker(offer: Offer, location: GeoPoint) {
         val marker = Marker(binding.mapFragment)
         marker.position = location
-        marker.title = description
+        marker.title = offer.property.street // Title for the marker
+
+        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+
+        // Custom InfoWindow with a button
+        val infoWindow = object : InfoWindow(R.layout.info_window_layout, binding.mapFragment) {
+            override fun onOpen(item: Any?) {
+                val title = mView.findViewById<TextView>(R.id.info_window_title)
+                val description = mView.findViewById<TextView>(R.id.info_window_description)
+                val button = mView.findViewById<Button>(R.id.info_window_button)
+
+                title.text = offer.property.street
+                description.text = getOfferDescription(offer)
+
+                button.setOnClickListener {
+                    Log.d("MapFragment", "View Details button clicked for offer: ${offer.description}")
+                    viewModel.selectedOffer = offer
+                    Log.d("MapFragment", "Selected offer set in ViewModel")
+
+                    // Perform the fragment transaction to show the OfferDetailFragment
+                    val offerDetailFragment = OfferDetailFragment()
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.container, offerDetailFragment)
+                        .addToBackStack(null)
+                        .commit() // Using commit() here, you may switch to commitAllowingStateLoss() if necessary
+
+                    Log.d("MapFragment", "Fragment transaction committed")
+                    close() // Close the InfoWindow
+                }
+            }
+
+            override fun onClose() {
+                // Optional: Do something when the InfoWindow is closed if needed.
+            }
+        }
+
+        // Attach the custom InfoWindow to the marker
+        marker.infoWindow = infoWindow
+
+        // Set the listener for marker click
+        marker.setOnMarkerClickListener { clickedMarker, mapView ->
+            // Toggle the InfoWindow
+            if (!clickedMarker.isInfoWindowShown) {
+                clickedMarker.showInfoWindow()
+            } else {
+                clickedMarker.closeInfoWindow()
+            }
+            true // Return true to indicate we've consumed the event
+        }
+
         binding.mapFragment.overlays.add(marker)
-        binding.mapFragment.invalidate()
+    }
+
+
+
+
+
+
+    private fun getOfferDescription(offer: Offer): String {
+        return """
+            Date Issued: ${offer.dateIssue}
+            Status: ${offer.status}
+            Price: ${offer.price}
+            Description: ${offer.description}
+            Rental Period: ${offer.rentalPeriod}
+            Interested People: ${offer.interestedPeople}
+            Property: ${getPropertyDescription(offer.property)}
+        """.trimIndent()
     }
 
     private fun getPropertyDescription(property: Property): String {
@@ -156,8 +222,8 @@ class MapFragment : Fragment(), FilterFragmentListener {
         binding.filterButton.visibility = View.VISIBLE
         binding.searchButton.visibility = View.VISIBLE
         lifecycleScope.launch {
-            val rentalData = viewModel.loadData(currentFilter)
-            showAvailableProperties(rentalData)
+            val offerData = viewModel.loadOffers(currentFilter)
+            showAvailableOffers(offerData)
         }
     }
 }

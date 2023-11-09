@@ -1,0 +1,39 @@
+<!-- res/layout/info_window_layout.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#FFFFFFFF"
+    android:elevation="2dp"
+    android:padding="10dp"
+    android:layout_margin="5dp"
+    android:gravity="center_horizontal">
+
+        <TextView
+        android:id="@+id/info_window_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textAlignment="center"
+            android:layout_marginBottom="5dp"/>
+
+        <TextView
+        android:id="@+id/info_window_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+            android:layout_marginBottom="10dp"/>
+
+        <Button
+        android:id="@+id/info_window_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Details"
+        android:background="#6200EE"
+            android:textColor="#FFFFFF"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textAlignment="center"/>
+</LinearLayout>
