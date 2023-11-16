@@ -11,7 +11,7 @@ data class Flat(
     override val city: String,
     override val constructionYear: Int,
     override val district: String,
-    override val equipment: MutableList<String>,
+    override val equipment: MutableList<Equipment>,
     override val images: MutableList<Bitmap>,
     override val maxResidents: Int,
     override val numberOfRooms: Int,

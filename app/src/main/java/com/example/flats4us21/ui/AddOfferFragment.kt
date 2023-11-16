@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.provider.OpenableColumns
 import android.text.InputFilter
 import android.text.Spanned
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -21,30 +23,47 @@ import com.example.flats4us21.data.dto.Property
 import com.example.flats4us21.databinding.FragmentAddOfferBinding
 import com.example.flats4us21.viewmodels.OfferViewModel
 
+private const val TAG = "AddOfferFragment"
 class AddOfferFragment : Fragment() {
     private var _binding: FragmentAddOfferBinding? = null
     private val binding get() = _binding!!
     private lateinit var offerViewModel: OfferViewModel
     private var selectedProperty: Property? = null
     private var fileContent: String? = null
+    private val fetchedProperties: MutableList<Property> = mutableListOf()
+    private lateinit var adapter: PropertySpinnerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        offerViewModel = ViewModelProvider(requireActivity())[OfferViewModel::class.java]
         _binding = FragmentAddOfferBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        offerViewModel = ViewModelProvider(this)[OfferViewModel::class.java]
+
+        offerViewModel.getUserProperties()
 
         val filter: InputFilter = CurrencyInputFilter()
         binding.price.filters = arrayOf(filter)
 
-        val properties = offerViewModel.getUserProperties()
-        val adapter = PropertySpinnerAdapter(requireContext(), properties)
+        offerViewModel.userProperties.observe(viewLifecycleOwner) { userProperties ->
+            Log.i(TAG, "Number of offers: ${userProperties.size}")
+            fetchedProperties.addAll(userProperties)
+            adapter.notifyDataSetChanged()
+        }
+        offerViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.progressBar.visibility = if(isLoading) View.VISIBLE else View.GONE
+        }
+        offerViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            if(errorMessage != null) {
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+            }
+        }
+        adapter = PropertySpinnerAdapter(requireContext(), fetchedProperties)
 
         binding.spinner.adapter = adapter
 
@@ -80,6 +99,7 @@ class AddOfferFragment : Fragment() {
         }
 
         binding.addOfferButton.setOnClickListener {
+            Log.d(TAG, "Size: ${adapter.count}")
             collectData()
         }
     }

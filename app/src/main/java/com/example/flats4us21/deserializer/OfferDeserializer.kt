@@ -8,6 +8,7 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import java.lang.reflect.Type
 
+private const val TAG = "OfferDeserializer"
 class OfferDeserializer : JsonDeserializer<Offer> {
     private val propertyDeserializer = PropertyDeserializer()
     override fun deserialize(
@@ -27,7 +28,7 @@ class OfferDeserializer : JsonDeserializer<Offer> {
         val property : Property = propertyDeserializer.deserialize(jsonObject.get("property"), Property::class.java, context)
 
         val offer = Offer(offerId, dateIssue, status, price, description, rentalPeriod, interestedPeople, userRegulation, property)
-        Log.d("Offer", "This is my offer: $offer")
+        Log.d(TAG, "[deserialize] This is my offer: $offer")
         return offer
     }
 }

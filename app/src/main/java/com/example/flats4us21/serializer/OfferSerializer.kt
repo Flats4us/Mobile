@@ -22,7 +22,7 @@ class OfferSerializer : JsonSerializer<NewOfferDto> {
         jsonObject.addProperty("rentalPeriod", src.rentalPeriod)
         jsonObject.addProperty("terms", src.terms)
         jsonObject.addProperty("propertyId", src.propertyId)
-        Log.i(TAG, "New offer json object: $jsonObject")
+        Log.i(TAG, "[serialize] New offer json object: $jsonObject")
 
         return jsonObject
     }

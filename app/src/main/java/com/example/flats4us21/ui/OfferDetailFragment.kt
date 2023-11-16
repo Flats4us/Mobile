@@ -50,7 +50,7 @@ class OfferDetailFragment : Fragment() {
             binding.detailLayout.visibility = if (isLoading) View.GONE else View.VISIBLE
         }
 
-        viewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
+        detailOfferViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
             if(errorMessage != null) {
                 Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
             }
@@ -111,7 +111,7 @@ class OfferDetailFragment : Fragment() {
         binding.maxResidents.text = offer.property.maxResidents.toString()
         val stringBuilder: StringBuilder = StringBuilder()
         for(j in offer.property.equipment.indices){
-            stringBuilder.append(offer.property.equipment[j])
+            stringBuilder.append(offer.property.equipment[j].equipmentName)
 
             if(j != offer.property.equipment.size-1){
                 stringBuilder.append(", ")

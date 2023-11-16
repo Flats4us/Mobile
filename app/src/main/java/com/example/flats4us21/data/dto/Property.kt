@@ -1,6 +1,7 @@
 package com.example.flats4us21.data.dto
 
 import android.graphics.Bitmap
+import com.example.flats4us21.data.Equipment
 import com.example.flats4us21.data.Owner
 import com.google.gson.annotations.SerializedName
 
@@ -20,7 +21,7 @@ open class Property(
     @SerializedName("district")
     open val district: String,
     @SerializedName("equipment")
-    open val equipment: List<String>,
+    open val equipment: List<Equipment>,
     @SerializedName("images")
     open val images: List<Bitmap>,
     @SerializedName("maxResidents")

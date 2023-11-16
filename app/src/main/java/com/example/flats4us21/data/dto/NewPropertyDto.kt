@@ -1,6 +1,7 @@
 package com.example.flats4us21.data.dto
 
 import android.net.Uri
+import com.example.flats4us21.data.Equipment
 import com.example.flats4us21.data.PropertyType
 import com.google.gson.annotations.SerializedName
 
@@ -32,7 +33,7 @@ data class NewPropertyDto (
     @SerializedName("numberOfRooms")
     val numberOfRooms: Int,
     @SerializedName("equipment")
-    val equipment: MutableList<String>,
+    val equipment: MutableList<Int>,
     @SerializedName("image")
     val image: MutableList<Uri>,
     @SerializedName("ownerId")

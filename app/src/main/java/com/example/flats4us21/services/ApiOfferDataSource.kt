@@ -15,7 +15,7 @@ object ApiOfferDataSource : OfferDataSource {
 
     val gson: Gson = GsonBuilder()
         .registerTypeAdapter(Offer::class.java, OfferDeserializer())
-        .registerTypeAdapter(Offer::class.java, OfferSerializer())
+        .registerTypeAdapter(NewOfferDto::class.java, OfferSerializer())
         .create()
 
     private val api: OfferService by lazy {
@@ -41,7 +41,7 @@ object ApiOfferDataSource : OfferDataSource {
     }
 
     override suspend fun addOffer(offer: NewOfferDto) {
-        TODO("Not yet implemented")
+        api.createOffer(offer)
     }
 
     override fun addOfferToWatched(offer: Offer) {

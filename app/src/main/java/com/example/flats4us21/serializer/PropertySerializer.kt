@@ -32,7 +32,7 @@ class PropertySerializer : JsonSerializer<NewPropertyDto> {
         jsonObject.add("equipmentList", context?.serialize(src.equipment))
         jsonObject.add("image", context?.serialize(src.image))
         jsonObject.addProperty("equipment", src.ownerId)
-        Log.d(TAG, "Json object for new property: $jsonObject")
+        Log.d(TAG, "[serialize] Json object for new property: $jsonObject")
         return jsonObject
     }
 }

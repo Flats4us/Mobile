@@ -10,8 +10,10 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonParseException
 import java.lang.reflect.Type
 
+private const val TAG = "PropertyDeserializer"
 class PropertyDeserializer : JsonDeserializer<Property> {
     private val ownerDeserializer = OwnerDeserializer()
+    private val equipmentDeserializer = EquipmentDeserializer()
     override fun deserialize(
         json: JsonElement?,
         typeOfT: Type?,
@@ -25,7 +27,11 @@ class PropertyDeserializer : JsonDeserializer<Property> {
         val city = jsonObject.get("city").asString
         val constructionYear = jsonObject.get("constructionYear").asInt
         val district = if (jsonObject.get("district").isJsonNull) "-" else jsonObject.get("district").asString
-        val equipment: MutableList<String> = context?.deserialize(jsonObject.get("equipment"), List::class.java)!!
+        val equipmentJsonArray = jsonObject.getAsJsonArray("equipment")
+        val equipment: MutableList<Equipment> = equipmentJsonArray?.map {
+            equipmentDeserializer.deserialize(it, Equipment::class.java, context)
+        }?.toMutableList()
+            ?: mutableListOf()
         val flatNumber =  if (jsonObject.get("flatNumber").isJsonNull) "" else jsonObject.get("flatNumber").asString
         val floor = if (jsonObject.get("floor").isJsonNull) "" else jsonObject.get("floor").asString
         val landArea = if (jsonObject.get("landArea").isJsonNull) 0 else jsonObject.get("landArea").asInt
@@ -47,7 +53,7 @@ class PropertyDeserializer : JsonDeserializer<Property> {
                 House(propertyId, owner, area, buildingNumber, city, constructionYear, district, equipment, coilTest, maxResidents, numberOfRooms, street, voivodeship, landArea)
             }
         }
-        Log.d("Property", "This is my property: $property")
+        Log.d(TAG, "[deserialize] This is my property: $property")
         return property
     }
 

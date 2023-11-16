@@ -17,7 +17,7 @@ object ApiPropertyDataSource : PropertyDataSource {
 
     val gson: Gson = GsonBuilder()
         .registerTypeAdapter(Property::class.java, PropertyDeserializer())
-        .registerTypeAdapter(Property::class.java, PropertySerializer())
+        .registerTypeAdapter(NewPropertyDto::class.java, PropertySerializer())
         .create()
 
     private val api: PropertyService by lazy {

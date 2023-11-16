@@ -29,12 +29,25 @@ class OfferViewModel: ViewModel() {
     val errorMessage: LiveData<String?>
         get() = _errorMessage
 
-    fun getUserProperties(): MutableList<Property>{
-        var property: MutableList<Property> = mutableListOf()
+    private val _userProperties: MutableLiveData<List<Property>> = MutableLiveData()
+    val userProperties: LiveData<List<Property>>
+        get() = _userProperties
+
+    fun getUserProperties(){
         viewModelScope.launch {
-            property = apiPropertyRepository.getUserProperties() as MutableList<Property>
+            _errorMessage.value = null
+            _isLoading.value = true
+            try {
+                val fetchedProperties = apiPropertyRepository.getUserProperties()
+                Log.d(TAG, "[getUserProperties] Fetched properties: $fetchedProperties")
+                _userProperties.value = fetchedProperties
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
         }
-        return property
     }
 
     private var _price : Double = 0.0

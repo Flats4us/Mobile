@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.flats4us21.data.Equipment
 import com.example.flats4us21.data.Property
 import com.example.flats4us21.data.PropertyType
 import com.example.flats4us21.data.dto.NewPropertyDto
@@ -15,7 +16,7 @@ import kotlinx.coroutines.launch
 private const val TAG = "RealEstateViewModel"
 class RealEstateViewModel : ViewModel() {
     private val placeRepository : PlaceDataSource = HardcodedPlaceDataSource()
-    private val equipmentRepository : EquipmentDataSource = HardcodedEquipmentDataSource()
+    private val equipmentRepository : EquipmentDataSource = ApiEquipmentDataSource
     private val propertyRepository : PropertyDataSource = ApiPropertyDataSource
     val voivodeshipSuggestions = ArrayList<String>()
 
@@ -28,8 +29,18 @@ class RealEstateViewModel : ViewModel() {
         return placeRepository.getDistricts(city)
     }
 
-    fun getEquipmentList(): List<String> {
-        return equipmentRepository.getEquipment()
+    private val _equipments = MutableLiveData<List<Equipment>>()
+    val equipments: LiveData<List<Equipment>>
+        get() = _equipments
+
+    fun getEquipmentList() {
+        _isLoading.value = true
+        viewModelScope.launch {
+            val fetchedEquipments = equipmentRepository.getEquipment()
+            Log.i(TAG, "Fetched list of equipment: $fetchedEquipments")
+            _equipments.value = fetchedEquipments
+            _isLoading.value = false
+        }
     }
 
     private var _propertyType: String? = null
@@ -130,8 +141,8 @@ class RealEstateViewModel : ViewModel() {
                 _numberOfFloors = value
         }
 
-    private var _equipment: MutableList<String> = mutableListOf()
-    var equipment: MutableList<String>
+    private var _equipment: MutableList<Int> = mutableListOf()
+    var equipment: MutableList<Int>
         get() = _equipment
         set(value) {
             _equipment = value

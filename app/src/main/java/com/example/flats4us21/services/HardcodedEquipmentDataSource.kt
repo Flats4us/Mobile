@@ -29,7 +29,7 @@ class HardcodedEquipmentDataSource: EquipmentDataSource {
         equipment.add("Kuchenka gazowa")
     }
 
-    override fun getEquipment(): MutableList<String> {
+    override fun getHardcodedEquipment(): MutableList<String> {
         return equipment
     }
 }

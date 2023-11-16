@@ -22,7 +22,7 @@ class AddRealEstateSecondStepFragment : Fragment() {
     private lateinit var DEFAULT_SPINNER_VALUE: String
     private lateinit var realEstateViewModel: RealEstateViewModel
     private lateinit var constructionYearAdapter : ArrayAdapter<String>
-    private lateinit var pickedEquipment: MutableList<String>
+    private lateinit var pickedEquipment: MutableList<Int>
     private var test : Boolean = true
 
     override fun onCreateView(
@@ -73,43 +73,54 @@ class AddRealEstateSecondStepFragment : Fragment() {
     private fun setupEquipment() {
         val equipment = binding.equipment
         val equipmentList: MutableList<Int> = mutableListOf()
-        val equipmentArray = realEstateViewModel.getEquipmentList().map { it }.toTypedArray()
-        val selectedEquipment = BooleanArray(equipmentArray.size) { index ->
-            realEstateViewModel.equipment.contains(equipmentArray[index])
+        realEstateViewModel.getEquipmentList()
+        realEstateViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.progressBar.visibility = if(isLoading) View.VISIBLE else View.GONE
         }
+        realEstateViewModel.equipments.observe(viewLifecycleOwner) { equipments ->
+            val equipmentArray = equipments.map { it.equipmentName }.toTypedArray()
+            val selectedEquipment = BooleanArray(equipmentArray.size) { index ->
+                realEstateViewModel.equipment.contains(index+1)
+            }
 
-        equipment.setOnClickListener {
-            val builder = AlertDialog.Builder(requireContext())
+            equipment.setOnClickListener {
+                val builder = AlertDialog.Builder(requireContext())
 
-            builder.setTitle("Wybierz wyposażenie")
-            builder.setCancelable(false)
-            builder.setMultiChoiceItems(equipmentArray, selectedEquipment) { _, position, isChecked ->
-                selectedEquipment[position] = isChecked
+                builder.setTitle("Wybierz wyposażenie")
+                builder.setCancelable(false)
+                builder.setMultiChoiceItems(equipmentArray, selectedEquipment) { _, position, isChecked ->
+                    selectedEquipment[position] = isChecked
 
-                if (isChecked) {
-                    equipmentList.add(position)
-                    equipmentList.sort()
-                } else {
-                    equipmentList.remove(position)
+                    if (isChecked) {
+                        equipmentList.add(position)
+                        equipmentList.sort()
+                    } else {
+                        equipmentList.remove(position)
+                    }
                 }
-            }
-            builder.setPositiveButton("Akcepuj") { _, _ ->
-                for (j in 0 until equipmentList.size) {
-                    pickedEquipment.add(equipmentArray[equipmentList[j]])
+                builder.setPositiveButton("Akcepuj") { _, _ ->
+                    for (j in 0 until selectedEquipment.size) {
+                        if (selectedEquipment[j] && !pickedEquipment.contains(j + 1)) {
+                            pickedEquipment.add(j + 1)
+                        } else if (!selectedEquipment[j] && pickedEquipment.contains(j + 1)) {
+                            pickedEquipment.remove(j + 1)
+                        }
+                    }
                 }
-            }
-            builder.setNegativeButton("Anuluj") { dialog, _ ->
-                dialog.dismiss()
-            }
-            builder.setNeutralButton("Wyczyść") { _, _ ->
-                for (j in selectedEquipment.indices) {
-                    selectedEquipment[j] = false
-                    equipmentList.clear()
-                    equipment.text = ""
+                builder.setNegativeButton("Anuluj") { dialog, _ ->
+                    dialog.dismiss()
                 }
+                builder.setNeutralButton("Wyczyść") { _, _ ->
+                    for (j in selectedEquipment.indices) {
+                        selectedEquipment[j] = false
+                        equipmentList.clear()
+                        equipment.text = ""
+                        pickedEquipment.remove(j+1)
+                    }
+                }
+                val alertDialog = builder.create()
+                alertDialog.show()
             }
-            val alertDialog = builder.create()
-            alertDialog.show()
         }
     }
 
