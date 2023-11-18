@@ -25,6 +25,14 @@
             android:layout_height="24dp"
             android:layout_alignParentEnd="true"
             android:src="@drawable/ic_menu" />
+
+        <ImageView
+            android:id="@+id/overflowMenuButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_menu_overflow"
+            android:layout_toStartOf="@id/menuButton"
+            android:layout_marginEnd="16dp"/>
     </RelativeLayout>
 
     <!-- ListView to RecyclerView conversion might be necessary for better performance and flexibility -->

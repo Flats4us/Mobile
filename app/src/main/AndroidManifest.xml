@@ -20,10 +20,15 @@
         android:theme="@style/Theme.Flats4us21"
         android:requestLegacyExternalStorage="true"
         tools:targetApi="31" >
-        <activity
-            android:name=".DrawerActivity"
-            android:exported="true"/>
-<!--            android:label="@string/title_activity_drawer"/>-->
+
+        <activity android:name=".DrawerActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- android:label="@string/title_activity_drawer"/> -->
+
         <activity
             android:name=".OwnerSurveyActivity"
             android:exported="true"
@@ -50,6 +55,8 @@
         <activity
             android:name=".MapActivity"
             android:exported="true" />
+
+
         <provider
             android:name="com.example.flats4us21.MyFileProvider"
             android:authorities="com.example.fileprovider"

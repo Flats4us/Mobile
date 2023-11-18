@@ -12,16 +12,19 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/header_vertical_space"
         android:layout_marginBottom="@dimen/header_vertical_space"
-        android:background="@drawable/background_header"
+        android:background="@android:color/white"
         android:gravity="center_horizontal"
         android:text="@string/last_viewed_offers"
-        android:textColor="@color/white"
-        android:textSize="@dimen/h1"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
         android:textStyle="bold"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TextContrastCheck" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/propertyRecyclerView"
