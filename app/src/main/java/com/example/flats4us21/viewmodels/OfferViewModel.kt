@@ -1,20 +1,53 @@
 package com.example.flats4us21.viewmodels
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.flats4us21.data.Offer
-import com.example.flats4us21.data.Property
-import com.example.flats4us21.services.HardcodedOfferDataSource
-import com.example.flats4us21.services.HardcodedPropertyDataSource
-import com.example.flats4us21.services.OfferDataSource
-import com.example.flats4us21.services.PropertyDataSource
+import com.example.flats4us21.data.dto.NewOfferDto
+import com.example.flats4us21.data.dto.Property
+import com.example.flats4us21.services.*
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 
+private const val TAG = "OfferViewModel"
 class OfferViewModel: ViewModel() {
-    private val propertyRepository : PropertyDataSource = HardcodedPropertyDataSource
-    private val offerRepository : OfferDataSource = HardcodedOfferDataSource
+    private val apiPropertyRepository : PropertyDataSource = ApiPropertyDataSource
+    private val apiOfferRepository : OfferDataSource = ApiOfferDataSource
 
-    fun getUserProperties(): List<Property>{
-        return propertyRepository.getUserProperties()
+    private val _offers: MutableLiveData<List<Offer>> = MutableLiveData()
+    val offers: LiveData<List<Offer>>
+        get() = _offers
+
+    private val _isLoading = MutableLiveData(false)
+    val isLoading: LiveData<Boolean>
+        get() = _isLoading
+
+    private val _errorMessage = MutableLiveData<String?>(null)
+    val errorMessage: LiveData<String?>
+        get() = _errorMessage
+
+    private val _userProperties: MutableLiveData<List<Property>> = MutableLiveData()
+    val userProperties: LiveData<List<Property>>
+        get() = _userProperties
+
+    fun getUserProperties(){
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try {
+                val fetchedProperties = apiPropertyRepository.getUserProperties()
+                Log.d(TAG, "[getUserProperties] Fetched properties: $fetchedProperties")
+                _userProperties.value = fetchedProperties
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
     }
 
     private var _price : Double = 0.0
@@ -60,45 +93,72 @@ class OfferViewModel: ViewModel() {
     }
 
      fun createOffer(){
-        val offer = Offer(
+        val offer = NewOfferDto(
             LocalDate.now().toString(),
-            "aktywny",
             price.toString(),
             description,
             rentalPeriod.toString(),
-            0,
-            property!!
+            null,
+            property!!.propertyId
         )
-        offerRepository.addOffer(offer)
+         viewModelScope.launch {
+             apiOfferRepository.addOffer(offer)
+         }
     }
 
     fun getWatchedOffers(): List<Offer>{
-        return offerRepository.getWatchedOffers()
+        var offers: MutableList<Offer> = mutableListOf()
+        viewModelScope.launch {
+            offers = apiOfferRepository.getWatchedOffers() as MutableList<Offer>
+        }
+        return offers
     }
 
-    fun getOffers() : List<Offer>{
-        return offerRepository.getOffers()
+    fun getOffers() {
+         viewModelScope.launch {
+             _errorMessage.value = null
+             _isLoading.value = true
+             try{
+                 val fetchedOffers = apiOfferRepository.getOffers()
+                 Log.i(TAG, "Fetched offers: $fetchedOffers")
+                 _offers.value = fetchedOffers
+             } catch (e: Exception) {
+                 _errorMessage.value = e.message
+                 Log.e(TAG, "Exception $e")
+             } finally {
+                 _isLoading.value = false
+             }
+        }
     }
+
 
     fun checkIfIsWatched(offer: Offer): Boolean{
-        return offerRepository.getWatchedOffers().contains(offer)
+        var offers: MutableList<Offer> = mutableListOf()
+        viewModelScope.launch {
+            offers = apiOfferRepository.getWatchedOffers() as MutableList<Offer>
+        }
+        return offers.contains(offer)
     }
 
     fun watchOffer(offer: Offer){
-        offerRepository.addOfferToWatched(offer)
+        apiOfferRepository.addOfferToWatched(offer)
     }
 
     fun unwatchOffer(offer: Offer){
-        offerRepository.removeOfferToWatched(offer)
+        apiOfferRepository.removeOfferToWatched(offer)
     }
 
     fun getLastViewedOffers(): List<Offer>{
-        return offerRepository.getLastViewedOffers()
+        var offer: MutableList<Offer> = mutableListOf()
+        viewModelScope.launch {
+            offer = apiOfferRepository.getLastViewedOffers() as MutableList<Offer>
+        }
+        return offer
     }
 
     fun addOfferToLastViewed(offer: Offer?){
         if (offer != null) {
-            offerRepository.addOfferToLastViewed(offer)
+            apiOfferRepository.addOfferToLastViewed(offer)
         }
     }
 }
