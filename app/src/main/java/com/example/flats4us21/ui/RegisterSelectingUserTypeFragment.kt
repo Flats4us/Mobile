@@ -26,13 +26,13 @@ class RegisterSelectingUserTypeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        userViewModel = ViewModelProvider(requireActivity())[UserViewModel::class.java]
         _binding = FragmentRegisterSelectingUserTypeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
         //TODO: create setup fun
 
         val radioGroup = binding.userTypeRadioGroup
@@ -42,13 +42,14 @@ class RegisterSelectingUserTypeFragment : Fragment() {
 
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
             val selectedRadioButton: RadioButton = binding.root.findViewById(checkedId)
-            selectedUserType = selectedRadioButton.tag as UserType
+            selectedUserType = UserType.valueOf(selectedRadioButton.tag as String)
         }
 
         binding.nextButton.setOnClickListener {
             if(validateData()){
                 collectData()
-                //TODO: go to the next fragment
+                (requireParentFragment() as RegisterParentFragment).replaceFragment(RegisterFragment())
+                (requireParentFragment() as RegisterParentFragment).increaseProgressBar()
             }
         }
     }
