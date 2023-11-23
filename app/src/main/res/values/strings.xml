@@ -172,6 +172,10 @@
     <string name="required_flat_number">Numer mieszkania*</string>
     <string name="required_land_area">Powierzchnia działki*</string>
     <string name="required_floor">Piętro*</string>
+    <string name="student">Student</string>
+    <string name="owner_type">Właściciel</string>
+    <string name="student_type">Student</string>
+    <string name="nothing_selected">Nic nie wybrano!</string>
 
 
     <!-- TODO: meeting_row -->
