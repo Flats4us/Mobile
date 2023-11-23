@@ -2,17 +2,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import com.example.flats4us21.R
+import com.example.flats4us21.data.Message
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DisputeFragment : Fragment() {
 
-    private lateinit var messagesAdapter: ArrayAdapter<String>
-    private val messagesList = mutableListOf<String>()
+    private lateinit var messagesAdapter: MessageAdapter
+    private val messagesList = mutableListOf<Message>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,14 +30,21 @@ class DisputeFragment : Fragment() {
         val editTextMessage = view.findViewById<EditText>(R.id.messageInput)
         val buttonSendMessage = view.findViewById<Button>(R.id.sendButton)
 
-        // Initialize the adapter for the ListView with a simple list item layout and the messages list
-        messagesAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, messagesList)
+        // Initialize the custom adapter for the ListView with the message list
+        messagesAdapter = MessageAdapter(requireContext(), messagesList)
         listViewMessages.adapter = messagesAdapter
 
         // Set the onClick listener for the send message button
         buttonSendMessage.setOnClickListener {
-            val message = editTextMessage.text.toString().trim()
-            if (message.isNotEmpty()) {
+            val messageText = editTextMessage.text.toString().trim()
+            if (messageText.isNotEmpty()) {
+                // Get current time and add one hour
+                val calendar = Calendar.getInstance()
+                calendar.add(Calendar.HOUR_OF_DAY, 1)
+                val timeOneHourForward = SimpleDateFormat("HH:mm", Locale.getDefault()).format(calendar.time)
+
+                val message = Message(messageText, timeOneHourForward)
+
                 // Add message to the list and notify the adapter
                 messagesList.add(message)
                 messagesAdapter.notifyDataSetChanged()
@@ -45,4 +54,5 @@ class DisputeFragment : Fragment() {
             }
         }
     }
+
 }

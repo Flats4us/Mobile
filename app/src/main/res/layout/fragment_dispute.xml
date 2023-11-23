@@ -15,7 +15,7 @@
             android:id="@+id/userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="User3 -Spór, 10.10.23"
+            android:text="User3 - Spór, 10.10.23"
             android:textColor="#FFFFFF"
             android:textStyle="bold" />
 
@@ -35,7 +35,6 @@
             android:layout_marginEnd="16dp"/>
     </RelativeLayout>
 
-    <!-- ListView to RecyclerView conversion might be necessary for better performance and flexibility -->
     <ListView
         android:id="@+id/messageList"
         android:layout_width="match_parent"
@@ -45,8 +44,7 @@
         android:divider="@android:color/transparent"
         android:dividerHeight="10dp"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-    />
+        android:paddingRight="16dp" />
 
     <RelativeLayout
         android:id="@+id/messageInputArea"
@@ -66,19 +64,18 @@
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:background="@android:color/transparent"
-            android:hint="Text"
-        android:layout_weight="1" />
+            android:hint="Write a message..."
+            android:layout_weight="1" />
 
         <Button
             android:id="@+id/sendButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_alignParentEnd="true"
-            android:background="@android:color/transparent"
             android:text="+"
+            android:background="@android:color/transparent"
             android:textColor="@android:color/black"
-            android:textSize="24sp" />
-
+            android:textSize="14sp" />
     </RelativeLayout>
 
 </RelativeLayout>
