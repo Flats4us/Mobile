@@ -30,7 +30,7 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/registerStep"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginHorizontal="@dimen/horizontal_space"
         tools:layout="@layout/fragment_register"/>
 

@@ -80,4 +80,32 @@ class UserViewModel: ViewModel() {
         set(value) {
             _phoneNumber = value
         }
+
+    private var _birthDate: String = ""
+    var birthDate: String
+        get() = _birthDate
+        set(value) {
+            _birthDate = value
+        }
+
+    private var _university: String = ""
+    var university: String
+        get() = _university
+        set(value) {
+            _university = value
+        }
+
+    private var _studentNumber: String = ""
+    var studentNumber: String
+        get() = _studentNumber
+        set(value) {
+            _studentNumber = value
+        }
+
+    private var _bankAccount: String = ""
+    var bankAccount: String
+        get() = _bankAccount
+        set(value) {
+            _bankAccount = value
+        }
 }

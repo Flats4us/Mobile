@@ -58,7 +58,7 @@ class RegisterFragment : Fragment() {
         nextButton.setOnClickListener {
             if(validateData()){
                 collectData()
-                val fragment = SurveyFragment()
+                val fragment = RegisterSpecificDataFragment()
                 (requireParentFragment() as RegisterParentFragment).replaceFragment(fragment)
                 (requireParentFragment() as RegisterParentFragment).decreaseProgressBar()
             }
