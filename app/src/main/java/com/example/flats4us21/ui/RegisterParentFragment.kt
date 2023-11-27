@@ -19,13 +19,13 @@ class RegisterParentFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        userViewModel = ViewModelProvider(requireActivity())[UserViewModel::class.java]
         _binding = FragmentRegisterParentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
         replaceFragment(RegisterSelectingUserTypeFragment())
 
     }
@@ -38,11 +38,13 @@ class RegisterParentFragment : Fragment() {
     }
 
     fun increaseProgressBar(){
-        binding.progressBar.incrementProgressBy(25)
+        val incrementValue = if(userViewModel.userType.toString() == "STUDENT") 25 else 20
+        binding.progressBar.incrementProgressBy(incrementValue)
     }
 
     fun decreaseProgressBar(){
-        binding.progressBar.incrementProgressBy(-25)
+        val incrementValue = if(userViewModel.userType.toString() == "STUDENT") -25 else -20
+        binding.progressBar.incrementProgressBy(incrementValue)
     }
 
     fun decreaseProgressBar(diff: Int){

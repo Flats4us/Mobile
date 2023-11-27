@@ -10,7 +10,7 @@ import retrofit2.http.POST
 
 interface IStudentSurveyService {
 
-    @GET("s22677/JSON-data-example/main/OWNER/JSON.json")
+    @GET("s22677/JSON-data-example/main/STUDENT/JSON.json")
     fun getSurveyQuestions (): Call<List<SurveyQuestion>>
 
     @POST("endpoint/path")

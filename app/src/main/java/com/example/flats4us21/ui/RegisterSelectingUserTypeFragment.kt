@@ -20,6 +20,7 @@ class RegisterSelectingUserTypeFragment : Fragment() {
     private var _binding : FragmentRegisterSelectingUserTypeBinding? = null
     private val binding get() = _binding!!
     private var selectedUserType : UserType? = null
+    private lateinit var radioGroup: RadioGroup
     private lateinit var userViewModel: UserViewModel
 
     override fun onCreateView(
@@ -33,12 +34,10 @@ class RegisterSelectingUserTypeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //TODO: create setup fun
 
-        val radioGroup = binding.userTypeRadioGroup
+        radioGroup = binding.userTypeRadioGroup
 
-        val initialSelection = if(userViewModel.userType != null) UserType.valueOf(userViewModel.userType!!) else UserType.STUDENT
-        setRadioButtonSelection(radioGroup, initialSelection)
+        setValues()
 
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
             val selectedRadioButton: RadioButton = binding.root.findViewById(checkedId)
@@ -51,6 +50,14 @@ class RegisterSelectingUserTypeFragment : Fragment() {
                 (requireParentFragment() as RegisterParentFragment).replaceFragment(RegisterFragment())
                 (requireParentFragment() as RegisterParentFragment).increaseProgressBar()
             }
+        }
+    }
+
+    private fun setValues() {
+        val initialSelection = if(userViewModel.userType != null) UserType.valueOf(userViewModel.userType!!) else null
+        if(initialSelection != null){
+            setRadioButtonSelection(radioGroup, initialSelection)
+            selectedUserType = initialSelection
         }
     }
 

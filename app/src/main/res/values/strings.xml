@@ -176,6 +176,12 @@
     <string name="owner_type">Właściciel</string>
     <string name="student_type">Student</string>
     <string name="nothing_selected">Nic nie wybrano!</string>
+    <string name="postal_code">Kod pocztowy</string>
+    <string name="required_surname">Nazwisko*</string>
+    <string name="required_name">Imię*</string>
+    <string name="required_phone_number">Numer telefonu*</string>
+    <string name="required_postal_code">Kod pocztowy*</string>
+    <string name="personal_data">Dane osobowe</string>
 
 
     <!-- TODO: meeting_row -->
