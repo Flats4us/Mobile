@@ -1,4 +1,4 @@
-package com.example.flats4us21.deserializer
+package com.example.flats4us21.adapters.deserializer
 
 import com.example.flats4us21.data.QuestionType
 import com.example.flats4us21.data.ResponseType

@@ -3,7 +3,7 @@ package com.example.flats4us21.services
 import android.util.Log
 import com.example.flats4us21.data.QuestionResponse
 import com.example.flats4us21.data.SurveyQuestion
-import com.example.flats4us21.deserializer.SurveyDeserializer
+import com.example.flats4us21.adapters.deserializer.SurveyDeserializer
 import com.example.flats4us21.viewmodels.MainViewModel
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
