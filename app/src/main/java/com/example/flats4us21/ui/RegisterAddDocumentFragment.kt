@@ -82,9 +82,9 @@ class RegisterAddDocumentFragment : Fragment() {
         binding.nextButton.setOnClickListener {
             if(validateImages()) {
                 collectData()
-                Toast.makeText(requireContext(), "Utworzono konto", Toast.LENGTH_SHORT).show()
-                val fragment = LoginFragment()
-                (activity as? DrawerActivity)!!.replaceFragment(fragment)
+                var fragment: Fragment = RegisterLogInDataFragment()
+                (requireParentFragment() as RegisterParentFragment).replaceFragment(fragment)
+                (requireParentFragment() as RegisterParentFragment).decreaseProgressBar()
 
             }
         }

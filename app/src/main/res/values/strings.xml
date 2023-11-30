@@ -192,6 +192,7 @@
     <string name="bank_account">Numer konta</string>
     <string name="owner_data">Dane właściciela</string>
     <string name="student_data">Dane studenta</string>
+    <string name="log_in_data">Dane logowania</string>
 
 
     <!-- TODO: meeting_row -->
