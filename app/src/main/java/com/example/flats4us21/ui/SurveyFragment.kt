@@ -75,7 +75,7 @@ class SurveyFragment : Fragment() {
         nextButton.setOnClickListener {
             if(validateData()){
                 collectData()
-                val fragment = SurveyFragment()
+                val fragment = RegisterAddDocumentFragment()
                 (requireParentFragment() as RegisterParentFragment).replaceFragment(fragment)
                 (requireParentFragment() as RegisterParentFragment).increaseProgressBar()
             }

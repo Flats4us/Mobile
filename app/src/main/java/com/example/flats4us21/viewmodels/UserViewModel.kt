@@ -1,5 +1,6 @@
 package com.example.flats4us21.viewmodels
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -142,4 +143,33 @@ class UserViewModel: ViewModel() {
         set(value) {
             _questionResponseList = value
         }
+
+    private var _images: MutableList<Uri> = mutableListOf()
+    var images: MutableList<Uri>
+        get() = _images
+        set(value) {
+            _images = value
+        }
+
+    fun createUser() {
+        //TODO Not yet implemented
+    }
+
+    fun clearData(){
+        _name = ""
+        _surname = ""
+        _city = ""
+        _street = ""
+        _buildingNumber = ""
+        _flatNumber = ""
+        _postalCode = ""
+        _phoneNumber = ""
+        _birthDate = ""
+        _university = ""
+        _studentNumber = ""
+        _bankAccount = ""
+        _questionResponseList = listOf()
+        _images = mutableListOf()
+    }
+
 }

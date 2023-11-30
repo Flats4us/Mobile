@@ -46,7 +46,9 @@ class RegisterSpecificDataFragment : Fragment() {
         nextButton.setOnClickListener {
             if(validateData()){
                 collectData()
-                val fragment = SurveyFragment()
+                var fragment: Fragment = SurveyFragment()
+                if(userViewModel.userType == UserType.OWNER.toString())
+                        fragment = RegisterAddDocumentFragment()
                 (requireParentFragment() as RegisterParentFragment).replaceFragment(fragment)
                 (requireParentFragment() as RegisterParentFragment).increaseProgressBar()
             }
