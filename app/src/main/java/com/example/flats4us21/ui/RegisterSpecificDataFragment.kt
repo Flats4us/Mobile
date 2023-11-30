@@ -39,7 +39,7 @@ class RegisterSpecificDataFragment : Fragment() {
             collectData()
             val fragment = RegisterFragment()
             (requireParentFragment() as RegisterParentFragment).replaceFragment(fragment)
-            (requireParentFragment() as RegisterParentFragment).increaseProgressBar()
+            (requireParentFragment() as RegisterParentFragment).decreaseProgressBar()
         }
 
         val nextButton = binding.nextButton
@@ -48,7 +48,7 @@ class RegisterSpecificDataFragment : Fragment() {
                 collectData()
                 val fragment = SurveyFragment()
                 (requireParentFragment() as RegisterParentFragment).replaceFragment(fragment)
-                (requireParentFragment() as RegisterParentFragment).decreaseProgressBar()
+                (requireParentFragment() as RegisterParentFragment).increaseProgressBar()
             }
         }
     }

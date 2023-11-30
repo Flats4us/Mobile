@@ -40,16 +40,25 @@ class QuestionAdapter(
         val adapter = AnswerAdapter(questions[position].responseType ,questions[position].answers)
         selectedAnswers[questions[position].questionId] = adapter
         holder.recyclerView.adapter = adapter
-        val layoutManager : LinearLayoutManager = if(questions[position].responseType == ResponseType.SUBQUESTION){
-            LinearLayoutManager(holder.itemView.context)
-        } else{
-            LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
+        val layoutManager : LinearLayoutManager = when (questions[position].responseType) {
+            ResponseType.SUBQUESTION -> {
+                LinearLayoutManager(holder.itemView.context)
+            }
+            ResponseType.SLIDER -> {
+                LinearLayoutManager(holder.itemView.context, LinearLayoutManager.VERTICAL, false)
+            }
+            ResponseType.SWITCH -> {
+                LinearLayoutManager(holder.itemView.context, LinearLayoutManager.VERTICAL, false)
+            }
+            else -> {
+                LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
+            }
         }
         holder.recyclerView.layoutManager = layoutManager
     }
 
     fun getAllAnswers() : List<QuestionResponse>{
-        val answers = mutableListOf<QuestionResponse>();
+        val answers = mutableListOf<QuestionResponse>()
         for (question in selectedAnswers){
             if(question.value.get() == ResponseType.SUBQUESTION){
                 answers.addAll(question.value.getSubanswers())

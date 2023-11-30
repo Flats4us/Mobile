@@ -1,13 +1,20 @@
 package com.example.flats4us21.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.flats4us21.data.QuestionResponse
+import com.example.flats4us21.data.SurveyQuestion
 import com.example.flats4us21.services.ApiUserDataSource
+import com.example.flats4us21.services.StudentSurveyService
 import com.example.flats4us21.services.UserDataSource
+import kotlinx.coroutines.launch
 
 private const val TAG = "UserViewModel"
 class UserViewModel: ViewModel() {
+    private val apiSurveyRepository : StudentSurveyService = StudentSurveyService
     private val userRepository : UserDataSource = ApiUserDataSource
 
     private val _isLoading = MutableLiveData(false)
@@ -107,5 +114,32 @@ class UserViewModel: ViewModel() {
         get() = _bankAccount
         set(value) {
             _bankAccount = value
+        }
+
+    private val _questionList: MutableLiveData<List<SurveyQuestion>> = MutableLiveData()
+    val questionList: LiveData<List<SurveyQuestion>>
+        get() = _questionList
+    fun getQuestionList(surveyType: String){
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try{
+                val fetchedQuestions = apiSurveyRepository.getSurveyQuestion(surveyType)
+                Log.i(TAG, "Fetched questions: $fetchedQuestions")
+                _questionList.value = fetchedQuestions
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    private var _questionResponseList: List<QuestionResponse> = listOf()
+    var questionResponseList: List<QuestionResponse>
+        get() = _questionResponseList
+        set(value) {
+            questionResponseList = value
         }
 }

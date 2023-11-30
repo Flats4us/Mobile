@@ -51,7 +51,7 @@ class RegisterFragment : Fragment() {
             collectData()
             val fragment = RegisterSelectingUserTypeFragment()
             (requireParentFragment() as RegisterParentFragment).replaceFragment(fragment)
-            (requireParentFragment() as RegisterParentFragment).increaseProgressBar()
+            (requireParentFragment() as RegisterParentFragment).decreaseProgressBar()
         }
 
         val nextButton = binding.nextButton
@@ -60,7 +60,7 @@ class RegisterFragment : Fragment() {
                 collectData()
                 val fragment = RegisterSpecificDataFragment()
                 (requireParentFragment() as RegisterParentFragment).replaceFragment(fragment)
-                (requireParentFragment() as RegisterParentFragment).decreaseProgressBar()
+                (requireParentFragment() as RegisterParentFragment).increaseProgressBar()
             }
         }
     }
@@ -147,7 +147,6 @@ class RegisterFragment : Fragment() {
         val text = editText.text.toString()
         val isRequired = header.text.last() == '*'
         val isValid = text.isNotEmpty()
-        Log.d(TAG, "[validateOptionalText] header -> $header; last char -> ${header.text.last()}; return value -> ${isValid || !isRequired}")
         editTextLayout.setBackgroundResource(if (isValid || !isRequired) R.drawable.background_input else R.drawable.background_wrong_input)
         return isValid || !isRequired
     }

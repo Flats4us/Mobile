@@ -2,6 +2,7 @@ package com.example.flats4us21.adapters
 
 import android.annotation.SuppressLint
 import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,10 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.flats4us21.data.QuestionResponse
 import com.example.flats4us21.data.ResponseType
 import com.example.flats4us21.data.SurveyQuestion
-import com.example.flats4us21.databinding.AnswerTextRowBinding
-import com.example.flats4us21.databinding.RadiobuttonRowBinding
-import com.example.flats4us21.databinding.SubQuestionRowBinding
+import com.example.flats4us21.databinding.*
 
+private const val TAG = "AnswerAdapter"
 class AnswerAdapter(
     private val type : ResponseType,
     private val answers: List<Any?>
@@ -46,6 +46,15 @@ class AnswerAdapter(
         val sub_answers = binding.subquestionRecyclerView
     }
 
+    inner class SliderViewHolder(binding: AnswerSliderRowBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+            val seekBar = binding.seekBar
+        }
+    inner class SwitchViewHolder(binding: AnswerSwitchBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+            val switch = binding.switchCompat
+        }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (type) {
             ResponseType.RADIOBUTTON -> {
@@ -71,6 +80,23 @@ class AnswerAdapter(
                     false
                 )
                 SubquestionViewHolder(binding)
+            }
+            ResponseType.SLIDER -> {
+                val binding = AnswerSliderRowBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+                SliderViewHolder(binding)
+            }
+            ResponseType.SWITCH -> {
+                val binding = AnswerSwitchBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+                Log.d(TAG, "TextView visibility: ${binding.switchCompat.visibility}")
+                SwitchViewHolder(binding)
             }
         }
     }
@@ -98,9 +124,18 @@ class AnswerAdapter(
                 val question = answer as SurveyQuestion
                 holder.sub_question.text = question.content
                 val adapter = AnswerAdapter(question.responseType ,question.answers)
-                subAdapters.put(question.questionId, adapter)
+                subAdapters[question.questionId] = adapter
                 holder.sub_answers.adapter = adapter
                 holder.sub_answers.layoutManager  = LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
+            }
+            is SliderViewHolder -> {
+                val pair : Pair<Int, Int> = (answer as Pair<Int, Int>)
+                holder.seekBar.valueFrom = pair.first.toFloat()
+                holder.seekBar.value = pair.first.toFloat()
+                holder.seekBar.valueTo = pair.second.toFloat()
+            }
+            is SwitchViewHolder -> {
+                holder.switch.isChecked = answer as Boolean
             }
         }
     }
@@ -112,7 +147,7 @@ class AnswerAdapter(
         return null
     }
 
-    fun getAnswer(): String? {
+    fun getAnswer(): String {
         return when (type) {
             ResponseType.RADIOBUTTON -> ({
                 if (selectedAnswerPosition != RecyclerView.NO_POSITION) {
@@ -123,16 +158,24 @@ class AnswerAdapter(
             }).toString()
             ResponseType.TEXT -> {
                 val textHolder = answerHolder as TextViewHolder
-                return textHolder.answerText.toString()
+                return textHolder.answerText.text.toString()
             }
             ResponseType.SUBQUESTION -> {
                 "null"
+            }
+            ResponseType.SLIDER -> {
+                val sliderHolder = answerHolder as SliderViewHolder
+                return sliderHolder.seekBar.value.toInt().toString()
+            }
+            ResponseType.SWITCH -> {
+                val switchHolder = answerHolder as SwitchViewHolder
+                return switchHolder.switch.isChecked.toString()
             }
         }
     }
 
     fun getSubanswers() : List<QuestionResponse>{
-        val responses = mutableListOf<QuestionResponse>();
+        val responses = mutableListOf<QuestionResponse>()
         for (question in subAdapters){
             val questionId = question.key
             val questionAnswer = question.value.getSelectedAnswer()
