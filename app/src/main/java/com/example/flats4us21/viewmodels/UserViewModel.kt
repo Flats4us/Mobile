@@ -136,10 +136,10 @@ class UserViewModel: ViewModel() {
         }
     }
 
-    private var _questionResponseList: List<QuestionResponse> = listOf()
+    private lateinit var _questionResponseList: List<QuestionResponse>
     var questionResponseList: List<QuestionResponse>
         get() = _questionResponseList
         set(value) {
-            questionResponseList = value
+            _questionResponseList = value
         }
 }

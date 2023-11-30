@@ -17,8 +17,6 @@
             android:gravity="center_horizontal"
             android:text="@string/owner_survey"
             android:textSize="@dimen/h1"
-            android:textColor="@color/white"
-            android:background="@drawable/background_header"
             android:layout_marginTop="@dimen/header_vertical_space"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

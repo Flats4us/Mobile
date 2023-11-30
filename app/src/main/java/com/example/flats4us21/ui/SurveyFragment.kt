@@ -36,8 +36,9 @@ class SurveyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // Setting list of questions in MainViewModel
-        userViewModel.getQuestionList(userViewModel.userType!!)
+
+        if(fetchedQuestions.size == 0)
+            userViewModel.getQuestionList(userViewModel.userType!!)
         questionRecyclerView = binding.questionRecyclerView
 
         userViewModel.questionList.observe(viewLifecycleOwner) { questions ->
@@ -64,6 +65,7 @@ class SurveyFragment : Fragment() {
 
         val prevButton = binding.prevButton
         prevButton.setOnClickListener {
+            collectData()
             val fragment = RegisterSpecificDataFragment()
             (requireParentFragment() as RegisterParentFragment).replaceFragment(fragment)
             (requireParentFragment() as RegisterParentFragment).decreaseProgressBar()
@@ -87,6 +89,7 @@ class SurveyFragment : Fragment() {
 
     private fun collectData() {
         val answers :  List<QuestionResponse> = questionAdapter.getAllAnswers()
+        Log.i(TAG, "[collectData] Answers: $answers")
         userViewModel.questionResponseList = answers
     }
 

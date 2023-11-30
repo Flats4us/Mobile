@@ -64,11 +64,9 @@ class QuestionAdapter(
                 answers.addAll(question.value.getSubanswers())
             } else {
                 val questionId = question.key
-                val questionAnswer = question.value.getSelectedAnswer()
+                val questionAnswer = question.value.getAnswer()
                 answers.add(QuestionResponse(questionId, questionAnswer!!))
             }
-
-
         }
         return answers
     }
