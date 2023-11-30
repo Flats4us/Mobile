@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.R
 import com.example.flats4us21.databinding.FragmentProfileBinding
 import com.example.flats4us21.viewmodels.ProfileViewModel
@@ -57,7 +58,8 @@ class ProfileFragment : Fragment() {
 
         binding.editProfileButton.setOnClickListener {
             val transaction = parentFragmentManager.beginTransaction()
-            transaction.replace(R.id.fragment_container, EditProfileFragment())
+            //transaction.replace(R.id.fragment_container, EditProfileFragment())
+            (activity as? DrawerActivity)!!.replaceFragment(EditProfileFragment())
             transaction.addToBackStack(null)
             transaction.commit()
         }
