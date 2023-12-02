@@ -1,25 +1,28 @@
 package com.example.flats4us21.services
 
-import com.example.flats4us21.data.*
-import com.example.flats4us21.data.utils.FileUtils
+import com.example.flats4us21.data.Meeting
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.Month
 
 class HardcodedMeetingDataSource : MeetingDataSource {
     private val meetings : MutableList<Meeting> = mutableListOf()
 
-    init{
+    /*init{
         meetings.add(
             Meeting(
                 date = LocalDateTime.now(),
                 reason = "Obejrzenie mieszkania",
                 student = Student(
-                    birthDate = LocalDate.of(2000, 1, 1),
-                    email = "jan.kowalski@gmail.com",
-                    studentNumber = "s22222",
+                    id = 1,
                     name = "Jan",
                     surname = "Kowalski",
+                    email = "jan.kowalski@gmail.com",
+                    phoneNumber = "123456789",
+                    profilePicture = null,
+                    userStatus = "aktywny",
+                    verificationStatus = "zweryfikowany",
+                    birthDate = Year.of(2000),
+                    studentNumber = "s22222",
                     university = "PJATK"
                 ),
                 offer = Offer(
@@ -30,25 +33,30 @@ class HardcodedMeetingDataSource : MeetingDataSource {
                     rentalPeriod = "2",
                     interestedPeople = 18,
                     Property(
+                        propertyId = 1234,
+                        area = 50,
+                        buildingNumber = "10A",
+                        city = "Warszawa",
+                        constructionYear = 2010,
+                        district = "Bielany",
+                        equipment = mutableListOf("Sofa"),
+                        flatNumber = "212",
+                        floor = "3",
                         propertyType = PropertyType.FLAT,
                         voivodeship = "Mazowieckie",
-                        city = "Warszawa",
-                        district = "Bielany",
+                        image = mutableListOf(),
+
                         street = "Pruszkowska",
-                        buildingNumber = "10A",
-                        area = 50,
                         maxResidents = 4,
-                        constructionYear = 2010,
+
                         numberOfRooms = 2,
                         numberOfFloors = 1,
-                        equipment = mutableListOf("Sofa"),
-                        image = mutableListOf(FileUtils.getUriOfExamplePropertyJpg())
                     )
                 ),
                 MeetingStatus.CONFIRMED
             )
         )
-    }
+    }*/
     override fun getMeetings(date: LocalDate): List<Meeting> {
         return meetings.filter { it.date.toLocalDate() == date }
     }

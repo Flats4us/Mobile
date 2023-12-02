@@ -2,15 +2,22 @@ package com.example.flats4us21.viewmodels
 
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.flats4us21.data.Equipment
 import com.example.flats4us21.data.Property
 import com.example.flats4us21.data.PropertyType
+import com.example.flats4us21.data.dto.NewPropertyDto
 import com.example.flats4us21.services.*
+import kotlinx.coroutines.launch
 
+private const val TAG = "RealEstateViewModel"
 class RealEstateViewModel : ViewModel() {
     private val placeRepository : PlaceDataSource = HardcodedPlaceDataSource()
-    private val equipmentRepository : EquipmentDataSource = HardcodedEquipmentDataSource()
-    private val propertyRepository : PropertyDataSource = HardcodedPropertyDataSource
+    private val equipmentRepository : EquipmentDataSource = ApiEquipmentDataSource
+    private val propertyRepository : PropertyDataSource = ApiPropertyDataSource
     val voivodeshipSuggestions = ArrayList<String>()
 
     fun fetchVoivodeships() {
@@ -22,8 +29,18 @@ class RealEstateViewModel : ViewModel() {
         return placeRepository.getDistricts(city)
     }
 
-    fun getEquipmentList(): List<String> {
-        return equipmentRepository.getEquipment()
+    private val _equipments = MutableLiveData<List<Equipment>>()
+    val equipments: LiveData<List<Equipment>>
+        get() = _equipments
+
+    fun getEquipmentList() {
+        _isLoading.value = true
+        viewModelScope.launch {
+            val fetchedEquipments = equipmentRepository.getEquipment()
+            Log.i(TAG, "Fetched list of equipment: $fetchedEquipments")
+            _equipments.value = fetchedEquipments
+            _isLoading.value = false
+        }
     }
 
     private var _propertyType: String? = null
@@ -124,8 +141,8 @@ class RealEstateViewModel : ViewModel() {
                 _numberOfFloors = value
         }
 
-    private var _equipment: MutableList<String> = mutableListOf()
-    var equipment: MutableList<String>
+    private var _equipment: MutableList<Int> = mutableListOf()
+    var equipment: MutableList<Int>
         get() = _equipment
         set(value) {
             _equipment = value
@@ -138,27 +155,56 @@ class RealEstateViewModel : ViewModel() {
             _images = value
         }
 
-    fun createRealEstateObject(): Property {
-        return Property(
-            propertyType = PropertyType.valueOf(propertyType!!),
-            voivodeship = voivodeship,
-            city = city,
-            district = district,
-            street = street,
-            buildingNumber = buildingNumber,
-            area = area!!,
-            maxResidents = maxResidents,
-            constructionYear = constructionYear,
-            numberOfRooms = numberOfRooms!!,
-            numberOfFloors = numberOfFloors,
-            equipment = equipment,
-            image = images
+    private var _ownerId: Int = 1
+    var ownerId : Int
+        get() = _ownerId
+        set(value) {
+            _ownerId = value
+        }
+
+    private val _isLoading = MutableLiveData(false)
+    val isLoading: LiveData<Boolean>
+        get() = _isLoading
+
+    private val _errorMessage = MutableLiveData<String?>(null)
+    val errorMessage: LiveData<String?>
+        get() = _errorMessage
+
+    fun createRealEstateObject() {
+        val newProperty = NewPropertyDto(
+            PropertyType.valueOf(propertyType!!),
+            voivodeship,
+            city,
+            district,
+            street,
+            buildingNumber,
+            flatNumber,
+            area!!,
+            landArea,
+            maxResidents,
+            constructionYear,
+            false,
+            numberOfRooms!!,
+            equipment,
+            images,
+            ownerId
         )
+        viewModelScope.launch{
+            _errorMessage.value = null
+            _isLoading.value = true
+            try {
+                propertyRepository.addProperty(newProperty)
+                Log.d(TAG, "New Property to create: $newProperty")
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
     }
 
     fun addProperty(property: Property){
-        Log.d("BeforeAdding", "${propertyRepository.getUserProperties().size}")
-        propertyRepository.addProperty(property)
-        Log.d("BeforeAdding", "${propertyRepository.getUserProperties().size}")
+        TODO("Not yet implemented")
     }
 }

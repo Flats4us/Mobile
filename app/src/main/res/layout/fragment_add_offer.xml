@@ -1,300 +1,320 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     tools:context=".ui.AddOfferFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/header_vertical_space"
-        android:layout_marginBottom="@dimen/header_vertical_space"
-        android:background="@drawable/background_header"
-        android:gravity="center_horizontal"
-        android:text="@string/add_offer"
-        android:textColor="@color/white"
-        android:textSize="@dimen/h1"
-        android:textStyle="bold"
-        tools:ignore="TextContrastCheck" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-        android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_register_margin_top"
-            android:background="@drawable/background_input"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <EditText
-                android:id="@+id/price"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/edit_text_height"
-                android:background="@null"
-                android:hint="@string/price"
-                android:imeOptions="actionNext"
-                android:importantForAutofill="no"
-                android:inputType="numberDecimal"
-                android:textSize="@dimen/edit_text_size"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/currency"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/currency"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/currency"
-                android:textSize="@dimen/edit_text_size"
-                android:layout_marginEnd="1dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/layout_name_margin_vertical"
-            android:background="@color/white"
-            android:paddingStart="@dimen/layout_name_padding_vertical"
-            android:paddingEnd="@dimen/layout_name_padding_vertical"
-            android:text="@string/price"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/layoutPrice"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/layoutPrice"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-        android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutRentalPeriod"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_register_margin_top"
-            android:background="@drawable/background_input"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <EditText
-                android:id="@+id/rentalPeriod"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_height"
-                android:background="@null"
-                android:hint="@string/period"
-                android:imeOptions="actionNext"
-                android:importantForAutofill="no"
-                android:inputType="number"
-                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                android:textSize="@dimen/edit_text_size"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/month"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/month"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/month"
-                android:textSize="@dimen/edit_text_size"
-                android:layout_marginEnd="1dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/layout_name_margin_vertical"
-            android:background="@color/white"
-            android:paddingStart="@dimen/layout_name_padding_vertical"
-            android:paddingEnd="@dimen/layout_name_padding_vertical"
-            android:text="@string/period"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/layoutRentalPeriod"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/layoutRentalPeriod"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-        android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
-
-        <LinearLayout
-            android:id="@+id/layoutProperty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_register_margin_top"
-            android:background="@drawable/background_input"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/spinner_height"
-                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                android:contentDescription="@string/choose_property"/>
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/layout_name_margin_vertical"
-            android:background="@color/white"
-            android:paddingStart="@dimen/layout_name_padding_vertical"
-            android:paddingEnd="@dimen/layout_name_padding_vertical"
-            android:text="@string/choose_property"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/layoutProperty"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/layoutProperty"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-        android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
-
-        <LinearLayout
-            android:id="@+id/layoutDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_register_margin_top"
-            android:background="@drawable/background_input"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <EditText
-                android:id="@+id/description"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_description_height"
-                android:background="@null"
-                android:hint="@string/description"
-                android:imeOptions="actionNext"
-                android:importantForAutofill="no"
-                android:inputType="textMultiLine"
-                android:lines="4"
-                android:minLines="9"
-                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                android:textSize="@dimen/edit_text_size"
-                android:textStyle="bold"
-                android:maxLength="512"/>
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/layout_name_margin_vertical"
-            android:background="@color/white"
-            android:paddingStart="@dimen/layout_name_padding_vertical"
-            android:paddingEnd="@dimen/layout_name_padding_vertical"
-            android:text="@string/description"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/layoutDescription"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/layoutDescription"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/warning"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/rules_warning"
-        android:textSize="@dimen/regular_text_size"
-        android:textStyle="bold"
-        android:textColor="@color/red"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/layout_register_margin_top"
-        android:visibility="gone"/>
-
     <LinearLayout
-        android:id="@+id/fileNameLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/layout_register_margin_top"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/fileName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/example"
-            android:textSize="@dimen/regular_text_size"
-            android:layout_gravity="center_vertical" />
-
-        <ImageButton
-            android:id="@+id/deleteButton"
-            android:layout_width="@dimen/image_button_min_width"
-            android:layout_height="@dimen/image_button_min_height"
-            android:src="@drawable/baseline_delete_24"
-            android:background="@android:color/transparent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:contentDescription="@drawable/baseline_broken_image_24"
-            tools:ignore="SpeakableTextPresentCheck" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/addRulesButton"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/image_button_min_height"
-        android:drawableStart="@drawable/baseline_attach_file_24"
-        android:text="@string/add_rules"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/layout_register_margin_top"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/addOfferButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/layout_register_margin_top"
-        android:drawablePadding="10dp"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/add_offer"
-        android:textColor="@color/white" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/header_vertical_space"
+            android:layout_marginBottom="@dimen/header_vertical_space"
+            android:background="@drawable/background_header"
+            android:gravity="center_horizontal"
+            android:text="@string/add_offer"
+            android:textColor="@color/white"
+            android:textSize="@dimen/h1"
+            android:textStyle="bold"
+            tools:ignore="TextContrastCheck" />
 
-</LinearLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+            android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_register_margin_top"
+                android:background="@drawable/background_input"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:id="@+id/price"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:background="@null"
+                    android:hint="@string/price"
+                    android:imeOptions="actionNext"
+                    android:importantForAutofill="no"
+                    android:inputType="numberDecimal"
+                    android:textSize="@dimen/edit_text_size"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/currency"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/currency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="1dp"
+                    android:text="@string/currency"
+                    android:textSize="@dimen/edit_text_size"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                android:background="@color/white"
+                android:paddingStart="@dimen/layout_name_padding_vertical"
+                android:paddingEnd="@dimen/layout_name_padding_vertical"
+                android:text="@string/price"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/layoutPrice"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/layoutPrice" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+            android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutRentalPeriod"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_register_margin_top"
+                android:background="@drawable/background_input"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:id="@+id/rentalPeriod"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                    android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                    android:background="@null"
+                    android:hint="@string/period"
+                    android:imeOptions="actionNext"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:textSize="@dimen/edit_text_size"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/month"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="1dp"
+                    android:text="@string/month"
+                    android:textSize="@dimen/edit_text_size"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                android:background="@color/white"
+                android:paddingStart="@dimen/layout_name_padding_vertical"
+                android:paddingEnd="@dimen/layout_name_padding_vertical"
+                android:text="@string/period"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/layoutRentalPeriod"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/layoutRentalPeriod" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+            android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+            <LinearLayout
+                android:id="@+id/layoutProperty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_register_margin_top"
+                android:background="@drawable/background_input"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spinner_height"
+                    android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                    android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                    android:contentDescription="@string/choose_property" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                android:background="@color/white"
+                android:paddingStart="@dimen/layout_name_padding_vertical"
+                android:paddingEnd="@dimen/layout_name_padding_vertical"
+                android:text="@string/choose_property"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/layoutProperty"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/layoutProperty" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+            android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+            <LinearLayout
+                android:id="@+id/layoutDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_register_margin_top"
+                android:background="@drawable/background_input"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_description_height"
+                    android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                    android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                    android:background="@null"
+                    android:hint="@string/description"
+                    android:imeOptions="actionNext"
+                    android:importantForAutofill="no"
+                    android:inputType="textMultiLine"
+                    android:lines="4"
+                    android:maxLength="512"
+                    android:minLines="9"
+                    android:textSize="@dimen/edit_text_size"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                android:background="@color/white"
+                android:paddingStart="@dimen/layout_name_padding_vertical"
+                android:paddingEnd="@dimen/layout_name_padding_vertical"
+                android:text="@string/description"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/layoutDescription"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/layoutDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/warning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/layout_register_margin_top"
+            android:text="@string/rules_warning"
+            android:textColor="@color/red"
+            android:textSize="@dimen/regular_text_size"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/fileNameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_register_margin_top"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/fileName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/example"
+                android:textSize="@dimen/regular_text_size" />
+
+            <ImageButton
+                android:id="@+id/deleteButton"
+                android:layout_width="@dimen/image_button_min_width"
+                android:layout_height="@dimen/image_button_min_height"
+                android:background="@android:color/transparent"
+                android:contentDescription="@drawable/baseline_broken_image_24"
+                android:src="@drawable/baseline_delete_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/addRulesButton"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/image_button_min_height"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/layout_register_margin_top"
+            android:drawableStart="@drawable/baseline_attach_file_24"
+            android:text="@string/add_rules"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/addOfferButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/layout_register_margin_top"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:text="@string/add_offer"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

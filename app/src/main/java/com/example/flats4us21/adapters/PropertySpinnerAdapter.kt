@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.flats4us21.R
-import com.example.flats4us21.data.Property
+import com.example.flats4us21.data.dto.Property
 
 class PropertySpinnerAdapter(
     context: Context,
@@ -33,7 +33,7 @@ class PropertySpinnerAdapter(
         val streetTextView = view.findViewById<TextView>(R.id.street)
         val buildingNumberTextView = view.findViewById<TextView>(R.id.building)
 
-        imageView.setImageURI(item.image[0])
+        imageView.setImageBitmap(item.images[0])
         cityTextView.text = item.city
         streetTextView.text = item.street
         buildingNumberTextView.text = item.buildingNumber

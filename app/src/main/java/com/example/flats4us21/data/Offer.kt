@@ -1,49 +1,24 @@
 package com.example.flats4us21.data
 
-import android.os.Parcel
-import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 
 data class Offer(
+    @SerializedName("offerId")
+    val offerId: Int,
+    @SerializedName("dateIssue")
     val dateIssue: String,
+    @SerializedName("status")
     val status: String,
+    @SerializedName("price")
     val price: String,
+    @SerializedName("description")
     val description: String,
+    @SerializedName("rentalPeriod")
     val rentalPeriod: String,
+    @SerializedName("interestPeople")
     val interestedPeople: Int,
-    val property: Property
-) : Parcelable {
-    @Suppress("DEPRECATION")
-    constructor(parcel: Parcel) : this(
-        dateIssue = parcel.readString()!!,
-        status = parcel.readString()!!,
-        price = parcel.readString()!!,
-        description = parcel.readString()!!,
-        rentalPeriod = parcel.readString()!!,
-        interestedPeople = parcel.readInt(),
-        property = parcel.readParcelable(Property::class.java.classLoader)!!
-    )
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(dateIssue)
-        parcel.writeString(status)
-        parcel.writeString(price)
-        parcel.writeString(description)
-        parcel.writeString(rentalPeriod)
-        parcel.writeInt(interestedPeople)
-        parcel.writeParcelable(property, flags)
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<Offer> {
-        override fun createFromParcel(parcel: Parcel): Offer {
-            return Offer(parcel)
-        }
-
-        override fun newArray(size: Int): Array<Offer?> {
-            return arrayOfNulls(size)
-        }
-    }
-}
+    @SerializedName("userRegulation")
+    val userRegulation: String?,
+    @SerializedName("property")
+    val property: com.example.flats4us21.data.dto.Property
+)

@@ -1,7 +1,6 @@
 package com.example.flats4us21.adapters
 
 import android.graphics.Bitmap
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flats4us21.R
 
-class ImageSliderAdapter(private val images: List<Uri>) :
+class ImageSliderAdapter(private val images: List<Bitmap>) :
     RecyclerView.Adapter<ImageSliderAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -20,7 +19,7 @@ class ImageSliderAdapter(private val images: List<Uri>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val imageResId = images[position]
-        holder.imageView.setImageURI(imageResId)
+        holder.imageView.setImageBitmap(imageResId)
     }
 
     override fun getItemCount(): Int {
