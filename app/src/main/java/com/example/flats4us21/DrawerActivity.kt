@@ -3,6 +3,7 @@
 
 package com.example.flats4us21
 
+import DisputeFragment
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.MenuItem
@@ -16,7 +17,7 @@ import com.example.flats4us21.deserializer.PropertyDeserializer
 import com.example.flats4us21.ui.*
 import com.google.android.material.navigation.NavigationView
 
-class DrawerActivity : AppCompatActivity() {
+class   DrawerActivity : AppCompatActivity() {
 
     private lateinit var toggle : ActionBarDrawerToggle
     private lateinit var drawerLayout : DrawerLayout
@@ -39,16 +40,17 @@ class DrawerActivity : AppCompatActivity() {
             when(it.itemId){
                 R.id.nav_start -> replaceFragment(SearchFragment())
                 R.id.nav_observed -> replaceFragment(WatchedOffersListFragment())
-                R.id.nav_map -> Toast.makeText(this, "Clicked Mapa ofert", Toast.LENGTH_SHORT).show()
+                R.id.nav_map -> replaceFragment(MapFragment())
                 R.id.nav_last_viewed -> replaceFragment(LastViewedOffersFragment())
                 R.id.nav_messages -> Toast.makeText(this, "Wiadomości", Toast.LENGTH_SHORT).show()
                 R.id.nav_profile -> replaceFragment(ProfileFragment())
+                R.id.reviews -> replaceFragment(ReviewSubmissionFragment())
                 R.id.nav_settings -> replaceFragment(AddOfferFragment())
                 R.id.nav_his -> Toast.makeText(this, "Clicked Historia płatności", Toast.LENGTH_SHORT).show()
                 R.id.nav_method -> Toast.makeText(this, "Clicked Metody płatności", Toast.LENGTH_SHORT).show()
                 R.id.nav_rent -> Toast.makeText(this, "Clicked Metody płatności", Toast.LENGTH_SHORT).show()
                 R.id.nav_my_rentals -> replaceFragment(AddRealEstateFragment())
-                R.id.nav_conflicts -> replaceFragment(ITIssueReportFragment())
+                R.id.nav_conflicts -> replaceFragment(DisputeFragment())
                 R.id.nav_calendar -> replaceFragment(CalendarFragment())
                 R.id.nav_logout -> Toast.makeText(this, "Clicked Wyloguj się", Toast.LENGTH_SHORT).show()
             }
