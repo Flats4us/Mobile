@@ -115,6 +115,13 @@ class SampleDisputeContentFragment(
         }
     }
 
+    private fun setupRecyclerViewMessages() {
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = DisputeAdapter(getSampleMessages(), disputeClickListener)
+        }
+    }
+
     private fun getSampleDisputes(): List<Dispute> {
         return if (isClosedDispute) {
             // Zwróć listę zamkniętych sporów
@@ -125,6 +132,15 @@ class SampleDisputeContentFragment(
         }
     }
 
+    private fun getSampleMessages(): List<Dispute> {
+        return if (isClosedDispute) {
+            // Zwróć listę zamkniętych sporów
+            listOf(Dispute("Wiadmość z współlokatorem 1", "wiadomość 1"), Dispute("Wiadmość z współlokatorem 1", "wiadomość 2"))
+        } else {
+            // Zwróć listę otwartych sporów
+            listOf(Dispute("Wiadomość z właścicielem 1", "wiadomość 1"), Dispute("Wiadomość z właścicielem 2", "wiadomość 2"))
+        }
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

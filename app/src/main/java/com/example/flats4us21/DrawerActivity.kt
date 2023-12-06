@@ -4,6 +4,7 @@
 package com.example.flats4us21
 
 import DisputeFragment
+import MessagesFragment
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.MenuItem
@@ -42,7 +43,7 @@ class   DrawerActivity : AppCompatActivity() {
                 R.id.nav_observed -> replaceFragment(WatchedOffersListFragment())
                 R.id.nav_map -> replaceFragment(MapFragment())
                 R.id.nav_last_viewed -> replaceFragment(LastViewedOffersFragment())
-                R.id.nav_messages -> Toast.makeText(this, "Wiadomości", Toast.LENGTH_SHORT).show()
+                R.id.nav_messages -> replaceFragment(MessagesFragment())
                 R.id.nav_profile -> replaceFragment(ProfileFragment())
                 R.id.reviews -> replaceFragment(ReviewSubmissionFragment())
                 R.id.nav_settings -> replaceFragment(AddOfferFragment())
