@@ -54,6 +54,7 @@ class   DrawerActivity : AppCompatActivity() {
                 R.id.nav_conflicts -> replaceFragment(DisputeFragment())
                 R.id.nav_calendar -> replaceFragment(CalendarFragment())
                 R.id.nav_logout -> Toast.makeText(this, "Clicked Wyloguj się", Toast.LENGTH_SHORT).show()
+                //crt
             }
             true
         }
