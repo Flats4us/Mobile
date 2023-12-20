@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.example.flats4us21.deserializer.PropertyDeserializer
 import com.example.flats4us21.ui.*
+import com.example.yourapp.ReportIssueFragment
 import com.google.android.material.navigation.NavigationView
 
 class   DrawerActivity : AppCompatActivity() {
@@ -54,6 +55,7 @@ class   DrawerActivity : AppCompatActivity() {
                 R.id.nav_conflicts -> replaceFragment(DisputeFragment())
                 R.id.nav_calendar -> replaceFragment(CalendarFragment())
                 R.id.nav_logout -> Toast.makeText(this, "Clicked Wyloguj się", Toast.LENGTH_SHORT).show()
+                R.id.nav_report_issue -> replaceFragment(ReportIssueFragment())
                 //crt
             }
             true

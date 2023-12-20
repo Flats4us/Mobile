@@ -36,6 +36,10 @@
         android:id="@+id/reviews"
         android:icon="@drawable/baseline_edit_24"
         android:title="@string/reviews"/>
+    <item
+    android:id="@+id/nav_report_issue"
+    android:icon="@drawable/baseline_report_problem_24"
+    android:title="@string/report_issue"/>
 
     <item
         android:id="@+id/nav_settings"
