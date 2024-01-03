@@ -180,6 +180,7 @@
     <string name="placeholder_name">Name Placeholder</string>
     <string name="placeholder_age">Age Placeholder</string>
     <string name="placeholder_description">Description Placeholder</string>
+    <string name="hint_other_issue">inny problem</string>
 
     <!-- TODO: meeting_row -->
 </resources>
