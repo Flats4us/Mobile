@@ -193,6 +193,11 @@
     <string name="owner_data">Dane właściciela</string>
     <string name="student_data">Dane studenta</string>
     <string name="log_in_data">Dane logowania</string>
+    <string name="required_document_number">Numer dokumentu*</string>
+    <string name="document_number">Numer dokumentu</string>
+    <string name="document_expire_date">Data ważności dokumentu</string>
+    <string name="required_document_expired_date">Data ważności dokumentu*</string>
+    <string name="document_type">Typ dokumentu</string>
 
 
     <!-- TODO: meeting_row -->

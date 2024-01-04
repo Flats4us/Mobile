@@ -1,14 +1,15 @@
 package com.example.flats4us21.ui
 
+import android.app.AlertDialog
+import android.net.Uri
 import android.os.Bundle
-import android.text.InputType
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.TextView
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flats4us21.R
@@ -20,6 +21,8 @@ class RegisterFragment : Fragment() {
     private var _binding : FragmentRegisterBinding? = null
     private val binding get() = _binding!!
     private lateinit var userViewModel: UserViewModel
+    private val links: MutableList<String> = mutableListOf()
+    private lateinit var pickedInterest: MutableList<Int>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,18 +35,16 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        pickedInterest = mutableListOf()
         setValues()
+        setProfilePicturePicker()
+        setupInterest()
 
-        val toggle = binding.passwordToggle
-        val password =  binding.textPassword
-        toggle.setOnClickListener{
-            setPasswordVisibility(toggle, password)
-        }
 
-        val repeatToggle = binding.passwordRepeatToggle
-        val repeatPassword = binding.textRepeatPassword
-        repeatToggle.setOnClickListener{
-            setPasswordVisibility(repeatToggle, repeatPassword)
+        binding.layoutLinks.setOnClickListener{
+            val linksDialogFragment = LinksDialogFragment(links)
+            linksDialogFragment.show(parentFragmentManager , "LinksDialogFragment")
         }
 
         val prevButton = binding.prevButton
@@ -65,6 +66,74 @@ class RegisterFragment : Fragment() {
         }
     }
 
+    private fun setupInterest() {
+        val interest = binding.interests
+        val interestList: MutableList<Int> = mutableListOf()
+        userViewModel.getInterests()
+        userViewModel.isLoading.observe(viewLifecycleOwner) {isLoading ->
+            binding.progressBar.visibility = if(isLoading) View.VISIBLE else View.GONE
+        }
+        userViewModel.interests.observe(viewLifecycleOwner) { interests ->
+            val interestArray = interests.map {it.interestName }.toTypedArray()
+            val selectedInterest = BooleanArray(interestArray.size) {index ->
+                userViewModel.interest.contains(index+1)
+            }
+
+            interest.setOnClickListener{
+                val builder = AlertDialog.Builder(requireContext())
+
+                builder.setTitle("Wybierz zainteresowania")
+                builder.setCancelable(false)
+                builder.setMultiChoiceItems(interestArray, selectedInterest){_, position, isChecked ->
+                    selectedInterest[position] = isChecked
+
+                    if(isChecked) {
+                        interestList.add(position)
+                        interestList.sort()
+                    } else {
+                        interestList.remove(position)
+                    }
+                }
+                builder.setPositiveButton("Akceptuj") {_, _ ->
+                    for (j in selectedInterest.indices) {
+                        if (selectedInterest[j] && !pickedInterest.contains(j + 1)){
+                            pickedInterest.add(j + 1)
+                        } else if (!selectedInterest[j] && pickedInterest.contains(j +1)){
+                            pickedInterest.remove(j + 1)
+                        }
+                    }
+                }
+                builder.setNegativeButton("Anuluj") {dialog, _ ->
+                    dialog.dismiss()
+                }
+                builder.setNeutralButton("Wyczyść") {_, _ ->
+                    for(j in selectedInterest.indices) {
+                        selectedInterest[j] = false
+                        interestList.clear()
+                        interest.text = ""
+                        pickedInterest.remove(j+1)
+                    }
+                }
+                val alertDialog = builder.create()
+                alertDialog.show()
+            }
+        }
+    }
+
+    private fun setProfilePicturePicker() {
+        var imageUri: Uri?
+        val photoPicker =
+            registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+                if(uri != null){
+                    imageUri = uri
+                    binding.profilePicture.setImageURI(imageUri)
+                }
+            }
+        binding.addProfilePictureButton.setOnClickListener {
+            photoPicker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+    }
+
     private fun setValues() {
         if(userViewModel.name != ""){
             binding.name.setText(userViewModel.name)
@@ -72,35 +141,19 @@ class RegisterFragment : Fragment() {
         if(userViewModel.surname != ""){
             binding.surname.setText(userViewModel.surname)
         }
-        if(userViewModel.city != ""){
-            binding.city.setText(userViewModel.city)
-        }
-        if(userViewModel.street != ""){
-            binding.street.setText(userViewModel.street)
-        }
-        if(userViewModel.buildingNumber != ""){
-            binding.buildingNumber.setText(userViewModel.buildingNumber)
-        }
-        if(userViewModel.flatNumber != ""){
-            binding.flatNumber.setText(userViewModel.flatNumber)
-        }
-        if(userViewModel.postalCode != ""){
-            binding.postalCode.setText(userViewModel.postalCode)
+        if(userViewModel.address != ""){
+            binding.address.setText(userViewModel.address)
         }
         if(userViewModel.phoneNumber != ""){
             binding.phoneNumber.setText(userViewModel.phoneNumber)
         }
-    }
-
-    private fun setPasswordVisibility(toggle : ImageButton, password : EditText){
-        if(password.inputType == InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD) {
-            toggle.setImageResource(R.drawable.baseline_visibility_24)
-            password.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+        if(userViewModel.links.size != 0){
+            links.addAll(userViewModel.links)
         }
-        else {
-            toggle.setImageResource(R.drawable.baseline_visibility_off_24)
-            password.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-        }
+        pickedInterest.clear()
+        pickedInterest.addAll(userViewModel.interest)
+        links.clear()
+        links.addAll(userViewModel.links)
     }
 
     private fun collectData() {
@@ -110,37 +163,23 @@ class RegisterFragment : Fragment() {
         if(!binding.surname.text.isNullOrEmpty()){
             userViewModel.surname = binding.surname.text.toString()
         }
-        if(!binding.city.text.isNullOrEmpty()){
-            userViewModel.city = binding.city.text.toString()
-        }
-        if(!binding.street.text.isNullOrEmpty()){
-            userViewModel.street = binding.street.text.toString()
-        }
-        if(!binding.buildingNumber.text.isNullOrEmpty()){
-            userViewModel.buildingNumber = binding.buildingNumber.text.toString()
-        }
-        if(!binding.flatNumber.text.isNullOrEmpty()){
-            userViewModel.flatNumber = binding.flatNumber.text.toString()
-        }
-        if(!binding.postalCode.text.isNullOrEmpty()){
-            userViewModel.postalCode = binding.postalCode.text.toString()
+        if(!binding.address.text.isNullOrEmpty()){
+            userViewModel.address = binding.address.text.toString()
         }
         if(!binding.phoneNumber.text.isNullOrEmpty()){
             userViewModel.phoneNumber = binding.phoneNumber.text.toString()
         }
+        userViewModel.links = links
+        userViewModel.interest = pickedInterest
     }
 
     private fun validateData(): Boolean {
         val isNameValid = validateOptionalText(binding.name, binding.layoutName, binding.layoutNameHeader)
         val isSurnameValid = validateOptionalText(binding.surname, binding.layoutSurname, binding.layoutSurnameHeader)
-        val isCityValid = validateOptionalText(binding.city, binding.layoutCity, binding.cityHeader)
-        val isStreetValid = validateOptionalText(binding.street, binding.layoutStreet, binding.streetHeader)
-        val isBuildingNumberValid = validateOptionalText(binding.buildingNumber, binding.layoutBuildingNumber, binding.buildingNumberHeader)
-        val isFlatNumberValid = validateOptionalText(binding.flatNumber, binding.layoutFlatNumber, binding.flatNumberHeader)
-        val isPostalCodeValid = validateOptionalText(binding.postalCode, binding.layoutPostalCode, binding.postalCodeHeader)
+        val isCityValid = validateOptionalText(binding.address, binding.layoutAddress, binding.addressHeader)
         val isPhoneNumberValid = validateOptionalText(binding.phoneNumber, binding.layoutPhoneNumber, binding.phoneNumberHeader)
 
-        return isNameValid && isSurnameValid && isCityValid && isStreetValid && isBuildingNumberValid && isFlatNumberValid && isPostalCodeValid && isPhoneNumberValid
+        return isNameValid && isSurnameValid && isCityValid && isPhoneNumberValid
     }
 
     private fun validateOptionalText(editText: EditText, editTextLayout : ViewGroup, header : TextView): Boolean {

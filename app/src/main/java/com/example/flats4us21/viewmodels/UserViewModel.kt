@@ -6,18 +6,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.flats4us21.data.QuestionResponse
-import com.example.flats4us21.data.SurveyQuestion
-import com.example.flats4us21.services.ApiUserDataSource
-import com.example.flats4us21.services.StudentSurveyService
-import com.example.flats4us21.services.UserDataSource
+import com.example.flats4us21.data.*
+import com.example.flats4us21.data.dto.NewUserDto
+import com.example.flats4us21.services.*
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 private const val TAG = "UserViewModel"
 class UserViewModel: ViewModel() {
     private val apiSurveyRepository : StudentSurveyService = StudentSurveyService
     private val userRepository : UserDataSource = ApiUserDataSource
-
+    private val interestRepository: InterestDataSource = ApiInterestDataSource
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean>
         get() = _isLoading
@@ -31,6 +30,13 @@ class UserViewModel: ViewModel() {
         get() = _userType
         set(value) {
             _userType = value
+        }
+
+    private var _profilePicture: Uri? = null
+    var profilePicture: Uri?
+        get() = _profilePicture
+        set(value) {
+            _profilePicture = value
         }
 
     private var _name: String = ""
@@ -47,39 +53,11 @@ class UserViewModel: ViewModel() {
             _surname = value
         }
 
-    private var _city: String = ""
-    var city: String
-        get() = _city
+    private var _address: String = ""
+    var address: String
+        get() = _address
         set(value) {
-            _city = value
-        }
-
-    private var _street: String = ""
-    var street: String
-        get() = _street
-        set(value) {
-            _street = value
-        }
-
-    private var _buildingNumber: String = ""
-    var buildingNumber: String
-        get() = _buildingNumber
-        set(value) {
-            _buildingNumber = value
-        }
-
-    private var _flatNumber: String = ""
-    var flatNumber: String
-        get() = _flatNumber
-        set(value) {
-            _flatNumber = value
-        }
-
-    private var _postalCode: String = ""
-    var postalCode: String
-        get() = _postalCode
-        set(value) {
-            _postalCode = value
+            _address = value
         }
 
     private var _phoneNumber: String = ""
@@ -88,6 +66,34 @@ class UserViewModel: ViewModel() {
         set(value) {
             _phoneNumber = value
         }
+
+    private var _links: MutableList<String> = mutableListOf()
+    var links: MutableList<String>
+        get() = _links
+        set(value) {
+            _links = value
+        }
+
+    private var _interest: MutableList<Int> = mutableListOf()
+    var interest: MutableList<Int>
+        get() = _interest
+        set(value) {
+            _interest = value
+        }
+
+    private val _interests = MutableLiveData<List<Interest>>()
+    val interests: LiveData<List<Interest>>
+        get() = _interests
+
+    fun getInterests(){
+        _isLoading.value = true
+        viewModelScope.launch {
+            val fetchedInterests = interestRepository.getInterests()
+            Log.i(TAG, "Fetched list of interest: $fetchedInterests")
+            _interests.value = fetchedInterests
+            _isLoading.value = false
+        }
+    }
 
     private var _birthDate: String = ""
     var birthDate: String
@@ -115,6 +121,20 @@ class UserViewModel: ViewModel() {
         get() = _bankAccount
         set(value) {
             _bankAccount = value
+        }
+
+    private var _documentType: DocumentType? = null
+    var documentType: DocumentType?
+        get() = _documentType
+        set(value) {
+            _documentType = value
+        }
+
+    private var _documentExpireDate: LocalDate? = null
+    var documentExpireDate: LocalDate?
+        get() = _documentExpireDate
+        set(value) {
+            _documentExpireDate = value
         }
 
     private val _questionList: MutableLiveData<List<SurveyQuestion>> = MutableLiveData()
@@ -152,17 +172,28 @@ class UserViewModel: ViewModel() {
         }
 
     fun createUser() {
-        //TODO Not yet implemented
+        val newUser = NewUserDto(
+            userType,
+            profilePicture,
+            name,
+            surname,
+            address,
+            phoneNumber,
+            links,
+            interest,
+            birthDate,
+            university,
+            studentNumber,
+            bankAccount,
+            questionAccount
+        )
     }
 
     fun clearData(){
+        userType= null
         _name = ""
         _surname = ""
-        _city = ""
-        _street = ""
-        _buildingNumber = ""
-        _flatNumber = ""
-        _postalCode = ""
+        _address = ""
         _phoneNumber = ""
         _birthDate = ""
         _university = ""

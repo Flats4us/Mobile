@@ -56,17 +56,16 @@
                         android:src="@drawable/baseline_person_24"
                         app:tint="@color/black" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/birthDate"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/edit_text_height"
                         android:layout_marginStart="@dimen/edit_text_horizontal_margin"
                         android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                        android:gravity="center_vertical"
                         android:background="@null"
                         android:hint="@string/birth_date"
-                        android:imeOptions="actionNext"
                         android:importantForAutofill="no"
-                        android:inputType="date"
                         android:textSize="@dimen/regular_text_size"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -260,7 +259,208 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutDocumentNumberWithHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
 
+                <LinearLayout
+                    android:id="@+id/layoutDocumentNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:background="@drawable/background_input"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
+                        android:layout_marginStart="@dimen/icon_margin"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/baseline_person_24"
+                        app:tint="@color/black" />
+
+                    <EditText
+                        android:id="@+id/documentNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                        android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                        android:background="@null"
+                        android:hint="@string/document_number"
+                        android:imeOptions="actionNext"
+                        android:importantForAutofill="no"
+                        android:inputType="text"
+                        android:textSize="@dimen/regular_text_size"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/layoutDocumentNumberHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                    android:background="@color/white"
+                    android:paddingStart="@dimen/layout_name_padding_vertical"
+                    android:paddingEnd="@dimen/layout_name_padding_vertical"
+                    android:text="@string/required_document_number"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/layoutDocumentNumber"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/layoutDocumentNumber" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+                <LinearLayout
+                    android:id="@+id/layoutDocumentType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:background="@drawable/background_input"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent">
+                    <ImageView
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
+                        android:layout_marginStart="@dimen/icon_margin"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/baseline_person_24"
+                        app:tint="@color/black" />
+                    <Spinner
+                        android:id="@+id/documentType"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/spinner_height"
+                        android:contentDescription="@string/real_estate_type"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/documentTypeHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                    android:background="@color/white"
+                    android:paddingStart="@dimen/layout_name_padding_vertical"
+                    android:paddingEnd="@dimen/layout_name_padding_vertical"
+                    android:text="@string/document_type"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/layoutDocumentType"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/layoutDocumentType"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutDocumentExpireDateWithHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+                <LinearLayout
+                    android:id="@+id/layoutDocumentExpireDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:background="@drawable/background_input"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
+                        android:layout_marginStart="@dimen/icon_margin"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/baseline_person_24"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:id="@+id/documentExpireDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                        android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                        android:gravity="center_vertical"
+                        android:background="@null"
+                        android:hint="@string/document_expire_date"
+                        android:importantForAutofill="no"
+                        android:textSize="@dimen/regular_text_size"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/layoutDocumentExpireDateHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                    android:background="@color/white"
+                    android:paddingStart="@dimen/layout_name_padding_vertical"
+                    android:paddingEnd="@dimen/layout_name_padding_vertical"
+                    android:text="@string/required_document_expired_date"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/layoutDocumentExpireDate"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/layoutDocumentExpireDate" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/layout_register_margin_top"
+                app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <Button
+                    android:id="@+id/addPhotoButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/image_button_min_height"
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/baseline_attach_file_24"
+                    android:text="Wczytaj skan dokumentu"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/warning"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/no_photo_selected"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/regular_text_size"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/photoRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@id/constraintLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addPhotoButton" />
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

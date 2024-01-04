@@ -38,12 +38,12 @@ class RegisterParentFragment : Fragment() {
     }
 
     fun increaseProgressBar(){
-        val incrementValue = if(userViewModel.userType.toString() == "STUDENT") 25 else 20
+        val incrementValue = if(userViewModel.userType.toString() == "STUDENT") 20 else 33
         binding.progressBar.incrementProgressBy(incrementValue)
     }
 
     fun decreaseProgressBar(){
-        val incrementValue = if(userViewModel.userType.toString() == "STUDENT") -25 else -20
+        val incrementValue = if(userViewModel.userType.toString() == "STUDENT") -20 else -33
         binding.progressBar.incrementProgressBy(incrementValue)
     }
 

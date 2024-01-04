@@ -57,6 +57,8 @@ class RegisterLogInDataFragment : Fragment() {
             Toast.makeText(requireContext(), "Utworzono konto", Toast.LENGTH_SHORT).show()
             val fragment = LoginFragment()
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
+            (requireParentFragment() as RegisterParentFragment).decreaseProgressBar(100)
+            userViewModel.clearData()
         }
     }
 

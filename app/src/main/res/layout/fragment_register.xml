@@ -7,699 +7,499 @@
     android:layout_height="match_parent"
     tools:context=".ui.RegisterFragment">
 
-        <ScrollView
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:scrollbars="none">
-            <LinearLayout
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/header_vertical_space"
+                android:text="@string/personal_data"
+                android:textColor="@color/black"
+                android:textSize="@dimen/h2"
+                android:textStyle="bold" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profilePicture"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:src="@drawable/logo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/addProfilePictureButton"
+                    android:layout_width="@dimen/image_button_min_width"
+                    android:layout_height="@dimen/image_button_min_height"
+                    android:src="@drawable/baseline_edit_24"
+                    android:background="@drawable/background_header"
+                    app:layout_constraintBottom_toBottomOf="@id/profilePicture"
+                    app:layout_constraintEnd_toEndOf="@id/profilePicture"
+                    android:contentDescription="@drawable/baseline_broken_image_24"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+                <LinearLayout
+                    android:id="@+id/layoutName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:background="@drawable/background_input"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
+                        android:layout_marginStart="@dimen/icon_margin"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/baseline_person_24"
+                        app:tint="@color/black" />
+
+                    <EditText
+                        android:id="@+id/name"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                        android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                        android:background="@null"
+                        android:hint="@string/name"
+                        android:imeOptions="actionNext"
+                        android:importantForAutofill="no"
+                        android:inputType="text"
+                        android:textSize="@dimen/regular_text_size"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/layoutNameHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                    android:background="@color/white"
+                    android:paddingStart="@dimen/layout_name_padding_vertical"
+                    android:paddingEnd="@dimen/layout_name_padding_vertical"
+                    android:text="@string/required_name"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/layoutName"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/layoutName" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+                <LinearLayout
+                    android:id="@+id/layoutSurname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:background="@drawable/background_input"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
+                        android:layout_marginStart="@dimen/icon_margin"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/baseline_person_24"
+                        app:tint="@color/black" />
+
+                    <EditText
+                        android:id="@+id/surname"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                        android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                        android:background="@null"
+                        android:hint="@string/surname"
+                        android:imeOptions="actionNext"
+                        android:importantForAutofill="no"
+                        android:inputType="text"
+                        android:textSize="@dimen/regular_text_size"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/layoutSurnameHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                    android:background="@color/white"
+                    android:paddingStart="@dimen/layout_name_padding_vertical"
+                    android:paddingEnd="@dimen/layout_name_padding_vertical"
+                    android:text="@string/required_surname"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/layoutSurname"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/layoutSurname" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+                <LinearLayout
+                    android:id="@+id/layoutAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:background="@drawable/background_input"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
+                        android:layout_marginStart="@dimen/icon_margin"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/baseline_location_on_24"
+                        app:tint="@color/black" />
+
+                    <EditText
+                        android:id="@+id/address"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                        android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                        android:background="@null"
+                        android:hint="Adres zamieszkania"
+                        android:imeOptions="actionNext"
+                        android:importantForAutofill="no"
+                        android:inputType="text"
+                        android:textSize="@dimen/regular_text_size"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/addressHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                    android:background="@color/white"
+                    android:paddingStart="@dimen/layout_name_padding_vertical"
+                    android:paddingEnd="@dimen/layout_name_padding_vertical"
+                    android:text="Adres zamieszkania*"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/layoutAddress"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/layoutAddress" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/layoutEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:background="@drawable/background_input"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
+                        android:layout_marginStart="@dimen/icon_margin"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/baseline_email_24"
+                        app:tint="@color/black" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                        android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                        android:background="@null"
+                        android:hint="@string/nazwa_email_com"
+                        android:imeOptions="actionNext"
+                        android:importantForAutofill="no"
+                        android:inputType="textEmailAddress"
+                        android:textSize="@dimen/regular_text_size"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/header_vertical_space"
-                    android:text="@string/personal_data"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/h2"
-                    android:textStyle="bold"/>
+                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                    android:background="@color/white"
+                    android:paddingStart="@dimen/layout_name_padding_vertical"
+                    android:paddingEnd="@dimen/layout_name_padding_vertical"
+                    android:text="@string/email"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/layoutEmail"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/layoutEmail" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+                <LinearLayout
+                    android:id="@+id/layoutPhoneNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
-                    <LinearLayout
-                        android:id="@+id/layoutName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/layout_register_margin_top"
-                        android:background="@drawable/background_input"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent">
-                        <ImageView
-                            android:layout_width="@dimen/icon_width"
-                            android:layout_height="@dimen/icon_height"
-                            android:layout_marginStart="@dimen/icon_margin"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/baseline_person_24"
-                            app:tint="@color/black" />
-                        <EditText
-                            android:id="@+id/name"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/edit_text_height"
-                            android:background="@null"
-                            android:hint="@string/name"
-                            android:imeOptions="actionNext"
-                            android:importantForAutofill="no"
-                            android:inputType="text"
-                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                            android:textSize="@dimen/regular_text_size"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/layoutNameHeader"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                        android:background="@color/white"
-                        android:paddingStart="@dimen/layout_name_padding_vertical"
-                        android:paddingEnd="@dimen/layout_name_padding_vertical"
-                        android:text="@string/required_name"
-                        android:textAllCaps="true"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@id/layoutName"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/layoutName"/>
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
-                    <LinearLayout
-                        android:id="@+id/layoutSurname"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/layout_register_margin_top"
-                        android:background="@drawable/background_input"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent">
-                        <ImageView
-                            android:layout_width="@dimen/icon_width"
-                            android:layout_height="@dimen/icon_height"
-                            android:layout_marginStart="@dimen/icon_margin"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/baseline_person_24"
-                            app:tint="@color/black" />
-                        <EditText
-                            android:id="@+id/surname"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/edit_text_height"
-                            android:background="@null"
-                            android:hint="@string/surname"
-                            android:imeOptions="actionNext"
-                            android:importantForAutofill="no"
-                            android:inputType="text"
-                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                            android:textSize="@dimen/regular_text_size"
-                            android:textStyle="bold"/>
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/layoutSurnameHeader"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                        android:background="@color/white"
-                        android:paddingStart="@dimen/layout_name_padding_vertical"
-                        android:paddingEnd="@dimen/layout_name_padding_vertical"
-                        android:text="@string/required_surname"
-                        android:textAllCaps="true"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@id/layoutSurname"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/layoutSurname"/>
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
-
-                    <LinearLayout
-                        android:id="@+id/layoutCity"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/layout_register_margin_top"
-                        android:background="@drawable/background_input"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent">
-                        <ImageView
-                            android:layout_width="@dimen/icon_width"
-                            android:layout_height="@dimen/icon_height"
-                            android:layout_marginStart="@dimen/icon_margin"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/baseline_location_on_24"
-                            app:tint="@color/black" />
-                        <EditText
-                            android:id="@+id/city"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/edit_text_height"
-                            android:background="@null"
-                            android:hint="@string/city"
-                            android:imeOptions="actionNext"
-                            android:importantForAutofill="no"
-                            android:inputType="text"
-                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                            android:textSize="@dimen/regular_text_size"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/cityHeader"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                        android:background="@color/white"
-                        android:paddingStart="@dimen/layout_name_padding_vertical"
-                        android:paddingEnd="@dimen/layout_name_padding_vertical"
-                        android:text="@string/required_city"
-                        android:textAllCaps="true"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@id/layoutCity"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/layoutCity"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
-
-                    <LinearLayout
-                        android:id="@+id/layoutStreet"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/layout_register_margin_top"
-                        android:background="@drawable/background_input"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent">
-                        <ImageView
-                            android:layout_width="@dimen/icon_width"
-                            android:layout_height="@dimen/icon_height"
-                            android:layout_marginStart="@dimen/icon_margin"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/baseline_location_on_24"
-                            app:tint="@color/black" />
-                        <EditText
-                            android:id="@+id/street"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/edit_text_height"
-                            android:background="@null"
-                            android:hint="@string/street"
-                            android:imeOptions="actionNext"
-                            android:importantForAutofill="no"
-                            android:inputType="text"
-                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                            android:textSize="@dimen/regular_text_size"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/streetHeader"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                        android:background="@color/white"
-                        android:paddingStart="@dimen/layout_name_padding_vertical"
-                        android:paddingEnd="@dimen/layout_name_padding_vertical"
-                        android:text="@string/required_street"
-                        android:textAllCaps="true"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@id/layoutStreet"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/layoutStreet"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
-
-                    <LinearLayout
-                        android:id="@+id/layoutBuildingNumber"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/layout_register_margin_top"
-                        android:background="@drawable/background_input"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent">
-                        <ImageView
-                            android:layout_width="@dimen/icon_width"
-                            android:layout_height="@dimen/icon_height"
-                            android:layout_marginStart="@dimen/icon_margin"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/baseline_location_on_24"
-                            app:tint="@color/black" />
-                        <EditText
-                            android:id="@+id/buildingNumber"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/edit_text_height"
-                            android:background="@null"
-                            android:hint="@string/building_number"
-                            android:imeOptions="actionNext"
-                            android:importantForAutofill="no"
-                            android:inputType="text"
-                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                            android:textSize="@dimen/regular_text_size"
-                            android:textStyle="bold"
-                            tools:ignore="TextFields" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/buildingNumberHeader"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                        android:background="@color/white"
-                        android:paddingStart="@dimen/layout_name_padding_vertical"
-                        android:paddingEnd="@dimen/layout_name_padding_vertical"
-                        android:text="@string/required_building_number"
-                        android:textAllCaps="true"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@id/layoutBuildingNumber"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/layoutBuildingNumber"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layoutFlatNumberWithHeader"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
-
-                    <LinearLayout
-                        android:id="@+id/layoutFlatNumber"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/layout_register_margin_top"
-                        android:background="@drawable/background_input"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent">
-                        <ImageView
-                            android:layout_width="@dimen/icon_width"
-                            android:layout_height="@dimen/icon_height"
-                            android:layout_marginStart="@dimen/icon_margin"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/baseline_location_on_24"
-                            app:tint="@color/black" />
-                        <EditText
-                            android:id="@+id/flatNumber"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/edit_text_height"
-                            android:background="@null"
-                            android:hint="@string/flat_number"
-                            android:imeOptions="actionNext"
-                            android:importantForAutofill="no"
-                            android:inputType="text"
-                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                            android:textSize="@dimen/regular_text_size"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/flatNumberHeader"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                        android:background="@color/white"
-                        android:paddingStart="@dimen/layout_name_padding_vertical"
-                        android:paddingEnd="@dimen/layout_name_padding_vertical"
-                        android:text="@string/flat_number"
-                        android:textAllCaps="true"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@id/layoutFlatNumber"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/layoutFlatNumber"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layoutPostalCodeWithHeader"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
-
-                    <LinearLayout
-                        android:id="@+id/layoutPostalCode"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/layout_register_margin_top"
-                        android:background="@drawable/background_input"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent">
-                        <ImageView
-                            android:layout_width="@dimen/icon_width"
-                            android:layout_height="@dimen/icon_height"
-                            android:layout_marginStart="@dimen/icon_margin"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/baseline_location_on_24"
-                            app:tint="@color/black" />
-                        <EditText
-                            android:id="@+id/postalCode"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/edit_text_height"
-                            android:background="@null"
-                            android:hint="@string/postal_code"
-                            android:imeOptions="actionNext"
-                            android:importantForAutofill="no"
-                            android:inputType="text"
-                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                            android:textSize="@dimen/regular_text_size"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/postalCodeHeader"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                        android:background="@color/white"
-                        android:paddingStart="@dimen/layout_name_padding_vertical"
-                        android:paddingEnd="@dimen/layout_name_padding_vertical"
-                        android:text="@string/required_postal_code"
-                        android:textAllCaps="true"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@id/layoutPostalCode"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/layoutPostalCode"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:visibility="gone">
-                    <LinearLayout
-                        android:id="@+id/layoutEmail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/layout_register_margin_top"
-                        android:background="@drawable/background_input"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent">
-                        <ImageView
-                            android:layout_width="@dimen/icon_width"
-                            android:layout_height="@dimen/icon_height"
-                            android:layout_marginStart="@dimen/icon_margin"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/baseline_email_24"
-                            app:tint="@color/black" />
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/edit_text_height"
-                            android:background="@null"
-                            android:hint="@string/nazwa_email_com"
-                            android:imeOptions="actionNext"
-                            android:importantForAutofill="no"
-                            android:inputType="textEmailAddress"
-                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                            android:textSize="@dimen/regular_text_size"
-                            android:textStyle="bold"/>
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                        android:background="@color/white"
-                        android:paddingStart="@dimen/layout_name_padding_vertical"
-                        android:paddingEnd="@dimen/layout_name_padding_vertical"
-                        android:text="@string/email"
-                        android:textAllCaps="true"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@id/layoutEmail"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/layoutEmail"/>
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
-                    <LinearLayout
-                        android:id="@+id/layoutPhoneNumber"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/layout_register_margin_top"
-                        android:background="@drawable/background_input"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent">
-                        <ImageView
-                            android:layout_width="@dimen/icon_width"
-                            android:layout_height="@dimen/icon_height"
-                            android:layout_marginStart="@dimen/icon_margin"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/baseline_phone_24"
-                            app:tint="@color/black" />
-                        <EditText
-                            android:id="@+id/phoneNumber"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/edit_text_height"
-                            android:background="@null"
-                            android:hint="@string/phone_number"
-                            android:imeOptions="actionNext"
-                            android:importantForAutofill="no"
-                            android:inputType="phone"
-                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                            android:textSize="@dimen/regular_text_size"
-                            android:textStyle="bold"/>
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/phoneNumberHeader"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                        android:background="@color/white"
-                        android:paddingStart="@dimen/layout_name_padding_vertical"
-                        android:paddingEnd="@dimen/layout_name_padding_vertical"
-                        android:text="@string/required_phone_number"
-                        android:textAllCaps="true"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@id/layoutPhoneNumber"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/layoutPhoneNumber"/>
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:visibility="gone">
-                    <LinearLayout
-                        android:id="@+id/layoutPassword"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/layout_register_margin_top"
-                        android:background="@drawable/background_input"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent">
-                        <ImageView
-                            android:layout_width="@dimen/icon_width"
-                            android:layout_height="@dimen/icon_height"
-                            android:layout_marginStart="@dimen/icon_margin"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/baseline_lock_24"
-                            app:tint="@color/black" />
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <EditText
-                                android:id="@+id/textPassword"
-                                android:layout_width="0dp"
-                                android:layout_height="@dimen/edit_text_height"
-                                android:background="@null"
-                                android:hint="@string/password_hint"
-                                android:imeOptions="actionNext"
-                                android:importantForAutofill="no"
-                                android:inputType="textPassword"
-                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                                android:textSize="@dimen/regular_text_size"
-                                android:textStyle="bold"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toStartOf="@+id/passwordToggle"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <ImageButton
-                                android:id="@+id/passwordToggle"
-                                android:layout_width="@dimen/image_button_min_width"
-                                android:layout_height="@dimen/image_button_min_height"
-                                android:layout_marginEnd="1dp"
-                                android:background="@color/white"
-                                android:contentDescription="@string/app_name"
-                                android:src="@drawable/baseline_visibility_off_24"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:tint="@color/black" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                        android:background="@color/white"
-                        android:paddingStart="@dimen/layout_name_padding_vertical"
-                        android:paddingEnd="@dimen/layout_name_padding_vertical"
-                        android:text="@string/password"
-                        android:textAllCaps="true"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@id/layoutPassword"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/layoutPassword"/>
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:visibility="gone"    >
-                    <LinearLayout
-                        android:id="@+id/layoutRepeatPassword"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/layout_register_margin_top"
-                        android:background="@drawable/background_input"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent">
-                        <ImageView
-                            android:layout_width="@dimen/icon_width"
-                            android:layout_height="@dimen/icon_height"
-                            android:layout_marginStart="@dimen/icon_margin"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/baseline_lock_24"
-                            app:tint="@color/black" />
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-
-                            <EditText
-                                android:id="@+id/textRepeatPassword"
-                                android:layout_width="0dp"
-                                android:layout_height="@dimen/edit_text_height"
-                                android:background="@null"
-                                android:hint="@string/password_hint"
-                                android:imeOptions="actionNext"
-                                android:importantForAutofill="no"
-                                android:inputType="textPassword"
-                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                                android:textSize="@dimen/regular_text_size"
-                                android:textStyle="bold"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toStartOf="@+id/passwordRepeatToggle"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <ImageButton
-                                android:id="@+id/passwordRepeatToggle"
-                                android:layout_width="@dimen/image_button_min_width"
-                                android:layout_height="@dimen/image_button_min_height"
-                                android:layout_marginEnd="1dp"
-                                android:background="@color/white"
-                                android:contentDescription="@string/app_name"
-                                android:src="@drawable/baseline_visibility_off_24"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:tint="@color/black" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                        android:background="@color/white"
-                        android:paddingStart="@dimen/layout_name_padding_vertical"
-                        android:paddingEnd="@dimen/layout_name_padding_vertical"
-                        android:text="@string/repeat_password"
-                        android:textAllCaps="true"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@id/layoutRepeatPassword"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/layoutRepeatPassword"/>
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
                     android:layout_marginTop="@dimen/layout_register_margin_top"
-                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+                    android:background="@drawable/background_input"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <Button
-                        android:id="@+id/prevButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:drawableRight="@drawable/baseline_navigate_before_24"
-                        android:drawablePadding="10dp"
-                        android:gravity="center"
-                        android:text="@string/prev_button"
-                        android:textColor="@color/white"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                    <ImageView
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
+                        android:layout_marginStart="@dimen/icon_margin"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/baseline_phone_24"
+                        app:tint="@color/black" />
 
-                    <Button
-                        android:id="@+id/nextButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:drawableLeft="@drawable/baseline_navigate_next_24"
-                        android:drawablePadding="10dp"
-                        android:gravity="center"
-                        android:text="@string/next_button"
-                        android:textColor="@color/white"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    <EditText
+                        android:id="@+id/phoneNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                        android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                        android:background="@null"
+                        android:hint="@string/phone_number"
+                        android:imeOptions="actionNext"
+                        android:importantForAutofill="no"
+                        android:inputType="phone"
+                        android:textSize="@dimen/regular_text_size"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
-            </LinearLayout>
-        </ScrollView>
+                <TextView
+                    android:id="@+id/phoneNumberHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                    android:background="@color/white"
+                    android:paddingStart="@dimen/layout_name_padding_vertical"
+                    android:paddingEnd="@dimen/layout_name_padding_vertical"
+                    android:text="@string/required_phone_number"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/layoutPhoneNumber"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/layoutPhoneNumber" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+                <LinearLayout
+                    android:id="@+id/layoutLinks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:background="@drawable/background_input"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
+                        android:layout_marginStart="@dimen/icon_margin"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/baseline_person_24"
+                        app:tint="@color/black" />
+
+                    <EditText
+                        android:id="@+id/links"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                        android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                        android:background="@null"
+                        android:hint="Linki"
+                        android:imeOptions="actionNext"
+                        android:importantForAutofill="no"
+                        android:inputType="text"
+                        android:textSize="@dimen/regular_text_size"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/layoutLinksHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                    android:background="@color/white"
+                    android:paddingStart="@dimen/layout_name_padding_vertical"
+                    android:paddingEnd="@dimen/layout_name_padding_vertical"
+                    android:text="Linki"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/layoutLinks"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/layoutLinks" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+                <LinearLayout
+                    android:id="@+id/layoutInterests"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:background="@drawable/background_input"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
+                        android:layout_marginStart="@dimen/icon_margin"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/baseline_person_24"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:id="@+id/interests"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                        android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                        android:background="@null"
+                        android:drawablePadding="@dimen/drawable_padding"
+                        android:gravity="center_vertical"
+                        android:hint="Zainteresowania"
+                        android:textSize="@dimen/regular_text_size"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/layoutInterestsHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                    android:background="@color/white"
+                    android:paddingStart="@dimen/layout_name_padding_vertical"
+                    android:paddingEnd="@dimen/layout_name_padding_vertical"
+                    android:text="Zainteresowania"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/layoutInterests"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/layoutInterests" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/prevButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:drawableRight="@drawable/baseline_navigate_before_24"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:text="@string/prev_button"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/nextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:drawableLeft="@drawable/baseline_navigate_next_24"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:text="@string/next_button"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
