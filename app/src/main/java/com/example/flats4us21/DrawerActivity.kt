@@ -17,6 +17,7 @@ import androidx.fragment.app.commit
 import com.example.flats4us21.deserializer.PropertyDeserializer
 import com.example.flats4us21.ui.*
 import com.example.yourapp.ReportIssueFragment
+import com.example.yourapp.RoommateMatchingFragment
 import com.google.android.material.navigation.NavigationView
 
 class   DrawerActivity : AppCompatActivity() {
@@ -41,6 +42,7 @@ class   DrawerActivity : AppCompatActivity() {
         navView.setNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.nav_start -> replaceFragment(SearchFragment())
+                R.id.nav_matching -> replaceFragment(RoommateMatchingFragment())
                 R.id.nav_observed -> replaceFragment(WatchedOffersListFragment())
                 R.id.nav_map -> replaceFragment(MapFragment())
                 R.id.nav_last_viewed -> replaceFragment(LastViewedOffersFragment())

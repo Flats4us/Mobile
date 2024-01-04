@@ -181,6 +181,7 @@
     <string name="placeholder_age">Age Placeholder</string>
     <string name="placeholder_description">Description Placeholder</string>
     <string name="hint_other_issue">inny problem</string>
+    <string name="matching">Dobór współlokatora</string>
 
     <!-- TODO: meeting_row -->
 </resources>
