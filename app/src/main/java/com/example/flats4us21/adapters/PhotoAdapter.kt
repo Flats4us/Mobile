@@ -9,7 +9,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flats4us21.R
 
-class PhotoAdapter(private val photos: MutableList<Uri>) :
+class PhotoAdapter(private var photos: MutableList<Uri>) :
     RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder>() {
 
     inner class PhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -35,6 +35,11 @@ class PhotoAdapter(private val photos: MutableList<Uri>) :
 
     override fun getItemCount(): Int {
         return photos.size
+    }
+
+    fun updateData(newImageUris: MutableList<Uri>) {
+        photos = newImageUris
+        notifyDataSetChanged()
     }
 }
 

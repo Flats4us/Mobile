@@ -95,8 +95,8 @@ class UserViewModel: ViewModel() {
         }
     }
 
-    private var _birthDate: String = ""
-    var birthDate: String
+    private var _birthDate: LocalDate? = null
+    var birthDate: LocalDate?
         get() = _birthDate
         set(value) {
             _birthDate = value
@@ -122,6 +122,15 @@ class UserViewModel: ViewModel() {
         set(value) {
             _bankAccount = value
         }
+
+    private var _documentNumber: String = ""
+    var documentNumber: String
+        get() = _documentNumber
+        set(value) {
+            _documentNumber = value
+        }
+
+
 
     private var _documentType: DocumentType? = null
     var documentType: DocumentType?
@@ -171,9 +180,30 @@ class UserViewModel: ViewModel() {
             _images = value
         }
 
+    private var _email: String = ""
+    var email: String
+        get() = _email
+        set(value) {
+            _email = value
+        }
+
+    private var _password: String = ""
+    var password: String
+        get() = _password
+        set(value) {
+            _password = value
+        }
+
+    private var _repeatPassword: String = ""
+    var repeatPassword: String
+        get() = _repeatPassword
+        set(value) {
+            _repeatPassword = value
+        }
+
     fun createUser() {
         val newUser = NewUserDto(
-            userType,
+            UserType.valueOf(userType!!),
             profilePicture,
             name,
             surname,
@@ -185,8 +215,27 @@ class UserViewModel: ViewModel() {
             university,
             studentNumber,
             bankAccount,
-            questionAccount
+            documentNumber,
+            documentExpireDate!!,
+            questionResponseList,
+            images,
+            email,
+            password,
+            repeatPassword
         )
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try{
+                userRepository.register(newUser)
+                Log.d(TAG, "[createUser] New User to create $newUser")
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "[createUser] Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
     }
 
     fun clearData(){
@@ -195,12 +244,17 @@ class UserViewModel: ViewModel() {
         _surname = ""
         _address = ""
         _phoneNumber = ""
-        _birthDate = ""
+        _birthDate = null
         _university = ""
         _studentNumber = ""
         _bankAccount = ""
+        documentNumber = ""
+        documentExpireDate = null
         _questionResponseList = listOf()
         _images = mutableListOf()
+        email = ""
+        password = ""
+        repeatPassword = ""
     }
 
 }

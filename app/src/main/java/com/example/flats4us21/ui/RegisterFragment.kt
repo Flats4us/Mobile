@@ -23,6 +23,7 @@ class RegisterFragment : Fragment() {
     private lateinit var userViewModel: UserViewModel
     private val links: MutableList<String> = mutableListOf()
     private lateinit var pickedInterest: MutableList<Int>
+    private var profilePicture: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -127,6 +128,7 @@ class RegisterFragment : Fragment() {
                 if(uri != null){
                     imageUri = uri
                     binding.profilePicture.setImageURI(imageUri)
+                    profilePicture = imageUri
                 }
             }
         binding.addProfilePictureButton.setOnClickListener {
@@ -135,6 +137,10 @@ class RegisterFragment : Fragment() {
     }
 
     private fun setValues() {
+        if(userViewModel.profilePicture != null){
+            binding.profilePicture.setImageURI(userViewModel.profilePicture)
+            profilePicture = userViewModel.profilePicture
+        }
         if(userViewModel.name != ""){
             binding.name.setText(userViewModel.name)
         }
@@ -157,6 +163,9 @@ class RegisterFragment : Fragment() {
     }
 
     private fun collectData() {
+        if(profilePicture != null){
+            userViewModel.profilePicture = profilePicture
+        }
         if(!binding.name.text.isNullOrEmpty()) {
             userViewModel.name = binding.name.text.toString()
         }

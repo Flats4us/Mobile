@@ -3,10 +3,13 @@ package com.example.flats4us21.ui
 import android.app.DatePickerDialog
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
@@ -26,15 +29,11 @@ class RegisterSpecificDataFragment : Fragment() {
     private  var _binding: FragmentRegisterSpecificDataBinding? = null
     private val binding get() = _binding!!
     private lateinit var userViewModel: UserViewModel
+    private var selectedBirthDate : LocalDate? = null
     private var selectedExpireDate : LocalDate? = null
     private lateinit var photoAdapter: PhotoAdapter
     private var selectedImageUris : MutableList<Uri> = mutableListOf()
     private var lastIndexBeforeUpdate : Int = 0
-    private val documentTypeMap = mapOf(
-        null to 0,
-        DocumentType.IDENTITY to 1,
-        DocumentType.STUDENT_ID to 2
-    )
     private var selectedDocumentType : DocumentType? = null
 
     override fun onCreateView(
@@ -49,13 +48,16 @@ class RegisterSpecificDataFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setSpinner()
         setDocumentImages()
         setVisibility()
         setValues()
 
+        binding.layoutBirthDate.setOnClickListener{
+            selectedBirthDate = clickDatePicker(binding.birthDate)
+        }
+
         binding.layoutDocumentExpireDate.setOnClickListener{
-            clickDatePicker()
+            selectedExpireDate = clickDatePicker(binding.documentExpireDate)
         }
 
         val prevButton = binding.prevButton
@@ -89,8 +91,12 @@ class RegisterSpecificDataFragment : Fragment() {
 
                     val startIndex = lastIndexBeforeUpdate
                     val endIndex = lastIndexBeforeUpdate + urisToAdd.size
-                    photoAdapter.notifyItemRangeInserted(startIndex, endIndex)
+                    photoAdapter.updateData(selectedImageUris) // Update adapter data
                     lastIndexBeforeUpdate = endIndex
+                    Log.d("RegisterSpecificDataFragment", "Adapter size ${binding.photoRecyclerView.visibility}")
+                    Log.d("RegisterSpecificDataFragment", "Adapter size ${photoAdapter.itemCount}")
+                    Log.d("RegisterSpecificDataFragment", "Photo size ${selectedImageUris.size}")
+                    Log.d("RegisterSpecificDataFragment", "Index  $startIndex - $endIndex")
                 } else {
                     Toast.makeText(requireContext(), "Możesz dodać maksymalnie 16 zdjęć!", Toast.LENGTH_SHORT).show()
                 }
@@ -112,47 +118,27 @@ class RegisterSpecificDataFragment : Fragment() {
         }
     }
 
-    private fun setSpinner() {
-        val spinnerValues = arrayOf(getString(R.string.choose_an_option), "Dowód", "Legitymacja Studencka")
-
-        val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, spinnerValues)
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-        binding.documentType.adapter = spinnerAdapter
-        binding.documentType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedEnumValue = getEnumValueFromPosition(position)
-                selectedDocumentType = selectedEnumValue
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                // Do nothing
-            }
-        }
-    }
-
-    private fun getEnumValueFromPosition(position: Int): DocumentType? {
-        return documentTypeMap.entries.find { it.value == position }?.key
-    }
-
-    private fun clickDatePicker() {
+    private fun clickDatePicker(textView: TextView, ) : LocalDate? {
+        var selectedDate : LocalDate? = LocalDate.now()
         val myCalendar = Calendar.getInstance()
         val year = myCalendar.get(Calendar.YEAR)
         val month = myCalendar.get(Calendar.MONTH)
         val day = myCalendar.get(Calendar.DAY_OF_MONTH)
 
         DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDayOfMonth ->
-            selectedExpireDate = LocalDate.of(selectedYear, selectedMonth, selectedDayOfMonth)
-            binding.documentExpireDate.text = selectedExpireDate.toString()
+            selectedDate = LocalDate.of(selectedYear, selectedMonth+1, selectedDayOfMonth)
+            textView.text = selectedDate.toString()
         },
         year,
         month,
         day).show()
+        return selectedDate
     }
 
     private fun setValues() {
-        if(userViewModel.birthDate != "" && userViewModel.userType == UserType.STUDENT.toString()){
-            binding.birthDate.setText(userViewModel.birthDate)
+        if(userViewModel.birthDate != null && userViewModel.userType == UserType.STUDENT.toString()){
+            selectedBirthDate = userViewModel.birthDate
+            binding.birthDate.text = userViewModel.birthDate.toString()
         }
         if(userViewModel.university != "" && userViewModel.userType == UserType.STUDENT.toString()){
             binding.university.setText(userViewModel.university)
@@ -163,16 +149,14 @@ class RegisterSpecificDataFragment : Fragment() {
         if(userViewModel.bankAccount != "" && userViewModel.userType == UserType.OWNER.toString()){
             binding.bankAccount.setText(userViewModel.bankAccount)
         }
-        if(userViewModel.documentType != null){
-            val positionToSelect = documentTypeMap[userViewModel.documentType]
-            if(positionToSelect != null) {
-                binding.documentType.setSelection(positionToSelect)
-            }
+        if(userViewModel.documentNumber != "" ){
+            binding.documentNumber.setText(userViewModel.documentNumber)
         }
         if(userViewModel.documentExpireDate != null){
             selectedExpireDate = userViewModel.documentExpireDate
             binding.documentExpireDate.text = userViewModel.documentExpireDate.toString()
         }
+        selectedImageUris = userViewModel.images
     }
 
     private fun setVisibility() {
@@ -195,7 +179,7 @@ class RegisterSpecificDataFragment : Fragment() {
 
     private fun collectData() {
         if(!binding.birthDate.text.isNullOrEmpty() && binding.layoutBirthDateWithHeader.isVisible){
-            userViewModel.birthDate = binding.birthDate.text.toString()
+            userViewModel.birthDate = selectedBirthDate
         }
         if(!binding.university.text.isNullOrEmpty() && binding.layoutUniversityWithHeader.isVisible){
             userViewModel.university = binding.university.text.toString()
@@ -206,11 +190,16 @@ class RegisterSpecificDataFragment : Fragment() {
         if(!binding.bankAccount.text.isNullOrEmpty() && binding.layoutBankAccountWithHeader.isVisible){
             userViewModel.bankAccount = binding.bankAccount.text.toString()
         }
+        if(!binding.documentNumber.text.isNullOrEmpty() && binding.layoutDocumentNumberWithHeader.isVisible){
+            userViewModel.documentNumber = binding.documentNumber.text.toString()
+        }
         if(selectedDocumentType != null){
             userViewModel.documentType = selectedDocumentType
         }
         if(!binding.documentExpireDate.text.isNullOrEmpty() && binding.layoutDocumentExpireDateWithHeader.isVisible){
             userViewModel.documentExpireDate = selectedExpireDate
+        }
+        if(selectedImageUris.size > 0){
             userViewModel.images = selectedImageUris
         }
     }
@@ -220,9 +209,11 @@ class RegisterSpecificDataFragment : Fragment() {
         val isUniversityValid = validateOptionalEditText(binding.university, binding.layoutUniversity, binding.layoutUniversityHeader, binding.layoutUniversityWithHeader)
         val isStudentNumberValid = validateOptionalEditText(binding.studentNumber, binding.layoutStudentNumber, binding.layoutStudentNumberHeader, binding.layoutStudentNumberWithHeader)
         val isBankAccountValid = validateOptionalEditText(binding.bankAccount, binding.layoutBankAccount, binding.layoutBankAccountHeader, binding.layoutBankAccountWithHeader)
-        val isDocumentTypeValid = validateSpinner(binding.documentType, binding.documentTypeHeader)
+        val isDocumentNumberValid = validateOptionalEditText(binding.documentNumber, binding.layoutDocumentNumber, binding.layoutDocumentNumberHeader, binding.layoutDocumentNumberWithHeader)
+        val isDocumentExpireDateValid = validateOptionalTextView(binding.documentExpireDate, binding.layoutDocumentExpireDate, binding.layoutDocumentExpireDateHeader, binding.layoutDocumentExpireDateWithHeader)
+        val isDocumentPhotosValid = validateImages()
 
-        return isBirthDateValid && isUniversityValid && isStudentNumberValid && isBankAccountValid && isDocumentTypeValid
+        return isBirthDateValid && isUniversityValid && isStudentNumberValid && isBankAccountValid && isDocumentNumberValid && isDocumentExpireDateValid && isDocumentPhotosValid
     }
 
     private fun validateOptionalEditText(editText: EditText, editTextLayout : ViewGroup, header : TextView, layoutWithHeader : ViewGroup): Boolean {
@@ -245,11 +236,14 @@ class RegisterSpecificDataFragment : Fragment() {
         return isValid || !isRequired || !isVisible
     }
 
-    private fun validateSpinner(spinnerLayout: ViewGroup, header: TextView) : Boolean{
-        val isValid = selectedDocumentType != null
-        val isRequired = header.text.last() == '*'
-
-        spinnerLayout.setBackgroundResource(if (isValid || !isRequired) R.drawable.background_input else R.drawable.background_wrong_input)
-        return isValid || !isRequired
+    private fun validateImages(): Boolean {
+        if(selectedImageUris.size > 0){
+            binding.warning.isVisible = false
+            binding.photoRecyclerView.isVisible = true
+        } else {
+            binding.warning.isVisible = true
+            binding.photoRecyclerView.isVisible = false
+        }
+        return selectedImageUris.size > 0
     }
 }

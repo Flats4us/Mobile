@@ -2,6 +2,7 @@ package com.example.flats4us21.ui
 
 import android.os.Bundle
 import android.text.InputType
+import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -47,6 +48,7 @@ class RegisterLogInDataFragment : Fragment() {
 
 
         binding.prevButton.setOnClickListener {
+            collectData()
             var fragment: Fragment = RegisterAddDocumentFragment()
             if(userViewModel.userType == UserType.OWNER.toString())
                 fragment = RegisterSpecificDataFragment()
@@ -54,11 +56,57 @@ class RegisterLogInDataFragment : Fragment() {
             (requireParentFragment() as RegisterParentFragment).decreaseProgressBar()
         }
         binding.buttonRegister.setOnClickListener {
-            Toast.makeText(requireContext(), "Utworzono konto", Toast.LENGTH_SHORT).show()
-            val fragment = LoginFragment()
-            (activity as? DrawerActivity)!!.replaceFragment(fragment)
-            (requireParentFragment() as RegisterParentFragment).decreaseProgressBar(100)
-            userViewModel.clearData()
+            if(validateData()){
+                collectData()
+                userViewModel.createUser()
+                userViewModel.isLoading.observe(viewLifecycleOwner){ isLoading: Boolean ->
+                    if(!isLoading && userViewModel.errorMessage.value == null){
+                        Toast.makeText(requireContext(), "Utworzono konto", Toast.LENGTH_SHORT).show()
+                        val fragment = LoginFragment()
+                        (activity as? DrawerActivity)!!.replaceFragment(fragment)
+                        (requireParentFragment() as RegisterParentFragment).decreaseProgressBar(100)
+                        userViewModel.clearData()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun validateData(): Boolean {
+        val isEmailValid = isEmailValid(binding.email, binding.layoutEmail)
+        val isPasswordValid = isPasswordValid(binding.textPassword, binding.layoutPassword)
+        val isRepeatPasswordValid = isPasswordValid(binding.textRepeatPassword, binding.layoutRepeatPassword)
+        val arePasswordsTheSame = arePasswordsTheSame(binding.textPassword, binding.textRepeatPassword)
+
+        return isEmailValid && isPasswordValid && isRepeatPasswordValid && arePasswordsTheSame
+    }
+
+    private fun isEmailValid(editText: EditText, editTextLayout: ViewGroup): Boolean {
+        val email = editText.text.toString().trim()
+        val isValid = Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        editTextLayout.setBackgroundResource(if (isValid) R.drawable.background_input else R.drawable.background_wrong_input)
+        return isValid
+    }
+
+    private fun isPasswordValid(editText: EditText, editTextLayout: ViewGroup): Boolean {
+        val isValid = editText.text.toString().isNotEmpty()
+        editTextLayout.setBackgroundResource(if (isValid) R.drawable.background_input else R.drawable.background_wrong_input)
+        return isValid
+    }
+
+    private fun arePasswordsTheSame(password: EditText, repeatPassword: EditText): Boolean {
+        return password.text.toString() == repeatPassword.text.toString()
+    }
+
+    private fun collectData() {
+        if(!binding.email.text.isNullOrEmpty()){
+            userViewModel.email = binding.email.text.toString()
+        }
+        if(!binding.textPassword.text.isNullOrEmpty()){
+            userViewModel.password = binding.textPassword.text.toString()
+        }
+        if(!binding.textRepeatPassword.text.isNullOrEmpty()){
+            userViewModel.repeatPassword = binding.textRepeatPassword.text.toString()
         }
     }
 

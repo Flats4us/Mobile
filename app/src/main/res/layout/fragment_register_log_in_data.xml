@@ -63,6 +63,7 @@
                             app:tint="@color/black" />
 
                         <EditText
+                            android:id="@+id/email"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/edit_text_height"
                             android:layout_marginStart="@dimen/edit_text_horizontal_margin"
@@ -83,7 +84,7 @@
                         android:background="@color/white"
                         android:paddingStart="@dimen/layout_name_padding_vertical"
                         android:paddingEnd="@dimen/layout_name_padding_vertical"
-                        android:text="@string/email"
+                        android:text="@string/required_email"
                         android:textAllCaps="true"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@id/layoutEmail"
@@ -161,7 +162,7 @@
                         android:background="@color/white"
                         android:paddingStart="@dimen/layout_name_padding_vertical"
                         android:paddingEnd="@dimen/layout_name_padding_vertical"
-                        android:text="@string/password"
+                        android:text="@string/required_password"
                         android:textAllCaps="true"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@id/layoutPassword"
@@ -241,7 +242,7 @@
                         android:background="@color/white"
                         android:paddingStart="@dimen/layout_name_padding_vertical"
                         android:paddingEnd="@dimen/layout_name_padding_vertical"
-                        android:text="@string/repeat_password"
+                        android:text="@string/required_repeat_password"
                         android:textAllCaps="true"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@id/layoutRepeatPassword"
