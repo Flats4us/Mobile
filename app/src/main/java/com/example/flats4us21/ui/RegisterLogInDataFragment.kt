@@ -49,7 +49,7 @@ class RegisterLogInDataFragment : Fragment() {
 
         binding.prevButton.setOnClickListener {
             collectData()
-            var fragment: Fragment = RegisterAddDocumentFragment()
+            var fragment: Fragment = SurveyFragment()
             if(userViewModel.userType == UserType.OWNER.toString())
                 fragment = RegisterSpecificDataFragment()
             (requireParentFragment() as RegisterParentFragment).replaceFragment(fragment)

@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flats4us21.R
+import com.example.flats4us21.data.UserType
 import com.example.flats4us21.databinding.FragmentRegisterBinding
 import com.example.flats4us21.viewmodels.UserViewModel
 
@@ -38,6 +39,7 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         pickedInterest = mutableListOf()
+        setVisibility()
         setValues()
         setProfilePicturePicker()
         setupInterest()
@@ -64,6 +66,16 @@ class RegisterFragment : Fragment() {
                 (requireParentFragment() as RegisterParentFragment).replaceFragment(fragment)
                 (requireParentFragment() as RegisterParentFragment).increaseProgressBar()
             }
+        }
+    }
+
+    private fun setVisibility() {
+        if(userViewModel.userType.toString() == UserType.OWNER.toString()){
+            binding.layoutLinksWithHeader.visibility = View.GONE
+            binding.layoutInterestsWithHeader.visibility = View.GONE
+        } else if(userViewModel.userType.toString() == UserType.STUDENT.toString()){
+            binding.layoutLinksWithHeader.visibility = View.VISIBLE
+            binding.layoutInterestsWithHeader.visibility = View.VISIBLE
         }
     }
 

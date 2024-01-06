@@ -37,6 +37,7 @@ class SurveyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         if(fetchedQuestions.size == 0)
             userViewModel.getQuestionList(userViewModel.userType!!)
         questionRecyclerView = binding.questionRecyclerView
@@ -75,7 +76,7 @@ class SurveyFragment : Fragment() {
         nextButton.setOnClickListener {
             if(validateData()){
                 collectData()
-                val fragment = RegisterAddDocumentFragment()
+                val fragment = RegisterLogInDataFragment()
                 (requireParentFragment() as RegisterParentFragment).replaceFragment(fragment)
                 (requireParentFragment() as RegisterParentFragment).increaseProgressBar()
             }
