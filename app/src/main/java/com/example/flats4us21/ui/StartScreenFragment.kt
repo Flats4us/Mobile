@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.flats4us21.DrawerActivity
-import com.example.flats4us21.R
 import com.example.flats4us21.databinding.FragmentStartScreenBinding
 
 
@@ -29,7 +28,7 @@ class StartScreenFragment : Fragment() {
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
         binding.buttonRegister.setOnClickListener {
-            val fragment = RegisterFragment()
+            val fragment = RegisterParentFragment()
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
     }

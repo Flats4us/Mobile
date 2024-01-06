@@ -99,7 +99,7 @@ class AddRealEstateSecondStepFragment : Fragment() {
                     }
                 }
                 builder.setPositiveButton("Akcepuj") { _, _ ->
-                    for (j in 0 until selectedEquipment.size) {
+                    for (j in selectedEquipment.indices) {
                         if (selectedEquipment[j] && !pickedEquipment.contains(j + 1)) {
                             pickedEquipment.add(j + 1)
                         } else if (!selectedEquipment[j] && pickedEquipment.contains(j + 1)) {

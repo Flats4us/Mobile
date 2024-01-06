@@ -28,22 +28,22 @@ class OwnerSurveyActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
-        //Setting list of questions in MainViewModel
-        val studentSurveyService = StudentSurveyService(viewModel)
-        studentSurveyService.getSurveyQuestion()
-        val listOfQuestions = viewModel.getQuestionList()
-        listOfQuestions.observe(this) { questions ->
-            questionRecyclerView = binding.questionRecyclerView
-            questionAdapter = QuestionAdapter(questions)
-            questionRecyclerView.adapter = questionAdapter
-            questionRecyclerView.layoutManager = LinearLayoutManager(this)
-        }
-
-        val sendButton = binding.sendButton
-        sendButton.setOnClickListener {
-            val answers :  List<QuestionResponse> = questionAdapter.getAllAnswers()
-            studentSurveyService.postSurveyQuestions(answers)
-        }
+//        //Setting list of questions in MainViewModel
+//        val studentSurveyService = StudentSurveyService(viewModel)
+//        studentSurveyService.getSurveyQuestion()
+//        val listOfQuestions = viewModel.getQuestionList()
+//        listOfQuestions.observe(this) { questions ->
+//            questionRecyclerView = binding.questionRecyclerView
+//            questionAdapter = QuestionAdapter(questions)
+//            questionRecyclerView.adapter = questionAdapter
+//            questionRecyclerView.layoutManager = LinearLayoutManager(this)
+//        }
+//
+//        val sendButton = binding.sendButton
+//        sendButton.setOnClickListener {
+//            val answers :  List<QuestionResponse> = questionAdapter.getAllAnswers()
+//            studentSurveyService.postSurveyQuestions(answers)
+//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
