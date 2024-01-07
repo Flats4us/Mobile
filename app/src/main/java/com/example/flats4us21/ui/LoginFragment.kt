@@ -88,18 +88,16 @@ class LoginFragment : Fragment() {
                 editor.putString("token", loginResponse.token)
                 editor.apply()
 
-                // Przejdź do kolejnego fragmentu
                 val fragment = SearchFragment()
                 (activity as? DrawerActivity)?.replaceFragment(fragment)
             }
         } else {
-            // Obsługa błędu logowania
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        coroutineScope.cancel() // Anuluj wszystkie uruchomione coroutines przy zniszczeniu widoku
+        coroutineScope.cancel()
         _binding = null
     }
 }

@@ -22,3 +22,6 @@ interface UserService {
     @POST("/s22677/JSON-data-example/main/user/register")
     suspend fun  registerUser(@Body user: NewUserDto): Response<Void>
 }
+
+
+
