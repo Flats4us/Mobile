@@ -28,14 +28,14 @@
 
         <EditText
             android:id="@+id/textAnswer"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/edit_text_height"
             android:background="@null"
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
             android:paddingStart="@dimen/edit_text_padding_vertical"
             android:paddingEnd="@dimen/edit_text_padding_vertical"
-            android:text="@string/example"
+            android:hint="@string/example"
             android:textSize="@dimen/regular_text_size"
             android:textStyle="bold"
             android:inputType="text"

@@ -7,42 +7,44 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flats4us21.R
-import com.example.flats4us21.databinding.FragmentAddRealEstateBinding
-import com.example.flats4us21.viewmodels.RealEstateViewModel
+import com.example.flats4us21.databinding.FragmentRegisterParentBinding
+import com.example.flats4us21.viewmodels.UserViewModel
 
-class AddRealEstateFragment : Fragment() {
-    private var _binding : FragmentAddRealEstateBinding? = null
+class RegisterParentFragment : Fragment() {
+    private var _binding : FragmentRegisterParentBinding? = null
     private val binding get() = _binding!!
-    private lateinit var realEstateViewModel: RealEstateViewModel
+    private lateinit var userViewModel: UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        realEstateViewModel = ViewModelProvider(requireActivity())[RealEstateViewModel::class.java]
-        _binding = FragmentAddRealEstateBinding.inflate(inflater, container, false)
+        userViewModel = ViewModelProvider(requireActivity())[UserViewModel::class.java]
+        _binding = FragmentRegisterParentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        replaceFragment(AddRealEstateFirstStepFragment())
-        increaseProgressBar()
+        replaceFragment(RegisterSelectingUserTypeFragment())
+
     }
 
     fun replaceFragment(fragment : Fragment){
         childFragmentManager.beginTransaction()
-            .replace(R.id.addRealEstateStep, fragment)
+            .replace(R.id.registerStep, fragment)
             .addToBackStack(null)
             .commit()
     }
 
     fun increaseProgressBar(){
-        binding.progressBar.incrementProgressBy(25)
+        val incrementValue = if(userViewModel.userType.toString() == "STUDENT") 20 else 33
+        binding.progressBar.incrementProgressBy(incrementValue)
     }
 
     fun decreaseProgressBar(){
-        binding.progressBar.incrementProgressBy(-25)
+        val incrementValue = if(userViewModel.userType.toString() == "STUDENT") -20 else -33
+        binding.progressBar.incrementProgressBy(incrementValue)
     }
 
     fun decreaseProgressBar(diff: Int){

@@ -175,6 +175,35 @@
     <string name="required_flat_number">Numer mieszkania*</string>
     <string name="required_land_area">Powierzchnia działki*</string>
     <string name="required_floor">Piętro*</string>
+    <string name="student">Student</string>
+    <string name="owner_type">Właściciel</string>
+    <string name="student_type">Student</string>
+    <string name="nothing_selected">Nic nie wybrano!</string>
+    <string name="postal_code">Kod pocztowy</string>
+    <string name="required_surname">Nazwisko*</string>
+    <string name="required_name">Imię*</string>
+    <string name="required_phone_number">Numer telefonu*</string>
+    <string name="required_postal_code">Kod pocztowy*</string>
+    <string name="personal_data">Dane osobowe</string>
+    <string name="required_birth_date">Data urodzenia*</string>
+    <string name="birth_date">Data urodzenia</string>
+    <string name="required_university">Uczelnia*</string>
+    <string name="university">Uczelnia</string>
+    <string name="required_student_number">Numer studemta*</string>
+    <string name="student_number">Numer studenta</string>
+    <string name="required_bank_account">Numer konta*</string>
+    <string name="bank_account">Numer konta</string>
+    <string name="owner_data">Dane właściciela</string>
+    <string name="student_data">Dane studenta</string>
+    <string name="log_in_data">Dane logowania</string>
+    <string name="required_document_number">Numer dokumentu*</string>
+    <string name="document_number">Numer dokumentu</string>
+    <string name="document_expire_date">Data ważności dokumentu</string>
+    <string name="required_document_expired_date">Data ważności dokumentu*</string>
+    <string name="document_type">Typ dokumentu</string>
+    <string name="required_email">Email*</string>
+    <string name="required_password">Hasło*</string>
+    <string name="required_repeat_password">Powtórz hasło</string>
 
 <!--    profile placeholders-->
     <string name="placeholder_name">Name Placeholder</string>
