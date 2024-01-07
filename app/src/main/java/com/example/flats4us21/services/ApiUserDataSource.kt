@@ -1,5 +1,6 @@
 package com.example.flats4us21.services
 
+import com.example.flats4us21.data.dto.LoginRequest
 import com.example.flats4us21.data.dto.NewUserDto
 import com.example.flats4us21.serializer.UserSerializer
 import com.google.gson.Gson
@@ -9,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiUserDataSource: UserDataSource{
 
-    private const val baseUrl= "https://raw.githubusercontent.com"
+    private const val baseUrl= "http://10.0.2.2:5166/"
 
     val gson: Gson = GsonBuilder()
         .registerTypeAdapter(NewUserDto::class.java, UserSerializer())
@@ -24,8 +25,10 @@ object ApiUserDataSource: UserDataSource{
     }
 
     override suspend fun login(email: String, password: String) {
-        api.login(email, password)
+        val loginRequest = LoginRequest(email, password)
+        api.login(loginRequest)
     }
+
 
     override suspend fun register(user: NewUserDto) {
         api.registerUser(user)
