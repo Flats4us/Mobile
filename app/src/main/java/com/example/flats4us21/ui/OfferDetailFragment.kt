@@ -1,6 +1,7 @@
 package com.example.flats4us21.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +10,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.R
 import com.example.flats4us21.adapters.ImageSliderAdapter
-import com.example.flats4us21.data.Flat
-import com.example.flats4us21.data.House
-import com.example.flats4us21.data.Offer
-import com.example.flats4us21.data.Room
+import com.example.flats4us21.data.*
 import com.example.flats4us21.databinding.FragmentOfferDetailBinding
 import com.example.flats4us21.viewmodels.DetailOfferViewModel
 import com.example.flats4us21.viewmodels.OfferViewModel
@@ -72,6 +71,20 @@ class OfferDetailFragment : Fragment() {
                     if (offer != null) {
                         viewModel.watchOffer(offer)
                     }
+                }
+            }
+        }
+        binding.rent.setOnClickListener {
+            val realEstateRentalDialogFragment = RealEstateRentalDialogFragment(detailOfferViewModel)
+            realEstateRentalDialogFragment.show(parentFragmentManager , "RealEstateRentalDialogFragment")
+
+            detailOfferViewModel.rent.observe(viewLifecycleOwner) {rent ->
+                if(rent != null){
+                    //TODO: create request to api
+                    Log.d("OfferDetailFragment", rent.toString())
+                    Toast.makeText(requireContext(), "Zgłoszono wynajem.",Toast.LENGTH_LONG).show()
+                    val fragment = SearchFragment()
+                    (activity as? DrawerActivity)!!.replaceFragment(fragment)
                 }
             }
         }

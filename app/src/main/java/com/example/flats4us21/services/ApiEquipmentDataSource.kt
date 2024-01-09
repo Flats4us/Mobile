@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiEquipmentDataSource : EquipmentDataSource {
 
-    private const val baseUrl = "https://raw.githubusercontent.com"
+    private const val baseUrl = "http://172.21.40.120:5166"
 
     val gson: Gson = GsonBuilder()
         .registerTypeAdapter(Equipment::class.java, EquipmentDeserializer())

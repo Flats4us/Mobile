@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".ui.RealEstateRentalDialogFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutRentalDateWithHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+        android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+        <LinearLayout
+            android:id="@+id/layoutRentalDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_register_margin_top"
+            android:background="@drawable/background_input"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="@dimen/icon_width"
+                android:layout_height="@dimen/icon_height"
+                android:layout_marginStart="@dimen/icon_margin"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/baseline_calendar_month_24"
+                app:tint="@color/black" />
+
+            <TextView
+                android:id="@+id/rentalDate"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                android:gravity="center_vertical"
+                android:background="@null"
+                android:hint="@string/required_rental_date"
+                android:importantForAutofill="no"
+                android:textSize="@dimen/regular_text_size"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/layoutRentalDateHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_name_margin_vertical"
+            android:background="@color/white"
+            android:paddingStart="@dimen/layout_name_padding_vertical"
+            android:paddingEnd="@dimen/layout_name_padding_vertical"
+            android:text="@string/required_rental_date"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/layoutRentalDate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/layoutRentalDate" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutRentalPeriodWithHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+        android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutRentalPeriod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_register_margin_top"
+            android:background="@drawable/background_input"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/rentalPeriod"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_text_height"
+                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                android:background="@null"
+                android:hint="@string/required_rental_period"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:textSize="@dimen/edit_text_size"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/month"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:text="@string/month"
+                android:textSize="@dimen/edit_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/layoutRentalPeriodHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_name_margin_vertical"
+            android:background="@color/white"
+            android:paddingStart="@dimen/layout_name_padding_vertical"
+            android:paddingEnd="@dimen/layout_name_padding_vertical"
+            android:text="@string/required_rental_period"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/layoutRentalPeriod"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/layoutRentalPeriod" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+        android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutEmailWithHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/constraintLayout"
+            tools:layout_editor_absoluteX="10dp">
+
+            <LinearLayout
+                android:id="@+id/layoutEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_register_margin_top"
+                android:background="@drawable/background_input"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_width"
+                    android:layout_height="@dimen/icon_height"
+                    android:layout_marginStart="@dimen/icon_margin"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/baseline_email_24"
+                    app:tint="@color/black" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/emailEditText"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                        android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                        android:background="@null"
+                        android:hint="@string/email"
+                        android:imeOptions="actionNext"
+                        android:importantForAutofill="no"
+                        android:inputType="textEmailAddress"
+                        android:textSize="@dimen/regular_text_size"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/addEmailButton"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/addEmailButton"
+                        android:layout_width="@dimen/image_button_min_width"
+                        android:layout_height="@dimen/image_button_min_height"
+                        android:layout_marginEnd="4dp"
+                        android:background="@null"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/baseline_add_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/black" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                android:background="@color/white"
+                android:paddingStart="@dimen/layout_name_padding_vertical"
+                android:paddingEnd="@dimen/layout_name_padding_vertical"
+                android:text="@string/email"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/layoutEmail"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/layoutEmail" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutEmailWithHeader">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/linksRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/recyclerview_padding" />
+
+            <TextView
+                android:id="@+id/emptyTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty"
+                android:textSize="@dimen/h2"
+                android:visibility="gone"
+                android:gravity="center"/>
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

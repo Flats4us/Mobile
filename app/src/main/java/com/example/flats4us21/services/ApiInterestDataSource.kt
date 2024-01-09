@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiInterestDataSource : InterestDataSource {
 
-    private const val baseUrl= "https://raw.githubusercontent.com"
+    private const val baseUrl= "http://172.21.40.120:5166"
 
     val gson: Gson = GsonBuilder()
         .create()

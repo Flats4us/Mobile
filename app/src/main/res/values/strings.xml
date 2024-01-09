@@ -201,6 +201,9 @@
     <string name="required_email">Email*</string>
     <string name="required_password">Hasło*</string>
     <string name="required_repeat_password">Powtórz hasło</string>
+    <string name="required_rental_date">Data wynajmu*</string>
+    <string name="link">Link</string>
+    <string name="required_rental_period">Okres wynajmu*</string>
 
 
     <!-- TODO: meeting_row -->

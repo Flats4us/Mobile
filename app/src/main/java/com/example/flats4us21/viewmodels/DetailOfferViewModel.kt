@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.flats4us21.data.Offer
+import com.example.flats4us21.data.RealEstateRental
 import com.example.flats4us21.services.ApiOfferDataSource
 import com.example.flats4us21.services.OfferDataSource
 import kotlinx.coroutines.launch
@@ -26,6 +27,14 @@ class DetailOfferViewModel: ViewModel() {
     private val _errorMessage = MutableLiveData<String?>(null)
     val errorMessage: LiveData<String?>
         get() = _errorMessage
+
+    private val _rent = MutableLiveData<RealEstateRental?>(null)
+    val rent : LiveData<RealEstateRental?>
+        get() = _rent
+
+    fun setRentValue(newValue: RealEstateRental?) {
+        _rent.value = newValue
+    }
 
     fun getOfferDetails(offerId: Int) {
         viewModelScope.launch {

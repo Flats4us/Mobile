@@ -26,7 +26,6 @@ class LinksDialogFragment(private val addedLinks: MutableList<String>) : DialogF
             binding.linksRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
             binding.addLinkButton.setOnClickListener {
-                Log.i("Test", "Links dialog test!")
                 links.add(binding.linkEditText.text.toString())
                 binding.linkEditText.text.clear()
                 adapter.notifyItemInserted(links.lastIndex)
