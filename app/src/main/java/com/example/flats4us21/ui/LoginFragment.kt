@@ -19,8 +19,10 @@ import com.example.flats4us21.R
 import com.example.flats4us21.databinding.FragmentLoginBinding
 import com.example.flats4us21.data.dto.LoginRequest
 import com.example.flats4us21.data.dto.LoginResponse
+import com.example.flats4us21.interceptors.AuthInterceptor
 import com.example.flats4us21.services.UserService
 import kotlinx.coroutines.*
+import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -32,9 +34,15 @@ class LoginFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val userService: UserService by lazy {
+
+        val okHttpClient = OkHttpClient.Builder()
+            .addInterceptor(AuthInterceptor(requireContext()))
+            .build()
+
         val retrofit = Retrofit.Builder()
             .baseUrl("http://10.0.2.2:5166/")
             .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
             .build()
 
         retrofit.create(UserService::class.java)
