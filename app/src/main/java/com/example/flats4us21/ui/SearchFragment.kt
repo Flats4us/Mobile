@@ -81,6 +81,8 @@ class SearchFragment : Fragment() {
             val fragment = FilterFragment()
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
+
+
     }
 
     override fun onDestroyView() {

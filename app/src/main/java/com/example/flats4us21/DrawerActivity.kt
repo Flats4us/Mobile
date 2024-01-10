@@ -5,9 +5,11 @@ package com.example.flats4us21
 
 import DisputeFragment
 import MessagesFragment
+import android.content.Context
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -39,6 +41,7 @@ class   DrawerActivity : AppCompatActivity() {
         toggle.syncState()
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         navView.setNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.nav_start -> replaceFragment(SearchFragment())
@@ -80,5 +83,12 @@ class   DrawerActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    fun updateEmailInDrawer(email: String) {
+        val navView: NavigationView = findViewById(R.id.nav_view)
+        val headerView = navView.getHeaderView(0)
+        val textViewEmail = headerView.findViewById<TextView>(R.id.textViewEmail)
+        textViewEmail.text = email
     }
 }
