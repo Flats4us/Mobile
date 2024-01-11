@@ -17,7 +17,6 @@ import androidx.fragment.app.commit
 import com.example.flats4us21.deserializer.PropertyDeserializer
 import com.example.flats4us21.ui.*
 import com.example.yourapp.ReportIssueFragment
-import com.example.yourapp.RoommateMatchingFragment
 import com.google.android.material.navigation.NavigationView
 
 class   DrawerActivity : AppCompatActivity() {

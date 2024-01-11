@@ -1,4 +1,4 @@
-package com.example.yourapp
+package com.example.flats4us21.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,19 +10,36 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.flats4us21.R
+import com.google.android.flexbox.FlexboxLayout
 
 class RoommateMatchingFragment : Fragment() {
 
     private lateinit var buttonAccept: Button
     private lateinit var buttonReject: Button
-    private lateinit var textViewUserDescription: TextView
+    private lateinit var textViewUserName: TextView
+    private lateinit var textViewUserUniversity: TextView
+    private lateinit var flexboxUserInterests: FlexboxLayout
     private lateinit var imageViewUserPhoto: ImageView
 
-    // Przykładowa lista użytkowników z opisami i zdjęciami (przykładowe ID zasobów)
+    // Modified user data class to include name, age, university, and interests
+    data class User(val name: String, val age: Int, val university: String, val interests: List<String>, val photoResId: Int)
+
+    // Updated list of users with interests as a list of strings
     private val users = listOf(
-        Pair("User1 - Pracowity, Uprzejmy, Lubiący porządek", R.drawable.stud1),
-        Pair("User2 - Student, Miłośnik zwierząt, Nocny marek", R.drawable.stud2),
-        Pair("User3 - Zawodowy, Weganin, Fitness", R.drawable.stud3)
+        User("Tomek", 20, "Uczelnia: UKSW", listOf("Pracowity", "Uprzejmy", "Lubiący porządek"), R.drawable.stud1),
+        User("Jola", 22, "Uczelnia: WAT", listOf("Wolontariusz", "Miłośnik zwierząt", "Nocny marek"), R.drawable.stud2),
+        User("Viola", 21, "Uczelnia: WUM", listOf("Biegacz", "Weganin", "Fitness"), R.drawable.stud3),
+        User("Tomek", 20, "Uczelnia: UKSW", listOf("Pracowity", "Uprzejmy", "Lubiący porządek"), R.drawable.stud1),
+        User("Jola", 22, "Uczelnia: WAT", listOf("Wolontariusz", "Miłośnik zwierząt", "Nocny marek"), R.drawable.stud2),
+        User("Viola", 21, "Uczelnia: WUM", listOf("Biegacz", "Weganin", "Fitness"), R.drawable.stud3),
+        User("Tomek", 20, "Uczelnia: UKSW", listOf("Pracowity", "Uprzejmy", "Lubiący porządek"), R.drawable.stud1),
+        User("Jola", 22, "Uczelnia: WAT", listOf("Wolontariusz", "Miłośnik zwierząt", "Nocny marek"), R.drawable.stud2),
+        User("Viola", 21, "Uczelnia: WUM", listOf("Biegacz", "Weganin", "Fitness"), R.drawable.stud3),
+        User("Tomek", 20, "Uczelnia: UKSW", listOf("Pracowity", "Uprzejmy", "Lubiący porządek"), R.drawable.stud1),
+        User("Jola", 22, "Uczelnia: WAT", listOf("Wolontariusz", "Miłośnik zwierząt", "Nocny marek"), R.drawable.stud2),
+        User("Viola", 21, "Uczelnia: WUM", listOf("Biegacz", "Weganin", "Fitness"), R.drawable.stud3),
+
+
     )
     private var currentUserIndex = 0
 
@@ -38,7 +55,9 @@ class RoommateMatchingFragment : Fragment() {
 
         buttonAccept = view.findViewById(R.id.buttonAccept)
         buttonReject = view.findViewById(R.id.buttonReject)
-        textViewUserDescription = view.findViewById(R.id.textViewUserDescription)
+        textViewUserName = view.findViewById(R.id.textViewUserName)
+        textViewUserUniversity = view.findViewById(R.id.textViewUserUniversity)
+        flexboxUserInterests = view.findViewById(R.id.flexboxUserInterests)
         imageViewUserPhoto = view.findViewById(R.id.imageViewUserPhoto)
 
         imageViewUserPhoto.setOnTouchListener { _, event ->
@@ -78,23 +97,34 @@ class RoommateMatchingFragment : Fragment() {
     }
 
     private fun onSwipeRight() {
-        // Akcja dla swipe right (akceptacja)
         showNextUser()
     }
 
     private fun onSwipeLeft() {
-        // Akcja dla swipe left (odrzucenie)
         showNextUser()
     }
 
     private fun showNextUser() {
         if (currentUserIndex < users.size) {
             val currentUser = users[currentUserIndex]
-            textViewUserDescription.text = currentUser.first
-            imageViewUserPhoto.setImageResource(currentUser.second)
+            textViewUserName.text = "${currentUser.name}, ${currentUser.age}"
+            textViewUserUniversity.text = currentUser.university
+            displayUserInterests(currentUser.interests)
+            imageViewUserPhoto.setImageResource(currentUser.photoResId)
             currentUserIndex++
         } else {
-            // Obsługa sytuacji, gdy skończą się użytkownicy (np. wyświetlenie komunikatu)
+            // Handle end of list
+        }
+    }
+
+    private fun displayUserInterests(interests: List<String>) {
+        flexboxUserInterests.removeAllViews() // Clear all views before adding new tags
+
+        interests.forEach { interest ->
+            val tagTextView = LayoutInflater.from(context).inflate(R.layout.tag_item, flexboxUserInterests, false) as TextView
+            tagTextView.text = interest
+            // Customize this TextView further if needed, such as setting the background, padding, margins, etc.
+            flexboxUserInterests.addView(tagTextView)
         }
     }
 }
