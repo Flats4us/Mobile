@@ -5,12 +5,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.flats4us21.data.ApiResult
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.dto.NewOfferDto
+import com.example.flats4us21.data.dto.OfferFilter
 import com.example.flats4us21.data.dto.Property
-import com.example.flats4us21.services.*
+import com.example.flats4us21.services.ApiOfferDataSource
+import com.example.flats4us21.services.ApiPropertyDataSource
+import com.example.flats4us21.services.OfferDataSource
+import com.example.flats4us21.services.PropertyDataSource
 import kotlinx.coroutines.launch
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 private const val TAG = "OfferViewModel"
 class OfferViewModel: ViewModel() {
@@ -20,6 +25,10 @@ class OfferViewModel: ViewModel() {
     private val _offers: MutableLiveData<List<Offer>> = MutableLiveData()
     val offers: LiveData<List<Offer>>
         get() = _offers
+
+    private val _offer: MutableLiveData<Offer?> = MutableLiveData()
+    val offer: LiveData<Offer?>
+        get() = _offer
 
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean>
@@ -33,14 +42,24 @@ class OfferViewModel: ViewModel() {
     val userProperties: LiveData<List<Property>>
         get() = _userProperties
 
-    fun getUserProperties(){
+    fun getUserProperties(showOnlyVerified: Boolean){
         viewModelScope.launch {
             _errorMessage.value = null
             _isLoading.value = true
             try {
-                val fetchedProperties = apiPropertyRepository.getUserProperties()
+                val fetchedProperties = apiPropertyRepository.getUserProperties(showOnlyVerified)
                 Log.d(TAG, "[getUserProperties] Fetched properties: $fetchedProperties")
-                _userProperties.value = fetchedProperties
+                when (fetchedProperties) {
+                    is ApiResult.Success -> {
+                        val data = fetchedProperties.data
+                        _userProperties.value = data
+                    }
+                    is ApiResult.Error -> {
+                        val errorMessage = fetchedProperties.message
+                        Log.e(TAG, "Error: $errorMessage")
+                        _errorMessage.value = errorMessage
+                    }
+                }
             } catch (e: Exception) {
                 _errorMessage.value = e.message
                 Log.e(TAG, "Exception $e")
@@ -50,11 +69,32 @@ class OfferViewModel: ViewModel() {
         }
     }
 
-    private var _price : Double = 0.0
-    var price: Double
+    private var _price : Int = 0
+    var price: Int
     get() = _price
     set(value) {
         _price = value
+    }
+
+    private var _deposit : Int = 0
+    var deposit: Int
+    get() = _deposit
+    set(value) {
+        _deposit = value
+    }
+
+    private var _startDate : LocalDateTime? = null
+    var startDate: LocalDateTime?
+    get() = _startDate
+    set(value) {
+        _startDate = value
+    }
+
+    private var _endDate : LocalDateTime? = null
+    var endDate: LocalDateTime?
+    get() = _endDate
+    set(value) {
+        _endDate = value
     }
 
     private var _rentalPeriod: Int = 0
@@ -92,17 +132,172 @@ class OfferViewModel: ViewModel() {
         _selectedOffer = value
     }
 
-     fun createOffer(){
+    private var _sorting : String? = null
+    var sorting : String?
+    get() = _sorting
+    set(value) {
+        _sorting = value
+    }
+    private var _pageNumber : Int = 1
+    var pageNumber : Int
+    get() = _pageNumber
+    set(value) {
+        _pageNumber = value
+    }
+    private var _pageSize : Int = 5
+    var pageSize : Int
+    get() = _pageSize
+    set(value) {
+        _pageSize = value
+    }
+    private var _province : String? = null
+    var province : String?
+    get() = _province
+    set(value) {
+        _province = value
+    }
+    private var _city : String? = null
+    var city : String?
+    get() = _city
+    set(value) {
+        _city = value
+    }
+    private var _distnace : Int? = null
+    var distnace : Int?
+    get() = _distnace
+    set(value) {
+        _distnace = value
+    }
+    private var _propertyType : Int? = null
+    var propertyType : Int?
+    get() = _propertyType
+    set(value) {
+        _propertyType = value
+    }
+    private var _minPrice : Int? = null
+    var minPrice : Int?
+    get() = _minPrice
+    set(value) {
+        _minPrice = value
+    }
+    private var _maxPrice : Int? = null
+    var maxPrice : Int?
+    get() = _maxPrice
+    set(value) {
+        _maxPrice = value
+    }
+    private var _district : String? = null
+    var district : String?
+    get() = _district
+    set(value) {
+        _district = value
+    }
+    private var _minArea : Int? = null
+    var minArea : Int?
+    get() = _minArea
+    set(value) {
+        _minArea = value
+    }
+    private var _maxArea : Int? = null
+    var maxArea : Int?
+    get() = _maxArea
+    set(value) {
+        _maxArea = value
+    }
+    private var _minYear : Int? = null
+    var minYear : Int?
+    get() = _minYear
+    set(value) {
+        _minYear = value
+    }
+    private var _maxYear : Int? = null
+    var maxYear : Int?
+    get() = _maxYear
+    set(value) {
+        _maxYear = value
+    }
+    private var _minNumberOfRooms : Int? = null
+    var minNumberOfRooms : Int?
+    get() = _minNumberOfRooms
+    set(value) {
+        _minNumberOfRooms = value
+    }
+    private var _floor : Int? = null
+    var floor : Int?
+    get() = _floor
+    set(value) {
+        _floor = value
+    }
+    private var _equipment : List<Int>? = null
+    var equipment : List<Int>?
+    get() = _equipment
+    set(value) {
+        _equipment = value
+    }
+
+    fun getOffer(offer_id : Int){
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try {
+                val response = apiOfferRepository.getOffer(offer_id)
+                when (response) {
+                    is ApiResult.Success -> {
+                        _offer.value = response.data
+                    }
+                    is ApiResult.Error -> {
+                        val errorMessage = response.message
+                        Log.e(TAG, "Error: $errorMessage")
+                        _errorMessage.value = errorMessage
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+     fun createOffer(callback: (Boolean) -> Unit){
         val offer = NewOfferDto(
-            LocalDate.now().toString(),
-            price.toString(),
+            property!!.propertyId,
+            price,
+            deposit,
             description,
-            rentalPeriod.toString(),
-            null,
-            property!!.propertyId
+            startDate.toString(),
+            endtDate.toString(),
+            rules,
+            true,
+            true,
+            true,
+            0,
         )
          viewModelScope.launch {
-             apiOfferRepository.addOffer(offer)
+             _errorMessage.value = null
+             _isLoading.value = true
+             try {
+                 val response = apiOfferRepository.createOffer(offer)
+                 when (response) {
+                     is ApiResult.Success -> {
+                         Log.d(TAG, " Created property")
+                         callback(true)
+                     }
+                     is ApiResult.Error -> {
+                         val errorMessage = response.message
+                         Log.e(TAG, "Error: $errorMessage")
+                         _errorMessage.value = errorMessage
+                         callback(false)
+                     }
+                 }
+             } catch (e: Exception) {
+                 _errorMessage.value = e.message
+                 Log.e(TAG, "Exception $e")
+                 callback(false)
+             } finally {
+                 _isLoading.value = false
+             }
          }
     }
 
@@ -119,9 +314,39 @@ class OfferViewModel: ViewModel() {
              _errorMessage.value = null
              _isLoading.value = true
              try{
-                 val fetchedOffers = apiOfferRepository.getOffers()
+                 val filter = OfferFilter(
+                 null,
+                 pageNumber,
+                 pageSize,
+                 province,
+                 city,
+                 distnace,
+                 propertyType,
+                 minPrice,
+                 maxPrice,
+                 district,
+                 minArea,
+                 maxArea,
+                 minYear,
+                 maxYear,
+                 minNumberOfRooms,
+                 floor,
+                 equipment
+                 )
+                 Log.i(TAG, "Filter: $filter")
+                 val fetchedOffers = apiOfferRepository.getOffers(filter)
                  Log.i(TAG, "Fetched offers: $fetchedOffers")
-                 _offers.value = fetchedOffers
+                 when (fetchedOffers) {
+                     is ApiResult.Success -> {
+                         val data = fetchedOffers.data
+                         _offers.value = data
+                     }
+                     is ApiResult.Error -> {
+                         val errorMessage = fetchedOffers.message
+                         Log.e(TAG, "Error: $errorMessage")
+                         _errorMessage.value = errorMessage
+                     }
+                 }
              } catch (e: Exception) {
                  _errorMessage.value = e.message
                  Log.e(TAG, "Exception $e")
@@ -131,13 +356,35 @@ class OfferViewModel: ViewModel() {
         }
     }
 
+    fun getMineOffers() {
+         viewModelScope.launch {
+             _errorMessage.value = null
+             _isLoading.value = true
+             try{
+                 val fetchedOffers = apiOfferRepository.getMineOffers()
+                 Log.i(TAG, "Fetched offers: $fetchedOffers")
+                 when (fetchedOffers) {
+                     is ApiResult.Success -> {
+                         val data = fetchedOffers.data
+                         _offers.value = data
+                     }
+                     is ApiResult.Error -> {
+                         val errorMessage = fetchedOffers.message
+                         Log.e(TAG, "Error: $errorMessage")
+                         _errorMessage.value = errorMessage
+                     }
+                 }
+             } catch (e: Exception) {
+                 _errorMessage.value = e.message
+                 Log.e(TAG, "Exception $e")
+             } finally {
+                 _isLoading.value = false
+             }
+        }
+    }
 
     fun checkIfIsWatched(offer: Offer): Boolean{
-        var offers: MutableList<Offer> = mutableListOf()
-        viewModelScope.launch {
-            offers = apiOfferRepository.getWatchedOffers() as MutableList<Offer>
-        }
-        return offers.contains(offer)
+        TODO("Not yet implemented")
     }
 
     fun watchOffer(offer: Offer){
@@ -160,5 +407,23 @@ class OfferViewModel: ViewModel() {
         if (offer != null) {
             apiOfferRepository.addOfferToLastViewed(offer)
         }
+    }
+
+    fun clearNullableVariables() {
+        _sorting = null
+        _province = null
+        _city = null
+        _distnace = null
+        _propertyType = null
+        _minPrice = null
+        _maxPrice = null
+        _district = null
+        _minArea = null
+        _maxArea = null
+        _minYear = null
+        _maxYear = null
+        _minNumberOfRooms = null
+        _floor = null
+        _equipment = null
     }
 }

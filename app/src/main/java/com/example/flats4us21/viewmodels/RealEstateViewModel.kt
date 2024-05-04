@@ -6,12 +6,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.flats4us21.data.ApiResult
 import com.example.flats4us21.data.Equipment
-import com.example.flats4us21.data.Property
+import com.example.flats4us21.data.Image
 import com.example.flats4us21.data.PropertyType
 import com.example.flats4us21.data.dto.NewPropertyDto
+import com.example.flats4us21.data.dto.Property
 import com.example.flats4us21.services.*
 import kotlinx.coroutines.launch
+import java.io.File
 
 private const val TAG = "RealEstateViewModel"
 class RealEstateViewModel : ViewModel() {
@@ -33,18 +36,21 @@ class RealEstateViewModel : ViewModel() {
     val equipments: LiveData<List<Equipment>>
         get() = _equipments
 
-    fun getEquipmentList() {
-        _isLoading.value = true
-        viewModelScope.launch {
-            val fetchedEquipments = equipmentRepository.getEquipment()
-            Log.i(TAG, "Fetched list of equipment: $fetchedEquipments")
-            _equipments.value = fetchedEquipments
-            _isLoading.value = false
+    private var _isCreating: Boolean = true
+    var isCreating: Boolean
+        get() = _isCreating
+        set(value) {
+            _isCreating = value
         }
-    }
+    private var _propertyId: Int = 0
+    var propertyId: Int
+        get() = _propertyId
+        set(value) {
+            _propertyId = value
+        }
 
-    private var _propertyType: String? = null
-    var propertyType: String?
+    private var _propertyType: PropertyType? = null
+    var propertyType: PropertyType?
         get() = _propertyType
         set(value) {
             _propertyType = value
@@ -64,8 +70,15 @@ class RealEstateViewModel : ViewModel() {
             _city = value
         }
 
-    private var _district: String = ""
-    var district: String
+    private var _postalCode: String = ""
+    var postalCode: String
+        get() = _postalCode
+        set(value) {
+            _postalCode = value
+        }
+
+    private var _district: String? = null
+    var district: String?
         get() = _district
         set(value) {
             _district = value
@@ -85,22 +98,22 @@ class RealEstateViewModel : ViewModel() {
             _buildingNumber = value
         }
 
-    private var _floor: String = ""
-    var floor: String
+    private var _floor: Int? = 0
+    var floor: Int?
         get() = _floor
         set(value) {
             _floor = value
         }
 
-    private var _flatNumber: String = ""
-    var flatNumber: String
+    private var _flatNumber: String? = ""
+    var flatNumber: String?
         get() = _flatNumber
         set(value) {
             _flatNumber = value
         }
 
-    private var _area: Int? = 0
-    var area: Int?
+    private var _area: Int = 0
+    var area: Int
         get() = _area
         set(value) {
                 _area = value
@@ -134,8 +147,8 @@ class RealEstateViewModel : ViewModel() {
                 _numberOfRooms = value
         }
 
-    private var _numberOfFloors: Int = 0
-    var numberOfFloors: Int
+    private var _numberOfFloors: Int? = 0
+    var numberOfFloors: Int?
         get() = _numberOfFloors
         set(value) {
                 _numberOfFloors = value
@@ -148,18 +161,32 @@ class RealEstateViewModel : ViewModel() {
             _equipment = value
         }
 
-    private var _images: MutableList<Uri> = mutableListOf()
-    var images: MutableList<Uri>
+    private var _imagesURI: MutableList<Uri> = mutableListOf()
+    var imagesURI: MutableList<Uri>
+        get() = _imagesURI
+        set(value) {
+            _imagesURI = value
+        }
+
+    private var _images: MutableList<Image> = mutableListOf()
+    var images: MutableList<Image>
         get() = _images
         set(value) {
             _images = value
         }
 
-    private var _ownerId: Int = 1
-    var ownerId : Int
-        get() = _ownerId
+    private var _imageFiles: MutableList<File> = mutableListOf()
+    var imageFiles: MutableList<File>
+        get() = _imageFiles
         set(value) {
-            _ownerId = value
+            _imageFiles = value
+        }
+
+    private var _titleDeedFile: File? = null
+    var titleDeedFile: File?
+        get() = _titleDeedFile
+        set(value) {
+            _titleDeedFile = value
         }
 
     private val _isLoading = MutableLiveData(false)
@@ -170,31 +197,120 @@ class RealEstateViewModel : ViewModel() {
     val errorMessage: LiveData<String?>
         get() = _errorMessage
 
-    fun createRealEstateObject() {
+    private var _selectedProperty: Property? = null
+    var selectedProperty: Property?
+        get() = _selectedProperty
+        set(value) {
+            _selectedProperty = value
+        }
+
+    fun getEquipmentList() {
+        _isLoading.value = true
+        viewModelScope.launch {
+            val fetchedEquipments = equipmentRepository.getEquipment()
+            Log.i(TAG, "Fetched list of equipment: $fetchedEquipments")
+            _equipments.value = fetchedEquipments
+            _isLoading.value = false
+        }
+    }
+
+    fun createProperty(callback: (String?) -> Unit) {
         val newProperty = NewPropertyDto(
-            PropertyType.valueOf(propertyType!!),
+            propertyType.toString().toInt(),
             voivodeship,
-            city,
             district,
             street,
             buildingNumber,
             flatNumber,
-            area!!,
-            landArea,
+            city,
+            postalCode,
+            area,
             maxResidents,
             constructionYear,
-            false,
-            numberOfRooms!!,
-            equipment,
-            images,
-            ownerId
+            numberOfRooms,
+            floor,
+            numberOfFloors,
+            landArea,
+            equipment
+        )
+        Log.i(TAG, newProperty.toString())
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try {
+                val response = propertyRepository.addProperty(newProperty)
+                when (response) {
+                    is ApiResult.Success -> {
+                        val propertyId = response.data
+                        Log.i(TAG, "BEFORE add files to property")
+                        val filesResponse = propertyRepository.addFilesToProperty(propertyId, titleDeedFile!!, imageFiles)
+                        when (filesResponse) {
+                            is ApiResult.Success -> {
+                                val message = filesResponse.data
+                                _isLoading.value = false
+                                Log.d(TAG, "New Property to create: $newProperty")
+                                callback(message)
+                            }
+                            is ApiResult.Error -> {
+                                val fileErrorMessage = filesResponse.message
+                                Log.e(TAG, "Error adding files to property: $fileErrorMessage")
+                                _errorMessage.value = fileErrorMessage
+                                callback(null)
+                            }
+                        }
+                    }
+                    is ApiResult.Error -> {
+                        val errorMessage = response.message
+                        Log.e(TAG, "Error adding property: $errorMessage")
+                        _errorMessage.value = errorMessage
+                        callback(null)
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+                callback(null)
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+
+
+    fun updateProperty() {
+        val property = NewPropertyDto(
+            propertyType.toString().toInt(),
+            voivodeship,
+            district,
+            street,
+            buildingNumber,
+            flatNumber,
+            city,
+            postalCode,
+            area,
+            maxResidents,
+            constructionYear,
+            numberOfRooms,
+            floor,
+            numberOfFloors,
+            landArea,
+            equipment
         )
         viewModelScope.launch{
             _errorMessage.value = null
             _isLoading.value = true
             try {
-                propertyRepository.addProperty(newProperty)
-                Log.d(TAG, "New Property to create: $newProperty")
+                val response = propertyRepository.updateProperty(propertyId, property)
+                when(response) {
+                    is ApiResult.Success -> {
+                        Log.i(TAG, response.data.result)
+                    }
+                    is ApiResult.Error -> {
+                        Log.e(TAG, response.message)
+                        _errorMessage.value = response.message
+                    }
+                }
             } catch (e: Exception) {
                 _errorMessage.value = e.message
                 Log.e(TAG, "Exception $e")
@@ -204,7 +320,31 @@ class RealEstateViewModel : ViewModel() {
         }
     }
 
-    fun addProperty(property: Property){
-        TODO("Not yet implemented")
+    fun deleteProperty(propertyId: Int, callback: (Boolean) -> Unit) {
+        viewModelScope.launch{
+            _errorMessage.value = null
+            _isLoading.value = true
+            try {
+                val response = propertyRepository.deleteProperty(propertyId)
+                when (response) {
+                    is ApiResult.Success -> {
+                        Log.d(TAG, " Deleted property: $propertyId")
+                        callback(true)
+                    }
+                    is ApiResult.Error -> {
+                        val errorMessage = response.message
+                        Log.e(TAG, "Error: $errorMessage")
+                        _errorMessage.value = errorMessage
+                        callback(false)
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+                callback(false)
+            } finally {
+                _isLoading.value = false
+            }
+        }
     }
 }

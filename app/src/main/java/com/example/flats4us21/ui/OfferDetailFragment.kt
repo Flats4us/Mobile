@@ -10,15 +10,21 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import coil.load
 import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.R
+import com.example.flats4us21.URL
 import com.example.flats4us21.adapters.ImageSliderAdapter
-import com.example.flats4us21.data.*
+import com.example.flats4us21.data.Flat
+import com.example.flats4us21.data.House
+import com.example.flats4us21.data.Offer
+import com.example.flats4us21.data.Room
 import com.example.flats4us21.databinding.FragmentOfferDetailBinding
 import com.example.flats4us21.viewmodels.DetailOfferViewModel
 import com.example.flats4us21.viewmodels.OfferViewModel
+import java.time.Period
 
-
+private const val TAG = "OfferDetailFragment"
 class OfferDetailFragment : Fragment() {
     private var _binding : FragmentOfferDetailBinding? = null
     private val binding get() = _binding!!
@@ -75,7 +81,10 @@ class OfferDetailFragment : Fragment() {
             }
         }
         binding.rent.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(OFFER_ID, offerId)
             val realEstateRentalDialogFragment = RealEstateRentalDialogFragment(detailOfferViewModel)
+            realEstateRentalDialogFragment.arguments = bundle
             realEstateRentalDialogFragment.show(parentFragmentManager , "RealEstateRentalDialogFragment")
 
             detailOfferViewModel.rent.observe(viewLifecycleOwner) {rent ->
@@ -93,7 +102,7 @@ class OfferDetailFragment : Fragment() {
     private fun bindOfferData(offer: Offer?) {
         offer ?: return
 
-        if(viewModel.checkIfIsWatched(offer)){
+        if(false){
             binding.addButton.setImageResource(R.drawable.observe)
             binding.addButton.tag = true
         } else{
@@ -112,16 +121,26 @@ class OfferDetailFragment : Fragment() {
                 binding.imageCount.text = imageText
             }
         })
-        binding.owner.text = "${offer.property.owner.name} ${offer.property.owner.surname}"
-        binding.dateIssue.text = offer.dateIssue
+        val url = "$URL/Images/Users/${offer.owner.profilePicture}"
+        Log.i(TAG, url)
+        binding.ownerPhoto.load(url) {
+            error(R.drawable.baseline_person_24)
+        }
+        binding.owner.text = "${offer.owner.name} ${offer.owner.surname}"
+
+        binding.startDate.text = offer.dateIssue
+        binding.endDate.text = offer.dateIssue
         binding.price.text = offer.price
         binding.city.text = offer.property.city
         binding.district.text = offer.property.district
         binding.street.text = " ${offer.property.street} ${offer.property.buildingNumber}"
         binding.area.text = offer.property.area.toString()
         binding.numberOfRooms.text = offer.property.numberOfRooms.toString()
-        binding.period.text = offer.rentalPeriod
-        binding.maxResidents.text = offer.property.maxResidents.toString()
+        val period = Period.between(offer.startDate.toLocalDate(), offer.endDate.toLocalDate())
+        val monthsBetween = period.years * 12 + period.months
+        binding.period.text = monthsBetween.toString()
+        binding.maxResidents.text = offer.property.maxNumberOfInhabitants.toString()
+        binding.constructionYear.text = offer.property.constructionYear.toString()
         val stringBuilder: StringBuilder = StringBuilder()
         for(j in offer.property.equipment.indices){
             stringBuilder.append(offer.property.equipment[j].equipmentName)
@@ -141,6 +160,7 @@ class OfferDetailFragment : Fragment() {
             is House -> {
                 val house: House = offer.property
                 binding.landArea.text = house.landArea.toString()
+                binding.landAreaLayout.visibility = View.VISIBLE
             }
             is Flat -> {}
             is Room -> {}

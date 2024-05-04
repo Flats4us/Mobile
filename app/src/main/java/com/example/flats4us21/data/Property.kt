@@ -12,5 +12,5 @@ open class Property(
     open val constructionYear: Int,
     open val numberOfRooms: Int,
     open val equipment: MutableList<String>,
-    open val image: MutableList<Uri>
+    open val image: MutableList<String>
 )

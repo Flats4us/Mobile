@@ -11,5 +11,5 @@ data class PropertyDTO(
     val constructionYear: Int,
     val numberOfRooms: Int,
     val equipment: MutableList<String>,
-    val image: MutableList<Uri>
+    val image: MutableList<String>
 )

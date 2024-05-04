@@ -17,7 +17,6 @@ import com.example.flats4us21.data.Offer
 import com.example.flats4us21.databinding.FragmentSearchBinding
 import com.example.flats4us21.viewmodels.OfferViewModel
 
-
 private const val TAG = "SearchFragment"
 const val OFFER_ID = "OFFER_ID"
 class SearchFragment : Fragment() {
@@ -26,7 +25,7 @@ class SearchFragment : Fragment() {
     private lateinit var recyclerview: RecyclerView
     private lateinit var adapter: PropertyAdapter
     private lateinit var viewModel: OfferViewModel
-    private val fetchedOffers: MutableList<Offer> = mutableListOf()
+    private var fetchedOffers: MutableList<Offer> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,13 +39,14 @@ class SearchFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[OfferViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[OfferViewModel::class.java]
         viewModel.getOffers()
         recyclerview = binding.propertyRecyclerView
 
         viewModel.offers.observe(viewLifecycleOwner) { offers ->
-            Log.i(TAG, "Number of offers: $offers.size")
-            fetchedOffers.addAll(offers)
+            Log.i(TAG, "Number of offers: ${offers.size}")
+            fetchedOffers = offers as MutableList<Offer>
+            adapter.setOfferList(fetchedOffers)
             adapter.notifyDataSetChanged()
         }
 
@@ -62,7 +62,7 @@ class SearchFragment : Fragment() {
             }
         }
 
-        adapter = PropertyAdapter(fetchedOffers){selectedOffer ->
+        adapter = PropertyAdapter(false, fetchedOffers){selectedOffer ->
             val bundle = Bundle()
             bundle.putInt(OFFER_ID, selectedOffer.offerId)
             viewModel.selectedOffer = selectedOffer

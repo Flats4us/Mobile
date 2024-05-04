@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".ui.RealEstateRentalDialogFragment">
@@ -130,7 +130,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
         android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
 
@@ -170,7 +170,7 @@
                         android:layout_marginStart="@dimen/edit_text_horizontal_margin"
                         android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
                         android:background="@null"
-                        android:hint="@string/email"
+                        android:hint="@string/roommates_email"
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
                         android:inputType="textEmailAddress"
@@ -185,7 +185,7 @@
                         android:id="@+id/addEmailButton"
                         android:layout_width="@dimen/image_button_min_width"
                         android:layout_height="@dimen/image_button_min_height"
-                        android:layout_marginEnd="4dp"
+                        android:layout_marginEnd="@dimen/image_button_inside_edit_text_margin"
                         android:background="@null"
                         android:contentDescription="@string/app_name"
                         android:src="@drawable/baseline_add_24"
@@ -204,7 +204,7 @@
                 android:background="@color/white"
                 android:paddingStart="@dimen/layout_name_padding_vertical"
                 android:paddingEnd="@dimen/layout_name_padding_vertical"
-                android:text="@string/email"
+                android:text="@string/roommates_email"
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/layoutEmail"
@@ -223,7 +223,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/linksRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:padding="@dimen/recyclerview_padding" />
 
             <TextView

@@ -1,32 +1,46 @@
 package com.example.flats4us21.adapters
 
-import android.graphics.Bitmap
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.flats4us21.R
+import com.example.flats4us21.URL
+import com.example.flats4us21.data.Image
+import com.example.flats4us21.databinding.ItemImageSliderBinding
 
-class ImageSliderAdapter(private val images: List<Bitmap>) :
-    RecyclerView.Adapter<ImageSliderAdapter.ViewHolder>() {
+private const val TAG = "ImageSliderAdapter"
+class ImageSliderAdapter(private val images: List<Image>) :
+    RecyclerView.Adapter<ImageSliderAdapter.MyViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_image_slider, parent, false)
-        return ViewHolder(view)
+    inner class MyViewHolder(binding: ItemImageSliderBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        val imageView: ImageView = binding.imageView
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val imageResId = images[position]
-        holder.imageView.setImageBitmap(imageResId)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        return MyViewHolder(
+            binding = ItemImageSliderBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount(): Int {
         return images.size
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageView: ImageView = itemView.findViewById(R.id.imageView)
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        if(images.isNotEmpty()) {
+            val url = URL + "/" + images[position].path
+            Log.i(TAG, url)
+            holder.imageView.load(url) {
+                error(R.drawable.baseline_broken_image_24)
+            }
+        }
     }
 }

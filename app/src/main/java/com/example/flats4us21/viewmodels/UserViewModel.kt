@@ -6,7 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.flats4us21.DataStoreManager
 import com.example.flats4us21.data.*
+import com.example.flats4us21.data.dto.LoginResponse
 import com.example.flats4us21.data.dto.NewUserDto
 import com.example.flats4us21.services.*
 import kotlinx.coroutines.launch
@@ -17,6 +19,7 @@ class UserViewModel: ViewModel() {
     private val apiSurveyRepository : StudentSurveyService = StudentSurveyService
     private val userRepository : UserDataSource = ApiUserDataSource
     private val interestRepository: InterestDataSource = ApiInterestDataSource
+
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean>
         get() = _isLoading
@@ -24,6 +27,10 @@ class UserViewModel: ViewModel() {
     private val _errorMessage = MutableLiveData<String?>(null)
     val errorMessage: LiveData<String?>
         get() = _errorMessage
+
+    private val _loginResponse = MutableLiveData<LoginResponse?>(null)
+    val loginResponse: LiveData<LoginResponse?>
+        get() = _loginResponse
 
     private var _userType: String? = null
     var userType: String?
@@ -85,16 +92,6 @@ class UserViewModel: ViewModel() {
     val interests: LiveData<List<Interest>>
         get() = _interests
 
-    fun getInterests(){
-        _isLoading.value = true
-        viewModelScope.launch {
-            val fetchedInterests = interestRepository.getInterests()
-            Log.i(TAG, "Fetched list of interest: $fetchedInterests")
-            _interests.value = fetchedInterests
-            _isLoading.value = false
-        }
-    }
-
     private var _birthDate: LocalDate? = null
     var birthDate: LocalDate?
         get() = _birthDate
@@ -149,22 +146,6 @@ class UserViewModel: ViewModel() {
     private val _questionList: MutableLiveData<List<SurveyQuestion>> = MutableLiveData()
     val questionList: LiveData<List<SurveyQuestion>>
         get() = _questionList
-    fun getQuestionList(surveyType: String){
-        viewModelScope.launch {
-            _errorMessage.value = null
-            _isLoading.value = true
-            try{
-                val fetchedQuestions = apiSurveyRepository.getSurveyQuestion(surveyType)
-                Log.i(TAG, "Fetched questions: $fetchedQuestions")
-                _questionList.value = fetchedQuestions
-            } catch (e: Exception) {
-                _errorMessage.value = e.message
-                Log.e(TAG, "Exception $e")
-            } finally {
-                _isLoading.value = false
-            }
-        }
-    }
 
     private lateinit var _questionResponseList: List<QuestionResponse>
     var questionResponseList: List<QuestionResponse>
@@ -200,6 +181,40 @@ class UserViewModel: ViewModel() {
         set(value) {
             _repeatPassword = value
         }
+
+    private var _user: UserMenuData? = null
+    var user: UserMenuData?
+        get() = _user
+        set(value) {
+            _user = value
+        }
+
+    fun getInterests(){
+        _isLoading.value = true
+        viewModelScope.launch {
+            val fetchedInterests = interestRepository.getInterests()
+            Log.i(TAG, "Fetched list of interest: $fetchedInterests")
+            _interests.value = fetchedInterests
+            _isLoading.value = false
+        }
+    }
+
+    fun getQuestionList(surveyType: String){
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try{
+                val fetchedQuestions = apiSurveyRepository.getSurveyQuestion(surveyType)
+                Log.i(TAG, "Fetched questions: $fetchedQuestions")
+                _questionList.value = fetchedQuestions
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
 
     fun createUser() {
         val newUser = NewUserDto(
@@ -255,6 +270,35 @@ class UserViewModel: ViewModel() {
         email = ""
         password = ""
         repeatPassword = ""
+    }
+
+    fun login(email: String, password: String) {
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try{
+                val fetchedLoginResponse = userRepository.login(email, password)
+                Log.i(TAG, "Fetched loginResponse: $fetchedLoginResponse")
+                when (fetchedLoginResponse) {
+                    is ApiResult.Success -> {
+                        Log.i(TAG, "Success")
+                        val data = fetchedLoginResponse.data
+                        _loginResponse.value = data
+                        loginResponse.value?.let { DataStoreManager.saveUserData(it) }
+                    }
+                    is ApiResult.Error -> {
+                        Log.i(TAG, "ERROR: ${fetchedLoginResponse.message}")
+                        _errorMessage.value = fetchedLoginResponse.message
+                        Log.e(TAG, "error: ${errorMessage.value}")
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
     }
 
 }

@@ -31,7 +31,7 @@ class WatchedOffersListFragment : Fragment() {
 
         val recyclerview = binding.propertyRecyclerView
         val offers = offerViewModel.getWatchedOffers()
-        val adapter = PropertyAdapter(offers){selectedOffer ->
+        val adapter = PropertyAdapter(false, offers){selectedOffer ->
             offerViewModel.selectedOffer =  selectedOffer
             val fragment = OfferDetailFragment()
             (activity as? DrawerActivity)!!.replaceFragment(fragment)

@@ -6,10 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flats4us21.R
@@ -45,7 +42,6 @@ class AddRealEstateFirstStepFragment : Fragment() {
         setupPropertyTypeSpinner()
         setupVoivodeshipSpinner()
         setupDistrictSpinner()
-
         setValues()
 
         binding.nextButton.setOnClickListener { collectData() }
@@ -153,7 +149,7 @@ class AddRealEstateFirstStepFragment : Fragment() {
 
     private fun setValues() {
         with(binding) {
-            propertyTypeSpinner.setSelection(propertyTypeAdapter.getPosition(realEstateViewModel.propertyType))
+            propertyTypeSpinner.setSelection(propertyTypeAdapter.getPosition(realEstateViewModel.propertyType?.name))
             voivodeship.setSelection(voivodeshipAdapter.getPosition(realEstateViewModel.voivodeship))
             city.setText(realEstateViewModel.city)
             val districts = realEstateViewModel.getDistricts(city.text.toString())
@@ -165,12 +161,13 @@ class AddRealEstateFirstStepFragment : Fragment() {
             }
             street.setText(realEstateViewModel.street)
             buildingNumber.setText(realEstateViewModel.buildingNumber)
-            if(realEstateViewModel.propertyType.equals(PropertyType.FLAT.toString())){
-                floor.setText(realEstateViewModel.floor)
+            if(realEstateViewModel.propertyType != null && realEstateViewModel.propertyType == PropertyType.FLAT){
+                floor.setText(realEstateViewModel.floor?.toString() ?: "")
                 floorHeader.setText(R.string.required_floor)
                 flatNumber.setText(realEstateViewModel.flatNumber)
                 flatNumberHeader.setText(R.string.required_flat_number)
             }
+            postalCode.setText(realEstateViewModel.postalCode)
         }
     }
 
@@ -180,7 +177,7 @@ class AddRealEstateFirstStepFragment : Fragment() {
             selectedProperty,
             binding.propertyTypeHeader
         ) { value ->
-            realEstateViewModel.propertyType = value
+            realEstateViewModel.propertyType = PropertyType.valueOf(value)
         }
         val isVoivodeshipValid = setSelectedItemAndValidate(
             binding.layoutVoivodeship,
@@ -206,13 +203,17 @@ class AddRealEstateFirstStepFragment : Fragment() {
             realEstateViewModel.buildingNumber = value
         }
         val isFloorValid  = setAndValidateText(binding.floor, binding.layoutFloor, binding.floorHeader) { value ->
-            realEstateViewModel.floor = value
+            realEstateViewModel.floor = value.toInt()
         }
         val isFlatNumberValid  = setAndValidateText(binding.flatNumber, binding.layoutFlatNumber, binding.flatNumberHeader) { value ->
             realEstateViewModel.flatNumber = value
         }
 
-        if (isPropertyTypeValid && isVoivodeshipValid && isCityValid && isDistrictValid && isStreetValid && isBuildingNumberValid && isFloorValid && isFlatNumberValid) {
+        val isPostalCodeValid = isPostalCodePatternCorrect(binding.postalCode.text.toString(), binding.layoutPostalCode) {value ->
+            realEstateViewModel.postalCode = value
+        }
+
+        if (isPropertyTypeValid && isVoivodeshipValid && isCityValid && isDistrictValid && isStreetValid && isBuildingNumberValid && isFloorValid && isFlatNumberValid && isPostalCodeValid) {
             (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateSecondStepFragment())
             (requireParentFragment() as AddRealEstateFragment).increaseProgressBar()
         }
@@ -242,6 +243,16 @@ class AddRealEstateFirstStepFragment : Fragment() {
         }
         editTextLayout.setBackgroundResource(if (isValid || !isRequired) R.drawable.background_input else R.drawable.background_wrong_input)
         return isValid || !isRequired
+    }
+
+    private fun isPostalCodePatternCorrect(input: String, editTextLayout: LinearLayout, targetProperty: (String) -> Unit): Boolean {
+        val pattern = Regex("\\d{2}-\\d{3}")
+        val isValid = pattern.matches(input)
+        if (isValid){
+            targetProperty(input)
+        }
+        editTextLayout.setBackgroundResource(if (isValid) R.drawable.background_input else R.drawable.background_wrong_input)
+        return isValid
     }
 
     override fun onDestroyView() {

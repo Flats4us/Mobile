@@ -1,5 +1,6 @@
 package com.example.flats4us21.ui
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.Dialog
@@ -29,8 +30,10 @@ class RealEstateRentalDialogFragment(private val detailOfferViewModel: DetailOff
     private var warnings : MutableList<String> = mutableListOf()
     private var rent : RealEstateRental? = null
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
+            val offerId = arguments?.getInt(OFFER_ID, -1)
             val builder = AlertDialog.Builder(it)
             binding = FragmentRealEstateRentalDialogBinding.inflate(layoutInflater)
 
@@ -46,7 +49,7 @@ class RealEstateRentalDialogFragment(private val detailOfferViewModel: DetailOff
                     binding.emailEditText.text.clear()
                     adapter.notifyItemInserted(emails.lastIndex)
                 } else {
-                    Toast.makeText(requireContext(), "Podano zły email.",Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "Podano zły email",Toast.LENGTH_LONG).show()
                 }
             }
 
@@ -66,14 +69,21 @@ class RealEstateRentalDialogFragment(private val detailOfferViewModel: DetailOff
                 mAlertDialog.setOnShowListener {
                 val b: Button = mAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
                 b.setOnClickListener {
+                    warnings.clear()
                     if (validateData()) {
                         rent = RealEstateRental(
+                            emails,
                             selectedRentalDate!!,
-                            binding.rentalPeriod.text.toString().toInt(),
-                            emails
+                            binding.rentalPeriod.text.toString().toInt()
                         )
                         detailOfferViewModel.setRentValue(rent)
-                        dismiss()
+                        if (offerId != null) {
+                            detailOfferViewModel.addRentProposition(offerId){result ->
+                                if(result){
+                                    dismiss()
+                                }
+                            }
+                        }
                     } else {
                         warnings.forEach { warning ->
                             Toast.makeText(requireContext(), warning, Toast.LENGTH_LONG).show()
@@ -88,8 +98,13 @@ class RealEstateRentalDialogFragment(private val detailOfferViewModel: DetailOff
     private fun isEmailValid(editText: EditText, editTextLayout: ViewGroup): Boolean {
         val email = editText.text.toString().trim()
         val isValid = Patterns.EMAIL_ADDRESS.matcher(email).matches()
-        editTextLayout.setBackgroundResource(if (isValid) R.drawable.background_input else R.drawable.background_wrong_input)
-        return isValid
+        val isNotInList = !emails.contains(email)
+        var exists = false
+        detailOfferViewModel.checkEmail(email){result ->
+            exists = result
+        }
+        editTextLayout.setBackgroundResource(if (isValid && isNotInList && exists) R.drawable.background_input else R.drawable.background_wrong_input)
+        return isValid&& isNotInList && exists
     }
 
     private fun clickDatePicker(textView: TextView) : LocalDate? {
@@ -119,15 +134,16 @@ class RealEstateRentalDialogFragment(private val detailOfferViewModel: DetailOff
     private fun validateOptionalEditText(editText: EditText, editTextLayout : ViewGroup, header : TextView, layoutWithHeader : ViewGroup): Boolean {
         val text = editText.text.toString()
         val isRequired = header.text.last() == '*'
-        val isValid = text.isNotEmpty()
+        val isNotEmpty = text.isNotEmpty()
         val isVisible = layoutWithHeader.visibility == View.VISIBLE
+        val isValid = isNotEmpty && isRequired && isVisible
 
-        if (!isValid){
+        if (!isNotEmpty){
             warnings.add("Nie podano okresu wynajęcia!")
         }
 
-        editTextLayout.setBackgroundResource(if (isValid || !isRequired || !isVisible) R.drawable.background_input else R.drawable.background_wrong_input)
-        return isValid || !isRequired || !isVisible
+        editTextLayout.setBackgroundResource(if (isValid) R.drawable.background_input else R.drawable.background_wrong_input)
+        return isValid
     }
 
     private fun validateOptionalTextView(textView: TextView, editTextLayout : ViewGroup, header : TextView, layoutWithHeader : ViewGroup): Boolean {

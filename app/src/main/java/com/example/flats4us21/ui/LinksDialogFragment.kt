@@ -3,9 +3,12 @@ package com.example.flats4us21.ui
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
+import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.flats4us21.R
 import com.example.flats4us21.adapters.LinksAdapter
 import com.example.flats4us21.databinding.FragmentLinksDialogBinding
 
@@ -26,9 +29,13 @@ class LinksDialogFragment(private val addedLinks: MutableList<String>) : DialogF
             binding.linksRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
             binding.addLinkButton.setOnClickListener {
-                links.add(binding.linkEditText.text.toString())
-                binding.linkEditText.text.clear()
-                adapter.notifyItemInserted(links.lastIndex)
+                if(validateData()){
+                    links.add(binding.linkEditText.text.toString())
+                    binding.linkEditText.text.clear()
+                    adapter.notifyItemInserted(links.lastIndex)
+                } else {
+                    Toast.makeText(requireContext(), "Podano zły link", Toast.LENGTH_LONG).show()
+                }
             }
 
             builder
@@ -45,6 +52,21 @@ class LinksDialogFragment(private val addedLinks: MutableList<String>) : DialogF
 
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
+    }
+
+    private fun validateData(): Boolean {
+        return isLinkValid(binding.linkEditText, binding.layoutLink)
+    }
+
+    private fun isLinkValid(editText: EditText, editTextLayout: ViewGroup): Boolean {
+        val link = editText.text.toString()
+        val isNotEmpty = link.isNotEmpty()
+        val linkPattern = Regex("""^(http://www\.|https://www\.|http://|https://)?[a-z\d]+([\-.][a-z\d]+)*\.[a-z]{2,5}(:\d{1,5})?(/.*)?$""", RegexOption.IGNORE_CASE)
+        val isLinkValid = linkPattern.matchEntire(link)?.value == link
+        val isValid = isNotEmpty && isLinkValid
+
+        editTextLayout.setBackgroundResource(if (isValid) R.drawable.background_input else R.drawable.background_wrong_input)
+        return isValid
     }
 
 }

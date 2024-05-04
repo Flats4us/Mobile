@@ -1,25 +1,22 @@
 package com.example.flats4us21.data
 
-import android.net.Uri
 import com.google.gson.annotations.SerializedName
 
 data class Owner(
-    @SerializedName("ownerId")
+    @SerializedName("userId")
     override val id: Int,
-    @SerializedName("ownerName")
+    @SerializedName("name")
     override val name: String,
-    @SerializedName("ownerSurname")
+    @SerializedName("surname")
     override val surname: String,
-    @SerializedName("ownerEmail")
+    @SerializedName("email")
     override val email: String,
-    @SerializedName("ownerPhoneNumber")
+    @SerializedName("phoneNumber")
     override val phoneNumber: String,
-    @SerializedName("ownerProfilePicture")
-    override val profilePicture: Uri?,
-    @SerializedName("ownerUserStatus")
-    override val userStatus: String,
-    @SerializedName("ownerVerificationStatus")
-    override val verificationStatus: String
+    @SerializedName("profilePicture")
+    override val profilePicture: Image?,
+    @SerializedName("activityStatus")
+    override val activityStatus: Boolean
 ) : StudentOwner(
-    id, name, surname, email, phoneNumber, profilePicture, userStatus, verificationStatus
+    id, name, surname, email, phoneNumber, profilePicture, activityStatus
 )

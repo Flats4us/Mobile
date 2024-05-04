@@ -1,15 +1,20 @@
 package com.example.flats4us21.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.flats4us21.R
+import com.example.flats4us21.URL
 import com.example.flats4us21.data.Offer
+import com.example.flats4us21.data.dto.Property
 import com.example.flats4us21.databinding.PropertyRowBinding
 import com.example.flats4us21.viewmodels.OfferViewModel
-
+//TODO: Correct changing fragment
 class PropertyAdapter(
-    private val offers : List<Offer>
+    private val owners_offer : Boolean,
+    private var offers : List<Offer>
     , private val onUserClick : (Offer) -> Unit
 ) : RecyclerView.Adapter<PropertyAdapter.MyViewHolder>() {
 
@@ -29,6 +34,9 @@ class PropertyAdapter(
         }
     }
 
+    fun setOfferList(offers: List<Offer>){
+        this.offers = offers
+    }
     fun setViewModel(viewModel: OfferViewModel) {
         offerViewModel = viewModel
     }
@@ -48,7 +56,10 @@ class PropertyAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.button.setImageResource(if(offerViewModel?.checkIfIsWatched(offers[position]) == true){
+        if(owners_offer){
+            holder.button.visibility = View.GONE
+        }
+        holder.button.setImageResource(if(!true){
             holder.button.tag = true
             R.drawable.observe
         } else{
@@ -67,7 +78,11 @@ class PropertyAdapter(
             }
             notifyDataSetChanged()
         }
-        holder.image.setImageBitmap(offers[position].property.images[0])
+        if(offers[position].property.images.isNotEmpty()) {
+            holder.image.load(URL + "/" + offers[position].property.images[0].path) {
+                error(R.drawable.baseline_broken_image_24)
+            }
+        }
         holder.city.text = offers[position].property.city
         holder.street.text = offers[position].property.street
         holder.size.text = offers[position].property.area.toString()
