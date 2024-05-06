@@ -32,6 +32,10 @@ class UserViewModel: ViewModel() {
     val loginResponse: LiveData<LoginResponse?>
         get() = _loginResponse
 
+    private val _profile = MutableLiveData<Profile?>(null)
+    val profile: LiveData<Profile?>
+        get() = _profile
+
     private var _userType: String? = null
     var userType: String?
         get() = _userType
@@ -285,6 +289,20 @@ class UserViewModel: ViewModel() {
                         val data = fetchedLoginResponse.data
                         _loginResponse.value = data
                         loginResponse.value?.let { DataStoreManager.saveUserData(it) }
+                        val fetchedProfile = userRepository.getProfile()
+                        when(fetchedProfile) {
+                            is ApiResult.Success -> {
+                                val data = fetchedProfile.data
+                                _profile.value = data
+                                Log.i(TAG, data.toString())
+                                Log.i(TAG, _profile.value.toString())
+                            }
+                            is ApiResult.Error -> {
+                                Log.i(TAG, "ERROR: ${fetchedProfile.message}")
+                                _errorMessage.value = fetchedProfile.message
+                                Log.e(TAG, "error: ${errorMessage.value}")
+                            }
+                        }
                     }
                     is ApiResult.Error -> {
                         Log.i(TAG, "ERROR: ${fetchedLoginResponse.message}")
@@ -300,5 +318,6 @@ class UserViewModel: ViewModel() {
             }
         }
     }
+
 
 }

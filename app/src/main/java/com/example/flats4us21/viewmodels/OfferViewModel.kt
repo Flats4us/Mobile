@@ -22,9 +22,13 @@ class OfferViewModel: ViewModel() {
     private val apiPropertyRepository : PropertyDataSource = ApiPropertyDataSource
     private val apiOfferRepository : OfferDataSource = ApiOfferDataSource
 
-    private val _offers: MutableLiveData<List<Offer>> = MutableLiveData()
-    val offers: LiveData<List<Offer>>
+    private val _offers: MutableLiveData<MutableList<Offer>> = MutableLiveData()
+    val offers: LiveData<MutableList<Offer>>
         get() = _offers
+
+    private val _newOffers: MutableLiveData<MutableList<Offer>> = MutableLiveData()
+    val newOffers: LiveData<MutableList<Offer>>
+        get() = _newOffers
 
     private val _offer: MutableLiveData<Offer?> = MutableLiveData()
     val offer: LiveData<Offer?>
@@ -267,7 +271,7 @@ class OfferViewModel: ViewModel() {
             deposit,
             description,
             startDate.toString(),
-            endtDate.toString(),
+            endDate.toString(),
             rules,
             true,
             true,
@@ -278,8 +282,7 @@ class OfferViewModel: ViewModel() {
              _errorMessage.value = null
              _isLoading.value = true
              try {
-                 val response = apiOfferRepository.createOffer(offer)
-                 when (response) {
+                 when (val response = apiOfferRepository.createOffer(offer)) {
                      is ApiResult.Success -> {
                          Log.d(TAG, " Created property")
                          callback(true)
@@ -339,7 +342,14 @@ class OfferViewModel: ViewModel() {
                  when (fetchedOffers) {
                      is ApiResult.Success -> {
                          val data = fetchedOffers.data
-                         _offers.value = data
+                         _newOffers.value = data as MutableList<Offer>
+                         pageNumber++
+
+                         if(_offers.value == null) {
+                             _offers.value = data
+                         } else {
+                             _offers.value!!.addAll(data)
+                         }
                      }
                      is ApiResult.Error -> {
                          val errorMessage = fetchedOffers.message
@@ -366,7 +376,7 @@ class OfferViewModel: ViewModel() {
                  when (fetchedOffers) {
                      is ApiResult.Success -> {
                          val data = fetchedOffers.data
-                         _offers.value = data
+                         _offers.value = data as MutableList<Offer>
                      }
                      is ApiResult.Error -> {
                          val errorMessage = fetchedOffers.message

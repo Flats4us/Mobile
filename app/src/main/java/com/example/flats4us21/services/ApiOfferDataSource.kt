@@ -44,7 +44,6 @@ object ApiOfferDataSource : OfferDataSource {
     private val apiWithoutInterceptor: OfferService by lazy {
         Retrofit.Builder()
             .baseUrl(URL)
-            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(OfferService::class.java)
@@ -74,7 +73,7 @@ object ApiOfferDataSource : OfferDataSource {
             if(response.isSuccessful) {
                 val data = response.body()
                 if (data != null) {
-                    ApiResult.Success(data.result)
+                        ApiResult.Success(data.result)
                 } else {
                     ApiResult.Error("Response body is null")
                 }

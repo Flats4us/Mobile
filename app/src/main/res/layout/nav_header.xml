@@ -15,21 +15,18 @@
     <androidx.cardview.widget.CardView
         android:layout_width="@dimen/image_view_menu_profile_picture_width"
         android:layout_height="@dimen/image_view_menu_profile_picture_width"
-        app:cardCornerRadius="250dp"
-        app:cardBackgroundColor="@color/white">
+        app:cardCornerRadius="250dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="@dimen/image_view_menu_profile_picture_width"
             android:layout_height="@dimen/image_view_menu_profile_picture_width"
             app:cardCornerRadius="250dp"
-
             android:layout_gravity="center">
 
             <ImageView
                 android:id="@+id/profilePicture"
                 android:layout_width="@dimen/image_view_menu_profile_picture_width"
                 android:layout_height="@dimen/image_view_menu_profile_picture_width"
-                android:src="@drawable/baseline_person_24"
                 android:scaleType="centerCrop"/>
 
         </androidx.cardview.widget.CardView>
@@ -44,8 +41,8 @@
             android:id="@+id/nameAndSurname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gość"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
+            android:text="text"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     </LinearLayout>
@@ -53,7 +50,6 @@
         android:id="@+id/mail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/mail_example"
-        android:visibility="invisible"/>
+        android:text="test"/>
 
 </LinearLayout>

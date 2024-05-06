@@ -29,7 +29,7 @@ class AnswerAdapter(
 
         init{
             radiobutton.setOnClickListener {
-                selectedAnswerPosition = adapterPosition
+                selectedAnswerPosition = bindingAdapterPosition
                 notifyDataSetChanged()
             }
         }

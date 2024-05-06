@@ -24,7 +24,7 @@ class OwnerPropertiesAdapter(
         val room = binding.room
 
         init {
-            binding.root.setOnClickListener { onUserClick(properties[adapterPosition]) }
+            binding.root.setOnClickListener { onUserClick(properties[bindingAdapterPosition]) }
         }
     }
 

@@ -30,7 +30,7 @@ data class Offer(
     @SerializedName("property")
     val property: Property,
     @SerializedName("owner")
-    open val owner: Owner,
+    val owner: Owner,
     @SerializedName("surveyOwnerOffer")
-    open val surveyOwnerOffer: SurveyOwnerOffer
+    val surveyOwnerOffer: SurveyOwnerOffer
 )

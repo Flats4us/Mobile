@@ -30,7 +30,7 @@ class PropertyAdapter(
         val room = binding.room
 
         init {
-            binding.root.setOnClickListener { onUserClick(offers[adapterPosition]) }
+            binding.root.setOnClickListener { onUserClick(offers[bindingAdapterPosition]) }
         }
     }
 

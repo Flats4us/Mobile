@@ -3,9 +3,11 @@ package com.example.flats4us21.services
 import android.util.Log
 import com.example.flats4us21.URL
 import com.example.flats4us21.data.ApiResult
+import com.example.flats4us21.data.Profile
 import com.example.flats4us21.data.dto.LoginRequest
 import com.example.flats4us21.data.dto.LoginResponse
 import com.example.flats4us21.data.dto.NewUserDto
+import com.example.flats4us21.interceptors.AuthInterceptor
 import com.example.flats4us21.serializer.UserSerializer
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -31,10 +33,24 @@ object ApiUserDataSource: UserDataSource{
         .addInterceptor(loggingInterceptor)
         .build()
 
+    private val okHttpClientWithAuthInterceptor = OkHttpClient.Builder()
+        .addInterceptor(loggingInterceptor)
+        .addInterceptor(AuthInterceptor())
+        .build()
+
     private val api: UserService by lazy {
         Retrofit.Builder()
             .baseUrl(URL)
             .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+            .create(UserService::class.java)
+    }
+
+    private val apiWithAuthInterceptor: UserService by lazy {
+        Retrofit.Builder()
+            .baseUrl(URL)
+            .client(okHttpClientWithAuthInterceptor)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(UserService::class.java)
@@ -72,6 +88,20 @@ object ApiUserDataSource: UserDataSource{
             }
         } catch (e: Exception) {
             ApiResult.Error("An error occurred: ${e.message}")
+        }
+    }
+
+    override suspend fun getProfile(): ApiResult<Profile> {
+        return try {
+            val response = apiWithAuthInterceptor.getProfile()
+            if(response.isSuccessful) {
+                val data = response.body()!!
+                ApiResult.Success(data)
+            } else {
+                ApiResult.Error("Failed to get profile: ${response.errorBody()?.string()}")
+            }
+        } catch (e: Exception) {
+            ApiResult.Error("An error occurred in getting profile information: ${e.message}")
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.flats4us21.services
 
 import com.example.flats4us21.data.NewPropertyApiResponse
+import com.example.flats4us21.data.Profile
 import com.example.flats4us21.data.dto.*
 import retrofit2.Response
 import retrofit2.http.Body
@@ -21,6 +22,9 @@ interface UserService {
     @POST("/s22677/JSON-data-example/main/user/register")
     suspend fun  registerUser(@Body user: NewUserDto): Response<Void>
 
-    @GET("/api.users/{email}")
+    @GET("/api/users/{email}")
     suspend fun checkEmail(@Path("email") email: String): Response<NewPropertyApiResponse<Boolean>>
+
+    @GET("api/users/my-profile")
+    suspend fun  getProfile(): Response<Profile>
 }

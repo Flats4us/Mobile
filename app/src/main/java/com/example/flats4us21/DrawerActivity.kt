@@ -5,6 +5,7 @@ package com.example.flats4us21
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageButton
@@ -12,27 +13,35 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import coil.load
 import com.example.flats4us21.databinding.NavHeaderBinding
 import com.example.flats4us21.deserializer.PropertyDeserializer
 import com.example.flats4us21.ui.*
+import com.example.flats4us21.viewmodels.UserViewModel
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.launch
 
 const val URL = "http://172.21.40.120:5166"
+private const val TAG = "DrawerActivity"
 class DrawerActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navView: NavigationView
     private lateinit var userRole: String
-
+    private lateinit var viewModel: UserViewModel
+    private lateinit var navHeaderBinding: NavHeaderBinding
     private lateinit var toggle : ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this)[UserViewModel::class.java]
+        navHeaderBinding = NavHeaderBinding.inflate(layoutInflater)
         DataStoreManager.initialize(applicationContext)
         setContentView(R.layout.activity_drawer)
         val resourceId = R.drawable.property
@@ -61,6 +70,23 @@ class DrawerActivity : AppCompatActivity() {
                 "Owner" -> navView.inflateMenu(R.menu.owner_nav_menu)
                 else -> navView.inflateMenu(R.menu.guest_nav_menu)
             }
+        }
+
+        viewModel.profile.observe(this) {profile ->
+            Log.i(TAG, profile.toString())
+            if(profile != null){
+                Log.i(TAG, "Is not null $profile")
+                navHeaderBinding.mail.isVisible = true
+                navHeaderBinding.mail.text = profile.email
+                navHeaderBinding.nameAndSurname.clearComposingText()
+                navHeaderBinding.nameAndSurname.text = "${profile.name} ${profile.surname}"
+                val url = "$URL/${profile.profilePicture.path}"
+
+                navHeaderBinding.profilePicture.load(url) {
+                    error(R.drawable.baseline_person_24)
+                }
+            }
+
         }
     }
 
@@ -133,7 +159,6 @@ class DrawerActivity : AppCompatActivity() {
     private fun logout() {
         // Clear user data from DataStore
         clearUserData()
-        val navHeaderBinding = NavHeaderBinding.inflate(layoutInflater)
         navHeaderBinding.profilePicture.setImageResource(R.drawable.baseline_person_24)
         navHeaderBinding.nameAndSurname.text = getString(R.string.not_loggedin)
         navHeaderBinding.mail.visibility = View.VISIBLE

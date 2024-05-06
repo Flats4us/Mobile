@@ -21,7 +21,7 @@ class NotificationAdapter(
         val timeTextView: TextView = itemView.findViewById(R.id.time)
 
         init {
-            binding.root.setOnClickListener { onUserClick(notifications[adapterPosition]) }
+            binding.root.setOnClickListener { onUserClick(notifications[bindingAdapterPosition]) }
         }
     }
 
