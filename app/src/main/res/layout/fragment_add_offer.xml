@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.AddOfferFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -69,6 +74,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -92,44 +98,42 @@
             android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutRentalPeriod"
+                android:id="@+id/layoutDeposit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/layout_register_margin_top"
                 android:background="@drawable/background_input"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <EditText
-                    android:id="@+id/rentalPeriod"
-                    android:layout_width="match_parent"
+                    android:id="@+id/deposit"
+                    android:layout_width="0dp"
                     android:layout_height="@dimen/edit_text_height"
-                    android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                    android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
                     android:background="@null"
-                    android:hint="@string/period"
+                    android:hint="@string/deposit"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:textSize="@dimen/edit_text_size"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/month"
+                    app:layout_constraintEnd_toStartOf="@+id/currency2"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/month"
+                    android:id="@+id/currency2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="1dp"
-                    android:text="@string/month"
+                    android:text="@string/currency"
                     android:textSize="@dimen/edit_text_size"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -138,12 +142,124 @@
                 android:background="@color/white"
                 android:paddingStart="@dimen/layout_name_padding_vertical"
                 android:paddingEnd="@dimen/layout_name_padding_vertical"
-                android:text="@string/period"
+                android:text="@string/deposit"
                 android:textAllCaps="true"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/layoutRentalPeriod"
+                app:layout_constraintBottom_toTopOf="@id/layoutDeposit"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/layoutRentalPeriod" />
+                app:layout_constraintTop_toTopOf="@id/layoutDeposit" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutStartDateWithHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+            android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+            <LinearLayout
+                android:id="@+id/layoutStartDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_register_margin_top"
+                android:background="@drawable/background_input"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_width"
+                    android:layout_height="@dimen/icon_height"
+                    android:layout_marginStart="@dimen/icon_margin"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/baseline_calendar_month_24"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/startDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                    android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                    android:gravity="center_vertical"
+                    android:background="@null"
+                    android:hint="@string/start_date"
+                    android:importantForAutofill="no"
+                    android:textSize="@dimen/regular_text_size"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/layoutStartDateHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                android:background="@color/white"
+                android:paddingStart="@dimen/layout_name_padding_vertical"
+                android:paddingEnd="@dimen/layout_name_padding_vertical"
+                android:text="@string/start_date"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/layoutStartDate"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/layoutStartDate" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutEndDateWithHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+            android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+            <LinearLayout
+                android:id="@+id/layoutEndDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_register_margin_top"
+                android:background="@drawable/background_input"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_width"
+                    android:layout_height="@dimen/icon_height"
+                    android:layout_marginStart="@dimen/icon_margin"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/baseline_calendar_month_24"
+                    app:tint="@color/black" />
+
+                <TextView
+                    android:id="@+id/endDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_text_height"
+                    android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                    android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                    android:gravity="center_vertical"
+                    android:background="@null"
+                    android:hint="@string/end_date"
+                    android:importantForAutofill="no"
+                    android:textSize="@dimen/regular_text_size"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/layoutEndDateHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                android:background="@color/white"
+                android:paddingStart="@dimen/layout_name_padding_vertical"
+                android:paddingEnd="@dimen/layout_name_padding_vertical"
+                android:text="@string/end_date"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/layoutEndDate"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/layoutEndDate" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -315,4 +431,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

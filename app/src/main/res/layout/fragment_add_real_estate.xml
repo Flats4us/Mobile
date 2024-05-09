@@ -7,6 +7,7 @@
     tools:context=".ui.AddRealEstateFragment">
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/header_vertical_space"

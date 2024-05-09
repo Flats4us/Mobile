@@ -9,21 +9,3 @@ import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 
 private const val TAG = "OfferSerializer"
-class OfferSerializer : JsonSerializer<NewOfferDto> {
-    override fun serialize(
-        src: NewOfferDto,
-        typeOfSrc: Type?,
-        context: JsonSerializationContext?
-    ): JsonElement {
-        val jsonObject = JsonObject()
-        jsonObject.addProperty("dateIssue", src.dateIssue)
-        jsonObject.addProperty("price", src.price)
-        jsonObject.addProperty("description", src.description)
-        jsonObject.addProperty("rentalPeriod", src.rentalPeriod)
-        jsonObject.addProperty("terms", src.terms)
-        jsonObject.addProperty("propertyId", src.propertyId)
-        Log.i(TAG, "[serialize] New offer json object: $jsonObject")
-
-        return jsonObject
-    }
-}

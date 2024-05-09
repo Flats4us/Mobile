@@ -204,6 +204,32 @@
     <string name="required_email">Email*</string>
     <string name="required_password">Hasło*</string>
     <string name="required_repeat_password">Powtórz hasło</string>
+    <string name="required_rental_date">Data wynajmu*</string>
+    <string name="link">Link</string>
+    <string name="required_rental_period">Okres wynajmu*</string>
+    <string name="roommates_email">Email współlokatorów</string>
+    <string name="notification">Powiadomienia</string>
+    <string name="payment_method">Metoda płatności</string>
+    <string name="choose_payment_method">Wybierz metodę płatności</string>
+    <string name="pay">Zapłać</string>
+    <string name="end_date">Data zakończenia</string>
+    <string name="my_properties">Moje nieruchomości</string>
+    <string name="update_real_estate">Zaktualizuj nieruchomość</string>
+    <string name="not_loggedin">Nie zalogowany</string>
+    <string name="my_offers">Moje oferty</string>
+    <string name="deposit">Kaucja</string>
+    <string name="add_title_deed">Dodaj akt własności</string>
+    <string name="rules_title_deed">Nie dodano aktu własności</string>
+    <string name="postal_code_example">00-000</string>
+    <string name="show_verified_properties">Wyświetl zweryfikowane nieruchomości:</string>
+    <string name="distance">Odległość</string>
+    <string name="max_year">Maksymalny rok budowy</string>
+    <string name="min_year">Minimalny rok budowy</string>
+    <string name="sorting">Sortowanie</string>
+    <string name="start_date">Data rozpoczęcia</string>
+    <string name="delete">Usuń</string>
+    <string name="edit">Edytuj</string>
+    <string name="name_and_surname">%1$s %2$s</string>
 
 <!--    profile placeholders-->
     <string name="placeholder_name">Name Placeholder</string>

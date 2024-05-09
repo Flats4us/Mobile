@@ -1,5 +1,6 @@
 package com.example.flats4us21.ui
 
+import android.app.DatePickerDialog
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
@@ -10,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -22,6 +24,8 @@ import com.example.flats4us21.adapters.PropertySpinnerAdapter
 import com.example.flats4us21.data.dto.Property
 import com.example.flats4us21.databinding.FragmentAddOfferBinding
 import com.example.flats4us21.viewmodels.OfferViewModel
+import java.time.LocalDate
+import java.util.*
 
 private const val TAG = "AddOfferFragment"
 class AddOfferFragment : Fragment() {
@@ -32,6 +36,8 @@ class AddOfferFragment : Fragment() {
     private var fileContent: String? = null
     private val fetchedProperties: MutableList<Property> = mutableListOf()
     private lateinit var adapter: PropertySpinnerAdapter
+    private var selectedStartDate : LocalDate? = null
+    private var selectedEndDate : LocalDate? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +51,7 @@ class AddOfferFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         offerViewModel = ViewModelProvider(this)[OfferViewModel::class.java]
 
-        offerViewModel.getUserProperties()
+        offerViewModel.getUserProperties(true)
 
         val filter: InputFilter = CurrencyInputFilter()
         binding.price.filters = arrayOf(filter)
@@ -88,6 +94,15 @@ class AddOfferFragment : Fragment() {
                 binding.warning.isVisible = false
             }
         }
+
+        binding.layoutStartDate.setOnClickListener {
+            selectedStartDate = clickDatePicker(binding.startDate)
+        }
+
+        binding.layoutEndDate.setOnClickListener {
+            selectedEndDate = clickDatePicker(binding.endDate)
+        }
+
         binding.addRulesButton.setOnClickListener {
             getContent.launch(arrayOf("application/pdf", "text/plain"))
         }
@@ -102,6 +117,25 @@ class AddOfferFragment : Fragment() {
             Log.d(TAG, "Size: ${adapter.count}")
             collectData()
         }
+    }
+
+    private fun clickDatePicker(textView: TextView) : LocalDate? {
+        var selectedDate : LocalDate? = LocalDate.now()
+        val myCalendar = Calendar.getInstance()
+        val year = myCalendar.get(Calendar.YEAR)
+        val month = myCalendar.get(Calendar.MONTH)
+        val day = myCalendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePicker = DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDayOfMonth ->
+            selectedDate = LocalDate.of(selectedYear, selectedMonth+1, selectedDayOfMonth)
+            textView.text = selectedDate.toString()
+        },
+            year,
+            month,
+            day)
+            datePicker.datePicker.minDate = System.currentTimeMillis() - 1000
+            datePicker.show()
+        return selectedDate
     }
 
     private fun getFileNameFromUri(uri: Uri): Any {
@@ -122,9 +156,14 @@ class AddOfferFragment : Fragment() {
         val isDataValid = validateData()
 
         if (isDataValid) {
-            offerViewModel.createOffer()
-            val fragment = SearchFragment()
-            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+            offerViewModel.startDate = selectedStartDate!!.atStartOfDay()
+            offerViewModel.endDate = selectedEndDate!!.atStartOfDay()
+            offerViewModel.createOffer{result ->
+                if(result){
+                    val fragment = SearchFragment()
+                    (activity as? DrawerActivity)!!.replaceFragment(fragment)
+                }
+            }
         }
     }
 
@@ -132,7 +171,9 @@ class AddOfferFragment : Fragment() {
         var test = true
 
         test = validatePrice() && test
-        test = validateRentalPeriod() && test
+        test = validateDeposit() && test
+        test = validateTextView(binding.startDate, binding.layoutStartDate, binding.layoutStartDateHeader, binding.layoutStartDateWithHeader) && test
+        test = validateTextView(binding.endDate, binding.layoutEndDate, binding.layoutEndDateHeader, binding.layoutEndDateWithHeader) && test
         test = validateSelectedProperty() && test
         test = validateDescription() && test
         test = validateFileContent() && test
@@ -147,26 +188,27 @@ class AddOfferFragment : Fragment() {
                 ContextCompat.getDrawable(requireContext(), R.drawable.background_wrong_input)
             false
         } else {
-            offerViewModel.price = priceText.toDouble()
+            offerViewModel.price = priceText.toInt()
             binding.layoutPrice.background =
                 ContextCompat.getDrawable(requireContext(), R.drawable.background_input)
             true
         }
     }
 
-    private fun validateRentalPeriod(): Boolean {
-        val rentalPeriodText = binding.rentalPeriod.text.toString()
-        return if (rentalPeriodText.isEmpty()) {
-            binding.layoutRentalPeriod.background =
+    private fun validateDeposit() : Boolean {
+        val depositText = binding.deposit.text.toString()
+        return if (depositText.isEmpty()) {
+            binding.layoutDeposit.background =
                 ContextCompat.getDrawable(requireContext(), R.drawable.background_wrong_input)
             false
         } else {
-            offerViewModel.rentalPeriod = rentalPeriodText.toInt()
-            binding.layoutRentalPeriod.background =
+            offerViewModel.deposit = depositText.toInt()
+            binding.layoutDeposit.background =
                 ContextCompat.getDrawable(requireContext(), R.drawable.background_input)
             true
         }
     }
+
 
     private fun validateSelectedProperty(): Boolean {
         return if (selectedProperty == null) {
@@ -204,6 +246,16 @@ class AddOfferFragment : Fragment() {
             offerViewModel.rules = fileContent.toString()
             true
         }
+    }
+
+    private fun validateTextView(textView: TextView, editTextLayout : ViewGroup, header : TextView, layoutWithHeader : ViewGroup): Boolean {
+        val text = textView.text.toString()
+        val isRequired = header.text.last() == '*'
+        val isValid = text.isNotEmpty()
+        val isVisible = layoutWithHeader.visibility == View.VISIBLE
+
+        editTextLayout.setBackgroundResource(if (isValid || !isRequired || !isVisible) R.drawable.background_input else R.drawable.background_wrong_input)
+        return isValid || !isRequired || !isVisible
     }
 
 

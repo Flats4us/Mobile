@@ -5,6 +5,6 @@ import retrofit2.http.GET
 
 interface InterestService {
 
-    @GET("/s22677/JSON-data-example/main/Interest/Interest.json")
+    @GET("/api/interests")
     suspend fun getInterests(): List<Interest>
 }

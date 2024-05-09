@@ -74,6 +74,7 @@
     <dimen name="spinner_height">55dp</dimen>
     <!-- Drawable -->
     <dimen name="drawable_padding">24dp</dimen>
+    <dimen name="image_button_inside_edit_text_margin">4dp</dimen>
 
 
 </resources>

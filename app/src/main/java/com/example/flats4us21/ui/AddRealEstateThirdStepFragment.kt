@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.flats4us21.adapters.PhotoAdapter
 import com.example.flats4us21.databinding.FragmentAddRealEstateThirdStepBinding
 import com.example.flats4us21.viewmodels.RealEstateViewModel
+import java.io.File
 
 
 class AddRealEstateThirdStepFragment : Fragment() {
@@ -83,7 +84,7 @@ class AddRealEstateThirdStepFragment : Fragment() {
     }
 
     private fun setImages() {
-        selectedImageUris = realEstateViewModel.images
+        selectedImageUris = realEstateViewModel.imagesURI
 
         lastIndexBeforeUpdate = if (selectedImageUris.size > 0) {
             selectedImageUris.size - 1
@@ -93,7 +94,14 @@ class AddRealEstateThirdStepFragment : Fragment() {
     }
 
     private fun collectData() {
-        realEstateViewModel.images = selectedImageUris
+        realEstateViewModel.imagesURI = selectedImageUris
+        val files = mutableListOf<File>()
+        for (uri in selectedImageUris) {
+            getFileFromUri(uri)?.let { file ->
+                files.add(file)
+            }
+        }
+        realEstateViewModel.imageFiles = files
     }
 
     private fun validateImages(): Boolean {
@@ -105,6 +113,24 @@ class AddRealEstateThirdStepFragment : Fragment() {
             binding.photoRecyclerView.isVisible = false
         }
         return selectedImageUris.size > 0
+    }
+
+    private fun getFileFromUri(uri: Uri): File? {
+        return try {
+            val inputStream = requireContext().contentResolver.openInputStream(uri)
+            val fileName = "temp_file_${System.currentTimeMillis()}"
+            val tempFile = File(requireContext().cacheDir, fileName)
+            tempFile.outputStream().use { outputStream ->
+                inputStream?.use { inputStream ->
+                    inputStream.copyTo(outputStream)
+                }
+            }
+            tempFile
+        } catch (e: Exception) {
+            // Handle any exceptions, such as security exceptions or file not found
+            e.printStackTrace()
+            null
+        }
     }
 
     override fun onDestroyView() {

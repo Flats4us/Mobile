@@ -1,11 +1,14 @@
 package com.example.flats4us21.ui
 
 import android.app.AlertDialog
+import android.net.Uri
 import android.os.Bundle
+import android.provider.OpenableColumns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +16,7 @@ import com.example.flats4us21.R
 import com.example.flats4us21.data.PropertyType
 import com.example.flats4us21.databinding.FragmentAddRealEstateSecondStepBinding
 import com.example.flats4us21.viewmodels.RealEstateViewModel
+import java.io.File
 import java.util.*
 
 class AddRealEstateSecondStepFragment : Fragment() {
@@ -23,6 +27,7 @@ class AddRealEstateSecondStepFragment : Fragment() {
     private lateinit var realEstateViewModel: RealEstateViewModel
     private lateinit var constructionYearAdapter : ArrayAdapter<String>
     private lateinit var pickedEquipment: MutableList<Int>
+    private var file: File? = null
     private var test : Boolean = true
 
     override fun onCreateView(
@@ -42,6 +47,36 @@ class AddRealEstateSecondStepFragment : Fragment() {
         setupConstructionYearSpinner()
         setValues()
         setupEquipment()
+        setListeners()
+    }
+
+    private fun setListeners() {
+        val getContent = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+            if (uri != null) {
+                val fileName = getFileNameFromUri(uri)
+
+                // Resolve the content URI to obtain a file descriptor
+                val inputStream = requireContext().contentResolver.openInputStream(uri)
+
+                // Create a temporary file in your app's cache directory
+                file = createTempFile(fileName.toString(), ".tmp")
+
+                // Copy the content of the selected file to the temporary file
+                inputStream?.use { input ->
+                    file?.outputStream()?.use { output ->
+                        input.copyTo(output)
+                    }
+                }
+
+                binding.fileName.text = fileName.toString()
+                binding.fileNameLayout.isVisible = true
+                binding.addRulesButton.isVisible = false
+                binding.warning.isVisible = false
+            }
+        }
+        binding.addRulesButton.setOnClickListener {
+            getContent.launch(arrayOf("application/pdf", "text/plain"))
+        }
 
         binding.prevButton.setOnClickListener {
             collectData()
@@ -57,6 +92,7 @@ class AddRealEstateSecondStepFragment : Fragment() {
             }
         }
     }
+
     private fun setupConstructionYearSpinner() {
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
         val yearsInt = (1900..currentYear).toList().reversed()
@@ -147,34 +183,50 @@ class AddRealEstateSecondStepFragment : Fragment() {
             if(realEstateViewModel.area != 0){
                 area.setText(realEstateViewModel.area.toString())
             }
-            if(realEstateViewModel.propertyType == PropertyType.HOUSE.toString()){
+            if(realEstateViewModel.propertyType == PropertyType.HOUSE){
                 if(realEstateViewModel.landArea !=0){
                     landArea.setText(realEstateViewModel.landArea.toString())
                 }
                 layoutLandAreaWithHeader.isVisible = true
+                if(realEstateViewModel.numberOfFloors != 0)
+                    numberOfFloors.setText(realEstateViewModel.numberOfFloors.toString())
+                numberOfFloorsHeader.setText(R.string.required_number_of_floors)
             }
             if(realEstateViewModel.maxResidents != 0){
                 maxResidents.setText(realEstateViewModel.maxResidents.toString())
             }
             constructionYearSpinner.setSelection(constructionYearAdapter.getPosition(realEstateViewModel.constructionYear.toString()))
-            if(realEstateViewModel.propertyType != PropertyType.ROOM.toString()){
+            if(realEstateViewModel.propertyType != PropertyType.ROOM){
                 if(realEstateViewModel.numberOfRooms != 0){
                     numberOfRooms.setText(realEstateViewModel.numberOfRooms.toString())
                 }
                 numberOfRoomsHeader.setText(R.string.required_number_of_rooms)
-                if(realEstateViewModel.numberOfFloors != 0){
-                    numberOfFloors.setText(realEstateViewModel.numberOfFloors.toString())
-                }
-                numberOfFloorsHeader.setText(R.string.required_number_of_floors)
             } else {
                 numberOfRoomsHeader.setText(R.string.number_of_rooms)
                 numberOfFloorsHeader.setText(R.string.number_of_floors)
             }
             pickedEquipment.clear()
             pickedEquipment.addAll(realEstateViewModel.equipment)
+            if(!realEstateViewModel.isCreating){
+                addRulesButton.visibility = View.GONE
+            }
 
         }
 
+    }
+
+    private fun getFileNameFromUri(uri: Uri): Any {
+        var fileName = ""
+        val cursor = requireContext().contentResolver.query(uri, null, null, null, null)
+        cursor?.use {
+            if (it.moveToFirst()) {
+                val nameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                if (nameIndex != -1) {
+                    fileName = it.getString(nameIndex)
+                }
+            }
+        }
+        return fileName
     }
 
     private fun collectData() {
@@ -197,6 +249,7 @@ class AddRealEstateSecondStepFragment : Fragment() {
             realEstateViewModel.numberOfFloors = binding.numberOfFloors.text.toString().toInt()
         }
         realEstateViewModel.equipment = pickedEquipment
+        realEstateViewModel.titleDeedFile = file
  }
 
     private fun validateData() {
@@ -206,9 +259,19 @@ class AddRealEstateSecondStepFragment : Fragment() {
         val isConstructionYearValid = validateSpinner(binding.constructionYearSpinner, binding.layoutConstructionYear, selectedConstructionYear)
         val isNumberOfRoomsValid = validateOptionalText(binding.numberOfRooms, binding.layoutNumberOfRooms, binding.numberOfRoomsHeader)
         val isNumberOfFloorsValid = validateOptionalText(binding.numberOfFloors, binding.layoutNumberOfFloors, binding.numberOfFloorsHeader)
+        val isFileValid = validateFile(file)
+        test = isAreaValid && isLandAreaValid && isMaxResidentsValid && isConstructionYearValid && isNumberOfRoomsValid && isNumberOfFloorsValid && isFileValid
 
-        test = isAreaValid && isLandAreaValid && isMaxResidentsValid && isConstructionYearValid && isNumberOfRoomsValid && isNumberOfFloorsValid
+    }
 
+    private fun validateFile(file: File?): Boolean {
+        return if (binding.addRulesButton.isVisible && file == null) {
+            binding.warning.isVisible = true
+            false
+        } else {
+            binding.warning.isVisible = false
+            true
+        }
     }
 
     private fun validateInteger(editText: EditText, editTextLayout : ViewGroup): Boolean {

@@ -378,7 +378,7 @@
                     android:background="@color/white"
                     android:paddingStart="@dimen/layout_name_padding_vertical"
                     android:paddingEnd="@dimen/layout_name_padding_vertical"
-                    android:text="@string/required_number_of_floors"
+                    android:text="@string/number_of_floors"
                     android:textAllCaps="true"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@id/layoutNumberOfFloors"
@@ -441,6 +441,59 @@
                     app:layout_constraintTop_toTopOf="@id/layoutEquipment" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/warning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/layout_register_margin_top"
+                android:text="@string/rules_title_deed"
+                android:textColor="@color/red"
+                android:textSize="@dimen/regular_text_size"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/fileNameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_register_margin_top"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/fileName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/example"
+                    android:textSize="@dimen/regular_text_size" />
+
+                <ImageButton
+                    android:id="@+id/deleteButton"
+                    android:layout_width="@dimen/image_button_min_width"
+                    android:layout_height="@dimen/image_button_min_height"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@drawable/baseline_broken_image_24"
+                    android:src="@drawable/baseline_delete_24"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="SpeakableTextPresentCheck" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/addRulesButton"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/image_button_min_height"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/layout_register_margin_top"
+                android:drawableStart="@drawable/baseline_attach_file_24"
+                android:text="@string/add_title_deed"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

@@ -47,20 +47,24 @@
                         android:src="@drawable/unobserve"
                         android:layout_marginEnd="5dp"
                         android:layout_marginBottom="5dp"
-                        app:layout_constraintBottom_toBottomOf="@id/image"
+                        app:layout_constraintTop_toTopOf="@id/image"
                         app:layout_constraintEnd_toEndOf="@id/image"
                         tools:ignore="SpeakableTextPresentCheck" />
 
                     <TextView
                         android:id="@+id/imageCount"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:text="@string/example"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/image" />
+                        android:background="@color/transparent_black"
+                        android:textColor="@color/white"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="10dp"
+                        app:drawableLeftCompat="@drawable/baseline_camera_alt_24"
+                        app:drawableTint="@color/white"
+                        app:layout_constraintBottom_toBottomOf="@id/image"
+                        app:layout_constraintEnd_toEndOf="@id/image" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -117,7 +121,29 @@
                         android:layout_weight="1"
                         android:gravity="end"/>
                     <TextView
-                        android:id="@+id/dateIssue"
+                        android:id="@+id/startDate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textStyle="italic"
+                        android:textSize="@dimen/subtext_text_size"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_marginBottom="@dimen/regular_vertical_space">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/end_date"
+                        android:textStyle="italic"
+                        android:textSize="@dimen/subtext_text_size"
+                        android:layout_marginEnd="@dimen/text_view_horizontal_margin"
+                        android:layout_weight="1"
+                        android:gravity="end"/>
+                    <TextView
+                        android:id="@+id/endDate"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textStyle="italic"
@@ -171,6 +197,29 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="@dimen/text_view_column_name_weight"
+                            android:text="@string/deposit"
+                            android:textStyle="italic"
+                            android:textSize="@dimen/regular_text_size"
+                            android:gravity="end"/>
+
+                        <TextView
+                            android:id="@+id/deposit"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="@dimen/text_view_column_value_weight"
+                            android:textSize="@dimen/regular_text_size"
+                            android:paddingStart="@dimen/table_cell_padding"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="@dimen/text_view_column_name_weight"
                             android:text="@string/city"
                             android:textStyle="italic"
                             android:textSize="@dimen/regular_text_size"
@@ -185,6 +234,7 @@
                             android:paddingStart="@dimen/table_cell_padding"/>
 
                     </LinearLayout>
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -276,7 +326,8 @@
                         android:id="@+id/landAreaLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="0dp"
@@ -367,7 +418,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/month"
-                                android:textSize="@dimen/regular_text_size"/>
+                                android:textSize="@dimen/regular_text_size"
+                                android:paddingStart="1dp"/>
 
                         </LinearLayout>
 

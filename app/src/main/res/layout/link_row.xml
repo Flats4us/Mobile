@@ -15,7 +15,7 @@
             android:layout_height="@dimen/edit_text_height"
             android:background="@null"
             android:gravity="center_vertical"
-            android:hint="@string/document_expire_date"
+            android:hint="@string/link"
             android:importantForAutofill="no"
             android:textSize="@dimen/regular_text_size"
             android:textStyle="bold"

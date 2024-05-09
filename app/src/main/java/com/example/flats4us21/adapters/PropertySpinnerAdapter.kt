@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import coil.load
 import com.example.flats4us21.R
+import com.example.flats4us21.URL
 import com.example.flats4us21.data.dto.Property
 
 class PropertySpinnerAdapter(
@@ -33,7 +35,11 @@ class PropertySpinnerAdapter(
         val streetTextView = view.findViewById<TextView>(R.id.street)
         val buildingNumberTextView = view.findViewById<TextView>(R.id.building)
 
-        imageView.setImageBitmap(item.images[0])
+        if(item.images.isNotEmpty()) {
+            imageView.load(URL + "/" + item.images[0].path) {
+                error(R.drawable.baseline_broken_image_24)
+            }
+        }
         cityTextView.text = item.city
         streetTextView.text = item.street
         buildingNumberTextView.text = item.buildingNumber

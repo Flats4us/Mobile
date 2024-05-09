@@ -16,11 +16,14 @@ import com.example.flats4us21.R
 import com.example.flats4us21.data.UserType
 import com.example.flats4us21.databinding.FragmentRegisterLogInDataBinding
 import com.example.flats4us21.viewmodels.UserViewModel
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 class RegisterLogInDataFragment : Fragment() {
     private var _binding : FragmentRegisterLogInDataBinding? = null
     private val binding get() = _binding!!
     private lateinit var userViewModel: UserViewModel
+    private var warnings : MutableList<String> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,6 +71,10 @@ class RegisterLogInDataFragment : Fragment() {
                         userViewModel.clearData()
                     }
                 }
+            } else {
+                warnings.forEach { warning ->
+                    Toast.makeText(requireContext(), warning, Toast.LENGTH_LONG).show()
+                }
             }
         }
     }
@@ -89,13 +96,32 @@ class RegisterLogInDataFragment : Fragment() {
     }
 
     private fun isPasswordValid(editText: EditText, editTextLayout: ViewGroup): Boolean {
-        val isValid = editText.text.toString().isNotEmpty()
+        val password = editText.text.toString()
+        val isNotEmpty = password.isNotEmpty()
+        val isLengthValid = password.length in 8..50
+        val pattern: Pattern = Pattern.compile("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).*$")
+        val matcher: Matcher = pattern.matcher(password)
+        val isPasswordComplexValid = matcher.find()
+        val isValid = isNotEmpty && isLengthValid && isPasswordComplexValid
+
+        if(!isNotEmpty){
+            warnings.add("Nie podano hasła")
+        } else if(!isLengthValid){
+            warnings.add("Hasło musi zawierać od 8 do 50 znaków")
+        }else if(!isPasswordComplexValid){
+            warnings.add("Hasło musi zawierać conajmniej jedną wielką literę, jedną mała literę i jeden znak")
+        }
+
         editTextLayout.setBackgroundResource(if (isValid) R.drawable.background_input else R.drawable.background_wrong_input)
         return isValid
     }
 
     private fun arePasswordsTheSame(password: EditText, repeatPassword: EditText): Boolean {
-        return password.text.toString() == repeatPassword.text.toString()
+        val arePasswordsValid = password.text.toString() == repeatPassword.text.toString()
+        if(!arePasswordsValid){
+            warnings.add("Podane hasła różnią się")
+        }
+        return arePasswordsValid
     }
 
     private fun collectData() {

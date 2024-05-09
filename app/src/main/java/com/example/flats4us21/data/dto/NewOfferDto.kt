@@ -3,16 +3,26 @@ package com.example.flats4us21.data.dto
 import com.google.gson.annotations.SerializedName
 
 data class NewOfferDto(
-    @SerializedName("dateIssue")
-    val dateIssue: String,
+    @SerializedName("propertyId")
+    val propertyId : Int,
     @SerializedName("price")
-    val price: String,
+    val price: Int,
+    @SerializedName("deposit")
+    val deposit: Int,
     @SerializedName("description")
     val description: String,
-    @SerializedName("rentalPeriod")
-    val rentalPeriod: String,
-    @SerializedName("terms")
-    val terms: String?,
-    @SerializedName("propertyId")
-    val propertyId : Int
+    @SerializedName("startDate")
+    val startDate: String,
+    @SerializedName("endDate")
+    val endDate: String,
+    @SerializedName("regulations")
+    val regulations: String,
+    @SerializedName("smokingAllowed")
+    val smokingAllowed: Boolean,
+    @SerializedName("partiesAllowed")
+    val partiesAllowed: Boolean,
+    @SerializedName("animalsAllowed")
+    val animalsAllowed: Boolean,
+    @SerializedName("gender")
+    val gender: Int,
 )

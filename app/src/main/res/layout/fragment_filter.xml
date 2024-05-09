@@ -14,6 +14,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:scrollbars="none"
             app:layout_constraintBottom_toTopOf="@id/constraintLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,6 +30,101 @@
                     android:gravity="center"
                     android:textSize="@dimen/h1"
                     android:textStyle="bold"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+                    <LinearLayout
+                        android:id="@+id/layoutSorting"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_register_margin_top"
+                        android:background="@drawable/background_input"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toTopOf="parent">
+                        <ImageView
+                            android:layout_width="@dimen/icon_width"
+                            android:layout_height="@dimen/icon_height"
+                            android:layout_marginStart="@dimen/icon_margin"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/baseline_sort_24"
+                            app:tint="@color/black" />
+                        <Spinner
+                            android:id="@+id/sorting"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spinner_height"
+                            android:contentDescription="@string/real_estate_type"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/sortingHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                        android:background="@color/white"
+                        android:paddingStart="@dimen/layout_name_padding_vertical"
+                        android:paddingEnd="@dimen/layout_name_padding_vertical"
+                        android:text="@string/sorting"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/layoutSorting"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/layoutSorting"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+                    <LinearLayout
+                        android:id="@+id/layoutVoivodeship"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_register_margin_top"
+                        android:background="@drawable/background_input"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toTopOf="parent">
+                        <ImageView
+                            android:layout_width="@dimen/icon_width"
+                            android:layout_height="@dimen/icon_height"
+                            android:layout_marginStart="@dimen/icon_margin"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/baseline_location_on_24"
+                            app:tint="@color/black" />
+                        <Spinner
+                            android:id="@+id/voivodeship"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spinner_height"
+                            android:contentDescription="@string/real_estate_type"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/voivodeshipHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                        android:background="@color/white"
+                        android:paddingStart="@dimen/layout_name_padding_vertical"
+                        android:paddingEnd="@dimen/layout_name_padding_vertical"
+                        android:text="@string/required_voivodeship"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/layoutVoivodeship"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/layoutVoivodeship"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -45,10 +141,86 @@
                         android:layout_marginHorizontal="@dimen/icon_margin"
                         tools:ignore="ContentDescription" />
                     <EditText
-                        android:id="@+id/location"
+                        android:id="@+id/city"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/edit_text_height"
-                        android:hint="@string/location"
+                        android:hint="@string/city"
+                        android:background="@null"
+                        android:imeOptions="actionNext"
+                        android:importantForAutofill="no"
+                        android:inputType="text"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:layout_marginVertical="@dimen/edit_text_horizontal_margin"/>
+                </LinearLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+                    <LinearLayout
+                        android:id="@+id/layoutDistrict"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_register_margin_top"
+                        android:background="@drawable/background_input"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toTopOf="parent">
+                        <ImageView
+                            android:layout_width="@dimen/icon_width"
+                            android:layout_height="@dimen/icon_height"
+                            android:layout_marginStart="@dimen/icon_margin"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/baseline_location_on_24"
+                            app:tint="@color/black" />
+                        <Spinner
+                            android:id="@+id/district"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spinner_height"
+
+                            android:contentDescription="@string/real_estate_type"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/districtHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                        android:background="@color/white"
+                        android:paddingStart="@dimen/layout_name_padding_vertical"
+                        android:paddingEnd="@dimen/layout_name_padding_vertical"
+                        android:text="@string/district"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/layoutDistrict"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/layoutDistrict"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal"
+                    android:background="@drawable/background_input"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="@dimen/layout_with_edit_text_horizontal_margin"
+                    android:layout_marginTop="@dimen/layout_with_edit_text_vertical_margin">
+                    <ImageView
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/baseline_location_on_24"
+                        android:layout_marginHorizontal="@dimen/icon_margin"
+                        tools:ignore="ContentDescription" />
+                    <EditText
+                        android:id="@+id/distance"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:hint="@string/distance"
                         android:background="@null"
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
@@ -58,6 +230,53 @@
                         android:layout_marginVertical="@dimen/edit_text_horizontal_margin"/>
                 </LinearLayout>
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+                    <LinearLayout
+                        android:id="@+id/layoutPropertyType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_register_margin_top"
+                        android:background="@drawable/background_input"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toTopOf="parent">
+                        <ImageView
+                            android:layout_width="@dimen/icon_width"
+                            android:layout_height="@dimen/icon_height"
+                            android:layout_marginStart="@dimen/icon_margin"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/baseline_home_24"
+                            app:tint="@color/black" />
+
+                        <Spinner
+                            android:id="@+id/propertyTypeSpinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spinner_height"
+                            android:contentDescription="@string/real_estate_type"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/propertyTypeHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                        android:background="@color/white"
+                        android:paddingStart="@dimen/layout_name_padding_vertical"
+                        android:paddingEnd="@dimen/layout_name_padding_vertical"
+                        android:text="@string/required_property_type"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/layoutPropertyType"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/layoutPropertyType"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -246,6 +465,83 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@string/construction_year"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/h2"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="fill_horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@drawable/background_input"
+                            android:layout_weight="1">
+                            <EditText
+                                android:id="@+id/minYear"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/edit_text_height"
+                                android:hint="@string/min_year"
+                                android:background="@null"
+                                android:imeOptions="actionNext"
+                                android:importantForAutofill="no"
+                                android:inputType="numberDecimal"
+                                android:maxLength="4"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:layout_weight="1"
+                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                                tools:ignore="NestedWeights" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/edit_text_height"
+                            android:gravity="center_vertical"
+                            android:text="-"
+                            android:textSize="@dimen/edit_text_size"
+                            android:textStyle="bold"
+                            android:layout_marginStart="@dimen/text_view_horizontal_margin"
+                            android:layout_marginEnd="@dimen/text_view_horizontal_margin"
+                            tools:ignore="HardcodedText" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="@drawable/background_input"
+                            android:layout_weight="1">
+                            <EditText
+                                android:id="@+id/maxYear"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/edit_text_height"
+                                android:hint="@string/max_year"
+                                android:background="@null"
+                                android:imeOptions="actionNext"
+                                android:importantForAutofill="no"
+                                android:inputType="numberDecimal"
+                                android:ellipsize="end"
+                                android:maxLength="4"
+                                android:maxLines="1"
+                                android:layout_weight="1"
+                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                                tools:ignore="NestedWeights" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginHorizontal="@dimen/layout_with_edit_text_horizontal_margin"
+                    android:layout_marginTop="@dimen/layout_with_edit_text_vertical_margin">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="@string/rooms"
                         android:textStyle="bold"
                         android:textSize="@dimen/h2"/>
@@ -309,155 +605,60 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_marginHorizontal="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginTop="@dimen/layout_with_edit_text_vertical_margin">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+                    <LinearLayout
+                        android:id="@+id/layoutEquipment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_register_margin_top"
+                        android:background="@drawable/background_input"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_width"
+                            android:layout_height="@dimen/icon_height"
+                            android:layout_marginStart="@dimen/icon_margin"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/baseline_weekend_24"
+                            app:tint="@color/black" />
+
+                        <TextView
+                            android:id="@+id/equipment"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/edit_text_height"
+                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                            android:background="@null"
+                            android:drawablePadding="@dimen/drawable_padding"
+                            android:gravity="center_vertical"
+                            android:hint="@string/equipment"
+                            android:textSize="@dimen/regular_text_size"
+                            android:textStyle="bold"
+                            app:drawableEndCompat="@drawable/baseline_arrow_drop_down_24" />
+                    </LinearLayout>
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/min_floor"
+                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                        android:background="@color/white"
+                        android:paddingStart="@dimen/layout_name_padding_vertical"
+                        android:paddingEnd="@dimen/layout_name_padding_vertical"
+                        android:text="@string/creating_equipment"
+                        android:textAllCaps="true"
                         android:textStyle="bold"
-                        android:textSize="@dimen/h2"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="fill_horizontal">
+                        app:layout_constraintBottom_toTopOf="@id/layoutEquipment"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/layoutEquipment" />
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@drawable/background_input"
-                            android:layout_weight="1">
-                            <EditText
-                                android:id="@+id/minFloor"
-                                android:layout_width="0dp"
-                                android:layout_height="@dimen/edit_text_height"
-                                android:hint="@string/from"
-                                android:background="@null"
-                                android:imeOptions="actionNext"
-                                android:importantForAutofill="no"
-                                android:inputType="numberDecimal"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:layout_weight="1"
-                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                                tools:ignore="NestedWeights" />
-                        </LinearLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/edit_text_height"
-                            android:gravity="center_vertical"
-                            android:text="-"
-                            android:textSize="@dimen/edit_text_size"
-                            android:textStyle="bold"
-                            android:layout_marginStart="@dimen/text_view_horizontal_margin"
-                            android:layout_marginEnd="@dimen/text_view_horizontal_margin"
-                            tools:ignore="HardcodedText" />
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@drawable/background_input"
-                            android:layout_weight="1">
-                            <EditText
-                                android:id="@+id/maxFloor"
-                                android:layout_width="0dp"
-                                android:layout_height="@dimen/edit_text_height"
-                                android:hint="@string/to"
-                                android:background="@null"
-                                android:imeOptions="actionNext"
-                                android:importantForAutofill="no"
-                                android:inputType="numberDecimal"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:layout_weight="1"
-                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                                tools:ignore="NestedWeights" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_marginHorizontal="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginTop="@dimen/layout_with_edit_text_vertical_margin">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/residents"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/h2"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="fill_horizontal">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@drawable/background_input"
-                            android:layout_weight="1">
-                            <EditText
-                                android:id="@+id/minResidents"
-                                android:layout_width="0dp"
-                                android:layout_height="@dimen/edit_text_height"
-                                android:hint="@string/from"
-                                android:background="@null"
-                                android:imeOptions="actionNext"
-                                android:importantForAutofill="no"
-                                android:inputType="numberDecimal"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:layout_weight="1"
-                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                                tools:ignore="NestedWeights" />
-                        </LinearLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/edit_text_height"
-                            android:gravity="center_vertical"
-                            android:text="-"
-                            android:textSize="@dimen/edit_text_size"
-                            android:textStyle="bold"
-                            android:layout_marginStart="@dimen/text_view_horizontal_margin"
-                            android:layout_marginEnd="@dimen/text_view_horizontal_margin"
-                            tools:ignore="HardcodedText" />
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@drawable/background_input"
-                            android:layout_weight="1">
-                            <EditText
-                                android:id="@+id/maxResidents"
-                                android:layout_width="0dp"
-                                android:layout_height="@dimen/edit_text_height"
-                                android:hint="@string/to"
-                                android:background="@null"
-                                android:imeOptions="actionNext"
-                                android:importantForAutofill="no"
-                                android:inputType="numberDecimal"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:layout_weight="1"
-                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                                tools:ignore="NestedWeights" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>
         </ScrollView>
@@ -491,6 +692,18 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

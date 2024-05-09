@@ -61,6 +61,13 @@
         app:layout_constraintEnd_toEndOf="@id/imageView"
         tools:ignore="SpeakableTextPresentCheck" />
 
+    <ImageView
+        android:id="@+id/promotion"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/release_alert"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/localization" />
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"

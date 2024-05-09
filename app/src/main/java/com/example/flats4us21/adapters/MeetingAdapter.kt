@@ -18,7 +18,7 @@ class MeetingAdapter(
         val reason = binding.reason
 
         init {
-            binding.root.setOnClickListener{ onUserClick(meetings[adapterPosition])}
+            binding.root.setOnClickListener{ onUserClick(meetings[bindingAdapterPosition])}
         }
     }
 

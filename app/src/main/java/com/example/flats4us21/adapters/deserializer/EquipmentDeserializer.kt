@@ -21,7 +21,7 @@ class EquipmentDeserializer: JsonDeserializer<Equipment> {
         val equipmentName = jsonObject.get("name").asString
 
         val equipment = Equipment(equipmentId, equipmentName)
-        Log.d(TAG, "Equipment: $equipment")
+        //Log.d(TAG, "Equipment: $equipment")
         return equipment
     }
 

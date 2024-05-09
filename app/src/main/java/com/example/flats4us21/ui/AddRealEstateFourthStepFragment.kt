@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,11 +15,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.flats4us21.DrawerActivity
-import com.example.flats4us21.adapters.ImageSliderAdapter
+import com.example.flats4us21.adapters.NewImageSliderAdapter
 import com.example.flats4us21.data.PropertyType
 import com.example.flats4us21.databinding.FragmentAddRealEstateFourthStepBinding
 import com.example.flats4us21.viewmodels.RealEstateViewModel
 
+private const val TAG = "AddRealEstateFourthStepFragment"
 class AddRealEstateFourthStepFragment : Fragment() {
     private var _binding : FragmentAddRealEstateFourthStepBinding? = null
     private val binding get() = _binding!!
@@ -37,26 +39,46 @@ class AddRealEstateFourthStepFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         bindData()
+        setListeners()
 
+        realEstateViewModel.isLoading.observe(viewLifecycleOwner) { isLoading: Boolean ->
+            setButtonsEnabled(!isLoading)
+        }
+
+        realEstateViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun setButtonsEnabled(enabled: Boolean) {
+        with(binding) {
+            prevButton.isEnabled = enabled
+            addPropertyButton.isEnabled = enabled
+            updatePropertyButton.isEnabled = enabled
+            resetButton.isEnabled = enabled
+        }
+    }
+
+    private fun setListeners() {
         binding.prevButton.setOnClickListener {
             (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateThirdStepFragment())
             (requireParentFragment() as AddRealEstateFragment).decreaseProgressBar()
         }
         binding.addPropertyButton.setOnClickListener {
-            realEstateViewModel.createRealEstateObject()
-            realEstateViewModel.isLoading.observe(viewLifecycleOwner) { isLoading: Boolean ->
-                if(!isLoading && realEstateViewModel.errorMessage.value == null){
-                    Toast.makeText(requireContext(), "Utworzono nieruchomość", Toast.LENGTH_SHORT).show()
-                    val fragment = SearchFragment()
-                    (activity as? DrawerActivity)!!.replaceFragment(fragment)
-                    reset()
+            realEstateViewModel.createProperty { result ->
+                result?.let {
+                    Log.e(TAG, result)
+                    Toast.makeText(requireContext(), result, Toast.LENGTH_LONG).show()
+                } ?: run {
                 }
             }
-            realEstateViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
-                if(errorMessage != null) {
-                    Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
-                }
-            }
+            performAction()
+        }
+        binding.updatePropertyButton.setOnClickListener {
+            realEstateViewModel.updateProperty()
+            performAction()
         }
         binding.resetButton.setOnClickListener {
             reset()
@@ -65,9 +87,19 @@ class AddRealEstateFourthStepFragment : Fragment() {
         }
     }
 
+    private fun performAction() {
+        if(realEstateViewModel.errorMessage.value == null){
+            val message = if (realEstateViewModel.isCreating) "Utworzono nieruchomość" else "Zaktualizowano nieruchomość"
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            val fragment = OwnerPropertiesFragment()
+            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+            reset()
+        }
+    }
+
     private fun bindData() {
         val imageSlider = binding.image
-        imageSlider.adapter = ImageSliderAdapter(urisToBitmaps(requireContext(), realEstateViewModel.images))
+        imageSlider.adapter = NewImageSliderAdapter(urisToBitmaps(requireContext(), realEstateViewModel.imagesURI))
         imageSlider.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
@@ -77,6 +109,13 @@ class AddRealEstateFourthStepFragment : Fragment() {
                 binding.imageCount.text = imageText
             }
         })
+        if(realEstateViewModel.isCreating){
+            binding.addPropertyButton.visibility = View.VISIBLE
+            binding.updatePropertyButton.visibility = View.GONE
+        } else {
+            binding.addPropertyButton.visibility = View.GONE
+            binding.updatePropertyButton.visibility = View.VISIBLE
+        }
         binding.voivodeship.text = realEstateViewModel.voivodeship
         binding.city.text = realEstateViewModel.city
         if(realEstateViewModel.getDistricts(realEstateViewModel.city).size != 0){
@@ -87,13 +126,13 @@ class AddRealEstateFourthStepFragment : Fragment() {
         }
         binding.street.text = realEstateViewModel.street
         binding.buildingNumber.text = realEstateViewModel.buildingNumber
-        if(realEstateViewModel.propertyType == PropertyType.FLAT.toString()){
-            binding.floor.text = realEstateViewModel.floor
+        if(realEstateViewModel.propertyType == PropertyType.FLAT){
+            binding.floor.text = realEstateViewModel.floor.toString()
             binding.layoutFloor.isVisible = true
         } else {
             binding.layoutFloor.isVisible = false
         }
-        if(realEstateViewModel.propertyType == PropertyType.FLAT.toString()){
+        if(realEstateViewModel.propertyType == PropertyType.FLAT){
             binding.flatNumber.text = realEstateViewModel.flatNumber
             binding.layoutFlatNumber.isVisible = true
         } else {
@@ -102,20 +141,20 @@ class AddRealEstateFourthStepFragment : Fragment() {
         binding.area.text = realEstateViewModel.area.toString()
 
         binding.maxResidents.text = realEstateViewModel.maxResidents.toString()
-        if(realEstateViewModel.propertyType == PropertyType.HOUSE.toString()){
+        if(realEstateViewModel.propertyType == PropertyType.HOUSE){
             binding.landArea.text = realEstateViewModel.landArea.toString()
             binding.layoutLandArea.isVisible = true
         } else {
             binding.layoutLandArea.isVisible = false
         }
         binding.constructionYear.text = realEstateViewModel.constructionYear.toString()
-        if(realEstateViewModel.propertyType != PropertyType.ROOM.toString()){
+        if(realEstateViewModel.propertyType != PropertyType.ROOM){
             binding.numberOfRooms.text = realEstateViewModel.numberOfRooms.toString()
             binding.layoutNumberOfRooms.isVisible = true
         } else {
             binding.layoutNumberOfRooms.isVisible = false
         }
-        if(realEstateViewModel.propertyType != PropertyType.ROOM.toString()){
+        if(realEstateViewModel.propertyType != PropertyType.ROOM){
             binding.numberOfFloors.text = realEstateViewModel.numberOfFloors.toString()
             binding.layoutNumberOfFloors.isVisible = true
         } else {
@@ -145,7 +184,7 @@ class AddRealEstateFourthStepFragment : Fragment() {
         realEstateViewModel.numberOfRooms = 0
         realEstateViewModel.numberOfFloors = 0
         realEstateViewModel.equipment = mutableListOf()
-        realEstateViewModel.images.clear()
+        realEstateViewModel.imagesURI.clear()
     }
 
     private fun urisToBitmaps(context: Context, uriList: List<Uri>): List<Bitmap> {
@@ -164,7 +203,6 @@ class AddRealEstateFourthStepFragment : Fragment() {
                 e.printStackTrace()
             }
         }
-
         return bitmapList
     }
 }

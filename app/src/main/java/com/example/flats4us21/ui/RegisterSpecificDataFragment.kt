@@ -3,7 +3,6 @@ package com.example.flats4us21.ui
 import android.app.DatePickerDialog
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -84,21 +83,17 @@ class RegisterSpecificDataFragment : Fragment() {
     private fun setDocumentImages() {
         val multiplePhotoPickerLauncher =
             registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(15)) { uris ->
-                val remainingSpace = 16 - selectedImageUris.size
+                val remainingSpace = 2 - selectedImageUris.size
                 if (remainingSpace > 0) {
                     val urisToAdd = uris.take(remainingSpace)
                     selectedImageUris.addAll(urisToAdd)
 
                     val startIndex = lastIndexBeforeUpdate
                     val endIndex = lastIndexBeforeUpdate + urisToAdd.size
-                    photoAdapter.updateData(selectedImageUris) // Update adapter data
+                    photoAdapter.updateData(selectedImageUris)
                     lastIndexBeforeUpdate = endIndex
-                    Log.d("RegisterSpecificDataFragment", "Adapter size ${binding.photoRecyclerView.visibility}")
-                    Log.d("RegisterSpecificDataFragment", "Adapter size ${photoAdapter.itemCount}")
-                    Log.d("RegisterSpecificDataFragment", "Photo size ${selectedImageUris.size}")
-                    Log.d("RegisterSpecificDataFragment", "Index  $startIndex - $endIndex")
                 } else {
-                    Toast.makeText(requireContext(), "Możesz dodać maksymalnie 16 zdjęć!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Możesz dodać maksymalnie 2 zdjęć!", Toast.LENGTH_SHORT).show()
                 }
                 if(selectedImageUris.size > 0){
                     binding.warning.isVisible = false
@@ -118,7 +113,7 @@ class RegisterSpecificDataFragment : Fragment() {
         }
     }
 
-    private fun clickDatePicker(textView: TextView, ) : LocalDate? {
+    private fun clickDatePicker(textView: TextView) : LocalDate? {
         var selectedDate : LocalDate? = LocalDate.now()
         val myCalendar = Calendar.getInstance()
         val year = myCalendar.get(Calendar.YEAR)
