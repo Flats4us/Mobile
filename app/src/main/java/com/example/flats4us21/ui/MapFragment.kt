@@ -138,7 +138,6 @@ class MapFragment : Fragment() {
         |Status: $status
         |Price: $price
         |Description: $description
-        |Rental Period: $rentalPeriod
         |Interested People: $interestedPeople
         |Property: ${property.getPropertyDescription()}
     """.trimMargin()
@@ -149,7 +148,6 @@ class MapFragment : Fragment() {
         |District: $district
         |Street: $street $buildingNumber
         |Area: ${area}m²
-        |Max Residents: $maxResidents
         |Construction Year: $constructionYear
         |Number of Rooms: $numberOfRooms
         |Equipment: ${equipment.joinToString(", ")}

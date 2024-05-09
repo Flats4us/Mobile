@@ -23,13 +23,13 @@ class MapViewModel : ViewModel() {
                 (filter.location == null || property.city.contains(filter.location, ignoreCase = true)) &&
                         (filter.minSize == null || property.area >= filter.minSize) &&
                         (filter.maxSize == null || property.area <= filter.maxSize) &&
-                        (filter.rooms == null || property.numberOfRooms == filter.rooms) &&
+                        (filter.rooms == null || property.numberOfRooms == filter.rooms) //&&
                         // Remove or modify the following lines as they refer to numberOfFloors
                         //(filter.floor == null || property.numberOfFloors == filter.floor) &&
                         //(filter.minFloor == null || property.numberOfFloors >= filter.minFloor) &&
                         //(filter.maxFloor == null || property.numberOfFloors <= filter.maxFloor) &&
-                        (filter.minResidents == null || property.maxResidents >= filter.minResidents) &&
-                        (filter.maxResidents == null || property.maxResidents <= filter.maxResidents)
+                        //(filter.minResidents == null || property.maxResidents >= filter.minResidents) &&
+                        //(filter.maxResidents == null || property.maxResidents <= filter.maxResidents)
             }
         } ?: offers
     }
