@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import coil.load
+import com.example.flats4us21.DataStoreManager
 import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.R
 import com.example.flats4us21.URL
@@ -61,25 +63,31 @@ class OfferDetailFragment : Fragment() {
             }
         }
 
-        detailOfferViewModel.offer.observe(viewLifecycleOwner) { offer ->
-            //TODO: viewModel.addOfferToLastViewed(offer)
-            bindOfferData(offer)
+        viewModel.resultMessage.observe(viewLifecycleOwner) { resultMessage ->
+            if(resultMessage != null) {
+                Toast.makeText(requireContext(), resultMessage, Toast.LENGTH_LONG).show()
+            }
             addButton.setOnClickListener {
-                if (addButton.tag == true) {
+                if (addButton.tag == true && resultMessage != null) {
                     addButton.setImageResource(R.drawable.unobserve)
                     addButton.tag = false
-                    if (offer != null) {
-                        //TODO: viewModel.unwatchOffer(offer)
+                    if (offerId != -1) {
+                        viewModel.unwatchOffer(offerId)
                     }
-                } else {
+                } else if(addButton.tag == false && resultMessage != null){
                     addButton.setImageResource(R.drawable.observe)
                     addButton.tag = true
-                    if (offer != null) {
-                        viewModel.watchOffer(offer)
+                    if (offerId != -1) {
+                        viewModel.watchOffer(offerId)
                     }
                 }
             }
         }
+
+        detailOfferViewModel.offer.observe(viewLifecycleOwner) { offer ->
+            bindOfferData(offer)
+        }
+
         binding.rent.setOnClickListener {
             val bundle = Bundle()
             bundle.putInt(OFFER_ID, offerId)
@@ -89,11 +97,7 @@ class OfferDetailFragment : Fragment() {
 
             detailOfferViewModel.rent.observe(viewLifecycleOwner) {rent ->
                 if(rent != null){
-                    //TODO: create request to api
                     Log.d("OfferDetailFragment", rent.toString())
-                    Toast.makeText(requireContext(), "Zgłoszono wynajem.",Toast.LENGTH_LONG).show()
-                    val fragment = SearchFragment()
-                    (activity as? DrawerActivity)!!.replaceFragment(fragment)
                 }
             }
         }
@@ -102,14 +106,17 @@ class OfferDetailFragment : Fragment() {
     private fun bindOfferData(offer: Offer?) {
         offer ?: return
 
-        if(false){
-            binding.addButton.setImageResource(R.drawable.observe)
-            binding.addButton.tag = true
-        } else{
-            binding.addButton.setImageResource(R.drawable.unobserve)
-            binding.addButton.tag = false
+//        if(offer.isInterest){
+//            binding.addButton.setImageResource(R.drawable.observe)
+//            binding.addButton.tag = true
+//        } else{
+//            binding.addButton.setImageResource(R.drawable.unobserve)
+//            binding.addButton.tag = false
+//        }
+        binding.rent.isVisible = DataStoreManager.userRole.value?.let { it == "Student" } ?: false
+        binding.chat.isVisible = DataStoreManager.userRole.value?.let { it == "Student" } ?: false
+        binding.addButton.isVisible = DataStoreManager.userRole.value?.let { it == "Student" } ?: false
 
-        }
         val imageSlider = binding.image
         imageSlider.adapter = ImageSliderAdapter(offer.property.images)
         imageSlider.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -121,16 +128,17 @@ class OfferDetailFragment : Fragment() {
                 binding.imageCount.text = imageText
             }
         })
-        val url = "$URL/Images/Users/${offer.owner.profilePicture}"
+        val url = "$URL/${offer.owner.profilePicture?.path}"
         Log.i(TAG, url)
         binding.ownerPhoto.load(url) {
             error(R.drawable.baseline_person_24)
         }
-        binding.owner.text = "${offer.owner.name} ${offer.owner.surname}"
+        binding.owner.text = getString(R.string.name_and_surname, offer.owner.name, offer.owner.surname)
 
         binding.startDate.text = offer.dateIssue
         binding.endDate.text = offer.dateIssue
         binding.price.text = offer.price
+        binding.deposit.text = offer.deposit
         binding.city.text = offer.property.city
         binding.district.text = offer.property.district
         binding.street.text = " ${offer.property.street} ${offer.property.buildingNumber}"

@@ -3,17 +3,17 @@ package com.example.flats4us21.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.flats4us21.R
 import com.example.flats4us21.URL
 import com.example.flats4us21.data.Offer
-import com.example.flats4us21.data.dto.Property
 import com.example.flats4us21.databinding.PropertyRowBinding
 import com.example.flats4us21.viewmodels.OfferViewModel
-//TODO: Correct changing fragment
+
 class PropertyAdapter(
-    private val owners_offer : Boolean,
+    private val ownersOffer : Boolean,
     private var offers : List<Offer>
     , private val onUserClick : (Offer) -> Unit
 ) : RecyclerView.Adapter<PropertyAdapter.MyViewHolder>() {
@@ -23,6 +23,7 @@ class PropertyAdapter(
         RecyclerView.ViewHolder(binding.root){
         val button = binding.addButton
         val image = binding.imageView
+        val promotion = binding.promotion
         val city = binding.city
         val street = binding.street
         val size = binding.size
@@ -56,25 +57,25 @@ class PropertyAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        if(owners_offer){
+        if(ownersOffer){
             holder.button.visibility = View.GONE
         }
-        holder.button.setImageResource(if(!true){
-            holder.button.tag = true
-            R.drawable.observe
-        } else{
-            holder.button.tag = false
-            R.drawable.unobserve
-        })
+//        holder.button.setImageResource(if(offers[position].isInterest){
+//            holder.button.tag = true
+//            R.drawable.observe
+//        } else{
+//            holder.button.tag = false
+//            R.drawable.unobserve
+//        })
         holder.button.setOnClickListener {
             if(holder.button.tag == true){
                 holder.button.setImageResource(R.drawable.unobserve)
                 holder.button.tag = false
-                offerViewModel?.unwatchOffer(offers[position])
+                offerViewModel?.unwatchOffer(offers[position].offerId)
             } else {
                 holder.button.setImageResource(R.drawable.observe)
                 holder.button.tag = true
-                offerViewModel?.watchOffer(offers[position])
+                offerViewModel?.watchOffer(offers[position].offerId)
             }
             notifyDataSetChanged()
         }
@@ -82,6 +83,11 @@ class PropertyAdapter(
             holder.image.load(URL + "/" + offers[position].property.images[0].path) {
                 error(R.drawable.baseline_broken_image_24)
             }
+        }
+        if(offers[position].isPromoted){
+            holder.promotion.isVisible = true
+        } else {
+            holder.promotion.isVisible = false
         }
         holder.city.text = offers[position].property.city
         holder.street.text = offers[position].property.street

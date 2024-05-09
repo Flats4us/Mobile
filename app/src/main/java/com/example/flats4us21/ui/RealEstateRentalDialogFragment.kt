@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.view.ViewGroup
@@ -16,19 +17,19 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flats4us21.R
 import com.example.flats4us21.adapters.EmailRoommateAdapter
-import com.example.flats4us21.data.RealEstateRental
+import com.example.flats4us21.data.RentProposition
 import com.example.flats4us21.databinding.FragmentRealEstateRentalDialogBinding
 import com.example.flats4us21.viewmodels.DetailOfferViewModel
 import java.time.LocalDate
 import java.util.*
 
-
+private const val TAG = "RealEstateRentalDialogFragment"
 class RealEstateRentalDialogFragment(private val detailOfferViewModel: DetailOfferViewModel) : DialogFragment() {
     private var emails : MutableList<String> = mutableListOf()
     private lateinit var binding: FragmentRealEstateRentalDialogBinding
     private var selectedRentalDate : LocalDate? = null
     private var warnings : MutableList<String> = mutableListOf()
-    private var rent : RealEstateRental? = null
+    private var rent : RentProposition? = null
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -44,12 +45,14 @@ class RealEstateRentalDialogFragment(private val detailOfferViewModel: DetailOff
             val adapter = EmailRoommateAdapter(emails)
 
             binding.addEmailButton.setOnClickListener {
-                if(isEmailValid(binding.emailEditText, binding.layoutEmail)){
-                    emails.add(binding.emailEditText.text.toString())
-                    binding.emailEditText.text.clear()
-                    adapter.notifyItemInserted(emails.lastIndex)
-                } else {
-                    Toast.makeText(requireContext(), "Podano zły email",Toast.LENGTH_LONG).show()
+                isEmailValid(binding.emailEditText, binding.layoutEmail) { isValid ->
+                    if (isValid) {
+                        emails.add(binding.emailEditText.text.toString())
+                        binding.emailEditText.text.clear()
+                        adapter.notifyItemInserted(emails.lastIndex)
+                    } else {
+                        Toast.makeText(requireContext(), "Podano zły email", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
 
@@ -71,9 +74,9 @@ class RealEstateRentalDialogFragment(private val detailOfferViewModel: DetailOff
                 b.setOnClickListener {
                     warnings.clear()
                     if (validateData()) {
-                        rent = RealEstateRental(
+                        rent = RentProposition(
                             emails,
-                            selectedRentalDate!!,
+                            selectedRentalDate!!.toString(),
                             binding.rentalPeriod.text.toString().toInt()
                         )
                         detailOfferViewModel.setRentValue(rent)
@@ -95,16 +98,17 @@ class RealEstateRentalDialogFragment(private val detailOfferViewModel: DetailOff
         } ?: throw IllegalStateException("Activity cannot be null")
     }
 
-    private fun isEmailValid(editText: EditText, editTextLayout: ViewGroup): Boolean {
+    private fun isEmailValid(editText: EditText, editTextLayout: ViewGroup, callback: (Boolean) -> Unit) {
         val email = editText.text.toString().trim()
         val isValid = Patterns.EMAIL_ADDRESS.matcher(email).matches()
         val isNotInList = !emails.contains(email)
-        var exists = false
-        detailOfferViewModel.checkEmail(email){result ->
-            exists = result
+
+        detailOfferViewModel.checkEmail(email) { exists ->
+            val allConditionsMet = isValid && isNotInList && exists
+            Log.i(TAG, "isEmail: $isValid, isNotInList: $isNotInList, exists: $exists, all: $allConditionsMet")
+            editTextLayout.setBackgroundResource(if (allConditionsMet) R.drawable.background_input else R.drawable.background_wrong_input)
+            callback(allConditionsMet)
         }
-        editTextLayout.setBackgroundResource(if (isValid && isNotInList && exists) R.drawable.background_input else R.drawable.background_wrong_input)
-        return isValid&& isNotInList && exists
     }
 
     private fun clickDatePicker(textView: TextView) : LocalDate? {
@@ -114,13 +118,15 @@ class RealEstateRentalDialogFragment(private val detailOfferViewModel: DetailOff
         val month = myCalendar.get(Calendar.MONTH)
         val day = myCalendar.get(Calendar.DAY_OF_MONTH)
 
-        DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDayOfMonth ->
+        val datePicker = DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDayOfMonth ->
             selectedDate = LocalDate.of(selectedYear, selectedMonth+1, selectedDayOfMonth)
             textView.text = selectedDate.toString()
         },
             year,
             month,
-            day).show()
+            day)
+        datePicker.datePicker.minDate = System.currentTimeMillis() - 1000
+        datePicker.show()
         return selectedDate
     }
 

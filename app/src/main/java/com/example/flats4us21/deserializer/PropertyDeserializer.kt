@@ -33,13 +33,17 @@ class PropertyDeserializer : JsonDeserializer<Property> {
         val maxNumberOfInhabitants = jsonObject.get("maxNumberOfInhabitants").asInt
         val constructionYear = jsonObject.get("constructionYear").asInt
         val imagesJsonArray = jsonObject.getAsJsonArray("images")
-        val images: MutableList<Image> = imagesJsonArray?.map { jsonElement ->
-            val imageObject = jsonElement.asJsonObject
-            Image(
-                name = imageObject["name"].asString,
-                path = imageObject["path"].asString
-            )
-        }?.toMutableList() ?: mutableListOf()
+        val images: MutableList<Image> = if (imagesJsonArray != null && !imagesJsonArray.isJsonNull) {
+            imagesJsonArray.map { jsonElement ->
+                val imageObject = jsonElement.asJsonObject
+                Image(
+                    name = imageObject["name"].asString,
+                    path = imageObject["path"].asString
+                )
+            }.toMutableList()
+        } else {
+            mutableListOf()
+        }
 
         val verificationStatus = jsonObject.get("verificationStatus").asInt
         val numberOfRooms = if (jsonObject.get("numberOfRooms").isJsonNull) 1 else jsonObject.get("numberOfRooms").asInt

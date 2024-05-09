@@ -78,8 +78,7 @@ class DrawerActivity : AppCompatActivity() {
                 Log.i(TAG, "Is not null $profile")
                 navHeaderBinding.mail.isVisible = true
                 navHeaderBinding.mail.text = profile.email
-                navHeaderBinding.nameAndSurname.clearComposingText()
-                navHeaderBinding.nameAndSurname.text = "${profile.name} ${profile.surname}"
+                navHeaderBinding.nameAndSurname.text = getString(R.string.name_and_surname, profile.name, profile.surname)
                 val url = "$URL/${profile.profilePicture.path}"
 
                 navHeaderBinding.profilePicture.load(url) {

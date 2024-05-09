@@ -7,6 +7,8 @@ import java.time.LocalDateTime
 data class Offer(
     @SerializedName("offerId")
     val offerId: Int,
+    @SerializedName("rentPropositionToShow")
+    val rentPropositionToShow: String?,
     @SerializedName("date")
     val dateIssue: String,
     @SerializedName("offerStatus")
@@ -27,6 +29,8 @@ data class Offer(
     val userRegulation: String?,
     @SerializedName("isPromoted")
     val isPromoted: Boolean,
+//    @SerializedName("isInterest")
+//    val isInterest: Boolean,
     @SerializedName("property")
     val property: Property,
     @SerializedName("owner")

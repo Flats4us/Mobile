@@ -126,13 +126,15 @@ class AddOfferFragment : Fragment() {
         val month = myCalendar.get(Calendar.MONTH)
         val day = myCalendar.get(Calendar.DAY_OF_MONTH)
 
-        DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDayOfMonth ->
+        val datePicker = DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDayOfMonth ->
             selectedDate = LocalDate.of(selectedYear, selectedMonth+1, selectedDayOfMonth)
             textView.text = selectedDate.toString()
         },
             year,
             month,
-            day).show()
+            day)
+            datePicker.datePicker.minDate = System.currentTimeMillis() - 1000
+            datePicker.show()
         return selectedDate
     }
 

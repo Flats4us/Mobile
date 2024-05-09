@@ -50,7 +50,7 @@ class SearchFragment : Fragment() {
             fetchedOffers = offers as MutableList<Offer>
             adapter.setOfferList(fetchedOffers)
             adapter.notifyDataSetChanged()
-            val totalPages = offers.size / QUERY_PAGE_SIZE + 2
+            val totalPages = viewModel.offersNumber / QUERY_PAGE_SIZE + 2
             isLastPage = viewModel.pageNumber == totalPages
         }
 
@@ -78,7 +78,7 @@ class SearchFragment : Fragment() {
     var isLastPage = false
     var isScrolling = false
 
-    val scrollListener = object : RecyclerView.OnScrollListener() {
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
 

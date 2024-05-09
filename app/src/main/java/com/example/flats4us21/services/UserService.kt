@@ -23,7 +23,7 @@ interface UserService {
     suspend fun  registerUser(@Body user: NewUserDto): Response<Void>
 
     @GET("/api/users/{email}")
-    suspend fun checkEmail(@Path("email") email: String): Response<NewPropertyApiResponse<Boolean>>
+    suspend fun checkEmail(@Path("email", encoded = true) email: String): Response<NewPropertyApiResponse<Boolean>>
 
     @GET("api/users/my-profile")
     suspend fun  getProfile(): Response<Profile>

@@ -3,6 +3,7 @@ package com.example.flats4us21.adapters
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.flats4us21.R
@@ -22,6 +23,7 @@ class OwnerPropertiesAdapter(
         val street = binding.street
         val size = binding.size
         val room = binding.room
+        val isVerified = binding.verified
 
         init {
             binding.root.setOnClickListener { onUserClick(properties[bindingAdapterPosition]) }
@@ -53,6 +55,11 @@ class OwnerPropertiesAdapter(
             holder.image.load(url) {
                 error(R.drawable.baseline_broken_image_24)
             }
+        }
+        if(properties[position].verificationStatus == 0) {
+            holder.isVerified.isVisible = true
+        } else {
+            holder.isVerified.isVisible = false
         }
         holder.city.text = properties[position].city
         holder.street.text = properties[position].street

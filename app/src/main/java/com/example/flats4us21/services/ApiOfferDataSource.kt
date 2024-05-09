@@ -32,6 +32,10 @@ object ApiOfferDataSource : OfferDataSource {
         .addInterceptor(loggingInterceptor)
         .build()
 
+    private val okHttpClientWithoutInterceptor = OkHttpClient.Builder()
+        .addInterceptor(loggingInterceptor)
+        .build()
+
     private val api: OfferService by lazy {
         Retrofit.Builder()
             .baseUrl(URL)
@@ -44,12 +48,13 @@ object ApiOfferDataSource : OfferDataSource {
     private val apiWithoutInterceptor: OfferService by lazy {
         Retrofit.Builder()
             .baseUrl(URL)
+            .client(okHttpClientWithoutInterceptor)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(OfferService::class.java)
     }
 
-    override suspend fun getOffers(offerFilter: OfferFilter): ApiResult<List<Offer>> {
+    override suspend fun getOffers(offerFilter: OfferFilter): ApiResult<OffersResult> {
         return try {
             val response = apiWithoutInterceptor.getOffers(
                 offerFilter.sorting,
@@ -69,11 +74,12 @@ object ApiOfferDataSource : OfferDataSource {
                 offerFilter.floor,
                 offerFilter.equipment
             )
-            Log.d(TAG, "Response Headers: ${response.headers()}")
+            Log.d(TAG, "Response status: ${response.isSuccessful}")
             if(response.isSuccessful) {
+                Log.d(TAG, "Response body: ${response.body()}")
                 val data = response.body()
                 if (data != null) {
-                        ApiResult.Success(data.result)
+                        ApiResult.Success(data)
                 } else {
                     ApiResult.Error("Response body is null")
                 }
@@ -123,7 +129,7 @@ object ApiOfferDataSource : OfferDataSource {
 
     override suspend fun addRentProposition(
         offerId: Int,
-        rentProposition: RealEstateRental
+        rentProposition: RentProposition
     ): ApiResult<String> {
         return try {
             val response = api.addRentProposition(offerId, rentProposition)
@@ -131,15 +137,31 @@ object ApiOfferDataSource : OfferDataSource {
                 val data = response.body()?.result ?: ""
                 ApiResult.Success(data)
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.errorBody()?.string() ?: ""}")
+                Log.e(TAG, "Network error ${response.errorBody()?.string() ?: ""}")
+                ApiResult.Error("Failed to rent proposition: ${response.errorBody()?.string() ?: ""}")
             }
         } catch (e: Exception) {
             ApiResult.Error("An internal error occurred: ${e.message}")
         }
     }
 
-    override suspend fun getWatchedOffers(): List<Offer> {
-        TODO("Not yet implemented")
+    override suspend fun getWatchedOffers(pageNumber: Int, pageSize: Int): ApiResult<OffersResult> {
+        return try {
+            val response = api.getObservedOffers(pageNumber, pageSize)
+            if(response.isSuccessful) {
+                Log.d(TAG, "Response body: ${response.body()}")
+                val data = response.body()
+                if (data != null) {
+                    ApiResult.Success(data)
+                } else {
+                    ApiResult.Error("Response body is null")
+                }
+            } else {
+                ApiResult.Error("Failed to fetch data: ${response.message()}")
+            }
+        } catch (e: Exception) {
+            ApiResult.Error("An internal error occurred: ${e.message}")
+        }
     }
 
     override suspend fun createOffer(offer: NewOfferDto): ApiResult<String> {
@@ -156,12 +178,32 @@ object ApiOfferDataSource : OfferDataSource {
         }
     }
 
-    override fun addOfferToWatched(offer: Offer) {
-        TODO("Not yet implemented")
+    override suspend fun addOfferToWatched(offerId: Int): ApiResult<String> {
+        return try {
+            val response = api.addOfferInterest(offerId)
+            if(response.isSuccessful) {
+                val data = response.body()?.result ?: ""
+                ApiResult.Success(data)
+            } else {
+                ApiResult.Error("Failed to add offer to watched: ${response.errorBody()?.string() ?: ""}")
+            }
+        } catch (e: Exception) {
+            ApiResult.Error("An internal error occurred: ${e.message}")
+        }
     }
 
-    override fun removeOfferToWatched(offer: Offer) {
-        TODO("Not yet implemented")
+    override suspend fun removeOfferToWatched(offerId: Int): ApiResult<String> {
+        return try {
+            val response = api.addOfferInterest(offerId)
+            if(response.isSuccessful) {
+                val data = response.body()?.result ?: ""
+                ApiResult.Success(data)
+            } else {
+                ApiResult.Error("Failed to delete offer from watched: ${response.errorBody()?.string() ?: ""}")
+            }
+        } catch (e: Exception) {
+            ApiResult.Error("An internal error occurred: ${e.message}")
+        }
     }
 
     override suspend fun getLastViewedOffers(): List<Offer> {

@@ -3,13 +3,16 @@ package com.example.flats4us21.ui
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.flats4us21.DrawerActivity
+import com.example.flats4us21.R
 import com.example.flats4us21.adapters.ImageSliderAdapter
 import com.example.flats4us21.data.Flat
 import com.example.flats4us21.data.House
@@ -17,6 +20,7 @@ import com.example.flats4us21.data.Room
 import com.example.flats4us21.data.dto.Property
 import com.example.flats4us21.databinding.FragmentOwnerPropertyDetailBinding
 import com.example.flats4us21.viewmodels.RealEstateViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 const val IS_CREATING = "IS_CREATING"
 const val PROPERTY_ID = "PROPERTY_ID"
@@ -41,23 +45,40 @@ class OwnerPropertyDetailFragment : Fragment() {
         bindData(realEstateViewModel.selectedProperty!!)
 
         binding.fab.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putBoolean(IS_CREATING, false)
-            bundle.putInt(PROPERTY_ID, realEstateViewModel.selectedProperty!!.propertyId)
-            val fragment = AddRealEstateFragment()
-            fragment.arguments = bundle
-            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+            showPopup(binding.fab)
         }
+    }
 
-        binding.delete.setOnClickListener {
-            realEstateViewModel.deleteProperty(realEstateViewModel.selectedProperty!!.propertyId) { result ->
-                result?.let {
-                    Log.e(TAG, result.toString())
-                    val fragment = OwnerPropertiesFragment()
+    private fun showPopup(fab: FloatingActionButton) {
+        val popupMenu = PopupMenu(requireContext(), fab)
+        popupMenu.inflate(R.menu.my_property_menu)
+
+        popupMenu.setOnMenuItemClickListener { item: MenuItem? ->
+            when (item!!.itemId) {
+                R.id.edit -> {
+                    val bundle = Bundle()
+                    bundle.putBoolean(IS_CREATING, false)
+                    bundle.putInt(PROPERTY_ID, realEstateViewModel.selectedProperty!!.propertyId)
+                    val fragment = AddRealEstateFragment()
+                    fragment.arguments = bundle
                     (activity as? DrawerActivity)!!.replaceFragment(fragment)
                 }
+
+                R.id.delete -> {
+                    realEstateViewModel.deleteProperty(realEstateViewModel.selectedProperty!!.propertyId) { result ->
+                        result.let {
+                            Log.e(TAG, result.toString())
+                            val fragment = OwnerPropertiesFragment()
+                            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+                        }
+                    }
+                }
             }
+
+            true
         }
+
+        popupMenu.show()
     }
 
     private fun bindData(property: Property) {

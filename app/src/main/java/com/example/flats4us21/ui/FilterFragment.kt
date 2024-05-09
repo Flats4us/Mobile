@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -67,6 +66,7 @@ class FilterFragment : Fragment() {
         val filterButton = binding.filterButton
         filterButton.setOnClickListener {
             collectData()
+            offerViewModel.pageNumber = 1
             val fragment = SearchFragment()
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
@@ -224,7 +224,7 @@ class FilterFragment : Fragment() {
     private fun setValues() {
         with(binding) {
             city.setText(offerViewModel.city ?: "")
-            distance.setText(offerViewModel.distnace?.toString() ?: "")
+            distance.setText(offerViewModel.distance?.toString() ?: "")
             minPrice.setText(offerViewModel.minPrice?.toString() ?: "")
             maxPrice.setText(offerViewModel.maxPrice?.toString() ?: "")
             minSize.setText(offerViewModel.minArea?.toString() ?: "")
@@ -251,7 +251,7 @@ class FilterFragment : Fragment() {
             if(isNotEmpty(city))
                 offerViewModel.city = city.text.toString()
             if(isNotEmpty(distance))
-                offerViewModel.distnace = distance.text.toString().toInt()
+                offerViewModel.distance = distance.text.toString().toInt()
             if(isNotEmpty(minPrice))
                 offerViewModel.minPrice = minPrice.text.toString().toInt()
             if(isNotEmpty(maxPrice))

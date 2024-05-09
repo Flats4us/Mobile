@@ -36,5 +36,17 @@ interface OfferService {
     suspend fun createOffer(@Body newOffer : NewOfferDto): Response<NewPropertyApiResponse<String>>
 
     @POST("/api/offers/{offerId}/rent")
-    suspend fun addRentProposition(@Path("offerId") offerId: Int, rentProposition: RealEstateRental): Response<NewPropertyApiResponse<String>>
+    suspend fun addRentProposition(@Path("offerId") offerId: Int, @Body rentProposition: RentProposition): Response<NewPropertyApiResponse<String>>
+
+    @GET("/api/offers/interest")
+    suspend fun getObservedOffers(
+        @Query("PageNumber") pageNumber: Int,
+        @Query("PageSize") pageSize: Int
+    ): Response<OffersResult>
+
+    @POST("/api/offers/{offerId}/interest")
+    suspend fun addOfferInterest(@Path("offerId") offerId: Int): Response<NewPropertyApiResponse<String>>
+
+    @DELETE("/api/offers/{offerId}/interest")
+    suspend fun deleteOfferInterest(@Path("offerId") offerId: Int): Response<NewPropertyApiResponse<String>>
 }

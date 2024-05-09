@@ -46,6 +46,7 @@ class OfferDeserializer : JsonDeserializer<Offer> {
         val surveyOwnerOffer = SurveyOwnerOffer(smokingAllowed, partiesAllowed, animalsAllowed, gender)
         val offer = Offer(
             offerId,
+            null,
             dateIssue,
             status,
             price,

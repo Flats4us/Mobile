@@ -224,6 +224,9 @@
     <string name="min_year">Minimalny rok budowy</string>
     <string name="sorting">Sortowanie</string>
     <string name="start_date">Data rozpoczęcia</string>
+    <string name="delete">Usuń</string>
+    <string name="edit">Edytuj</string>
+    <string name="name_and_surname">%1$s %2$s</string>
 
 
     <!-- TODO: meeting_row -->

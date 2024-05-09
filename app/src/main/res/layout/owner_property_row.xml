@@ -50,6 +50,7 @@
         app:layout_constraintTop_toBottomOf="@+id/localization" />
 
     <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/layout_vertical_margin"
@@ -61,51 +62,67 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="@dimen/layout_vertical_margin">
+            android:layout_marginBottom="@dimen/layout_vertical_margin"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_gravity="bottom"
-                android:layout_marginStart="@dimen/text_view_horizontal_margin">
+                android:layout_marginStart="@dimen/text_view_horizontal_margin"
+                android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/size"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/example"
-                    android:textSize="@dimen/regular_text_size"/>
+                    android:textSize="@dimen/regular_text_size" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/unit"
-                    android:textSize="@dimen/regular_text_size"/>
+                    android:textSize="@dimen/regular_text_size" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_gravity="bottom"
-                android:layout_marginStart="@dimen/text_view_horizontal_margin">
+                android:layout_marginStart="@dimen/text_view_horizontal_margin"
+                android:orientation="horizontal">
+
                 <ImageView
                     android:layout_width="@dimen/icon_width"
                     android:layout_height="@dimen/icon_height"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/baseline_door_24"
-                    android:layout_marginStart="@dimen/icon_margin"/>
+                    android:layout_marginStart="@dimen/icon_margin"
+                    android:src="@drawable/baseline_door_24" />
+
                 <TextView
                     android:id="@+id/room"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
                     android:layout_marginStart="@dimen/text_view_horizontal_margin"
                     android:text="@string/rooms_hint"
-                    android:textSize="@dimen/regular_text_size"
-                    android:layout_gravity="bottom"/>
+                    android:textSize="@dimen/regular_text_size" />
             </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/verified"
+        android:layout_width="@dimen/icon_height"
+        android:layout_height="@dimen/icon_width"
+        android:layout_gravity="end"
+        android:src="@drawable/baseline_verified_24"
+        android:layout_marginBottom="@dimen/layout_vertical_margin"
+        android:layout_marginEnd="@dimen/layout_vertical_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

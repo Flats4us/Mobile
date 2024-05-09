@@ -26,6 +26,10 @@ class OfferViewModel: ViewModel() {
     val offers: LiveData<MutableList<Offer>>
         get() = _offers
 
+    private val _watchedOffers: MutableLiveData<MutableList<Offer>> = MutableLiveData()
+    val watchedOffers: LiveData<MutableList<Offer>>
+        get() = _watchedOffers
+
     private val _newOffers: MutableLiveData<MutableList<Offer>> = MutableLiveData()
     val newOffers: LiveData<MutableList<Offer>>
         get() = _newOffers
@@ -41,6 +45,10 @@ class OfferViewModel: ViewModel() {
     private val _errorMessage = MutableLiveData<String?>(null)
     val errorMessage: LiveData<String?>
         get() = _errorMessage
+
+    private val _resultMessage = MutableLiveData<String?>(null)
+    val resultMessage: LiveData<String?>
+        get() = _resultMessage
 
     private val _userProperties: MutableLiveData<List<Property>> = MutableLiveData()
     val userProperties: LiveData<List<Property>>
@@ -71,6 +79,13 @@ class OfferViewModel: ViewModel() {
                 _isLoading.value = false
             }
         }
+    }
+
+    private var _offersNumber : Int = 0
+    var offersNumber: Int
+    get() = _offersNumber
+    set(value) {
+        _offersNumber = value
     }
 
     private var _price : Int = 0
@@ -166,11 +181,11 @@ class OfferViewModel: ViewModel() {
     set(value) {
         _city = value
     }
-    private var _distnace : Int? = null
-    var distnace : Int?
-    get() = _distnace
+    private var _distance : Int? = null
+    var distance : Int?
+    get() = _distance
     set(value) {
-        _distnace = value
+        _distance = value
     }
     private var _propertyType : Int? = null
     var propertyType : Int?
@@ -239,13 +254,12 @@ class OfferViewModel: ViewModel() {
         _equipment = value
     }
 
-    fun getOffer(offer_id : Int){
+    fun getOffer(offerId : Int){
         viewModelScope.launch {
             _errorMessage.value = null
             _isLoading.value = true
             try {
-                val response = apiOfferRepository.getOffer(offer_id)
-                when (response) {
+                when (val response = apiOfferRepository.getOffer(offerId)) {
                     is ApiResult.Success -> {
                         _offer.value = response.data
                     }
@@ -273,10 +287,10 @@ class OfferViewModel: ViewModel() {
             startDate.toString(),
             endDate.toString(),
             rules,
-            true,
-            true,
-            true,
-            0,
+            smokingAllowed = true,
+            partiesAllowed = true,
+            animalsAllowed = true,
+            gender = 0,
         )
          viewModelScope.launch {
              _errorMessage.value = null
@@ -304,12 +318,43 @@ class OfferViewModel: ViewModel() {
          }
     }
 
-    fun getWatchedOffers(): List<Offer>{
-        var offers: MutableList<Offer> = mutableListOf()
+    fun getWatchedOffers(){
         viewModelScope.launch {
-            offers = apiOfferRepository.getWatchedOffers() as MutableList<Offer>
+            _errorMessage.value = null
+            _isLoading.value = true
+            try{
+                if(pageNumber == 1 && _watchedOffers.value != null) {
+                    _offers.value!!.clear()
+                }
+                val fetchedOffers = apiOfferRepository.getWatchedOffers(pageNumber, pageSize)
+                Log.i(TAG, "Fetched offers: $fetchedOffers")
+                when (fetchedOffers) {
+                    is ApiResult.Success -> {
+                        val data = fetchedOffers.data.result as MutableList<Offer>
+                        val totalCount = fetchedOffers.data.totalCount
+                        _newOffers.value = data
+                        _offersNumber = totalCount
+                        pageNumber++
+
+                        if(_watchedOffers.value == null) {
+                            _watchedOffers.value = data
+                        } else {
+                            _watchedOffers.value!!.addAll(data)
+                        }
+                    }
+                    is ApiResult.Error -> {
+                        val errorMessage = fetchedOffers.message
+                        Log.e(TAG, "Error: $errorMessage")
+                        _errorMessage.value = errorMessage
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
         }
-        return offers
     }
 
     fun getOffers() {
@@ -323,7 +368,7 @@ class OfferViewModel: ViewModel() {
                  pageSize,
                  province,
                  city,
-                 distnace,
+                 distance,
                  propertyType,
                  minPrice,
                  maxPrice,
@@ -336,13 +381,18 @@ class OfferViewModel: ViewModel() {
                  floor,
                  equipment
                  )
+                 if(pageNumber == 1 && _offers.value != null) {
+                     _offers.value!!.clear()
+                 }
                  Log.i(TAG, "Filter: $filter")
                  val fetchedOffers = apiOfferRepository.getOffers(filter)
                  Log.i(TAG, "Fetched offers: $fetchedOffers")
                  when (fetchedOffers) {
                      is ApiResult.Success -> {
-                         val data = fetchedOffers.data
-                         _newOffers.value = data as MutableList<Offer>
+                         val data = fetchedOffers.data.result as MutableList<Offer>
+                         val totalCount = fetchedOffers.data.totalCount
+                         _newOffers.value = data
+                         _offersNumber = totalCount
                          pageNumber++
 
                          if(_offers.value == null) {
@@ -393,16 +443,56 @@ class OfferViewModel: ViewModel() {
         }
     }
 
-    fun checkIfIsWatched(offer: Offer): Boolean{
-        TODO("Not yet implemented")
+    fun watchOffer(offerId: Int){
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _resultMessage.value = null
+            _isLoading.value = true
+            try {
+                when (val response = apiOfferRepository.addOfferToWatched(offerId)) {
+                    is ApiResult.Success -> {
+                        Log.d(TAG, response.data)
+                        _resultMessage.value = response.data
+                    }
+                    is ApiResult.Error -> {
+                        val errorMessage = response.message
+                        Log.e(TAG, "Error: $errorMessage")
+                        _errorMessage.value = errorMessage
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
     }
 
-    fun watchOffer(offer: Offer){
-        apiOfferRepository.addOfferToWatched(offer)
-    }
-
-    fun unwatchOffer(offer: Offer){
-        apiOfferRepository.removeOfferToWatched(offer)
+    fun unwatchOffer(offerId: Int){
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _resultMessage.value = null
+            _isLoading.value = true
+            try {
+                when (val response = apiOfferRepository.removeOfferToWatched(offerId)) {
+                    is ApiResult.Success -> {
+                        Log.d(TAG, response.data)
+                        _resultMessage.value = response.data
+                    }
+                    is ApiResult.Error -> {
+                        val errorMessage = response.message
+                        Log.e(TAG, "Error: $errorMessage")
+                        _errorMessage.value = errorMessage
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
     }
 
     fun getLastViewedOffers(): List<Offer>{
@@ -413,17 +503,12 @@ class OfferViewModel: ViewModel() {
         return offer
     }
 
-    fun addOfferToLastViewed(offer: Offer?){
-        if (offer != null) {
-            apiOfferRepository.addOfferToLastViewed(offer)
-        }
-    }
-
     fun clearNullableVariables() {
         _sorting = null
         _province = null
         _city = null
-        _distnace = null
+        _distance = null
+        _pageNumber = 1
         _propertyType = null
         _minPrice = null
         _maxPrice = null

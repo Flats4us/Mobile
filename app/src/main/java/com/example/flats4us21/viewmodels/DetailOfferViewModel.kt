@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.flats4us21.data.ApiResult
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.RealEstateRental
+import com.example.flats4us21.data.RentProposition
 import com.example.flats4us21.services.ApiOfferDataSource
 import com.example.flats4us21.services.ApiUserDataSource
 import com.example.flats4us21.services.OfferDataSource
@@ -32,11 +33,15 @@ class DetailOfferViewModel: ViewModel() {
     val errorMessage: LiveData<String?>
         get() = _errorMessage
 
-    private val _rent = MutableLiveData<RealEstateRental?>(null)
-    val rent : LiveData<RealEstateRental?>
+    private val _resultMessage = MutableLiveData<String?>(null)
+    val resultMessage: LiveData<String?>
+        get() = _resultMessage
+
+    private val _rent = MutableLiveData<RentProposition?>(null)
+    val rent : LiveData<RentProposition?>
         get() = _rent
 
-    fun setRentValue(newValue: RealEstateRental?) {
+    fun setRentValue(newValue: RentProposition?) {
         _rent.value = newValue
     }
 
@@ -118,6 +123,58 @@ class DetailOfferViewModel: ViewModel() {
                 _errorMessage.value = e.message
                 Log.e(TAG, "Exception $e")
                 callback(false)
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun watchOffer(offerId: Int){
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _resultMessage.value = null
+            _isLoading.value = true
+            try {
+                when (val response = apiOfferRepository.addOfferToWatched(offerId)) {
+                    is ApiResult.Success -> {
+                        Log.d(TAG, response.data)
+                        _resultMessage.value = response.data
+                    }
+                    is ApiResult.Error -> {
+                        val errorMessage = response.message
+                        Log.e(TAG, "Error: $errorMessage")
+                        _errorMessage.value = errorMessage
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun unwatchOffer(offerId: Int){
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _resultMessage.value = null
+            _isLoading.value = true
+            try {
+                when (val response = apiOfferRepository.removeOfferToWatched(offerId)) {
+                    is ApiResult.Success -> {
+                        Log.d(TAG, response.data)
+                        _resultMessage.value = response.data
+                    }
+                    is ApiResult.Error -> {
+                        val errorMessage = response.message
+                        Log.e(TAG, "Error: $errorMessage")
+                        _errorMessage.value = errorMessage
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
             } finally {
                 _isLoading.value = false
             }

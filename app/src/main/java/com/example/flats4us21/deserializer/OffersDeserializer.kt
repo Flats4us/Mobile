@@ -31,6 +31,7 @@ class OffersDeserializer : JsonDeserializer<OffersResult> {
         jsonArray.forEach { element ->
             val jsonObject = element.asJsonObject
             val offerId = jsonObject.get("offerId").asInt
+            val rentPropositionToShow = if (jsonObject.get("rentPropositionToShow").isJsonNull) null else jsonObject.get("rentPropositionToShow").asString
             val dateIssue = jsonObject.get("date").asString
             val status = jsonObject.get("offerStatus").asString
             val price = jsonObject.get("price").asDouble.toString()
@@ -43,6 +44,7 @@ class OffersDeserializer : JsonDeserializer<OffersResult> {
             val interestedPeople = jsonObject.get("numberOfInterested").asInt
             val userRegulation = jsonObject.get("regulations")?.asString.orEmpty()
             val isPromoted = jsonObject.get("isPromoted").asBoolean
+//            val isInterest = jsonObject.get("isInterest").asBoolean
             val property: Property = propertyDeserializer.deserialize(
                 jsonObject.get("property"),
                 Property::class.java,
@@ -59,6 +61,7 @@ class OffersDeserializer : JsonDeserializer<OffersResult> {
                 SurveyOwnerOffer(smokingAllowed, partiesAllowed, animalsAllowed, gender)
             val offer = Offer(
                 offerId,
+                rentPropositionToShow,
                 dateIssue,
                 status,
                 price,
@@ -69,12 +72,13 @@ class OffersDeserializer : JsonDeserializer<OffersResult> {
                 interestedPeople,
                 userRegulation,
                 isPromoted,
+//                isInterest,
                 property,
                 owner,
                 surveyOwnerOffer
             )
             offers.add(offer)
-            //Log.d(TAG, "[deserialize] Offer: $offer")
+            Log.d(TAG, "[deserialize] Offer: $offer")
         }
         return OffersResult(totalCount, offers)
     }
