@@ -139,6 +139,9 @@
     <string name="add_rules">Dodaj regulamin</string>
     <string name="month">msc</string>
     <string name="rules_warning">Nie dodano regulaminu, albo plik jest pusty!</string>
+    <string name="cancel">Anuluj</string>
+    <string name="add">Dodaj</string>
+
 
     <string name="report_issue">Zgłoś nam problem</string>
     <string name="what_it_concerns">Czego dotyczy:</string>
@@ -228,6 +231,12 @@
     <string name="edit">Edytuj</string>
     <string name="name_and_surname">%1$s %2$s</string>
 
+<!--    profile placeholders-->
+    <string name="placeholder_name">Name Placeholder</string>
+    <string name="placeholder_age">Age Placeholder</string>
+    <string name="placeholder_description">Description Placeholder</string>
+    <string name="hint_other_issue">inny problem</string>
+    <string name="matching">Dobór współlokatora</string>
 
     <!-- TODO: meeting_row -->
 </resources>

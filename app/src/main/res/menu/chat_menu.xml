@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_add_moderator"
+        android:title="Dodaj moderatora do sporu"
+        />
+    <item
+        android:id="@+id/action_end_dispute"
+        android:title="Zakończ spór"
+        />
+    <!-- Możesz dodać więcej opcji menu tutaj -->
+</menu>

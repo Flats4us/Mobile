@@ -7,146 +7,174 @@
     android:orientation="vertical"
     tools:context=".ui.ITIssueReportFragment">
 
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/header_vertical_space"
-        android:layout_marginBottom="@dimen/header_vertical_space"
-        android:gravity="center_horizontal"
-        android:text="@string/report_issue"
-        android:textSize="@dimen/h1"
-        android:textStyle="bold"
-        tools:ignore="TextContrastCheck" />
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/header_vertical_space"
-        android:layout_marginBottom="@dimen/header_vertical_space"
-        android:gravity="center_horizontal"
-        android:text="@string/what_it_concerns"
-        android:textSize="@dimen/h2"
-        android:textStyle="bold"
-        tools:ignore="TextContrastCheck" />
-
-    <TextView
-        android:id="@+id/warning"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/no_option_selected"
-        android:textSize="@dimen/regular_text_size"
-        android:textStyle="bold"
-        android:textColor="@color/red"
-        android:layout_gravity="center_horizontal"
-        android:visibility="gone"/>
-
-    <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-        android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
-
-        <RadioButton
-            android:id="@+id/app"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/issue_with_app"
-            android:textSize="@dimen/regular_text_size"/>
+            android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/payment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/issue_with_payment"
-            android:textSize="@dimen/regular_text_size"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/report_issue"
+                android:textColor="@color/black"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"/>
 
-        <RadioButton
-            android:id="@+id/profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/issue_with_profile"
-            android:textSize="@dimen/regular_text_size"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/what_it_concerns"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"/>
 
-        <RadioButton
-            android:id="@+id/other"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/other"
-            android:textSize="@dimen/regular_text_size"/>
+            <TextView
+                android:id="@+id/warning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_option_selected"
+                android:textSize="@dimen/regular_text_size"
+                android:textStyle="bold"
+                android:textColor="@color/red"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone"/>
 
-    </RadioGroup>
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+                <RadioButton
+                    android:id="@+id/app"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/issue_with_app"
+                    android:textSize="@dimen/regular_text_size"/>
+
+                <RadioButton
+                    android:id="@+id/payment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/issue_with_payment"
+                    android:textSize="@dimen/regular_text_size"/>
+
+                <RadioButton
+                    android:id="@+id/profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/issue_with_profile"
+                    android:textSize="@dimen/regular_text_size"/>
+
+                <RadioButton
+                    android:id="@+id/other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/other"
+                    android:textSize="@dimen/regular_text_size"/>
+
+            </RadioGroup>
+
+            <EditText
+                android:id="@+id/editTextOtherIssue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_other_issue"
+                android:padding="10dp"
+                android:background="@drawable/background_input"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="24dp"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+                <LinearLayout
+                    android:id="@+id/layoutDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:background="@drawable/background_input"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <EditText
+                        android:id="@+id/description"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_description_height"
+                        android:background="@null"
+                        android:hint="@string/description"
+                        android:imeOptions="actionNext"
+                        android:importantForAutofill="no"
+                        android:inputType="textMultiLine"
+                        android:lines="4"
+                        android:minLines="9"
+                        android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                        android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                        android:textSize="@dimen/edit_text_size"
+                        android:textStyle="bold"
+                        android:maxLength="512"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                    android:background="@color/white"
+                    android:paddingStart="@dimen/layout_name_padding_vertical"
+                    android:paddingEnd="@dimen/layout_name_padding_vertical"
+                    android:text="@string/issue_description"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/layoutDescription"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/layoutDescription"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-        android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/layoutDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_register_margin_top"
-            android:background="@drawable/background_input"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <EditText
-                android:id="@+id/description"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/edit_text_description_height"
-                android:background="@null"
-                android:hint="@string/description"
-                android:imeOptions="actionNext"
-                android:importantForAutofill="no"
-                android:inputType="textMultiLine"
-                android:lines="4"
-                android:minLines="9"
-                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                android:textSize="@dimen/edit_text_size"
-                android:textStyle="bold"
-                android:maxLength="512"/>
-        </LinearLayout>
-
-        <TextView
+        <Button
+            android:id="@+id/cancelButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/layout_name_margin_vertical"
-            android:background="@color/white"
-            android:paddingStart="@dimen/layout_name_padding_vertical"
-            android:paddingEnd="@dimen/layout_name_padding_vertical"
-            android:text="@string/issue_description"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/layoutDescription"
+            android:text="@string/cancel"
+            android:textColor="@android:color/black"
+            android:drawableLeft="@drawable/baseline_cancel_24"
+            android:drawablePadding="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/layoutDescription"/>
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/report"
+            android:textColor="@android:color/black"
+            android:drawableLeft="@drawable/baseline_add_24"
+            android:drawablePadding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <Button
-        android:id="@+id/addRulesButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/layout_register_margin_top"
-        android:text="@string/report"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="TextContrastCheck" />
-
-    <Button
-        android:id="@+id/reportNextIssueButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/layout_register_margin_top"
-        android:text="@string/report_next_issue"
-        android:textColor="@color/white"
-        tools:ignore="TextContrastCheck" />
 
 </LinearLayout>

@@ -31,7 +31,7 @@ class ITIssueReportFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.addRulesButton.setOnClickListener{
+        binding.addButton.setOnClickListener{
             val isDataValid = validateData()
 
             if(isDataValid) {
@@ -41,7 +41,7 @@ class ITIssueReportFragment : Fragment() {
             }
         }
 
-        binding.reportNextIssueButton.setOnClickListener {
+        binding.cancelButton.setOnClickListener {
             val isDataValid = validateData()
 
             if(isDataValid) {
@@ -73,7 +73,6 @@ class ITIssueReportFragment : Fragment() {
             false
         }
     }
-
     private fun validateDescription(): Boolean {
         val description  = binding.description.text.toString()
         return if(description == ""){
@@ -87,5 +86,6 @@ class ITIssueReportFragment : Fragment() {
             true
         }
     }
+
 
 }

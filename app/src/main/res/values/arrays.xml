@@ -1,0 +1,11 @@
+<resources>
+    <!-- Other string resources -->
+
+    <!-- String array for identity documents -->
+    <string-array name="identity_document_array">
+        <item>legitymacja studencka</item>
+        <item>dowód osobisty</item>
+    </string-array>
+
+    <!-- Other string resources -->
+</resources>
