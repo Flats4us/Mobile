@@ -3,6 +3,7 @@ package com.example.flats4us21.services
 import android.util.Log
 import com.example.flats4us21.URL
 import com.example.flats4us21.data.ApiResult
+import com.example.flats4us21.data.MyProfile
 import com.example.flats4us21.data.Profile
 import com.example.flats4us21.data.dto.LoginRequest
 import com.example.flats4us21.data.dto.LoginResponse
@@ -91,9 +92,23 @@ object ApiUserDataSource: UserDataSource{
         }
     }
 
-    override suspend fun getProfile(): ApiResult<Profile> {
+    override suspend fun getProfile(): ApiResult<MyProfile> {
         return try {
             val response = apiWithAuthInterceptor.getProfile()
+            if(response.isSuccessful) {
+                val data = response.body()!!
+                ApiResult.Success(data)
+            } else {
+                ApiResult.Error("Failed to get profile: ${response.errorBody()?.string()}")
+            }
+        } catch (e: Exception) {
+            ApiResult.Error("An error occurred in getting profile information: ${e.message}")
+        }
+    }
+
+    override suspend fun getProfile(id: Int): ApiResult<Profile> {
+        return try {
+            val response = apiWithAuthInterceptor.getProfile(id)
             if(response.isSuccessful) {
                 val data = response.body()!!
                 ApiResult.Success(data)

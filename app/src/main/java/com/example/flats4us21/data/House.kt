@@ -23,7 +23,7 @@ data class House(
     val landArea: Int,
     @SerializedName("numberOfFloors")
     val numberOfFloors: Int
-) : com.example.flats4us21.data.dto.Property(
+) : Property(
     propertyId,
     voivodeship,
     district,

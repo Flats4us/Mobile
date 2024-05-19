@@ -1,11 +1,14 @@
 package com.example.flats4us21.ui
 
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -16,8 +19,9 @@ import com.example.flats4us21.R
 import com.example.flats4us21.adapters.ImageSliderAdapter
 import com.example.flats4us21.data.Flat
 import com.example.flats4us21.data.House
+import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.Room
-import com.example.flats4us21.data.dto.Property
+import com.example.flats4us21.data.Property
 import com.example.flats4us21.databinding.FragmentOwnerPropertyDetailBinding
 import com.example.flats4us21.viewmodels.RealEstateViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -45,51 +49,20 @@ class OwnerPropertyDetailFragment : Fragment() {
         bindData(realEstateViewModel.selectedProperty!!)
 
         binding.fab.setOnClickListener {
-            showPopup(binding.fab)
+            showDialog()
         }
-    }
-
-    private fun showPopup(fab: FloatingActionButton) {
-        val popupMenu = PopupMenu(requireContext(), fab)
-        popupMenu.inflate(R.menu.my_property_menu)
-
-        popupMenu.setOnMenuItemClickListener { item: MenuItem? ->
-            when (item!!.itemId) {
-                R.id.edit -> {
-                    val bundle = Bundle()
-                    bundle.putBoolean(IS_CREATING, false)
-                    bundle.putInt(PROPERTY_ID, realEstateViewModel.selectedProperty!!.propertyId)
-                    val fragment = AddRealEstateFragment()
-                    fragment.arguments = bundle
-                    (activity as? DrawerActivity)!!.replaceFragment(fragment)
-                }
-
-                R.id.delete -> {
-                    realEstateViewModel.deleteProperty(realEstateViewModel.selectedProperty!!.propertyId) { result ->
-                        result.let {
-                            Log.e(TAG, result.toString())
-                            val fragment = OwnerPropertiesFragment()
-                            (activity as? DrawerActivity)!!.replaceFragment(fragment)
-                        }
-                    }
-                }
-            }
-
-            true
-        }
-
-        popupMenu.show()
     }
 
     private fun bindData(property: Property) {
         val imageSlider = binding.image
         imageSlider.adapter = ImageSliderAdapter(property.images)
+        val imageCount = imageSlider.adapter?.itemCount ?: 0
+        var imageText = "1/$imageCount"
         imageSlider.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                val imageCount = imageSlider.adapter?.itemCount ?: 0
                 val currentImage = position + 1
-                val imageText = "Image $currentImage of $imageCount"
+                imageText = "$currentImage/$imageCount"
                 binding.imageCount.text = imageText
             }
         })
@@ -138,6 +111,39 @@ class OwnerPropertyDetailFragment : Fragment() {
                 binding.layoutNumberOfRooms.isVisible = false
             }
         }
+    }
+
+    private fun showDialog() {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.bottom_sheet_menu_property_layout)
+
+        val layoutEdit = dialog.findViewById<View>(R.id.layoutEdit)
+        val layoutDelete = dialog.findViewById<View>(R.id.layoutDelete)
+
+        layoutEdit.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putBoolean(IS_CREATING, false)
+            bundle.putInt(PROPERTY_ID, realEstateViewModel.selectedProperty!!.propertyId)
+            val fragment = AddRealEstateFragment()
+            fragment.arguments = bundle
+            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+        }
+        layoutDelete.setOnClickListener {
+            realEstateViewModel.deleteProperty(realEstateViewModel.selectedProperty!!.propertyId) { result ->
+                result.let {
+                    Log.e(TAG, result.toString())
+                    val fragment = OwnerPropertiesFragment()
+                    (activity as? DrawerActivity)!!.replaceFragment(fragment)
+                }
+            }
+        }
+
+        dialog.show()
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+        dialog.window?.setGravity(Gravity.BOTTOM)
     }
 
     override fun onDestroyView() {

@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.flats4us21.data.ApiResult
 import com.example.flats4us21.data.Offer
-import com.example.flats4us21.data.RealEstateRental
 import com.example.flats4us21.data.RentProposition
+import com.example.flats4us21.data.dto.NewRentProposition
 import com.example.flats4us21.services.ApiOfferDataSource
 import com.example.flats4us21.services.ApiUserDataSource
 import com.example.flats4us21.services.OfferDataSource
@@ -29,6 +29,10 @@ class DetailOfferViewModel: ViewModel() {
     val offer: LiveData<Offer>
         get() = _offer
 
+    private val _rent = MutableLiveData<RentProposition>()
+    val rent: LiveData<RentProposition>
+        get() = _rent
+
     private val _errorMessage = MutableLiveData<String?>(null)
     val errorMessage: LiveData<String?>
         get() = _errorMessage
@@ -37,12 +41,12 @@ class DetailOfferViewModel: ViewModel() {
     val resultMessage: LiveData<String?>
         get() = _resultMessage
 
-    private val _rent = MutableLiveData<RentProposition?>(null)
-    val rent : LiveData<RentProposition?>
-        get() = _rent
+    private val _newRent = MutableLiveData<NewRentProposition?>(null)
+    val newRent : LiveData<NewRentProposition?>
+        get() = _newRent
 
-    fun setRentValue(newValue: RentProposition?) {
-        _rent.value = newValue
+    fun setRentValue(newValue: NewRentProposition?) {
+        _newRent.value = newValue
     }
 
     fun getOfferDetails(offerId: Int) {
@@ -77,7 +81,7 @@ class DetailOfferViewModel: ViewModel() {
             _errorMessage.value = null
             _isLoading.value = true
             try {
-                val rentProposition = rent.value!!
+                val rentProposition = newRent.value!!
                 val response = apiOfferRepository.addRentProposition(offerId, rentProposition)
                 when (response) {
                     is ApiResult.Success -> {
@@ -170,6 +174,61 @@ class DetailOfferViewModel: ViewModel() {
                         val errorMessage = response.message
                         Log.e(TAG, "Error: $errorMessage")
                         _errorMessage.value = errorMessage
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun getRentProposition(rentId: Int){
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try{
+                val fetchedRent = apiOfferRepository.getRentProposition(rentId)
+                Log.i(TAG, "Fetched offers: $fetchedRent")
+                when (fetchedRent) {
+                    is ApiResult.Success -> {
+                        val data = fetchedRent.data
+                        _rent.value = data
+                    }
+                    is ApiResult.Error -> {
+                        val errorMessage = fetchedRent.message
+                        Log.e(TAG, "Error: $errorMessage")
+                        _errorMessage.value = errorMessage
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun addRentDecision(rentId: Int, decision: Boolean, callback: (Boolean) -> Unit){
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try{
+                val response = apiOfferRepository.addRentDecision(rentId, decision)
+                Log.i(TAG, "Fetched offers: $response")
+                when (response) {
+                    is ApiResult.Success -> {
+                        callback(true)
+                        _resultMessage.value = response.data
+                    }
+                    is ApiResult.Error -> {
+                        val errorMessage = response.message
+                        Log.e(TAG, "Error: $errorMessage")
+                        _errorMessage.value = errorMessage
+                        callback(false)
                     }
                 }
             } catch (e: Exception) {

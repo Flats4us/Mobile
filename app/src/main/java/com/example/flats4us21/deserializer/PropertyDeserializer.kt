@@ -2,7 +2,7 @@ package com.example.flats4us21.deserializer
 
 import android.graphics.Bitmap
 import com.example.flats4us21.data.*
-import com.example.flats4us21.data.dto.Property
+import com.example.flats4us21.data.Property
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement

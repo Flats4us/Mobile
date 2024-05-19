@@ -5,7 +5,7 @@ import com.example.flats4us21.URL
 import com.example.flats4us21.data.ApiResult
 import com.example.flats4us21.data.NewPropertyApiResponse
 import com.example.flats4us21.data.dto.NewPropertyDto
-import com.example.flats4us21.data.dto.Property
+import com.example.flats4us21.data.Property
 import com.example.flats4us21.deserializer.PropertyDeserializer
 import com.example.flats4us21.interceptors.AuthInterceptor
 import com.example.flats4us21.serializer.PropertySerializer

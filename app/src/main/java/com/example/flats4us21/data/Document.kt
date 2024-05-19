@@ -1,6 +1,10 @@
 package com.example.flats4us21.data
 
+import com.google.gson.annotations.SerializedName
+
 data class Document(
-    val name: Any,
-    val path: Any
+    @SerializedName("name")
+    val name: String?,
+    @SerializedName("path")
+    val path: String?
 )

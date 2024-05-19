@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.flats4us21.R
 import com.example.flats4us21.URL
-import com.example.flats4us21.data.dto.Property
+import com.example.flats4us21.data.Property
 import com.example.flats4us21.databinding.OwnerPropertyRowBinding
 
 private const val TAG = "ImageSliderAdapter"

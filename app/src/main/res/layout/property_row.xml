@@ -45,6 +45,7 @@
         android:layout_width="@dimen/image_view_property_row_image_width"
         android:layout_height="@dimen/image_view_property_row_image_height"
         android:layout_marginTop="@dimen/image_view_vertical_margin"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/localization" />
@@ -67,7 +68,7 @@
         android:layout_height="48dp"
         android:src="@drawable/release_alert"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/localization" />
+        app:layout_constraintTop_toTopOf="@+id/imageView" />
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"

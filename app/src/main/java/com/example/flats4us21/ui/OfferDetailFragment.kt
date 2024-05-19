@@ -95,7 +95,7 @@ class OfferDetailFragment : Fragment() {
             realEstateRentalDialogFragment.arguments = bundle
             realEstateRentalDialogFragment.show(parentFragmentManager , "RealEstateRentalDialogFragment")
 
-            detailOfferViewModel.rent.observe(viewLifecycleOwner) {rent ->
+            detailOfferViewModel.newRent.observe(viewLifecycleOwner) { rent ->
                 if(rent != null){
                     Log.d("OfferDetailFragment", rent.toString())
                 }
@@ -119,12 +119,14 @@ class OfferDetailFragment : Fragment() {
 
         val imageSlider = binding.image
         imageSlider.adapter = ImageSliderAdapter(offer.property.images)
+        val imageCount = imageSlider.adapter?.itemCount ?: 0
+        var imageText = "1/$imageCount"
+        binding.imageCount.text = imageText
         imageSlider.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                val imageCount = imageSlider.adapter?.itemCount ?: 0
                 val currentImage = position + 1
-                val imageText = "Image $currentImage of $imageCount"
+                imageText = "$currentImage/$imageCount"
                 binding.imageCount.text = imageText
             }
         })
@@ -134,6 +136,13 @@ class OfferDetailFragment : Fragment() {
             error(R.drawable.baseline_person_24)
         }
         binding.owner.text = getString(R.string.name_and_surname, offer.owner.name, offer.owner.surname)
+        binding.ownerLayout.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(USER_ID, offer.owner.id)
+            val fragment = ProfileFragment()
+            fragment.arguments = bundle
+            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+        }
 
         binding.startDate.text = offer.dateIssue
         binding.endDate.text = offer.dateIssue

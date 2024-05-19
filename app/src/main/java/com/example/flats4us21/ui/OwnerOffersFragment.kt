@@ -24,7 +24,7 @@ class OwnerOffersFragment : Fragment() {
     private lateinit var recyclerview: RecyclerView
     private lateinit var adapter: PropertyAdapter
     private lateinit var viewModel: OfferViewModel
-    private val fetchedOffers: MutableList<Offer> = mutableListOf()
+    private var fetchedOffers: MutableList<Offer> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,8 +43,9 @@ class OwnerOffersFragment : Fragment() {
         binding.offerRecyclerView
 
         viewModel.offers.observe(viewLifecycleOwner) { offers ->
-            Log.i(TAG, "Number of offers: $offers.size")
-            fetchedOffers.addAll(offers)
+            Log.i(TAG, "Number of offers: ${offers.size}")
+            fetchedOffers = offers
+            adapter.setOfferList(fetchedOffers)
             adapter.notifyDataSetChanged()
         }
 

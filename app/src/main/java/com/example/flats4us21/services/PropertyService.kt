@@ -2,7 +2,7 @@ package com.example.flats4us21.services
 
 import com.example.flats4us21.data.NewPropertyApiResponse
 import com.example.flats4us21.data.dto.NewPropertyDto
-import com.example.flats4us21.data.dto.Property
+import com.example.flats4us21.data.Property
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*

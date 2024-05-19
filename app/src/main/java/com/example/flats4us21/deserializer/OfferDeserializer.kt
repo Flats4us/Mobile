@@ -3,7 +3,7 @@ package com.example.flats4us21.deserializer
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.Owner
 import com.example.flats4us21.data.SurveyOwnerOffer
-import com.example.flats4us21.data.dto.Property
+import com.example.flats4us21.data.Property
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
@@ -23,6 +23,8 @@ class OfferDeserializer : JsonDeserializer<Offer> {
     ): Offer {
         val jsonObject = json.asJsonObject
         val offerId = jsonObject.get("offerId").asInt
+        val rentPropositionToShow = if (jsonObject.get("rentPropositionToShow").isJsonNull) null else jsonObject.get("rentPropositionToShow").asInt
+        val isInterested = jsonObject.get("isInterest").asBoolean
         val dateIssue = jsonObject.get("date").asString
         val status = jsonObject.get("offerStatus").asString
         val price = jsonObject.get("price").asDouble.toString()
@@ -46,7 +48,8 @@ class OfferDeserializer : JsonDeserializer<Offer> {
         val surveyOwnerOffer = SurveyOwnerOffer(smokingAllowed, partiesAllowed, animalsAllowed, gender)
         val offer = Offer(
             offerId,
-            null,
+            rentPropositionToShow,
+            isInterested,
             dateIssue,
             status,
             price,

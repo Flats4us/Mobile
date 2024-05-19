@@ -9,19 +9,19 @@
     android:layout_height="match_parent"
     tools:context=".MapActivity">
 
-    <TextView
-        android:id="@+id/mapHeader"
+    <Button
+        android:id="@+id/filterButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:gravity="center_horizontal"
-        android:text="Mapa Ofert"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
         android:layout_marginTop="@dimen/header_vertical_space"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
+        android:layout_height="@dimen/button_height"
+        android:background="@null"
+        android:text="@string/FilteringAndSorting"
+        android:textSize="@dimen/regular_text_size"
+        android:textStyle="bold"
+        android:layout_marginStart="@dimen/buttons_margin_horizontal"
+        android:layout_marginEnd="@dimen/buttons_margin_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <org.osmdroid.views.MapView
@@ -30,32 +30,20 @@
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapHeader"
-        app:layout_constraintBottom_toTopOf="@+id/addressEditText" />
+        app:layout_constraintTop_toBottomOf="@id/filterButton"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <EditText
         android:id="@+id/addressEditText"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter an address"
-        app:layout_constraintEnd_toStartOf="@+id/filterButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
-    <Button
-        android:id="@+id/filterButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Filter"
-        app:layout_constraintEnd_toStartOf="@+id/searchButton"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
-    <Button
-        android:id="@+id/searchButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Search"
+        android:background="@color/white"
+        android:layout_marginStart="@dimen/buttons_margin_horizontal"
+        android:layout_marginEnd="@dimen/buttons_margin_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/mapFragment" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

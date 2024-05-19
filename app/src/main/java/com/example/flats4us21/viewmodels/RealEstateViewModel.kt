@@ -11,7 +11,7 @@ import com.example.flats4us21.data.Equipment
 import com.example.flats4us21.data.Image
 import com.example.flats4us21.data.PropertyType
 import com.example.flats4us21.data.dto.NewPropertyDto
-import com.example.flats4us21.data.dto.Property
+import com.example.flats4us21.data.Property
 import com.example.flats4us21.services.*
 import kotlinx.coroutines.launch
 import java.io.File

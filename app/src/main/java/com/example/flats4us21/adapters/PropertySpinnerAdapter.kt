@@ -10,7 +10,7 @@ import android.widget.TextView
 import coil.load
 import com.example.flats4us21.R
 import com.example.flats4us21.URL
-import com.example.flats4us21.data.dto.Property
+import com.example.flats4us21.data.Property
 
 class PropertySpinnerAdapter(
     context: Context,

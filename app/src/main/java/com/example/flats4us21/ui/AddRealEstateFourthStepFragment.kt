@@ -105,7 +105,7 @@ class AddRealEstateFourthStepFragment : Fragment() {
                 super.onPageSelected(position)
                 val imageCount = imageSlider.adapter?.itemCount ?: 0
                 val currentImage = position + 1
-                val imageText = "Image $currentImage of $imageCount"
+                val imageText = "$currentImage/$imageCount"
                 binding.imageCount.text = imageText
             }
         })

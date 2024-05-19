@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flats4us21.R
 import com.example.flats4us21.data.*
-import com.example.flats4us21.data.dto.Property
+import com.example.flats4us21.data.Property
 import com.example.flats4us21.databinding.FragmentAddRealEstateBinding
 import com.example.flats4us21.viewmodels.RealEstateViewModel
 

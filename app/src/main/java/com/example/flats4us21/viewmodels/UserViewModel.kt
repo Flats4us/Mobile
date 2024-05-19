@@ -32,6 +32,10 @@ class UserViewModel: ViewModel() {
     val loginResponse: LiveData<LoginResponse?>
         get() = _loginResponse
 
+    private val _myProfile = MutableLiveData<MyProfile?>(null)
+    val myProfile: LiveData<MyProfile?>
+        get() = _myProfile
+
     private val _profile = MutableLiveData<Profile?>(null)
     val profile: LiveData<Profile?>
         get() = _profile
@@ -289,13 +293,12 @@ class UserViewModel: ViewModel() {
                         val data = fetchedLoginResponse.data
                         _loginResponse.value = data
                         loginResponse.value?.let { DataStoreManager.saveUserData(it) }
-                        val fetchedProfile = userRepository.getProfile()
-                        when(fetchedProfile) {
+                        when(val fetchedProfile = userRepository.getProfile()) {
                             is ApiResult.Success -> {
-                                val data = fetchedProfile.data
-                                _profile.value = data
-                                Log.i(TAG, data.toString())
-                                Log.i(TAG, _profile.value.toString())
+                                val profileData = fetchedProfile.data
+                                _myProfile.value = profileData
+                                Log.i(TAG, profileData.toString())
+                                Log.i(TAG, _myProfile.value.toString())
                             }
                             is ApiResult.Error -> {
                                 Log.i(TAG, "ERROR: ${fetchedProfile.message}")
@@ -307,6 +310,60 @@ class UserViewModel: ViewModel() {
                     is ApiResult.Error -> {
                         Log.i(TAG, "ERROR: ${fetchedLoginResponse.message}")
                         _errorMessage.value = fetchedLoginResponse.message
+                        Log.e(TAG, "error: ${errorMessage.value}")
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun getMyProfile(){
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try{
+                when(val fetchedProfile = userRepository.getProfile()) {
+                    is ApiResult.Success -> {
+                        val profileData = fetchedProfile.data
+                        _myProfile.value = profileData
+                        Log.i(TAG, profileData.toString())
+                        Log.i(TAG, _myProfile.value.toString())
+                    }
+                    is ApiResult.Error -> {
+                        Log.i(TAG, "ERROR: ${fetchedProfile.message}")
+                        _errorMessage.value = fetchedProfile.message
+                        Log.e(TAG, "error: ${errorMessage.value}")
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun getProfile(id: Int){
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try{
+                when(val fetchedProfile = userRepository.getProfile(id)) {
+                    is ApiResult.Success -> {
+                        val profileData = fetchedProfile.data
+                        _profile.value = profileData
+                        Log.i(TAG, profileData.toString())
+                        Log.i(TAG, _myProfile.value.toString())
+                    }
+                    is ApiResult.Error -> {
+                        Log.i(TAG, "ERROR: ${fetchedProfile.message}")
+                        _errorMessage.value = fetchedProfile.message
                         Log.e(TAG, "error: ${errorMessage.value}")
                     }
                 }

@@ -56,7 +56,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:text="@string/example"
                         android:background="@color/transparent_black"
                         android:textColor="@color/white"
                         android:paddingHorizontal="10dp"
@@ -85,16 +84,16 @@
                         android:textSize="@dimen/regular_text_size"
                         android:layout_gravity="center"
                         android:layout_marginEnd="@dimen/text_view_horizontal_margin" />
-                    <ImageView
+
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/ownerPhoto"
                         android:layout_width="@dimen/image_view_small_profile_picture_width"
                         android:layout_height="@dimen/image_view_small_profile_picture_height"
                         android:layout_gravity="center"
                         android:src="@drawable/baseline_person_24"
                         android:layout_marginEnd="@dimen/text_view_horizontal_margin"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/owner" />
+                        app:shapeAppearanceOverlay="@style/Circular"
+                        android:background="@color/white"/>
                     <TextView
                         android:id="@+id/owner"
                         android:layout_width="wrap_content"

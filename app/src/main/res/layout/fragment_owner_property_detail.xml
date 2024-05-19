@@ -28,14 +28,17 @@
 
             <TextView
                 android:id="@+id/imageCount"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="@string/example"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image" />
+                android:background="@color/transparent_black"
+                android:textColor="@color/white"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="10dp"
+                app:drawableLeftCompat="@drawable/baseline_camera_alt_24"
+                app:drawableTint="@color/white"
+                app:layout_constraintBottom_toBottomOf="@id/image"
+                app:layout_constraintEnd_toEndOf="@id/image" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -278,7 +281,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_weight="@dimen/text_view_column_value_weight"
-                    android:paddingStart="@dimen/table_cell_padding">
+                    android:paddingStart="@dimen/table_cell_padding"
+                    android:layout_gravity="center_vertical">
 
                     <TextView
                         android:id="@+id/landArea"

@@ -14,8 +14,8 @@ import com.example.flats4us21.viewmodels.OfferViewModel
 
 class PropertyAdapter(
     private val ownersOffer : Boolean,
-    private var offers : List<Offer>
-    , private val onUserClick : (Offer) -> Unit
+    private var offers : List<Offer>,
+    private val onUserClick : (Offer) -> Unit
 ) : RecyclerView.Adapter<PropertyAdapter.MyViewHolder>() {
 
     private var offerViewModel: OfferViewModel? = null
@@ -80,7 +80,7 @@ class PropertyAdapter(
             notifyDataSetChanged()
         }
         if(offers[position].property.images.isNotEmpty()) {
-            holder.image.load(URL + "/" + offers[position].property.images[0].path) {
+            holder.image.load(URL + "/" + offers[position].property.images[0].path){
                 error(R.drawable.baseline_broken_image_24)
             }
         }

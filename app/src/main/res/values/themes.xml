@@ -20,4 +20,12 @@
     </style>
     <style name="Theme.Flats4us21.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.Flats4us21.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
+    </style>
+    <style name="Circular">
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

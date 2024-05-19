@@ -1,8 +1,13 @@
 package com.example.flats4us21.services
 
 import com.example.flats4us21.data.NewPropertyApiResponse
+import com.example.flats4us21.data.MyProfile
 import com.example.flats4us21.data.Profile
-import com.example.flats4us21.data.dto.*
+import com.example.flats4us21.data.dto.LoginRequest
+import com.example.flats4us21.data.dto.LoginResponse
+import com.example.flats4us21.data.dto.NewUserDto
+import com.example.flats4us21.data.dto.OwnerDTO
+import com.example.flats4us21.data.dto.StudentDTO
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -26,5 +31,8 @@ interface UserService {
     suspend fun checkEmail(@Path("email", encoded = true) email: String): Response<NewPropertyApiResponse<Boolean>>
 
     @GET("api/users/my-profile")
-    suspend fun  getProfile(): Response<Profile>
+    suspend fun getProfile(): Response<MyProfile>
+
+    @GET("api/users/{id}/profile")
+    suspend fun getProfile(@Path("id") id: Int) : Response<Profile>
 }

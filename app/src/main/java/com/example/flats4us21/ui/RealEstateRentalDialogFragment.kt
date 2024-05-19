@@ -17,7 +17,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flats4us21.R
 import com.example.flats4us21.adapters.EmailRoommateAdapter
-import com.example.flats4us21.data.RentProposition
+import com.example.flats4us21.data.dto.NewRentProposition
 import com.example.flats4us21.databinding.FragmentRealEstateRentalDialogBinding
 import com.example.flats4us21.viewmodels.DetailOfferViewModel
 import java.time.LocalDate
@@ -29,7 +29,7 @@ class RealEstateRentalDialogFragment(private val detailOfferViewModel: DetailOff
     private lateinit var binding: FragmentRealEstateRentalDialogBinding
     private var selectedRentalDate : LocalDate? = null
     private var warnings : MutableList<String> = mutableListOf()
-    private var rent : RentProposition? = null
+    private var rent : NewRentProposition? = null
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -74,7 +74,7 @@ class RealEstateRentalDialogFragment(private val detailOfferViewModel: DetailOff
                 b.setOnClickListener {
                     warnings.clear()
                     if (validateData()) {
-                        rent = RentProposition(
+                        rent = NewRentProposition(
                             emails,
                             selectedRentalDate!!.toString(),
                             binding.rentalPeriod.text.toString().toInt()

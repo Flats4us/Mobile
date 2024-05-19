@@ -39,6 +39,7 @@ class WatchedOffersListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        recyclerview = binding.propertyRecyclerView
         viewModel.getWatchedOffers()
 
         viewModel.offers.observe(viewLifecycleOwner) { offers ->

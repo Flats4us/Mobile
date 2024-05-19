@@ -36,8 +36,8 @@
                 android:id="@+id/frameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginHorizontal="@dimen/horizontal_space"
                 tools:layout="@layout/fragment_start_screen"/>
+        <!--                android:layout_marginHorizontal="@dimen/horizontal_space"-->
 
 
         <com.google.android.material.navigation.NavigationView
