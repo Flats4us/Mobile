@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.R
 import com.example.flats4us21.adapters.ImageSliderAdapter
 import com.example.flats4us21.data.Flat
@@ -65,13 +66,13 @@ class OwnerOfferDetailFragment : Fragment() {
         }
 
         binding.fab.setOnClickListener {
-            val realEstateRentalDialogFragment = RentPropositionDialogFragment()
-            if(currentOffer.rentPropositionToShow != null){
-                val bundle = Bundle()
-                bundle.putInt(RENT_PROPOSITION_ID, currentOffer.rentPropositionToShow!!)
-                realEstateRentalDialogFragment.arguments = bundle
-            }
-            realEstateRentalDialogFragment.show(parentFragmentManager , "RentPropositionDialogFragment")
+            val fragment = RentPropositionDialogFragment()
+            val bundle = Bundle()
+            bundle.putInt(RENT_PROPOSITION_ID, currentOffer.rentPropositionToShow!!)
+            bundle.putInt(OFFER_ID, currentOffer.offerId!!)
+            fragment.arguments = bundle
+            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+
         }
     }
 
@@ -99,7 +100,7 @@ class OwnerOfferDetailFragment : Fragment() {
         binding.street.text = " ${offer.property.street} ${offer.property.buildingNumber}"
         binding.area.text = offer.property.area.toString()
         binding.numberOfRooms.text = offer.property.numberOfRooms.toString()
-        val period = Period.between(offer.startDate.toLocalDate(), offer.endDate.toLocalDate())
+        val period = Period.between(offer.startDate, offer.endDate)
         val monthsBetween = period.years * 12 + period.months
         binding.period.text = monthsBetween.toString()
         binding.maxResidents.text = offer.property.maxNumberOfInhabitants.toString()

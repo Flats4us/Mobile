@@ -3,6 +3,7 @@ package com.example.flats4us21.services
 import com.example.flats4us21.data.*
 import com.example.flats4us21.data.dto.NewOfferDto
 import com.example.flats4us21.data.dto.NewRentProposition
+import com.example.flats4us21.data.utils.RentResult
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -73,5 +74,11 @@ interface OfferService {
     suspend fun getRentProposition(@Path("rentId") rentId: Int): Response<RentProposition>
 
     @PUT("/api/offers/{offerId}/rent/accept")
-    suspend fun addRentDecision(@Path("offerId") offerId: Int, @Body body: RequestBody): Response<NewPropertyApiResponse<String>>
+    suspend fun addRentDecision(@Path("offerId") offerId: Int, @Body decision: RentDecision): Response<NewPropertyApiResponse<String>>
+
+    @GET("/api/rent")
+    suspend fun getRents(): Response<RentResult>
+
+    @GET("/api/rent/{id}")
+    suspend fun getRent(@Path("id") rentId: Int): Response<Rent>
 }

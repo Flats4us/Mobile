@@ -19,11 +19,6 @@
         android:title="@string/map"/>
 
     <item
-        android:id="@+id/nav_last_viewed"
-        android:icon="@drawable/baseline_visibility_24"
-        android:title="@string/last_viewed"/>
-
-    <item
         android:id="@+id/nav_messages"
         android:icon="@drawable/baseline_message_24"
         android:title="@string/messages"/>
@@ -64,6 +59,17 @@
     </item>
 
     <item
+        android:id="@+id/nav_my_rentals"
+        android:icon="@drawable/baseline_home_work_24"
+        android:title="@string/my_rentals"/>
+
+
+    <item
+        android:id="@+id/nav_my_offers"
+        android:icon="@drawable/baseline_home_work_24"
+        android:title="@string/my_offers"/>
+
+    <item
         android:id="@+id/nav_my_properties"
         android:icon="@drawable/baseline_home_work_24"
         android:title="@string/my_properties"/>
@@ -77,12 +83,6 @@
         android:id="@+id/nav_calendar"
         android:icon="@drawable/baseline_calendar_month_24"
         android:title="@string/calendar"/>
-
-
-    <item
-        android:id="@+id/nav_my_offers"
-        android:icon="@drawable/baseline_home_work_24"
-        android:title="@string/my_offers"/>
 
     <item
         android:id="@+id/nav_contact"

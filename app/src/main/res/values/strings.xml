@@ -106,7 +106,7 @@
     <string name="payment_history">Historia płatności</string>
     <string name="payment_methods">Metody płatności</string>
     <string name="fee">Opłaty</string>
-    <string name="my_rentals">Moje wynajmy</string>
+    <string name="my_rentals">Moje najmy</string>
     <string name="roommates">Współlokatorzy</string>
     <string name="contact">Kontakt</string>
     <string name="logout">Wyloguj się</string>
@@ -255,6 +255,9 @@
     <string name="notFollowingTheArrangements">Nie rzestrzega ustaleń:</string>
     <string name="no_data_available">Nie mam danych do wyświetlenia</string>
     <string name="edit_profile">Edytuj profil</string>
+    <string name="watched_offers">Obserwowane oferty</string>
+    <string name="tentors">Najemcy</string>
+    <string name="meet">Umów spoktanie</string>
 
     <!-- TODO: meeting_row -->
 </resources>

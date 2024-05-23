@@ -4,15 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.OwnerOffersFragment"
+    tools:context=".ui.MyRentsFragment"
     android:background="@drawable/app_background">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/header_vertical_space"
+        android:layout_marginBottom="@dimen/header_vertical_space"
         android:gravity="center_horizontal"
-        android:text="@string/my_offers"
+        android:text="@string/my_rentals"
         android:textSize="@dimen/h1"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,16 +23,14 @@
         tools:ignore="TextContrastCheck" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/offerRecyclerView"
-        android:layout_width="0dp"
+        android:id="@+id/rentRecyclerView"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="@dimen/recyclerview_padding"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -42,18 +42,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"
         tools:visibility="visible" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
-        android:src="@drawable/baseline_add_24"
-        app:elevation="6dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

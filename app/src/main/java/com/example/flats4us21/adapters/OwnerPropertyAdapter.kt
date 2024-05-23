@@ -7,18 +7,17 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.example.flats4us21.DataStoreManager
 import com.example.flats4us21.R
 import com.example.flats4us21.URL
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.databinding.PropertyRowBinding
 import com.example.flats4us21.viewmodels.OfferViewModel
 
-class PropertyAdapter(
+class OwnerPropertyAdapter(
     private val ownersOffer : Boolean,
     private var offers : List<Offer>,
     private val onUserClick : (Offer) -> Unit
-) : RecyclerView.Adapter<PropertyAdapter.MyViewHolder>() {
+) : RecyclerView.Adapter<OwnerPropertyAdapter.MyViewHolder>() {
 
     private var offerViewModel: OfferViewModel? = null
     inner class MyViewHolder(binding: PropertyRowBinding) :
@@ -62,7 +61,6 @@ class PropertyAdapter(
         if(ownersOffer){
             holder.button.visibility = View.GONE
         }
-        holder.button.isVisible = DataStoreManager.userRole.value?.let { it == "Student" } ?: false
         var isObserved = offers[position].isInterest
         if(isObserved){
             holder.button.tag = true

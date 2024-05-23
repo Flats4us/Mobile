@@ -3,7 +3,6 @@
 
 package com.example.flats4us21
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -23,26 +22,21 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import coil.load
-import com.example.flats4us21.deserializer.PropertyDeserializer
-import com.example.flats4us21.ui.AddOfferFragment
-import com.example.flats4us21.ui.CalendarFragment
-import com.example.flats4us21.ui.ITIssueReportFragment
-import com.example.flats4us21.ui.LastViewedOffersFragment
 import com.example.flats4us21.ui.MapFragment
+import com.example.flats4us21.ui.MyProfileFragment
+import com.example.flats4us21.ui.MyRentsFragment
 import com.example.flats4us21.ui.NotificationsFragment
 import com.example.flats4us21.ui.OwnerOffersFragment
 import com.example.flats4us21.ui.OwnerPropertiesFragment
-import com.example.flats4us21.ui.MyProfileFragment
 import com.example.flats4us21.ui.SearchFragment
-import com.example.flats4us21.ui.SelectedOfferFragment
 import com.example.flats4us21.ui.StartScreenFragment
 import com.example.flats4us21.ui.WatchedOffersListFragment
 import com.example.flats4us21.viewmodels.UserViewModel
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.launch
 
-//const val URL = "http://172.21.40.120:5166"
-const val URL = "http://172.27.80.1:5166"
+const val URL = "http://172.21.40.120:5166"
+//const val URL = "http://172.27.80.1:5166"
 private const val TAG = "DrawerActivity"
 class DrawerActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
@@ -58,9 +52,6 @@ class DrawerActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[UserViewModel::class.java]
         DataStoreManager.initialize(applicationContext)
         setContentView(R.layout.activity_drawer)
-        val resourceId = R.drawable.property
-        val defaultBitmap = BitmapFactory.decodeResource(applicationContext.resources, resourceId)
-        PropertyDeserializer.setBitmap(defaultBitmap)
         val toolbar : Toolbar = findViewById(R.id.toolbar)
         drawerLayout  = findViewById(R.id.drawerLayout)
         navView = findViewById(R.id.nav_view)
@@ -123,15 +114,13 @@ class DrawerActivity : AppCompatActivity() {
         when(menuItem.itemId){
             R.id.nav_start -> replaceFragment(SearchFragment())
             R.id.nav_map -> replaceFragment(MapFragment())
-            R.id.nav_settings -> replaceFragment(AddOfferFragment())
+            R.id.nav_settings -> Toast.makeText(this, "Clicked Ustawienia", Toast.LENGTH_SHORT).show()
         }
         when (userRole) {
             "Student" -> {
                 handleStudentAndOwnerMenuItems(menuItem)
                 when (menuItem.itemId) {
                     R.id.nav_observed -> replaceFragment(WatchedOffersListFragment())
-                    R.id.nav_last_viewed -> replaceFragment(LastViewedOffersFragment())
-                    R.id.nav_my_rentals -> Toast.makeText(this, "Clicked Historia płatności", Toast.LENGTH_SHORT).show()
                     R.id.nav_roommates -> Toast.makeText(this, "Clicked Współlokatorzy", Toast.LENGTH_SHORT).show()
 
                 }
@@ -154,14 +143,15 @@ class DrawerActivity : AppCompatActivity() {
 
     private fun handleStudentAndOwnerMenuItems(menuItem: MenuItem) {
         when(menuItem.itemId){
-            R.id.nav_messages -> Toast.makeText(this, "Wiadomości", Toast.LENGTH_SHORT).show()
+            R.id.nav_messages -> Toast.makeText(this, "Clicked Wiadomości", Toast.LENGTH_SHORT).show()
             R.id.nav_profile -> replaceFragment(MyProfileFragment())
             R.id.reviews -> Toast.makeText(this, "Clicked Opinie", Toast.LENGTH_SHORT).show()
             R.id.nav_his -> Toast.makeText(this, "Clicked Historia płatności", Toast.LENGTH_SHORT).show()
             R.id.nav_method -> Toast.makeText(this, "Clicked Metody płatności", Toast.LENGTH_SHORT).show()
-            R.id.nav_rent -> replaceFragment(SelectedOfferFragment())
-            R.id.nav_conflicts -> replaceFragment(ITIssueReportFragment())
-            R.id.nav_calendar -> replaceFragment(CalendarFragment())
+            R.id.nav_my_rentals -> replaceFragment(MyRentsFragment())
+            R.id.nav_rent -> Toast.makeText(this, "Clicked Opłaty", Toast.LENGTH_SHORT).show()
+            R.id.nav_conflicts -> Toast.makeText(this, "Clicked Spory", Toast.LENGTH_SHORT).show()
+            R.id.nav_calendar -> Toast.makeText(this, "Clicked Klaendarz", Toast.LENGTH_SHORT).show()
             R.id.nav_contact -> Toast.makeText(this, "Clicked Kontakt", Toast.LENGTH_SHORT).show()
             R.id.nav_logout -> logout()
         }
@@ -175,8 +165,11 @@ class DrawerActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
+    fun goBack() {
+        supportFragmentManager.popBackStack()
+    }
+
     private fun logout() {
-        // Clear user data from DataStore
         clearUserData()
         val profilePicture = headerView.findViewById<ImageView>(R.id.profilePicture)
         val mail : TextView = headerView.findViewById(R.id.mail)
@@ -185,14 +178,12 @@ class DrawerActivity : AppCompatActivity() {
         profilePicture.setImageResource(R.drawable.baseline_person_24)
         nameAndSurname.text = getString(R.string.guest)
         mail.visibility = View.INVISIBLE
-        // Clear the back stack
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 
         replaceFragment(StartScreenFragment())
     }
 
     private fun clearUserData() {
-        // Clear user data from DataStore
         lifecycleScope.launch {
             DataStoreManager.clearUserData()
         }

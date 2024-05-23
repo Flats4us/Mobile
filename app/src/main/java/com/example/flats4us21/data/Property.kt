@@ -2,6 +2,7 @@ package com.example.flats4us21.data
 
 import com.example.flats4us21.data.Equipment
 import com.example.flats4us21.data.Image
+import com.google.gson.JsonArray
 import com.google.gson.annotations.SerializedName
 
 open class Property(
@@ -35,6 +36,10 @@ open class Property(
     open val verificationStatus: Int,
     @SerializedName("numberOfRooms")
     open val numberOfRooms: Int,
+    @SerializedName("offerIds")
+    open val offerIds: Int?,
     @SerializedName("equipment")
-    open val equipment: List<Equipment>
+    open val equipment: List<Equipment>,
+    @SerializedName("rentOpinions")
+    open val rentOpinions: JsonArray
 )

@@ -6,6 +6,5 @@ open class StudentOwner(
     override val surname: String,
     override val email: String,
     override val phoneNumber: String,
-    open val profilePicture: Image?,
-    open val activityStatus: Boolean,
+    open val profilePicture: Image?
 ) : User(id, name, surname, email, phoneNumber)

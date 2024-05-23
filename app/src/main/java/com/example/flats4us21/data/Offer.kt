@@ -1,13 +1,15 @@
 package com.example.flats4us21.data
 
 import com.google.gson.annotations.SerializedName
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 data class Offer(
     @SerializedName("offerId")
     val offerId: Int,
     @SerializedName("rentPropositionToShow")
     val rentPropositionToShow: Int?,
+    @SerializedName("rentId")
+    val rentId: Int?,
     @SerializedName("isInterest")
     val isInterest: Boolean,
     @SerializedName("date")
@@ -21,9 +23,9 @@ data class Offer(
     @SerializedName("description")
     val description: String,
     @SerializedName("startDate")
-    val startDate: LocalDateTime,
+    val startDate: LocalDate,
     @SerializedName("endDate")
-    val endDate: LocalDateTime,
+    val endDate: LocalDate,
     @SerializedName("numberOfInterested")
     val interestedPeople: Int,
     @SerializedName("regulations")

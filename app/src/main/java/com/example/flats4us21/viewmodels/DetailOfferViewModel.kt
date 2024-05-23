@@ -221,8 +221,8 @@ class DetailOfferViewModel: ViewModel() {
                 Log.i(TAG, "Fetched offers: $response")
                 when (response) {
                     is ApiResult.Success -> {
-                        callback(true)
                         _resultMessage.value = response.data
+                        callback(true)
                     }
                     is ApiResult.Error -> {
                         val errorMessage = response.message
@@ -234,6 +234,7 @@ class DetailOfferViewModel: ViewModel() {
             } catch (e: Exception) {
                 _errorMessage.value = e.message
                 Log.e(TAG, "Exception $e")
+                callback(false)
             } finally {
                 _isLoading.value = false
             }

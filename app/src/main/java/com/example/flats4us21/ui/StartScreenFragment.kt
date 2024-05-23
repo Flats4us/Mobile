@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.databinding.FragmentStartScreenBinding
@@ -28,8 +29,10 @@ class StartScreenFragment : Fragment() {
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
         binding.buttonRegister.setOnClickListener {
-            val fragment = RegisterParentFragment()
-            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+            //TODO
+//            val fragment = RegisterParentFragment()
+//            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+            Toast.makeText(requireContext(), "Clicked Zarejestruj się", Toast.LENGTH_SHORT).show()
         }
     }
 

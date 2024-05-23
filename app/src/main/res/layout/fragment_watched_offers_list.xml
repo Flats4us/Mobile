@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.WatchedOffersListFragment">
+    tools:context=".ui.WatchedOffersListFragment"
+    android:background="@drawable/app_background">
 
     <TextView
         android:id="@+id/title"
@@ -13,7 +14,7 @@
         android:layout_marginTop="@dimen/header_vertical_space"
         android:layout_marginBottom="@dimen/header_vertical_space"
         android:gravity="center_horizontal"
-        android:text="@string/add_real_estate"
+        android:text="@string/watched_offers"
         android:textSize="@dimen/h1"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

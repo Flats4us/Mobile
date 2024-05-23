@@ -14,9 +14,7 @@ data class Owner(
     @SerializedName("phoneNumber")
     override val phoneNumber: String,
     @SerializedName("profilePicture")
-    override val profilePicture: Image?,
-    @SerializedName("activityStatus")
-    override val activityStatus: Boolean
+    override val profilePicture: Image?
 ) : StudentOwner(
-    id, name, surname, email, phoneNumber, profilePicture, activityStatus
+    id, name, surname, email, phoneNumber, profilePicture
 )

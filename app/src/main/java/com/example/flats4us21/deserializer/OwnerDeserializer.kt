@@ -1,34 +1,42 @@
 package com.example.flats4us21.deserializer
 
+import android.util.Log
 import com.example.flats4us21.data.Image
 import com.example.flats4us21.data.Owner
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonParseException
 import java.lang.reflect.Type
 
 private const val TAG = "OwnerDeserializer"
+
 class OwnerDeserializer : JsonDeserializer<Owner> {
     override fun deserialize(
         json: JsonElement,
         typeOfT: Type?,
         context: JsonDeserializationContext?
     ): Owner {
-        val jsonObject = json.asJsonObject
+        try {
+            val jsonObject = json.asJsonObject
 
-        val userId = jsonObject.get("userId").asInt
-        val name = jsonObject.get("name").asString
-        val surname = jsonObject.get("surname").asString
-        val email = jsonObject.get("email").asString
-        val phoneNumber = jsonObject.get("phoneNumber").asString
-        val profilePictureElement = jsonObject.get("profilePicture")
-        val imageName = if (!profilePictureElement.isJsonNull) profilePictureElement.asJsonObject.get("name").asString else ""
-        val imagePath = if (!profilePictureElement.isJsonNull) profilePictureElement.asJsonObject.get("path").asString else ""
+            val userId = jsonObject.get("userId")?.asInt ?: throw JsonParseException("userId is missing or null")
+            val name = jsonObject.get("name")?.asString ?: throw JsonParseException("name is missing or null")
+            val surname = jsonObject.get("surname")?.asString ?: throw JsonParseException("surname is missing or null")
+            val email = jsonObject.get("email")?.asString ?: throw JsonParseException("email is missing or null")
+            val phoneNumber = jsonObject.get("phoneNumber")?.asString ?: throw JsonParseException("phoneNumber is missing or null")
 
-        val owner = Owner(userId, name, surname, email, phoneNumber, Image(imageName, imagePath), true)
+            val profilePictureObject = jsonObject.get("profilePicture").asJsonObject
+            val imageName = if (profilePictureObject.get("name").isJsonNull) null else profilePictureObject.get("name").asString
+            val imagePath = if (profilePictureObject.get("path").isJsonNull) null else profilePictureObject.get("path").asString
 
-        //Log.d(TAG, "[deserialize] Owner: $owner")
+            val profilePicture = if (imageName != null && imagePath != null) Image(imageName, imagePath) else null
 
-        return owner
+            return Owner(userId, name, surname, email, phoneNumber, profilePicture)
+        } catch (e: JsonParseException) {
+            Log.e(TAG, "Error deserializing owner: ${e.localizedMessage}")
+            Log.e(TAG, "Problematic JSON: ${json.toString()}")
+            throw JsonParseException("Error deserializing owner", e)
+        }
     }
 }

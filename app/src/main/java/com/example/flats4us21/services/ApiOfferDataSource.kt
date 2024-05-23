@@ -7,10 +7,13 @@ import com.example.flats4us21.data.ApiResult
 import com.example.flats4us21.data.MapOffersResult
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.OffersResult
+import com.example.flats4us21.data.Rent
+import com.example.flats4us21.data.RentDecision
 import com.example.flats4us21.data.RentProposition
 import com.example.flats4us21.data.dto.NewOfferDto
 import com.example.flats4us21.data.dto.NewRentProposition
 import com.example.flats4us21.data.dto.OfferFilter
+import com.example.flats4us21.data.utils.RentResult
 import com.example.flats4us21.deserializer.MapOffersDeserializer
 import com.example.flats4us21.deserializer.OfferDeserializer
 import com.example.flats4us21.deserializer.OffersDeserializer
@@ -24,6 +27,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.coroutines.cancellation.CancellationException
 
 private const val TAG = "ApiOfferDataSource"
 object ApiOfferDataSource : OfferDataSource {
@@ -67,7 +71,12 @@ object ApiOfferDataSource : OfferDataSource {
 
     override suspend fun getOffers(offerFilter: OfferFilter): ApiResult<OffersResult> {
         return try {
-            val response = apiWithoutInterceptor.getOffers(
+            val offerService : OfferService = if(DataStoreManager.userRole.value != null){
+                api
+            } else {
+                apiWithoutInterceptor
+            }
+            val response = offerService.getOffers(
                 offerFilter.sorting,
                 offerFilter.pageNumber,
                 offerFilter.pageSize,
@@ -216,22 +225,22 @@ object ApiOfferDataSource : OfferDataSource {
 
     override suspend fun addRentDecision(offerId: Int, decision: Boolean): ApiResult<String> {
         return try {
-            Log.i(TAG, "Before json transformation")
-            val jsonObject = JSONObject()
-            jsonObject.put("decision", decision)
-            val json = jsonObject.toString()
-            val requestBody = json.toRequestBody("application/json".toMediaTypeOrNull())
-            Log.i(TAG, "Before api request")
+            val requestBody = RentDecision(decision)
+            Log.i(TAG, "Starting network request")
             val response = api.addRentDecision(offerId, requestBody)
-            Log.i(TAG, "is successful: ${response.isSuccessful}")
-            if(response.isSuccessful) {
+            Log.i(TAG, "Request completed: ${response.isSuccessful}")
+            if (response.isSuccessful) {
                 val data = response.body()?.result ?: ""
                 Log.i(TAG, "Response body: $data")
                 ApiResult.Success(data)
             } else {
                 ApiResult.Error("Failed to fetch data: ${response.errorBody()?.string() ?: ""}")
             }
+        } catch (e: CancellationException) {
+            Log.e(TAG, "Job was cancelled", e)
+            ApiResult.Error("Job was cancelled: ${e.message}")
         } catch (e: Exception) {
+            Log.e(TAG, "An internal error occurred", e)
             ApiResult.Error("An internal error occurred: ${e.message}")
         }
     }
@@ -285,7 +294,7 @@ object ApiOfferDataSource : OfferDataSource {
 
     override suspend fun removeOfferToWatched(offerId: Int): ApiResult<String> {
         return try {
-            val response = api.addOfferInterest(offerId)
+            val response = api.deleteOfferInterest(offerId)
             if(response.isSuccessful) {
                 val data = response.body()?.result ?: ""
                 ApiResult.Success(data)
@@ -297,11 +306,42 @@ object ApiOfferDataSource : OfferDataSource {
         }
     }
 
-    override suspend fun getLastViewedOffers(): List<Offer> {
-        TODO("Not yet implemented")
+    override suspend fun getRents(): ApiResult<RentResult> {
+        return try {
+            val response = api.getRents()
+            if(response.isSuccessful) {
+                val data = response.body()
+                if (data != null) {
+                    ApiResult.Success(data)
+                } else {
+                    ApiResult.Error("Response body is null")
+                }
+            } else {
+                ApiResult.Error("Failed to fetch data: ${response.message()}")
+            }
+        } catch (e: Exception) {
+            ApiResult.Error("An internal error occurred: ${e.message}")
+        }
     }
 
-    override fun addOfferToLastViewed(offer: Offer) {
-        TODO("Not yet implemented")
+    override suspend fun getRent(rentId: Int): ApiResult<Rent> {
+        return try {
+
+            val response = api.getRent(rentId)
+            if(response.isSuccessful) {
+                Log.d(TAG, "Response body: ${response.body()}")
+                val data = response.body()
+                if (data != null) {
+                    ApiResult.Success(data)
+                } else {
+                    ApiResult.Error("Response body is null")
+                }
+            } else {
+                ApiResult.Error("Failed to fetch data: ${response.message()}")
+            }
+        } catch (e: Exception) {
+            ApiResult.Error("An internal error occurred: ${e.message}")
+        }
     }
+
 }

@@ -6,7 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginTop="@dimen/layout_vertical_margin"
     android:layout_marginBottom="@dimen/layout_vertical_margin"
-    android:background="@drawable/background_input">
+    android:background="@drawable/background_input"
+    android:backgroundTint="@color/white">
 
     <LinearLayout
         android:id="@+id/localization"
@@ -67,6 +68,8 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:src="@drawable/release_alert"
+        android:background="@drawable/oval_white_background"
+        android:backgroundTint="@color/orange"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="@+id/imageView" />
     <LinearLayout

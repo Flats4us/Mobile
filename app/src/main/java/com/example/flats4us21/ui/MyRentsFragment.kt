@@ -1,6 +1,5 @@
 package com.example.flats4us21.ui
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,40 +11,41 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flats4us21.DrawerActivity
-import com.example.flats4us21.adapters.OwnerPropertyAdapter
-import com.example.flats4us21.data.Offer
-import com.example.flats4us21.databinding.FragmentOwnerOffersBinding
-import com.example.flats4us21.viewmodels.OfferViewModel
+import com.example.flats4us21.adapters.PropertyAdapter
+import com.example.flats4us21.adapters.RentAdapter
+import com.example.flats4us21.data.Rent
+import com.example.flats4us21.databinding.FragmentMyRentsBinding
+import com.example.flats4us21.viewmodels.RentViewModel
 
-private const val TAG = "OwnerOffersFragment"
-class OwnerOffersFragment : Fragment() {
-    private var _binding : FragmentOwnerOffersBinding? = null
+private const val TAG = "MyRentsFragment"
+const val RENT_ID = "RENT_ID"
+
+class MyRentsFragment : Fragment() {
+    private var _binding: FragmentMyRentsBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerview: RecyclerView
-    private lateinit var adapter: OwnerPropertyAdapter
-    private lateinit var viewModel: OfferViewModel
-    private var fetchedOffers: MutableList<Offer> = mutableListOf()
+    private lateinit var adapter: RentAdapter
+    private lateinit var viewModel: RentViewModel
+    private var fetchedRents: MutableList<Rent> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentOwnerOffersBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(requireActivity())[RentViewModel::class.java]
+        _binding = FragmentMyRentsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[OfferViewModel::class.java]
-        viewModel.getMineOffers()
-        recyclerview = binding.offerRecyclerView
-        binding.offerRecyclerView
+        viewModel.getRents()
+        recyclerview = binding.rentRecyclerView
 
-        viewModel.offers.observe(viewLifecycleOwner) { offers ->
-            Log.i(TAG, "Number of offers: ${offers.size}")
-            fetchedOffers = offers
-            adapter.setOfferList(fetchedOffers)
+        viewModel.rents.observe(viewLifecycleOwner) { rents ->
+            Log.i(TAG, "Number of offers: ${rents.size}")
+            fetchedRents = rents
+            adapter.setRentList(fetchedRents)
             adapter.notifyDataSetChanged()
         }
 
@@ -61,28 +61,16 @@ class OwnerOffersFragment : Fragment() {
             }
         }
 
-        adapter = OwnerPropertyAdapter(true, fetchedOffers){selectedOffer ->
+        adapter = RentAdapter(fetchedRents){selectedRent ->
             val bundle = Bundle()
-            bundle.putInt(OFFER_ID, selectedOffer.offerId)
-            viewModel.selectedOffer = selectedOffer
-            val fragment = OwnerOfferDetailFragment()
+            bundle.putInt(RENT_ID, selectedRent.rentId)
+            val fragment = RentDetailFragment()
             fragment.arguments = bundle
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
 
-        adapter.setViewModel(viewModel)
-
         recyclerview.adapter = adapter
         recyclerview.layoutManager = LinearLayoutManager(requireContext())
-
-        binding.fab.setOnClickListener {
-            val fragment = AddOfferFragment()
-            (activity as? DrawerActivity)!!.replaceFragment(fragment)
-        }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

@@ -28,6 +28,7 @@ class AddRealEstateFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        realEstateViewModel.clearProperties()
         realEstateViewModel.isCreating = arguments?.getBoolean(IS_CREATING, false)!!
         if(realEstateViewModel.isCreating){
             binding.title.setText(R.string.add_real_estate)

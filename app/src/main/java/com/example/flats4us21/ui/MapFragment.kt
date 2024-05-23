@@ -25,7 +25,6 @@ import com.example.flats4us21.R
 import com.example.flats4us21.URL
 import com.example.flats4us21.adapters.ImageSliderAdapter
 import com.example.flats4us21.data.MapOffer
-import com.example.flats4us21.data.Offer
 import com.example.flats4us21.databinding.ActivityMapBinding
 import com.example.flats4us21.viewmodels.OfferViewModel
 import kotlinx.coroutines.Dispatchers
@@ -198,7 +197,7 @@ class MapFragment : Fragment() {
 
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.bottom_sheet_offer_layout)
+        dialog.setContentView(R.layout.bottom_sheet_offer_preview_layout)
 
         val imageSlider = dialog.findViewById<ViewPager2>(R.id.image)
         val imageCountTV : TextView = dialog.findViewById(R.id.imageCount)

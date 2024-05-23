@@ -47,6 +47,11 @@ class ProfileFragment : Fragment() {
                 bindData(userProfile)
         }
 
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.mainLayout.visibility = if (isLoading) View.GONE else View.VISIBLE
+        }
+
     }
 
     private fun bindData(userProfile: Profile) {
@@ -102,18 +107,107 @@ class ProfileFragment : Fragment() {
             recyclerView.layoutManager = flexboxLayoutManager
         }
 
+        var hasReviews = false
+
+        binding.layoutHelpful.visibility = if (userProfile.sumHelpful == 0) {
+            View.GONE
+        } else {
+            hasReviews = true
+            View.VISIBLE
+        }
         binding.sumHelpful.text = userProfile.sumHelpful.toString()
+
+        binding.layoutCooperative.visibility = if (userProfile.sumCooperative == 0) {
+            View.GONE
+        } else {
+            hasReviews = true
+            View.VISIBLE
+        }
         binding.sumCooperative.text = userProfile.sumCooperative.toString()
+
+        binding.layoutTidy.visibility = if (userProfile.sumTidy == 0) {
+            View.GONE
+        } else {
+            hasReviews = true
+            View.VISIBLE
+        }
         binding.sumTidy.text = userProfile.sumTidy.toString()
+
+        binding.layoutFriendly.visibility = if (userProfile.sumFriendly == 0) {
+            View.GONE
+        } else {
+            hasReviews = true
+            View.VISIBLE
+        }
         binding.sumFriendly.text = userProfile.sumFriendly.toString()
+
+        binding.layoutRespectingPrivacy.visibility = if (userProfile.sumRespectingPrivacy == 0) {
+            View.GONE
+        } else {
+            hasReviews = true
+            View.VISIBLE
+        }
         binding.sumRespectingPrivacy.text = userProfile.sumRespectingPrivacy.toString()
+
+        binding.layoutCommunicative.visibility = if (userProfile.sumCommunicative == 0) {
+            View.GONE
+        } else {
+            hasReviews = true
+            View.VISIBLE
+        }
         binding.sumCommunicative.text = userProfile.sumCommunicative.toString()
+
+        binding.layoutUnfair.visibility = if (userProfile.sumUnfair == 0) {
+            View.GONE
+        } else {
+            hasReviews = true
+            View.VISIBLE
+        }
         binding.sumUnfair.text = userProfile.sumUnfair.toString()
+
+        binding.layoutLackOfHygiene.visibility = if (userProfile.sumLackOfHygiene == 0) {
+            View.GONE
+        } else {
+            hasReviews = true
+            View.VISIBLE
+        }
         binding.sumLackOfHygiene.text = userProfile.sumLackOfHygiene.toString()
+
+        binding.layoutUntidy.visibility = if (userProfile.sumUntidy == 0) {
+            View.GONE
+        } else {
+            hasReviews = true
+            View.VISIBLE
+        }
         binding.sumUntidy.text = userProfile.sumUntidy.toString()
+
+        binding.layoutConflicting.visibility = if (userProfile.sumConflicting == 0) {
+            View.GONE
+        } else {
+            hasReviews = true
+            View.VISIBLE
+        }
         binding.sumConflicting.text = userProfile.sumConflicting.toString()
+
+        binding.layoutNoisy.visibility = if (userProfile.sumNoisy == 0) {
+            View.GONE
+        } else {
+            hasReviews = true
+            View.VISIBLE
+        }
         binding.sumNoisy.text = userProfile.sumNoisy.toString()
+
+        binding.layoutNotFollowingTheArrangements.visibility = if (userProfile.sumNotFollowingTheArrangements == 0) {
+            View.GONE
+        } else {
+            hasReviews = true
+            View.VISIBLE
+        }
         binding.sumNotFollowingTheArrangements.text = userProfile.sumNotFollowingTheArrangements.toString()
+
+        binding.noReviewsText.visibility = if (hasReviews) View.GONE else View.VISIBLE
+
+
     }
 
     override fun onDestroyView() {
