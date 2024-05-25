@@ -39,7 +39,7 @@ class OffersDeserializer : JsonDeserializer<OffersResult> {
                 val isInterested = jsonObject.get("isInterest").asBoolean
                 val dateIssue = jsonObject.get("date").asString
                 val status = jsonObject.get("offerStatus").asString
-                val price = jsonObject.get("price").asDouble.toString()
+                val price = jsonObject.get("price").asString
                 val deposit = jsonObject.get("deposit").asDouble.toString()
                 val description = jsonObject.get("description").asString
                 val startDateString = jsonObject.get("startDate").asString.split("T")[0]

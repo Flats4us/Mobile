@@ -4,12 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.OfferDetailFragment">
+    tools:context=".ui.OwnerOfferDetailFragment"
+    android:background="@drawable/app_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/detailLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -22,22 +24,24 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout_marginBottom="8dp">
 
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/image"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/image_view_image_height"
                         android:contentDescription="zdjęcie nieruchomości"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintEnd_toEndOf="parent" />
 
                     <ImageButton
                         android:id="@+id/addButton"
@@ -67,48 +71,13 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <LinearLayout
-                    android:id="@+id/ownerLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_horizontal"
-                    app:layout_constraintTop_toBottomOf="@+id/image"
-                    android:layout_marginTop="@dimen/header_vertical_space"
-                    android:layout_marginBottom="@dimen/header_vertical_space">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/owner"
-                        android:textSize="@dimen/regular_text_size"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="@dimen/text_view_horizontal_margin" />
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/ownerPhoto"
-                        android:layout_width="@dimen/image_view_small_profile_picture_width"
-                        android:layout_height="@dimen/image_view_small_profile_picture_height"
-                        android:layout_gravity="center"
-                        android:src="@drawable/baseline_person_24"
-                        android:layout_marginEnd="@dimen/text_view_horizontal_margin"
-                        app:shapeAppearanceOverlay="@style/Circular"
-                        android:background="@color/white"/>
-                    <TextView
-                        android:id="@+id/owner"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/regular_text_size"
-                        android:textStyle="bold"
-                        android:layout_gravity="center"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
-                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
+                    android:background="@drawable/rectangle_white_background"
+                    android:padding="8dp"
                     android:layout_marginBottom="@dimen/regular_vertical_space">
                     <TextView
                         android:layout_width="0dp"
@@ -127,10 +96,13 @@
                         android:textSize="@dimen/subtext_text_size"
                         android:layout_weight="1"/>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
+                    android:background="@drawable/rectangle_white_background"
+                    android:padding="8dp"
                     android:layout_marginBottom="@dimen/regular_vertical_space">
                     <TextView
                         android:layout_width="0dp"
@@ -149,43 +121,83 @@
                         android:textSize="@dimen/subtext_text_size"
                         android:layout_weight="1"/>
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ownerLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/header_vertical_space"
+                    android:layout_marginBottom="@dimen/header_vertical_space"
+                    android:background="@drawable/rectangle_white_background"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/owner"
+                        android:textSize="@dimen/regular_text_size"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/text_view_horizontal_margin" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/ownerPhoto"
+                        android:layout_width="@dimen/image_view_small_profile_picture_width"
+                        android:layout_height="@dimen/image_view_small_profile_picture_height"
+                        android:layout_gravity="center"
+                        android:src="@drawable/baseline_person_24"
+                        app:shapeAppearanceOverlay="@style/Circular"
+                        android:background="@color/white"
+                        android:layout_marginEnd="@dimen/text_view_horizontal_margin"/>
+
+                    <TextView
+                        android:id="@+id/owner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/regular_text_size"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"/>
+                </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:background="@drawable/background_header"
-                    android:layout_marginBottom="@dimen/header_vertical_space">
+                    android:background="@drawable/rectangle_white_background"
+                    android:layout_marginBottom="@dimen/header_vertical_space"
+                    android:padding="16dp">
                     <TextView
                         android:id="@+id/price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/h1"
-                        android:textStyle="bold"
-                        android:textColor="@color/white"/>
+                        android:textStyle="bold"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/monthly_price"
                         android:textSize="@dimen/h1"
                         android:textStyle="bold"
-                        android:textColor="@color/white"
                         android:paddingStart="@dimen/table_cell_padding"/>
                 </LinearLayout>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/offer_details"
-                    android:textSize="@dimen/h2"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:gravity="center_horizontal"
-                    android:layout_marginBottom="@dimen/header_vertical_space"
-                    android:background="@drawable/background_header" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginBottom="@dimen/regular_vertical_space">
+                    android:background="@drawable/rectangle_white_background"
+                    android:padding="16dp"
+                    android:layout_marginBottom="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/offer_details"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:gravity="center_horizontal"
+                        android:layout_marginBottom="16dp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -195,127 +207,134 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="@dimen/text_view_column_name_weight"
+                            android:layout_weight="1"
                             android:text="@string/deposit"
                             android:textStyle="italic"
-                            android:textSize="@dimen/regular_text_size"
+                            android:textSize="14sp"
                             android:gravity="end"/>
 
                         <TextView
                             android:id="@+id/deposit"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="@dimen/text_view_column_value_weight"
-                            android:textSize="@dimen/regular_text_size"
+                            android:layout_weight="1"
+                            android:textSize="14sp"
                             android:paddingStart="@dimen/table_cell_padding"/>
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="@dimen/text_view_column_name_weight"
+                            android:layout_weight="1"
                             android:text="@string/city"
                             android:textStyle="italic"
-                            android:textSize="@dimen/regular_text_size"
-                            android:gravity="end"/>
+                            android:textSize="14sp"
+                            android:gravity="end"
+                            android:layout_marginEnd="8dp"/>
 
                         <TextView
                             android:id="@+id/city"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="@dimen/text_view_column_value_weight"
-                            android:textSize="@dimen/regular_text_size"
-                            android:paddingStart="@dimen/table_cell_padding"/>
+                            android:layout_weight="1"
+                            android:textSize="14sp"
+                            android:paddingStart="8dp"/>
 
                     </LinearLayout>
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="@dimen/text_view_column_name_weight"
+                            android:layout_weight="1"
                             android:text="@string/district"
                             android:textStyle="italic"
-                            android:textSize="@dimen/regular_text_size"
-                            android:gravity="end"/>
+                            android:textSize="14sp"
+                            android:gravity="end"
+                            android:layout_marginEnd="8dp"/>
 
                         <TextView
                             android:id="@+id/district"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="@dimen/text_view_column_value_weight"
-                            android:textSize="@dimen/regular_text_size"
-                            android:paddingStart="@dimen/table_cell_padding"/>
+                            android:layout_weight="1"
+                            android:textSize="14sp"
+                            android:paddingStart="8dp"/>
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="@dimen/text_view_column_name_weight"
+                            android:layout_weight="1"
                             android:text="@string/street"
                             android:textStyle="italic"
-                            android:textSize="@dimen/regular_text_size"
-                            android:gravity="end"/>
+                            android:textSize="14sp"
+                            android:gravity="end"
+                            android:layout_marginEnd="8dp"/>
 
                         <TextView
                             android:id="@+id/street"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="@dimen/text_view_column_value_weight"
-                            android:textSize="@dimen/regular_text_size"
-                            android:paddingStart="@dimen/table_cell_padding"/>
+                            android:layout_weight="1"
+                            android:textSize="14sp"
+                            android:paddingStart="8dp"/>
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="@dimen/text_view_column_name_weight"
+                            android:layout_weight="1"
                             android:text="@string/area"
                             android:textStyle="italic"
-                            android:textSize="@dimen/regular_text_size"
-                            android:gravity="end"/>
+                            android:textSize="14sp"
+                            android:gravity="end"
+                            android:layout_marginEnd="8dp"/>
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_weight="@dimen/text_view_column_value_weight"
-                            android:paddingStart="@dimen/table_cell_padding">
+                            android:layout_weight="1"
+                            android:paddingStart="8dp">
 
                             <TextView
                                 android:id="@+id/area"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="@dimen/regular_text_size"/>
+                                android:textSize="14sp"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/unit"
-                                android:textSize="@dimen/regular_text_size"
-                                />
+                                android:textSize="14sp"/>
 
                         </LinearLayout>
 
@@ -326,36 +345,37 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:visibility="gone">
+                        android:visibility="gone"
+                        android:layout_marginBottom="8dp">
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="@dimen/text_view_column_name_weight"
+                            android:layout_weight="1"
                             android:text="@string/land_area"
                             android:textStyle="italic"
-                            android:textSize="@dimen/regular_text_size"
-                            android:gravity="end"/>
+                            android:textSize="14sp"
+                            android:gravity="end"
+                            android:layout_marginEnd="8dp"/>
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_weight="@dimen/text_view_column_value_weight"
-                            android:paddingStart="@dimen/table_cell_padding">
+                            android:layout_weight="1"
+                            android:paddingStart="8dp">
 
                             <TextView
                                 android:id="@+id/landArea"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="@dimen/regular_text_size"/>
+                                android:textSize="14sp"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/unit"
-                                android:textSize="@dimen/regular_text_size"
-                                />
+                                android:textSize="14sp"/>
 
                         </LinearLayout>
 
@@ -364,60 +384,64 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="@dimen/text_view_column_name_weight"
+                            android:layout_weight="1"
                             android:text="@string/number_of_rooms"
                             android:textStyle="italic"
-                            android:textSize="@dimen/regular_text_size"
-                            android:gravity="end"/>
+                            android:textSize="14sp"
+                            android:gravity="end"
+                            android:layout_marginEnd="8dp"/>
 
                         <TextView
                             android:id="@+id/numberOfRooms"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="@dimen/text_view_column_value_weight"
-                            android:textSize="@dimen/regular_text_size"
-                            android:paddingStart="@dimen/table_cell_padding"/>
+                            android:layout_weight="1"
+                            android:textSize="14sp"
+                            android:paddingStart="8dp"/>
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="@dimen/text_view_column_name_weight"
+                            android:layout_weight="1"
                             android:text="@string/period"
                             android:textStyle="italic"
-                            android:textSize="@dimen/regular_text_size"
-                            android:gravity="end"/>
+                            android:textSize="14sp"
+                            android:gravity="end"
+                            android:layout_marginEnd="8dp"/>
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:gravity="center_vertical"
-                            android:layout_weight="@dimen/text_view_column_value_weight"
-                            android:paddingStart="@dimen/table_cell_padding">
+                            android:layout_weight="1"
+                            android:paddingStart="8dp">
 
                             <TextView
                                 android:id="@+id/period"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="@dimen/regular_text_size"/>
+                                android:textSize="14sp"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/month"
-                                android:textSize="@dimen/regular_text_size"
+                                android:textSize="14sp"
                                 android:paddingStart="1dp"/>
 
                         </LinearLayout>
@@ -427,119 +451,140 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="@dimen/text_view_column_name_weight"
+                            android:layout_weight="1"
                             android:text="@string/max_residents"
                             android:textStyle="italic"
-                            android:textSize="@dimen/regular_text_size"
-                            android:gravity="end"/>
+                            android:textSize="14sp"
+                            android:gravity="end"
+                            android:layout_marginEnd="8dp"/>
 
                         <TextView
                             android:id="@+id/maxResidents"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
-                            android:layout_weight="@dimen/text_view_column_value_weight"
-                            android:textSize="@dimen/regular_text_size"
-                            android:paddingStart="@dimen/table_cell_padding"/>
+                            android:layout_weight="1"
+                            android:textSize="14sp"
+                            android:paddingStart="8dp"/>
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="@dimen/text_view_column_name_weight"
+                            android:layout_weight="1"
                             android:text="@string/construction_year"
                             android:textStyle="italic"
-                            android:textSize="@dimen/regular_text_size"
-                            android:gravity="end"/>
+                            android:textSize="14sp"
+                            android:gravity="end"
+                            android:layout_marginEnd="8dp"/>
 
                         <TextView
                             android:id="@+id/constructionYear"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="@dimen/text_view_column_value_weight"
-                            android:textSize="@dimen/regular_text_size"
-                            android:paddingStart="@dimen/table_cell_padding"/>
+                            android:layout_weight="1"
+                            android:textSize="14sp"
+                            android:paddingStart="8dp"/>
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="@dimen/text_view_column_name_weight"
+                            android:layout_weight="1"
                             android:text="@string/equipment"
                             android:textStyle="italic"
-                            android:textSize="@dimen/regular_text_size"
-                            android:gravity="end"/>
+                            android:textSize="14sp"
+                            android:gravity="end"
+                            android:layout_marginEnd="8dp"/>
 
                         <TextView
                             android:id="@+id/equipment"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="@dimen/text_view_column_value_weight"
-                            android:textSize="@dimen/regular_text_size"
-                            android:paddingStart="@dimen/table_cell_padding"/>
+                            android:layout_weight="1"
+                            android:textSize="14sp"
+                            android:paddingStart="8dp"/>
 
                     </LinearLayout>
 
                 </LinearLayout>
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/description"
-                    android:textSize="@dimen/h2"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:gravity="center_horizontal"
-                    android:layout_marginBottom="@dimen/header_vertical_space"
-                    android:background="@drawable/background_header"/>
-                <TextView
-                    android:id="@+id/description"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:ellipsize="none"
-                    android:maxLines="100"
-                    android:scrollHorizontally="false"
-                    android:textSize="@dimen/regular_text_size"
-                    android:text="@string/lorem_ipsum"
-                    android:layout_marginBottom="@dimen/regular_vertical_space"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/interested_people"
-                    android:textSize="@dimen/h2"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:gravity="center_horizontal"
-                    android:layout_marginBottom="@dimen/header_vertical_space"
-                    android:background="@drawable/background_header"/>
-                <TextView
-                    android:id="@+id/interestedPeople"
+                    android:orientation="vertical"
+                    android:background="@drawable/rectangle_white_background"
+                    android:padding="16dp"
+                    android:layout_marginBottom="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/description"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:gravity="center_horizontal"
+                        android:layout_marginBottom="16dp"/>
+
+                    <TextView
+                        android:id="@+id/description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="none"
+                        android:maxLines="100"
+                        android:scrollHorizontally="false"
+                        android:textSize="14sp"
+                        android:text="@string/lorem_ipsum"
+                        android:layout_marginBottom="16dp"/>
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/h2"
-                    android:textStyle="bold"
-                    android:gravity="center_horizontal"
-                    android:layout_marginBottom="@dimen/regular_vertical_space"/>
+                    android:orientation="vertical"
+                    android:background="@drawable/rectangle_white_background"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/interested_people"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:gravity="center_horizontal"
+                        android:layout_marginBottom="16dp"/>
+
+                    <TextView
+                        android:id="@+id/interestedPeople"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:gravity="center_horizontal"/>
+                </LinearLayout>
 
             </LinearLayout>
+
         </ScrollView>
 
         <ProgressBar

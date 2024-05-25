@@ -57,7 +57,8 @@ class OwnerPropertyDetailFragment : Fragment() {
         val imageSlider = binding.image
         imageSlider.adapter = ImageSliderAdapter(property.images)
         val imageCount = imageSlider.adapter?.itemCount ?: 0
-        var imageText = "1/$imageCount"
+        var imageText = "${if(property.images.isNotEmpty()) 1 else 0}/$imageCount"
+        binding.imageCount.text = imageText
         imageSlider.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)

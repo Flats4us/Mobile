@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.RentDetailFragment">
+    tools:context=".ui.RentDetailFragment"
+    android:background="@drawable/app_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -23,22 +24,24 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout_marginBottom="16dp">
 
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/image"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/image_view_image_height"
                         android:contentDescription="zdjęcie nieruchomości"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintEnd_toEndOf="parent" />
 
                     <TextView
                         android:id="@+id/imageCount"
@@ -53,15 +56,15 @@
                         app:drawableTint="@color/white"
                         app:layout_constraintBottom_toBottomOf="@id/image"
                         app:layout_constraintEnd_toEndOf="@id/image" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
+                    android:background="@drawable/rectangle_white_background"
                     android:layout_marginBottom="@dimen/regular_vertical_space"
-                    android:layout_marginTop="@dimen/header_vertical_space">
+                    android:padding="16dp">
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -79,11 +82,14 @@
                         android:textSize="@dimen/subtext_text_size"
                         android:layout_weight="1"/>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:layout_marginBottom="@dimen/regular_vertical_space">
+                    android:background="@drawable/rectangle_white_background"
+                    android:layout_marginBottom="@dimen/regular_vertical_space"
+                    android:padding="16dp">
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -101,11 +107,14 @@
                         android:textSize="@dimen/subtext_text_size"
                         android:layout_weight="1"/>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
+                    android:orientation="horizontal"
+                    android:background="@drawable/rectangle_white_background"
+                    android:layout_marginBottom="@dimen/regular_vertical_space"
+                    android:padding="16dp">
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -113,60 +122,86 @@
                         android:text="@string/period"
                         android:textStyle="italic"
                         android:textSize="@dimen/regular_text_size"
-                        android:gravity="end"/>
+                        android:gravity="end"
+                        android:layout_marginEnd="8dp"/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_weight="@dimen/text_view_column_value_weight"
+                            android:paddingStart="@dimen/table_cell_padding"
+                            android:layout_gravity="center_vertical">
+
+                            <TextView
+                                android:id="@+id/duration"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="@dimen/regular_text_size"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/month"
+                            android:textSize="@dimen/regular_text_size"
+                            android:paddingStart="@dimen/text_view_padding"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/rectangle_white_background"
+                    android:layout_marginBottom="@dimen/regular_vertical_space"
+                    android:padding="16dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="@dimen/text_view_column_name_weight"
+                        android:text="@string/address"
+                        android:textStyle="italic"
+                        android:textSize="@dimen/regular_text_size"
+                        android:gravity="end"
+                        android:layout_marginEnd="8dp"/>
 
                     <TextView
-                        android:id="@+id/duration"
+                        android:id="@+id/address"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="@dimen/text_view_column_value_weight"
                         android:textSize="@dimen/regular_text_size"
                         android:paddingStart="@dimen/table_cell_padding"/>
+                </LinearLayout>
 
-                    </LinearLayout>
-                    <LinearLayout
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/rectangle_white_background"
+                    android:layout_marginBottom="@dimen/regular_vertical_space"
+                    android:padding="16dp">
+
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:text="@string/tentors"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:gravity="center_horizontal"
+                        android:background="@drawable/rectangle_white_background" />
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="@dimen/text_view_column_name_weight"
-                            android:text="@string/address"
-                            android:textStyle="italic"
-                            android:textSize="@dimen/regular_text_size"
-                            android:gravity="end"/>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rentRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/recyclerview_padding"
+                        android:background="@drawable/rectangle_white_background" />
 
-                        <TextView
-                            android:id="@+id/address"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="@dimen/text_view_column_value_weight"
-                            android:textSize="@dimen/regular_text_size"
-                            android:paddingStart="@dimen/table_cell_padding"/>
-
-                    </LinearLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tentors"
-                    android:textSize="@dimen/h2"
-                    android:textStyle="bold"
-                    android:gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/header_vertical_space"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rentRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/recyclerview_padding" />
-
+                </LinearLayout>
             </LinearLayout>
-
         </ScrollView>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </FrameLayout>

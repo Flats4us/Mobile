@@ -259,6 +259,7 @@
     <string name="tentors">Najemcy</string>
     <string name="meet">Umów spoktanie</string>
     <string name="forgot_my_password">Nie pamiętam hasła</string>
+    <string name="property_details">Szczegóły nieruchomości</string>
 
     <!-- TODO: meeting_row -->
 </resources>
