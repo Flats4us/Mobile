@@ -10,11 +10,9 @@ import retrofit2.http.Path
 
 interface IStudentSurveyService {
 
-    @GET("s22677/JSON-data-example/main/{type}/JSON.json")
-    suspend fun getSurveyQuestions (@Path("type") surveyType: String): List<SurveyQuestion>
+    @GET("/api/surveys/template/student")
+    suspend fun getStudentSurveyQuestions (): Response<List<SurveyQuestion>>
 
-    @POST("endpoint/path")
-    suspend fun sendQuestionResponses(@Body questionResponses: List<QuestionResponse>): Response<Void>
-
-
+    @GET("/api/surveys/template/owner")
+    suspend fun getOwnerSurveyQuestions (): Response<List<SurveyQuestion>>
 }

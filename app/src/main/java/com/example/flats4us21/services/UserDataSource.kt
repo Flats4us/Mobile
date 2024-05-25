@@ -17,4 +17,6 @@ interface UserDataSource {
     suspend fun getProfile(): ApiResult<MyProfile>
 
     suspend fun getProfile(id: Int): ApiResult<Profile>
+
+    suspend fun sendPasswordResetLink(email: String): ApiResult<String>
 }

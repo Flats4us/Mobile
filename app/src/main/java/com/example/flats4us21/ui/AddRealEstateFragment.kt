@@ -83,6 +83,10 @@ class AddRealEstateFragment : Fragment() {
             .commit()
     }
 
+    fun goBack(){
+        childFragmentManager.popBackStack()
+    }
+
     fun increaseProgressBar(){
         binding.progressBar.incrementProgressBy(25)
     }

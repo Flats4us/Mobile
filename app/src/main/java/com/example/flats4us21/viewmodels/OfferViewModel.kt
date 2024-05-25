@@ -148,6 +148,34 @@ class OfferViewModel: ViewModel() {
         _rules = value
     }
 
+    private var _smokingAllowed: Boolean = false
+    var smokingAllowed: Boolean
+    get() = _smokingAllowed
+    set(value) {
+        _smokingAllowed = value
+    }
+
+    private var _partiesAllowed: Boolean = false
+    var partiesAllowed: Boolean
+    get() = _partiesAllowed
+    set(value) {
+        _partiesAllowed = value
+    }
+
+    private var _animalsAllowed: Boolean = false
+    var animalsAllowed: Boolean
+    get() = _animalsAllowed
+    set(value) {
+        _animalsAllowed = value
+    }
+
+    private var _gender: Int = 0
+    var gender: Int
+    get() = _gender
+    set(value) {
+        _gender = value
+    }
+
     private var _selectedOffer: Offer? = null
     var selectedOffer: Offer?
     get() = _selectedOffer
@@ -291,10 +319,10 @@ class OfferViewModel: ViewModel() {
             startDate.toString(),
             endDate.toString(),
             rules,
-            smokingAllowed = true,
-            partiesAllowed = true,
-            animalsAllowed = true,
-            gender = 0,
+            smokingAllowed,
+            partiesAllowed,
+            animalsAllowed,
+            gender,
         )
         viewModelScope.launch {
             _errorMessage.value = null
@@ -303,6 +331,7 @@ class OfferViewModel: ViewModel() {
                 when (val response = apiOfferRepository.createOffer(offer)) {
                     is ApiResult.Success -> {
                         Log.d(TAG, " Created property")
+                        _resultMessage.value = response.data
                         callback(true)
                     }
                     is ApiResult.Error -> {

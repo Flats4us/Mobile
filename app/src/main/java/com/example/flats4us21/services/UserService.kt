@@ -35,4 +35,7 @@ interface UserService {
 
     @GET("api/users/{id}/profile")
     suspend fun getProfile(@Path("id") id: Int) : Response<Profile>
+
+    @POST("api/auth/{email}/send-password-reset-link")
+    suspend fun sendPasswordResetLink(@Path("email") email: String): Response<NewPropertyApiResponse<String>>
 }

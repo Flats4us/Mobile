@@ -24,8 +24,12 @@
         <activity
             android:name=".DrawerActivity"
             android:exported="true"
-            android:theme="@style/Theme.Flats4us21.NoActionBar"/>
-<!--            android:label="@string/title_activity_drawer"/>-->
+            android:theme="@style/Theme.Flats4us21.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ProfileActivity"
             android:exported="true" />

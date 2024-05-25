@@ -151,8 +151,8 @@ class UserViewModel: ViewModel() {
             _documentExpireDate = value
         }
 
-    private val _questionList: MutableLiveData<List<SurveyQuestion>> = MutableLiveData()
-    val questionList: LiveData<List<SurveyQuestion>>
+    private val _questionList: MutableLiveData<MutableList<SurveyQuestion>> = MutableLiveData()
+    val questionList: MutableLiveData<MutableList<SurveyQuestion>>
         get() = _questionList
 
     private lateinit var _questionResponseList: List<QuestionResponse>
@@ -208,13 +208,23 @@ class UserViewModel: ViewModel() {
     }
 
     fun getQuestionList(surveyType: String){
+        _errorMessage.value = null
         viewModelScope.launch {
-            _errorMessage.value = null
             _isLoading.value = true
             try{
                 val fetchedQuestions = apiSurveyRepository.getSurveyQuestion(surveyType)
                 Log.i(TAG, "Fetched questions: $fetchedQuestions")
-                _questionList.value = fetchedQuestions
+                when(fetchedQuestions) {
+                    is ApiResult.Success -> {
+                        val questions = fetchedQuestions.data
+                        questionList.value = questions as MutableList<SurveyQuestion>
+                    }
+                    is ApiResult.Error -> {
+                        Log.i(TAG, "ERROR: ${fetchedQuestions.message}")
+                        _errorMessage.value = fetchedQuestions.message
+                        Log.e(TAG, "error: ${errorMessage.value}")
+                    }
+                }
             } catch (e: Exception) {
                 _errorMessage.value = e.message
                 Log.e(TAG, "Exception $e")
@@ -370,6 +380,33 @@ class UserViewModel: ViewModel() {
             } catch (e: Exception) {
                 _errorMessage.value = e.message
                 Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun sendPasswordResetLink(email: String, callback: (Boolean) -> Unit){
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try{
+                when(val fetched = userRepository.sendPasswordResetLink(email)) {
+                    is ApiResult.Success -> {
+                        val profileData = fetched.data
+                        callback(true)
+                    }
+                    is ApiResult.Error -> {
+                        Log.i(TAG, "ERROR: ${fetched.message}")
+                        _errorMessage.value = fetched.message
+                        Log.e(TAG, "error: ${errorMessage.value}")
+                        callback(false)
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+                callback(false)
             } finally {
                 _isLoading.value = false
             }

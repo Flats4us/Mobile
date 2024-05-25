@@ -2,7 +2,6 @@ package com.example.flats4us21.ui
 
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -64,6 +63,11 @@ class LoginFragment : Fragment() {
                     (activity as? DrawerActivity)?.replaceFragment(fragment)
                 }
             }
+        }
+        val forgotYourPasswordButton = binding.forgotYourPassword
+        forgotYourPasswordButton.setOnClickListener {
+            val fragment = ForgotMyPasswordFragment()
+            (activity as? DrawerActivity)?.replaceFragment(fragment)
         }
     }
 
