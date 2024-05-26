@@ -7,6 +7,8 @@ data class MyProfile(
     val surname: String,
     @SerializedName("email")
     val email: String,
+    @SerializedName("address")
+    val address: String,
     @SerializedName("phoneNumber")
     val phoneNumber: String,
     @SerializedName("document")

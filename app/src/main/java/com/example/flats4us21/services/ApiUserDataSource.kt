@@ -8,6 +8,7 @@ import com.example.flats4us21.data.Profile
 import com.example.flats4us21.data.dto.LoginRequest
 import com.example.flats4us21.data.dto.LoginResponse
 import com.example.flats4us21.data.dto.NewUserDto
+import com.example.flats4us21.data.dto.UpdateMyProfileDto
 import com.example.flats4us21.interceptors.AuthInterceptor
 import com.example.flats4us21.serializer.UserSerializer
 import com.google.gson.Gson
@@ -134,6 +135,19 @@ object ApiUserDataSource: UserDataSource{
                 ApiResult.Error("Failed to send password reset link: ${response.errorBody()?.string()}")
         } catch (e: Exception) {
             ApiResult.Error("An error occurred in sending password reset link: ${e.message}")
+        }
+    }
+
+    override suspend fun updateMyProfile(updateMyProfileDto: UpdateMyProfileDto): ApiResult<String> {
+        return try {
+            val response = apiWithAuthInterceptor.updateMyProfile(updateMyProfileDto)
+            if(response.isSuccessful) {
+                val data = response.body()?.string() ?: "Empty response"
+                ApiResult.Success(data)
+            } else
+                ApiResult.Error("Failed to update profile: ${response.errorBody()?.string()}")
+        } catch (e: Exception) {
+            ApiResult.Error("An internal error occurred in updating profile: ${e.message}")
         }
     }
 }

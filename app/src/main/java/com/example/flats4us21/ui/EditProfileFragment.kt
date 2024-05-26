@@ -1,33 +1,42 @@
 package com.example.flats4us21.ui
 
-import android.app.Activity
-import android.app.AlertDialog
-import android.content.Intent
+import android.app.DatePickerDialog
 import android.os.Bundle
-import android.provider.MediaStore
 import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.example.flats4us21.DataStoreManager
+import com.example.flats4us21.DrawerActivity
+import com.example.flats4us21.R
+import com.example.flats4us21.data.MyProfile
 import com.example.flats4us21.databinding.FragmentEditProfileBinding
-import android.app.DatePickerDialog
+import com.example.flats4us21.viewmodels.UserViewModel
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import java.util.Calendar
 
 
 class EditProfileFragment : Fragment() {
     private var _binding: FragmentEditProfileBinding? = null
     private val binding get() = _binding!!
-
-    private val PICK_IMAGE_REQUEST = 1
-    private val interests = mutableSetOf<String>()
-    private val socialMediaLinks = mutableSetOf<String>()
+    private val socialMediaLinks = mutableListOf<String>()
+    private lateinit var userViewModel: UserViewModel
+    private var selectedBirthDate : LocalDate? = null
+    private var selectedExpireDate : LocalDate? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
         _binding = FragmentEditProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -35,124 +44,194 @@ class EditProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.textInterests.setOnClickListener { showInterestsDialog() }
-        binding.textInterests.setOnLongClickListener {
-            showRemoveInterestDialog()
-            true
+        userViewModel.getMyProfile()
+        setVisibility()
+
+        userViewModel.myProfile.observe(viewLifecycleOwner) { userProfile ->
+            if(userProfile != null)
+                bindData(userProfile)
         }
-        binding.profilePicture.setOnClickListener { changeProfilePicture() }
-        binding.textSocialMediaLinks.setOnClickListener { showSocialMediaLinksDialog() }
-        binding.textSocialMediaLinks.setOnLongClickListener {
-            showRemoveSocialMediaLinkDialog()
-            true
+
+        binding.layoutSocialMediaLinks.setOnClickListener{
+            val linksDialogFragment = LinksDialogFragment(socialMediaLinks)
+            linksDialogFragment.show(parentFragmentManager , "LinksDialogFragment")
         }
-        binding.layoutDate.setOnClickListener { showDatePickerDialog() }
 
-    }
-    private fun showDatePickerDialog() {
-        val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        binding.profilePicture.setOnClickListener {  }
 
-        DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
-            val selectedDate = "${selectedDay}/${selectedMonth + 1}/${selectedYear}"
-            binding.textDate.text = selectedDate
-        }, year, month, day).show()
-    }
+        binding.layoutDate.setOnClickListener{
+            selectedBirthDate = clickDatePicker(binding.textDate)
+        }
 
+        binding.layoutDocumentExpireDate.setOnClickListener{
+            selectedExpireDate = clickDatePicker(binding.documentExpireDate)
+        }
 
-    private fun showInterestsDialog() {
-        val interestsArray = arrayOf("Muzyka", "Sport", "Szutka", "Technologia")
-        AlertDialog.Builder(requireContext()).apply {
-            setTitle("Wybierz zainteresowania")
-            setItems(interestsArray) { _, which ->
-                addInterestAsTag(interestsArray[which])
+        binding.phoneNumberToggle.setOnClickListener {
+            setPasswordVisibility(it as ImageButton, binding.phoneNumber)
+        }
+
+        binding.editProfileButton.setOnClickListener {
+            if(validateData()){
+                collectData()
+                userViewModel.updateMyProfile() {
+                    if(it){
+                        val fragment = MyProfileFragment()
+                        (activity as? DrawerActivity)!!.replaceFragment(fragment)
+                    }
+                }
             }
-            show()
         }
     }
 
-    private fun addInterestAsTag(interest: String) {
-        interests.add(interest)
-        updateInterestsDisplay()
+    private fun setVisibility() {
+        if(DataStoreManager.userRole.value == "Student") {
+            binding.layoutDocumentNumberWithHeader.visibility = View.GONE
+            binding.layoutDocumentExpireDateWithHeader.visibility = View.GONE
+            binding.layoutBankAccountWithHeader.visibility = View.GONE
+            binding.layoutBirthDateWithHeader.visibility = View.VISIBLE
+            binding.layoutStudentNumberWithHeader.visibility = View.VISIBLE
+            binding.layoutUniversityNameWithHeader.visibility = View.VISIBLE
+        } else {
+            binding.layoutDocumentNumberWithHeader.visibility = View.VISIBLE
+            binding.layoutDocumentExpireDateWithHeader.visibility = View.VISIBLE
+            binding.layoutBankAccountWithHeader.visibility = View.VISIBLE
+            binding.layoutBirthDateWithHeader.visibility = View.GONE
+            binding.layoutStudentNumberWithHeader.visibility = View.GONE
+            binding.layoutUniversityNameWithHeader.visibility = View.GONE
+        }
+
     }
 
-    private fun removeInterest(interest: String) {
-        interests.remove(interest)
-        updateInterestsDisplay()
-    }
-
-    private fun updateInterestsDisplay() {
-        binding.textInterests.text = interests.joinToString(", ")
-    }
-
-    private fun showRemoveInterestDialog() {
-        val items = interests.toTypedArray()
-        AlertDialog.Builder(requireContext()).apply {
-            setTitle("Usuń zainteresowanie")
-            setItems(items) { _, which ->
-                removeInterest(items[which])
-            }
-            show()
+    private fun setPasswordVisibility(toggle : ImageButton, password : EditText) {
+        if (password.inputType == InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD) {
+            toggle.setImageResource(R.drawable.baseline_visibility_24)
+            password.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+        } else {
+            toggle.setImageResource(R.drawable.baseline_visibility_off_24)
+            password.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
         }
     }
 
-    private fun showSocialMediaLinksDialog() {
-        // Custom input dialog for adding a new social media link
-        val input = EditText(requireContext())
-        input.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI
-        input.hint = "Wpisz link do mediów społecznościowych"
+    private fun bindData(userProfile: MyProfile) {
+        val datePattern = "yyyy-MM-dd"
+        binding.textResidentialAddress.setText(userProfile.address)
+        binding.email.setText(userProfile.email)
+        binding.phoneNumber.setText(userProfile.phoneNumber)
+        if(userProfile.links != null){
+            socialMediaLinks.addAll(userProfile.links)
+        }
+        binding.name.setText(userProfile.name)
+        binding.surname.setText(userProfile.surname)
+        if(DataStoreManager.userRole.value == "Student") {
+            binding.textDate.text = userProfile.birthDate!!.split("T")[0]
+            selectedBirthDate = stringToLocalDate(userProfile.birthDate.split("T")[0], datePattern)
+            binding.textStudentNumber.setText(userProfile.studentNumber)
+            binding.textUniversityName.setText(userProfile.university)
+        } else {
+            binding.documentNumber.setText(userProfile.documentNumber)
+            binding.documentExpireDate.text = userProfile.documentExpireDate.split("T")[0]
+            selectedExpireDate =
+                stringToLocalDate(userProfile.documentExpireDate.split("T")[0], datePattern)
+            binding.bankAccount.setText(userProfile.bankAccount)
+        }
+    }
+    private fun clickDatePicker(textView: TextView) : LocalDate? {
+        var selectedDate : LocalDate? = LocalDate.now()
+        val myCalendar = Calendar.getInstance()
+        val year = myCalendar.get(Calendar.YEAR)
+        val month = myCalendar.get(Calendar.MONTH)
+        val day = myCalendar.get(Calendar.DAY_OF_MONTH)
 
-        AlertDialog.Builder(requireContext()).apply {
-            setTitle("Dodaj link do mediów społecznościowych")
-            setView(input)
-            setPositiveButton("Dodaj") { _, _ ->
-                addSocialMediaLink(input.text.toString())
-            }
-            setNegativeButton("Anuluj", null)
-            show()
+        DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDayOfMonth ->
+            selectedDate = LocalDate.of(selectedYear, selectedMonth+1, selectedDayOfMonth)
+            textView.text = selectedDate.toString()
+        },
+            year,
+            month,
+            day).show()
+        return selectedDate
+    }
+
+    private fun stringToLocalDate(dateString: String, pattern: String): LocalDate? {
+        return try {
+            val formatter = DateTimeFormatter.ofPattern(pattern)
+            LocalDate.parse(dateString, formatter)
+        } catch (e: DateTimeParseException) {
+            e.printStackTrace()
+            null
         }
     }
 
-    private fun addSocialMediaLink(link: String) {
-        if (link.isNotEmpty()) {
-            socialMediaLinks.add(link)
-            updateSocialMediaLinksDisplay()
+    private fun collectData() {
+        if(!binding.textResidentialAddress.text.isNullOrEmpty()) {
+            userViewModel.address = binding.textResidentialAddress.text.toString()
+        }
+        if(!binding.email.text.isNullOrEmpty()) {
+            userViewModel.email = binding.email.text.toString()
+        }
+        if(!binding.phoneNumber.text.isNullOrEmpty()) {
+            userViewModel.phoneNumber = binding.phoneNumber.text.toString()
+        }
+        userViewModel.links = socialMediaLinks
+        if(!binding.name.text.isNullOrEmpty()) {
+            userViewModel.name = binding.name.text.toString()
+        }
+        if(!binding.surname.text.isNullOrEmpty()){
+            userViewModel.surname = binding.surname.text.toString()
+        }
+        if(!binding.textDate.text.isNullOrEmpty()){
+            userViewModel.birthDate = selectedBirthDate
+        }
+        if(!binding.textStudentNumber.text.isNullOrEmpty()){
+            userViewModel.studentNumber = binding.textStudentNumber.text.toString()
+        }
+        if(!binding.textStudentNumber.text.isNullOrEmpty()){
+            userViewModel.studentNumber = binding.textStudentNumber.text.toString()
+        }
+        if(!binding.textUniversityName.text.isNullOrEmpty()){
+            userViewModel.university = binding.textUniversityName.text.toString()
+        }
+        if(!binding.documentNumber.text.isNullOrEmpty()){
+            userViewModel.documentNumber = binding.documentNumber.text.toString()
+        }
+        if(!binding.documentExpireDate.text.isNullOrEmpty()){
+            userViewModel.documentExpireDate = selectedExpireDate
         }
     }
 
-    private fun removeSocialMediaLink(link: String) {
-        socialMediaLinks.remove(link)
-        updateSocialMediaLinksDisplay()
+    fun validateData() : Boolean {
+        val isAddressValid = validateOptionalEditText(binding.textResidentialAddress, binding.layoutResidentialAddress, binding.layoutResidentialAddressWithHeader)
+        val isEmailValid = validateOptionalEditText(binding.email, binding.layoutEmail, binding.layoutEmailWithHeader)
+        val isPhoneNumberValid = validateOptionalEditText(binding.phoneNumber, binding.layoutPhoneNumber, binding.layoutPhoneNumberWithHeader)
+        val isNameValid = validateOptionalEditText(binding.name, binding.layoutName, binding.layoutNameWithHeader)
+        val isSurnameValid = validateOptionalEditText(binding.surname, binding.layoutSurname, binding.layoutSurnameWithHeader)
+        val isDateValid = validateOptionalTextView(binding.textDate, binding.layoutDate, binding.layoutBirthDateWithHeader)
+        val isStudentNumberValid = validateOptionalEditText(binding.textStudentNumber, binding.layoutStudentNumber, binding.layoutStudentNumberWithHeader)
+        val isUniversityNameValid = validateOptionalEditText(binding.textUniversityName, binding.layoutUniversityName, binding.layoutUniversityNameWithHeader)
+        val isDocumentNumberValid = validateOptionalEditText(binding.documentNumber, binding.layoutDocumentNumber, binding.layoutDocumentNumberWithHeader)
+        val isDocumentExpireDateValid = validateOptionalTextView(binding.documentExpireDate, binding.layoutDocumentExpireDate, binding.layoutDocumentExpireDateWithHeader)
+        val isBankAccountValid = validateOptionalEditText(binding.bankAccount, binding.layoutBankAccount, binding.layoutBankAccountWithHeader)
+
+        return isAddressValid && isEmailValid && isPhoneNumberValid && isNameValid && isSurnameValid && isDateValid && isStudentNumberValid && isUniversityNameValid && isDocumentNumberValid && isDocumentExpireDateValid && isBankAccountValid
     }
 
-    private fun updateSocialMediaLinksDisplay() {
-        binding.textSocialMediaLinks.text = socialMediaLinks.joinToString(", ")
+    private fun validateOptionalEditText(editText: EditText, editTextLayout : ViewGroup, layoutWithHeader : ViewGroup): Boolean {
+        val text = editText.text.toString()
+        val isValid = text.isNotEmpty()
+        val isVisible = layoutWithHeader.visibility == View.VISIBLE
+
+        editTextLayout.setBackgroundResource(if (isValid || !isVisible) R.drawable.background_input else R.drawable.background_wrong_input)
+        return isValid || !isVisible
     }
 
-    private fun showRemoveSocialMediaLinkDialog() {
-        val items = socialMediaLinks.toTypedArray()
-        AlertDialog.Builder(requireContext()).apply {
-            setTitle("Usuń link do mediów społecznościowych")
-            setItems(items) { _, which ->
-                removeSocialMediaLink(items[which])
-            }
-            show()
-        }
-    }
+    private fun validateOptionalTextView(textView: TextView, editTextLayout : ViewGroup, layoutWithHeader : ViewGroup): Boolean {
+        val text = textView.text.toString()
+        val isValid = text.isNotEmpty()
+        val isVisible = layoutWithHeader.visibility == View.VISIBLE
 
-    private fun changeProfilePicture() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(intent, PICK_IMAGE_REQUEST)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
-            val selectedImage = data.data
-            binding.profilePicture.setImageURI(selectedImage)
-        }
+        editTextLayout.setBackgroundResource(if (isValid || !isVisible) R.drawable.background_input else R.drawable.background_wrong_input)
+        return isValid || !isVisible
     }
 
     override fun onDestroyView() {

@@ -8,10 +8,13 @@ import com.example.flats4us21.data.dto.LoginResponse
 import com.example.flats4us21.data.dto.NewUserDto
 import com.example.flats4us21.data.dto.OwnerDTO
 import com.example.flats4us21.data.dto.StudentDTO
+import com.example.flats4us21.data.dto.UpdateMyProfileDto
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface UserService {
@@ -38,4 +41,7 @@ interface UserService {
 
     @POST("api/auth/{email}/send-password-reset-link")
     suspend fun sendPasswordResetLink(@Path("email") email: String): Response<NewPropertyApiResponse<String>>
+
+    @PUT("api/users/current")
+    suspend fun updateMyProfile(@Body updateMyProfileDto: UpdateMyProfileDto) : Response<ResponseBody>
 }

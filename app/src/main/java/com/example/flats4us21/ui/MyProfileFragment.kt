@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.load
+import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.R
 import com.example.flats4us21.URL
 import com.example.flats4us21.adapters.InterestAdapter
@@ -61,7 +62,8 @@ class MyProfileFragment : Fragment() {
         }
 
         binding.editProfileButton.setOnClickListener {
-            Toast.makeText(requireContext(), "Clicked Edytuj profil", Toast.LENGTH_SHORT).show()
+            val fragment = EditProfileFragment()
+            (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
 
     }
