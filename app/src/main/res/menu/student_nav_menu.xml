@@ -23,11 +23,6 @@
         android:title="@string/map"/>
 
     <item
-        android:id="@+id/nav_last_viewed"
-        android:icon="@drawable/baseline_visibility_24"
-        android:title="@string/last_viewed"/>
-
-    <item
         android:id="@+id/nav_messages"
         android:icon="@drawable/baseline_message_24"
         android:title="@string/messages"/>

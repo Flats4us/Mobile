@@ -18,6 +18,7 @@ import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.utils.Constants.Companion.QUERY_PAGE_SIZE
 import com.example.flats4us21.databinding.FragmentSearchBinding
 import com.example.flats4us21.viewmodels.OfferViewModel
+import kotlin.math.ceil
 
 private const val TAG = "SearchFragment"
 const val OFFER_ID = "OFFER_ID"
@@ -50,7 +51,8 @@ class SearchFragment : Fragment() {
             fetchedOffers = offers as MutableList<Offer>
             adapter.setOfferList(fetchedOffers)
             adapter.notifyDataSetChanged()
-            val totalPages = viewModel.offersNumber / QUERY_PAGE_SIZE + 2
+            val totalPages = ceil(viewModel.offersNumber.toDouble() / QUERY_PAGE_SIZE).toInt()
+            Log.i(TAG, "Number of total pages: $totalPages")
             isLastPage = viewModel.pageNumber == totalPages
         }
 
@@ -63,6 +65,12 @@ class SearchFragment : Fragment() {
         viewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
             if(errorMessage != null) {
                 Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+            }
+        }
+
+        viewModel.resultMessage.observe(viewLifecycleOwner) { resultMessage ->
+            if(resultMessage != null) {
+                Toast.makeText(requireContext(), resultMessage, Toast.LENGTH_LONG).show()
             }
         }
 
@@ -87,7 +95,7 @@ class SearchFragment : Fragment() {
             val visibleItemCount = layoutManager.childCount
             val totalItemCount = layoutManager.itemCount
 
-            val isNotLoadingAndNotLastPage = !viewModel.isLoading.value!! && !isLastPage
+            val isNotLoadingAndNotLastPage = viewModel.isLoading.value == false && !isLastPage
             val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
             val isNotAtBeginning = firstVisibleItemPosition >= 0
             val isTotalMoreThanVisible  = totalItemCount >= QUERY_PAGE_SIZE
@@ -105,7 +113,7 @@ class SearchFragment : Fragment() {
             }
         }
     }
-    
+
     private fun setRecyclerView() {
         adapter = PropertyAdapter(false, fetchedOffers){selectedOffer ->
             val bundle = Bundle()

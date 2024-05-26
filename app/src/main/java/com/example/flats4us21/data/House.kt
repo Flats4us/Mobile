@@ -1,5 +1,6 @@
 package com.example.flats4us21.data
 
+import com.google.gson.JsonArray
 import com.google.gson.annotations.SerializedName
 
 data class House(
@@ -18,12 +19,14 @@ data class House(
     override val images: MutableList<Image>,
     override val verificationStatus: Int,
     override val numberOfRooms: Int,
+    override val offerIds: Int?,
     override val equipment: MutableList<Equipment>,
+    override val rentOpinions: JsonArray,
     @SerializedName("landArea")
     val landArea: Int,
     @SerializedName("numberOfFloors")
     val numberOfFloors: Int
-) : com.example.flats4us21.data.dto.Property(
+) : Property(
     propertyId,
     voivodeship,
     district,
@@ -39,5 +42,7 @@ data class House(
     images,
     verificationStatus,
     numberOfRooms,
-    equipment
+    offerIds,
+    equipment,
+    rentOpinions
 )

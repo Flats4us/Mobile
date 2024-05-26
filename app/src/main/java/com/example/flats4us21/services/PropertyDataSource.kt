@@ -3,7 +3,7 @@ package com.example.flats4us21.services
 import com.example.flats4us21.data.ApiResult
 import com.example.flats4us21.data.NewPropertyApiResponse
 import com.example.flats4us21.data.dto.NewPropertyDto
-import com.example.flats4us21.data.dto.Property
+import com.example.flats4us21.data.Property
 import java.io.File
 
 interface PropertyDataSource {

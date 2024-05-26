@@ -3,9 +3,11 @@ package com.example.flats4us21.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.flats4us21.DataStoreManager
 import com.example.flats4us21.R
 import com.example.flats4us21.URL
 import com.example.flats4us21.data.Offer
@@ -14,8 +16,8 @@ import com.example.flats4us21.viewmodels.OfferViewModel
 
 class PropertyAdapter(
     private val ownersOffer : Boolean,
-    private var offers : List<Offer>
-    , private val onUserClick : (Offer) -> Unit
+    private var offers : List<Offer>,
+    private val onUserClick : (Offer) -> Unit
 ) : RecyclerView.Adapter<PropertyAdapter.MyViewHolder>() {
 
     private var offerViewModel: OfferViewModel? = null
@@ -60,29 +62,32 @@ class PropertyAdapter(
         if(ownersOffer){
             holder.button.visibility = View.GONE
         }
-//        holder.button.setImageResource(if(offers[position].isInterest){
-//            holder.button.tag = true
-//            R.drawable.observe
-//        } else{
-//            holder.button.tag = false
-//            R.drawable.unobserve
-//        })
+        holder.button.isVisible = DataStoreManager.userRole.value?.let { it == "Student" } ?: false
+        var isObserved = offers[position].isInterest
+        if(isObserved){
+            holder.button.tag = true
+            holder.button.setImageResource(R.drawable.observe)
+        } else{
+            holder.button.tag = false
+            holder.button.setImageResource(R.drawable.unobserve)
+        }
         holder.button.setOnClickListener {
-            if(holder.button.tag == true){
+            if(isObserved){
                 holder.button.setImageResource(R.drawable.unobserve)
-                holder.button.tag = false
                 offerViewModel?.unwatchOffer(offers[position].offerId)
             } else {
                 holder.button.setImageResource(R.drawable.observe)
-                holder.button.tag = true
                 offerViewModel?.watchOffer(offers[position].offerId)
             }
-            notifyDataSetChanged()
+            isObserved = !isObserved
         }
         if(offers[position].property.images.isNotEmpty()) {
-            holder.image.load(URL + "/" + offers[position].property.images[0].path) {
+            holder.image.load(URL + "/" + offers[position].property.images[0].path){
                 error(R.drawable.baseline_broken_image_24)
             }
+        }
+        holder.promotion.setOnClickListener{
+            Toast.makeText(it.context, "Oferta promowana", Toast.LENGTH_SHORT).show()
         }
         if(offers[position].isPromoted){
             holder.promotion.isVisible = true

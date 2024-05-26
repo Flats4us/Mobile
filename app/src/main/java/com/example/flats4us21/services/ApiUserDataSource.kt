@@ -3,14 +3,18 @@ package com.example.flats4us21.services
 import android.util.Log
 import com.example.flats4us21.URL
 import com.example.flats4us21.data.ApiResult
+import com.example.flats4us21.data.MyProfile
 import com.example.flats4us21.data.Profile
 import com.example.flats4us21.data.dto.LoginRequest
 import com.example.flats4us21.data.dto.LoginResponse
 import com.example.flats4us21.data.dto.NewUserDto
+import com.example.flats4us21.data.dto.UpdateMyProfileDto
 import com.example.flats4us21.interceptors.AuthInterceptor
 import com.example.flats4us21.serializer.UserSerializer
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -77,7 +81,9 @@ object ApiUserDataSource: UserDataSource{
 
     override suspend fun checkEmail(email: String): ApiResult<Boolean> {
         return try {
-            val encodedEmail = URLEncoder.encode(email, "UTF-8")
+            val encodedEmail = withContext(Dispatchers.IO) {
+                URLEncoder.encode(email, "UTF-8")
+            }
             Log.i(TAG, "Encoded email: $encodedEmail")
             val response = api.checkEmail(encodedEmail)
             if(response.isSuccessful) {
@@ -91,7 +97,7 @@ object ApiUserDataSource: UserDataSource{
         }
     }
 
-    override suspend fun getProfile(): ApiResult<Profile> {
+    override suspend fun getProfile(): ApiResult<MyProfile> {
         return try {
             val response = apiWithAuthInterceptor.getProfile()
             if(response.isSuccessful) {
@@ -102,6 +108,46 @@ object ApiUserDataSource: UserDataSource{
             }
         } catch (e: Exception) {
             ApiResult.Error("An error occurred in getting profile information: ${e.message}")
+        }
+    }
+
+    override suspend fun getProfile(id: Int): ApiResult<Profile> {
+        return try {
+            val response = apiWithAuthInterceptor.getProfile(id)
+            if(response.isSuccessful) {
+                val data = response.body()!!
+                ApiResult.Success(data)
+            } else {
+                ApiResult.Error("Failed to get profile: ${response.errorBody()?.string()}")
+            }
+        } catch (e: Exception) {
+            ApiResult.Error("An error occurred in getting profile information: ${e.message}")
+        }
+    }
+
+    override suspend fun sendPasswordResetLink(email: String): ApiResult<String> {
+        return try {
+            val response = api.sendPasswordResetLink(email)
+            if(response.isSuccessful) {
+                val data = response.body()!!.result
+                ApiResult.Success(data)
+            } else
+                ApiResult.Error("Failed to send password reset link: ${response.errorBody()?.string()}")
+        } catch (e: Exception) {
+            ApiResult.Error("An error occurred in sending password reset link: ${e.message}")
+        }
+    }
+
+    override suspend fun updateMyProfile(updateMyProfileDto: UpdateMyProfileDto): ApiResult<String> {
+        return try {
+            val response = apiWithAuthInterceptor.updateMyProfile(updateMyProfileDto)
+            if(response.isSuccessful) {
+                val data = response.body()?.string() ?: "Empty response"
+                ApiResult.Success(data)
+            } else
+                ApiResult.Error("Failed to update profile: ${response.errorBody()?.string()}")
+        } catch (e: Exception) {
+            ApiResult.Error("An internal error occurred in updating profile: ${e.message}")
         }
     }
 }

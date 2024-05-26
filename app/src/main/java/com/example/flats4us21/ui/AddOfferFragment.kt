@@ -1,5 +1,6 @@
 package com.example.flats4us21.ui
 
+import com.example.flats4us21.adapters.QuestionAdapter
 import android.app.DatePickerDialog
 import android.net.Uri
 import android.os.Bundle
@@ -18,12 +19,16 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.flats4us21.DataStoreManager
 import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.R
 import com.example.flats4us21.adapters.PropertySpinnerAdapter
-import com.example.flats4us21.data.dto.Property
+import com.example.flats4us21.data.Property
 import com.example.flats4us21.databinding.FragmentAddOfferBinding
 import com.example.flats4us21.viewmodels.OfferViewModel
+import com.example.flats4us21.viewmodels.UserViewModel
 import java.time.LocalDate
 import java.util.*
 
@@ -32,12 +37,15 @@ class AddOfferFragment : Fragment() {
     private var _binding: FragmentAddOfferBinding? = null
     private val binding get() = _binding!!
     private lateinit var offerViewModel: OfferViewModel
+    private lateinit var userViewModel: UserViewModel
     private var selectedProperty: Property? = null
     private var fileContent: String? = null
     private val fetchedProperties: MutableList<Property> = mutableListOf()
     private lateinit var adapter: PropertySpinnerAdapter
     private var selectedStartDate : LocalDate? = null
     private var selectedEndDate : LocalDate? = null
+    private lateinit var surveyAdapter: QuestionAdapter
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,8 +58,10 @@ class AddOfferFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         offerViewModel = ViewModelProvider(this)[OfferViewModel::class.java]
+        userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
         offerViewModel.getUserProperties(true)
+        userViewModel.getQuestionList(DataStoreManager.userRole.value.toString())
 
         val filter: InputFilter = CurrencyInputFilter()
         binding.price.filters = arrayOf(filter)
@@ -82,6 +92,18 @@ class AddOfferFragment : Fragment() {
                 selectedProperty = null
             }
         }
+
+        userViewModel.questionList.observe(viewLifecycleOwner) { questions ->
+            Log.i(TAG, "Number of questions: ${questions.size}")
+            surveyAdapter = QuestionAdapter(questions)
+            val recyclerView: RecyclerView = binding.questionRecyclerView
+            recyclerView.layoutManager = LinearLayoutManager(context)
+            recyclerView.adapter = surveyAdapter
+            surveyAdapter.notifyDataSetChanged()
+            Log.i(TAG, "Number of questions: ${surveyAdapter.itemCount}")
+        }
+
+
 
         val getContent = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
             if (uri != null) {
@@ -153,12 +175,26 @@ class AddOfferFragment : Fragment() {
     }
 
     private fun collectData() {
-        val isDataValid = validateData()
+        if (validateData()) {
+            val userResponses = surveyAdapter.getUserResponses()
 
-        if (isDataValid) {
+            if (userResponses["smokingAllowed"] == null ||
+                userResponses["partiesAllowed"] == null ||
+                userResponses["animalsAllowed"] == null ||
+                userResponses["gender"] == null
+            ) {
+                Toast.makeText(requireContext(), "Please answer all required questions.", Toast.LENGTH_LONG).show()
+                return
+            }
+
+            offerViewModel.smokingAllowed = userResponses["smokingAllowed"] as? Boolean ?: false
+            offerViewModel.partiesAllowed = userResponses["partiesAllowed"] as? Boolean ?: false
+            offerViewModel.animalsAllowed = userResponses["animalsAllowed"] as? Boolean ?: false
+            offerViewModel.gender = userResponses["gender"] as? Int ?: 0
+
             offerViewModel.startDate = selectedStartDate!!.atStartOfDay()
             offerViewModel.endDate = selectedEndDate!!.atStartOfDay()
-            offerViewModel.createOffer{result ->
+            offerViewModel.createOffer{ result ->
                 if(result){
                     val fragment = SearchFragment()
                     (activity as? DrawerActivity)!!.replaceFragment(fragment)
@@ -257,7 +293,6 @@ class AddOfferFragment : Fragment() {
         editTextLayout.setBackgroundResource(if (isValid || !isRequired || !isVisible) R.drawable.background_input else R.drawable.background_wrong_input)
         return isValid || !isRequired || !isVisible
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

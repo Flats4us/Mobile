@@ -26,26 +26,4 @@ class MainViewModel : ViewModel() {
     val errorMessage: LiveData<String?>
         get() = _errorMessage
 
-    fun getQuestionList(surveyType: String){
-        viewModelScope.launch {
-            _errorMessage.value = null
-            _isLoading.value = true
-            try{
-                val fetchedQuestions = apiSurveyRepository.getSurveyQuestion(surveyType)
-                Log.i(TAG, "Fetched questions: $fetchedQuestions")
-                _questionList.value = fetchedQuestions
-            } catch (e: Exception) {
-                _errorMessage.value = e.message
-                Log.e(TAG, "Exception $e")
-            } finally {
-                _isLoading.value = false
-            }
-        }
-    }
-
-    fun postSurveyQuestions(answers: List<QuestionResponse>){
-        viewModelScope.launch {
-            apiSurveyRepository.postSurveyQuestions(answers)
-        }
-    }
 }

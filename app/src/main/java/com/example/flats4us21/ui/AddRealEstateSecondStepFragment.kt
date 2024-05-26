@@ -55,13 +55,10 @@ class AddRealEstateSecondStepFragment : Fragment() {
             if (uri != null) {
                 val fileName = getFileNameFromUri(uri)
 
-                // Resolve the content URI to obtain a file descriptor
                 val inputStream = requireContext().contentResolver.openInputStream(uri)
 
-                // Create a temporary file in your app's cache directory
                 file = createTempFile(fileName.toString(), ".tmp")
 
-                // Copy the content of the selected file to the temporary file
                 inputStream?.use { input ->
                     file?.outputStream()?.use { output ->
                         input.copyTo(output)
@@ -80,7 +77,7 @@ class AddRealEstateSecondStepFragment : Fragment() {
 
         binding.prevButton.setOnClickListener {
             collectData()
-            (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateFirstStepFragment())
+            (requireParentFragment() as AddRealEstateFragment).goBack()
             (requireParentFragment() as AddRealEstateFragment).decreaseProgressBar()
         }
         binding.nextButton.setOnClickListener {

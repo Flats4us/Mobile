@@ -9,10 +9,9 @@ data class Student(
     override val email: String,
     override val phoneNumber: String,
     override val profilePicture: Image?,
-    override val activityStatus: Boolean,
     val birthDate: Year,
     val studentNumber: String,
     val university: String,
 ) : StudentOwner(
-    id, name, surname, email, phoneNumber, profilePicture, activityStatus
+    id, name, surname, email, phoneNumber, profilePicture
 )

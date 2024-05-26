@@ -11,4 +11,6 @@
     <color name="orange">#FFAA66</color>
     <color name="colorDivider">#BDBDBD</color>
     <color name="red">#FF0000</color>
+    <color name="startColor">#FFE3CC</color>
+    <color name="endColor">#C4C3F9</color>
 </resources>

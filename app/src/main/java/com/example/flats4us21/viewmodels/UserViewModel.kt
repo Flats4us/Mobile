@@ -7,10 +7,23 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.flats4us21.DataStoreManager
-import com.example.flats4us21.data.*
+import com.example.flats4us21.data.ApiResult
+import com.example.flats4us21.data.DocumentType
+import com.example.flats4us21.data.Interest
+import com.example.flats4us21.data.MyProfile
+import com.example.flats4us21.data.Profile
+import com.example.flats4us21.data.QuestionResponse
+import com.example.flats4us21.data.SurveyQuestion
+import com.example.flats4us21.data.UserMenuData
+import com.example.flats4us21.data.UserType
 import com.example.flats4us21.data.dto.LoginResponse
 import com.example.flats4us21.data.dto.NewUserDto
-import com.example.flats4us21.services.*
+import com.example.flats4us21.data.dto.UpdateMyProfileDto
+import com.example.flats4us21.services.ApiInterestDataSource
+import com.example.flats4us21.services.ApiUserDataSource
+import com.example.flats4us21.services.InterestDataSource
+import com.example.flats4us21.services.StudentSurveyService
+import com.example.flats4us21.services.UserDataSource
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
@@ -28,9 +41,17 @@ class UserViewModel: ViewModel() {
     val errorMessage: LiveData<String?>
         get() = _errorMessage
 
+    private val _resultMessage = MutableLiveData<String?>(null)
+    val resultMessage: LiveData<String?>
+        get() = _resultMessage
+
     private val _loginResponse = MutableLiveData<LoginResponse?>(null)
     val loginResponse: LiveData<LoginResponse?>
         get() = _loginResponse
+
+    private val _myProfile = MutableLiveData<MyProfile?>(null)
+    val myProfile: LiveData<MyProfile?>
+        get() = _myProfile
 
     private val _profile = MutableLiveData<Profile?>(null)
     val profile: LiveData<Profile?>
@@ -103,29 +124,29 @@ class UserViewModel: ViewModel() {
             _birthDate = value
         }
 
-    private var _university: String = ""
-    var university: String
+    private var _university: String? = null
+    var university: String?
         get() = _university
         set(value) {
             _university = value
         }
 
-    private var _studentNumber: String = ""
-    var studentNumber: String
+    private var _studentNumber: String? = null
+    var studentNumber: String?
         get() = _studentNumber
         set(value) {
             _studentNumber = value
         }
 
-    private var _bankAccount: String = ""
-    var bankAccount: String
+    private var _bankAccount: String? = null
+    var bankAccount: String?
         get() = _bankAccount
         set(value) {
             _bankAccount = value
         }
 
-    private var _documentNumber: String = ""
-    var documentNumber: String
+    private var _documentNumber: String? = null
+    var documentNumber: String?
         get() = _documentNumber
         set(value) {
             _documentNumber = value
@@ -147,8 +168,8 @@ class UserViewModel: ViewModel() {
             _documentExpireDate = value
         }
 
-    private val _questionList: MutableLiveData<List<SurveyQuestion>> = MutableLiveData()
-    val questionList: LiveData<List<SurveyQuestion>>
+    private val _questionList: MutableLiveData<MutableList<SurveyQuestion>> = MutableLiveData()
+    val questionList: MutableLiveData<MutableList<SurveyQuestion>>
         get() = _questionList
 
     private lateinit var _questionResponseList: List<QuestionResponse>
@@ -204,13 +225,23 @@ class UserViewModel: ViewModel() {
     }
 
     fun getQuestionList(surveyType: String){
+        _errorMessage.value = null
         viewModelScope.launch {
-            _errorMessage.value = null
             _isLoading.value = true
             try{
                 val fetchedQuestions = apiSurveyRepository.getSurveyQuestion(surveyType)
                 Log.i(TAG, "Fetched questions: $fetchedQuestions")
-                _questionList.value = fetchedQuestions
+                when(fetchedQuestions) {
+                    is ApiResult.Success -> {
+                        val questions = fetchedQuestions.data
+                        questionList.value = questions as MutableList<SurveyQuestion>
+                    }
+                    is ApiResult.Error -> {
+                        Log.i(TAG, "ERROR: ${fetchedQuestions.message}")
+                        _errorMessage.value = fetchedQuestions.message
+                        Log.e(TAG, "error: ${errorMessage.value}")
+                    }
+                }
             } catch (e: Exception) {
                 _errorMessage.value = e.message
                 Log.e(TAG, "Exception $e")
@@ -235,7 +266,7 @@ class UserViewModel: ViewModel() {
             studentNumber,
             bankAccount,
             documentNumber,
-            documentExpireDate!!,
+            documentExpireDate,
             questionResponseList,
             images,
             email,
@@ -264,10 +295,10 @@ class UserViewModel: ViewModel() {
         _address = ""
         _phoneNumber = ""
         _birthDate = null
-        _university = ""
-        _studentNumber = ""
-        _bankAccount = ""
-        documentNumber = ""
+        _university = null
+        _studentNumber =null
+        _bankAccount = null
+        documentNumber = null
         documentExpireDate = null
         _questionResponseList = listOf()
         _images = mutableListOf()
@@ -289,13 +320,12 @@ class UserViewModel: ViewModel() {
                         val data = fetchedLoginResponse.data
                         _loginResponse.value = data
                         loginResponse.value?.let { DataStoreManager.saveUserData(it) }
-                        val fetchedProfile = userRepository.getProfile()
-                        when(fetchedProfile) {
+                        when(val fetchedProfile = userRepository.getProfile()) {
                             is ApiResult.Success -> {
-                                val data = fetchedProfile.data
-                                _profile.value = data
-                                Log.i(TAG, data.toString())
-                                Log.i(TAG, _profile.value.toString())
+                                val profileData = fetchedProfile.data
+                                _myProfile.value = profileData
+                                Log.i(TAG, profileData.toString())
+                                Log.i(TAG, _myProfile.value.toString())
                             }
                             is ApiResult.Error -> {
                                 Log.i(TAG, "ERROR: ${fetchedProfile.message}")
@@ -319,5 +349,128 @@ class UserViewModel: ViewModel() {
         }
     }
 
+    fun getMyProfile(){
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try{
+                when(val fetchedProfile = userRepository.getProfile()) {
+                    is ApiResult.Success -> {
+                        val profileData = fetchedProfile.data
+                        _myProfile.value = profileData
+                        Log.i(TAG, profileData.toString())
+                        Log.i(TAG, _myProfile.value.toString())
+                    }
+                    is ApiResult.Error -> {
+                        Log.i(TAG, "ERROR: ${fetchedProfile.message}")
+                        _errorMessage.value = fetchedProfile.message
+                        Log.e(TAG, "error: ${errorMessage.value}")
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
 
+    fun getProfile(id: Int){
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try{
+                when(val fetchedProfile = userRepository.getProfile(id)) {
+                    is ApiResult.Success -> {
+                        val profileData = fetchedProfile.data
+                        _profile.value = profileData
+                        Log.i(TAG, profileData.toString())
+                        Log.i(TAG, _myProfile.value.toString())
+                    }
+                    is ApiResult.Error -> {
+                        Log.i(TAG, "ERROR: ${fetchedProfile.message}")
+                        _errorMessage.value = fetchedProfile.message
+                        Log.e(TAG, "error: ${errorMessage.value}")
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun sendPasswordResetLink(email: String, callback: (Boolean) -> Unit){
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try{
+                when(val fetched = userRepository.sendPasswordResetLink(email)) {
+                    is ApiResult.Success -> {
+                        val profileData = fetched.data
+                        Log.i(TAG, "Fetched Data: $profileData")
+                        callback(true)
+                    }
+                    is ApiResult.Error -> {
+                        Log.i(TAG, "ERROR: ${fetched.message}")
+                        _errorMessage.value = fetched.message
+                        Log.e(TAG, "error: ${errorMessage.value}")
+                        callback(false)
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+                callback(false)
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun updateMyProfile(callback: (Boolean) -> Unit){
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try{
+                val updatedMyProfileDto = UpdateMyProfileDto(
+                    address,
+                    bankAccount,
+                    if (birthDate == null) null else birthDate.toString(),
+                    if (documentExpireDate == null) null else documentExpireDate.toString(),
+                    documentNumber,
+                    email,
+                    links,
+                    name,
+                    phoneNumber,
+                    studentNumber,
+                    surname,
+                    university
+                )
+                when(val fetched = userRepository.updateMyProfile(updatedMyProfileDto)) {
+                    is ApiResult.Success -> {
+                        val fetchedData = fetched.data
+                        Log.i(TAG, "Fetched Data: $fetchedData")
+                        _resultMessage.value = fetchedData
+                        callback(true)
+                    }
+                    is ApiResult.Error -> {
+                        Log.i(TAG, "ERROR: ${fetched.message}")
+                        _errorMessage.value = fetched.message
+                        Log.e(TAG, "error: ${errorMessage.value}")
+                        callback(false)
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+                callback(false)
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
 }

@@ -11,7 +11,7 @@ import com.example.flats4us21.data.Equipment
 import com.example.flats4us21.data.Image
 import com.example.flats4us21.data.PropertyType
 import com.example.flats4us21.data.dto.NewPropertyDto
-import com.example.flats4us21.data.dto.Property
+import com.example.flats4us21.data.Property
 import com.example.flats4us21.services.*
 import kotlinx.coroutines.launch
 import java.io.File
@@ -347,4 +347,28 @@ class RealEstateViewModel : ViewModel() {
             }
         }
     }
+
+    fun clearProperties() {
+        _propertyType = null
+        _voivodeship = ""
+        _city = ""
+        _postalCode = ""
+        _district = null
+        _street = ""
+        _buildingNumber = ""
+        _floor = 0
+        _flatNumber = ""
+        _area = 0
+        _landArea = 0
+        _maxResidents = 0
+        _constructionYear = 0
+        _numberOfRooms = 0
+        _numberOfFloors = 0
+        _equipment.clear()
+        _imagesURI.clear()
+        _images.clear()
+        _imageFiles.clear()
+        _titleDeedFile = null
+    }
+
 }

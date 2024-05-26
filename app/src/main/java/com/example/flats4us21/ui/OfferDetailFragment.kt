@@ -1,10 +1,13 @@
 package com.example.flats4us21.ui
 
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -33,6 +36,7 @@ class OfferDetailFragment : Fragment() {
     private lateinit var viewModel : OfferViewModel
     private lateinit var detailOfferViewModel: DetailOfferViewModel
     private lateinit var addButton: ImageButton
+    private var isObserved = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,19 +72,16 @@ class OfferDetailFragment : Fragment() {
                 Toast.makeText(requireContext(), resultMessage, Toast.LENGTH_LONG).show()
             }
             addButton.setOnClickListener {
-                if (addButton.tag == true && resultMessage != null) {
+                if (isObserved ) {
                     addButton.setImageResource(R.drawable.unobserve)
-                    addButton.tag = false
-                    if (offerId != -1) {
-                        viewModel.unwatchOffer(offerId)
-                    }
-                } else if(addButton.tag == false && resultMessage != null){
+                    viewModel.unwatchOffer(offerId)
+                    isObserved = false
+                } else if(!isObserved){
                     addButton.setImageResource(R.drawable.observe)
-                    addButton.tag = true
-                    if (offerId != -1) {
-                        viewModel.watchOffer(offerId)
-                    }
+                    viewModel.watchOffer(offerId)
+                    isObserved = true
                 }
+                isObserved = !isObserved
             }
         }
 
@@ -88,43 +89,35 @@ class OfferDetailFragment : Fragment() {
             bindOfferData(offer)
         }
 
-        binding.rent.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putInt(OFFER_ID, offerId)
-            val realEstateRentalDialogFragment = RealEstateRentalDialogFragment(detailOfferViewModel)
-            realEstateRentalDialogFragment.arguments = bundle
-            realEstateRentalDialogFragment.show(parentFragmentManager , "RealEstateRentalDialogFragment")
-
-            detailOfferViewModel.rent.observe(viewLifecycleOwner) {rent ->
-                if(rent != null){
-                    Log.d("OfferDetailFragment", rent.toString())
-                }
-            }
+        binding.fab.setOnClickListener {
+            showDialog(offerId)
         }
     }
 
     private fun bindOfferData(offer: Offer?) {
         offer ?: return
 
-//        if(offer.isInterest){
-//            binding.addButton.setImageResource(R.drawable.observe)
-//            binding.addButton.tag = true
-//        } else{
-//            binding.addButton.setImageResource(R.drawable.unobserve)
-//            binding.addButton.tag = false
-//        }
-        binding.rent.isVisible = DataStoreManager.userRole.value?.let { it == "Student" } ?: false
-        binding.chat.isVisible = DataStoreManager.userRole.value?.let { it == "Student" } ?: false
+        isObserved = offer.isInterest
+
+        if(offer.isInterest){
+            binding.addButton.setImageResource(R.drawable.observe)
+        } else{
+            binding.addButton.setImageResource(R.drawable.unobserve)
+        }
+
+        binding.fab.isVisible = DataStoreManager.userRole.value?.let { it == "Student" } ?: false
         binding.addButton.isVisible = DataStoreManager.userRole.value?.let { it == "Student" } ?: false
 
         val imageSlider = binding.image
         imageSlider.adapter = ImageSliderAdapter(offer.property.images)
+        val imageCount = imageSlider.adapter?.itemCount ?: 0
+        var imageText = "${if(offer.property.images.isNotEmpty()) 1 else 0}/$imageCount"
+        binding.imageCount.text = imageText
         imageSlider.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                val imageCount = imageSlider.adapter?.itemCount ?: 0
                 val currentImage = position + 1
-                val imageText = "Image $currentImage of $imageCount"
+                imageText = "$currentImage/$imageCount"
                 binding.imageCount.text = imageText
             }
         })
@@ -134,9 +127,16 @@ class OfferDetailFragment : Fragment() {
             error(R.drawable.baseline_person_24)
         }
         binding.owner.text = getString(R.string.name_and_surname, offer.owner.name, offer.owner.surname)
+        binding.ownerLayout.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(USER_ID, offer.owner.id)
+            val fragment = ProfileFragment()
+            fragment.arguments = bundle
+            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+        }
 
-        binding.startDate.text = offer.dateIssue
-        binding.endDate.text = offer.dateIssue
+        binding.startDate.text = offer.startDate.toString()
+        binding.endDate.text = offer.endDate.toString()
         binding.price.text = offer.price
         binding.deposit.text = offer.deposit
         binding.city.text = offer.property.city
@@ -144,7 +144,7 @@ class OfferDetailFragment : Fragment() {
         binding.street.text = " ${offer.property.street} ${offer.property.buildingNumber}"
         binding.area.text = offer.property.area.toString()
         binding.numberOfRooms.text = offer.property.numberOfRooms.toString()
-        val period = Period.between(offer.startDate.toLocalDate(), offer.endDate.toLocalDate())
+        val period = Period.between(offer.startDate, offer.endDate)
         val monthsBetween = period.years * 12 + period.months
         binding.period.text = monthsBetween.toString()
         binding.maxResidents.text = offer.property.maxNumberOfInhabitants.toString()
@@ -173,6 +173,42 @@ class OfferDetailFragment : Fragment() {
             is Flat -> {}
             is Room -> {}
         }
+    }
+
+    private fun showDialog(offerId: Int) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.bottom_sheet_menu_offer_layout)
+
+        val layoutRent = dialog.findViewById<View>(R.id.layoutRent)
+        val layoutChat = dialog.findViewById<View>(R.id.layoutChat)
+        val layoutMeet = dialog.findViewById<View>(R.id.layoutMeet)
+
+        layoutRent.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(OFFER_ID, offerId)
+            val realEstateRentalDialogFragment = RealEstateRentalDialogFragment(detailOfferViewModel)
+            realEstateRentalDialogFragment.arguments = bundle
+            realEstateRentalDialogFragment.show(parentFragmentManager , "RealEstateRentalDialogFragment")
+
+            detailOfferViewModel.newRent.observe(viewLifecycleOwner) { rent ->
+                if(rent != null){
+                    Log.d("OfferDetailFragment", rent.toString())
+                }
+            }
+        }
+        layoutChat.setOnClickListener {
+            Toast.makeText(requireContext(), "Clicked Napisz", Toast.LENGTH_SHORT).show()
+        }
+        layoutMeet.setOnClickListener {
+            Toast.makeText(requireContext(), "Clicked Umów spotkanie", Toast.LENGTH_SHORT).show()
+        }
+
+        dialog.show()
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+        dialog.window?.setGravity(Gravity.BOTTOM)
     }
 
     override fun onDestroyView() {

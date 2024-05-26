@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flats4us21.R
 import com.example.flats4us21.data.*
-import com.example.flats4us21.data.dto.Property
+import com.example.flats4us21.data.Property
 import com.example.flats4us21.databinding.FragmentAddRealEstateBinding
 import com.example.flats4us21.viewmodels.RealEstateViewModel
 
@@ -28,6 +28,7 @@ class AddRealEstateFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        realEstateViewModel.clearProperties()
         realEstateViewModel.isCreating = arguments?.getBoolean(IS_CREATING, false)!!
         if(realEstateViewModel.isCreating){
             binding.title.setText(R.string.add_real_estate)
@@ -80,6 +81,10 @@ class AddRealEstateFragment : Fragment() {
             .replace(R.id.addRealEstateStep, fragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    fun goBack(){
+        childFragmentManager.popBackStack()
     }
 
     fun increaseProgressBar(){

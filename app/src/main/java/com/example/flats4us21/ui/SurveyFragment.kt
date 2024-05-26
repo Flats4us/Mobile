@@ -1,5 +1,6 @@
 package com.example.flats4us21.ui
 
+import com.example.flats4us21.adapters.QuestionAdapter
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,8 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.flats4us21.adapters.QuestionAdapter
-import com.example.flats4us21.data.QuestionResponse
 import com.example.flats4us21.data.SurveyQuestion
 import com.example.flats4us21.databinding.FragmentSurveyBinding
 import com.example.flats4us21.viewmodels.UserViewModel
@@ -38,8 +37,10 @@ class SurveyFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        if(fetchedQuestions.size == 0)
+        if(fetchedQuestions.size == 0) {
+            userViewModel.userType?.let { Log.i(TAG, it )}
             userViewModel.getQuestionList(userViewModel.userType!!)
+        }
         questionRecyclerView = binding.questionRecyclerView
 
         userViewModel.questionList.observe(viewLifecycleOwner) { questions ->
@@ -66,7 +67,7 @@ class SurveyFragment : Fragment() {
 
         val prevButton = binding.prevButton
         prevButton.setOnClickListener {
-            collectData()
+            //collectData()
             val fragment = RegisterSpecificDataFragment()
             (requireParentFragment() as RegisterParentFragment).replaceFragment(fragment)
             (requireParentFragment() as RegisterParentFragment).decreaseProgressBar()
@@ -75,7 +76,7 @@ class SurveyFragment : Fragment() {
         val nextButton = binding.nextButton
         nextButton.setOnClickListener {
             if(validateData()){
-                collectData()
+                //collectData()
                 val fragment = RegisterLogInDataFragment()
                 (requireParentFragment() as RegisterParentFragment).replaceFragment(fragment)
                 (requireParentFragment() as RegisterParentFragment).increaseProgressBar()
@@ -88,11 +89,11 @@ class SurveyFragment : Fragment() {
         return true
     }
 
-    private fun collectData() {
-        val answers :  List<QuestionResponse> = questionAdapter.getAllAnswers()
-        Log.i(TAG, "[collectData] Answers: $answers")
-        userViewModel.questionResponseList = answers
-    }
+//    private fun collectData() {
+//        val answers :  List<QuestionResponse> = questionAdapter.getAllAnswers()
+//        Log.i(TAG, "[collectData] Answers: $answers")
+//        userViewModel.questionResponseList = answers
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

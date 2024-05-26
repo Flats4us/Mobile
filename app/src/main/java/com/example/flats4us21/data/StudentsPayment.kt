@@ -9,5 +9,5 @@ data class StudentsPayment(
     val receiptOfTransferDate: LocalDate?,
     val period : String,
     val toDate : LocalDate,
-    val property : com.example.flats4us21.data.dto.Property
+    val property : Property
 )

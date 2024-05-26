@@ -79,11 +79,11 @@
     <string name="monthly_price">zł/msc</string>
     <string name="offer_details">Szczegóły oferty</string>
     <string name="address">Adres:</string>
-    <string name="area">Metraż:</string>
-    <string name="period">Okres wynajęcia:</string>
+    <string name="area">Metraż</string>
+    <string name="period">Okres wynajęcia</string>
     <string name="years"> lata</string>
-    <string name="max_residents">Max liczba mieszkańców:</string>
-    <string name="equipment">Wyposażenie:</string>
+    <string name="max_residents">Max liczba mieszkańców</string>
+    <string name="equipment">Wyposażenie</string>
     <string name="description">Opis</string>
     <string name="interested_people">Zainteresowani</string>
     <string name="chat">Napisz</string>
@@ -106,7 +106,7 @@
     <string name="payment_history">Historia płatności</string>
     <string name="payment_methods">Metody płatności</string>
     <string name="fee">Opłaty</string>
-    <string name="my_rentals">Moje wynajmy</string>
+    <string name="my_rentals">Moje najmy</string>
     <string name="roommates">Współlokatorzy</string>
     <string name="contact">Kontakt</string>
     <string name="logout">Wyloguj się</string>
@@ -231,12 +231,37 @@
     <string name="edit">Edytuj</string>
     <string name="name_and_surname">%1$s %2$s</string>
 
-<!--    profile placeholders-->
+    <!--    profile placeholders-->
     <string name="placeholder_name">Name Placeholder</string>
     <string name="placeholder_age">Age Placeholder</string>
     <string name="placeholder_description">Description Placeholder</string>
     <string name="hint_other_issue">inny problem</string>
     <string name="matching">Dobór współlokatora</string>
+    <string name="see_details">Zobacz szczegóły</string>
+    <string name="rent_proposition">Propozycje najmu</string>
+    <string name="guest">Gość</string>
+    <string name="interests">Zainteresowania</string>
+    <string name="helpful">Pomocny:</string>
+    <string name="cooperative">Gotowy do współpracy\n</string>
+    <string name="tidy">Dba o porządek</string>
+    <string name="friendly">Przyjazny\n</string>
+    <string name="respectingPrivacy">Szanuje prywatność innych</string>
+    <string name="communicative">Komunikatywny\n</string>
+    <string name="unfair">Nieuczciwy:</string>
+    <string name="lackOfHygiene">Brak higieny osobistej:</string>
+    <string name="untidy">Nie dba o porządek:</string>
+    <string name="conflicting">Konfliktowy:\n</string>
+    <string name="noisy">Głośny</string>
+    <string name="notFollowingTheArrangements">Nie rzestrzega ustaleń:</string>
+    <string name="no_data_available">Nie mam danych do wyświetlenia</string>
+    <string name="edit_profile">Edytuj profil</string>
+    <string name="watched_offers">Obserwowane oferty</string>
+    <string name="tentors">Najemcy</string>
+    <string name="meet">Umów spoktanie</string>
+    <string name="forgot_my_password">Nie pamiętam hasła</string>
+    <string name="property_details">Szczegóły nieruchomości</string>
+    <string name="general_data">Dane ogólne</string>
+    <string name="sensitive_data">Dane wrażliwe</string>
 
     <!-- TODO: meeting_row -->
 </resources>

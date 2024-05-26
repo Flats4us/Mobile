@@ -6,16 +6,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.flats4us21.data.ApiResult
+import com.example.flats4us21.data.MapOffer
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.dto.NewOfferDto
 import com.example.flats4us21.data.dto.OfferFilter
-import com.example.flats4us21.data.dto.Property
+import com.example.flats4us21.data.Property
 import com.example.flats4us21.services.ApiOfferDataSource
 import com.example.flats4us21.services.ApiPropertyDataSource
 import com.example.flats4us21.services.OfferDataSource
 import com.example.flats4us21.services.PropertyDataSource
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
+import kotlin.math.ceil
 
 private const val TAG = "OfferViewModel"
 class OfferViewModel: ViewModel() {
@@ -24,35 +26,37 @@ class OfferViewModel: ViewModel() {
 
     private val _offers: MutableLiveData<MutableList<Offer>> = MutableLiveData()
     val offers: LiveData<MutableList<Offer>>
-        get() = _offers
+    get() = _offers
 
-    private val _watchedOffers: MutableLiveData<MutableList<Offer>> = MutableLiveData()
-    val watchedOffers: LiveData<MutableList<Offer>>
-        get() = _watchedOffers
+    private val _mapOffers: MutableLiveData<MutableList<MapOffer>> = MutableLiveData()
+    val mapOffers: LiveData<MutableList<MapOffer>>
+    get() = _mapOffers
+
+
 
     private val _newOffers: MutableLiveData<MutableList<Offer>> = MutableLiveData()
     val newOffers: LiveData<MutableList<Offer>>
-        get() = _newOffers
+    get() = _newOffers
 
     private val _offer: MutableLiveData<Offer?> = MutableLiveData()
     val offer: LiveData<Offer?>
-        get() = _offer
+    get() = _offer
 
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean>
-        get() = _isLoading
+    get() = _isLoading
 
     private val _errorMessage = MutableLiveData<String?>(null)
     val errorMessage: LiveData<String?>
-        get() = _errorMessage
+    get() = _errorMessage
 
     private val _resultMessage = MutableLiveData<String?>(null)
     val resultMessage: LiveData<String?>
-        get() = _resultMessage
+    get() = _resultMessage
 
     private val _userProperties: MutableLiveData<List<Property>> = MutableLiveData()
     val userProperties: LiveData<List<Property>>
-        get() = _userProperties
+    get() = _userProperties
 
     fun getUserProperties(showOnlyVerified: Boolean){
         viewModelScope.launch {
@@ -142,6 +146,34 @@ class OfferViewModel: ViewModel() {
     get() = _rules
     set(value) {
         _rules = value
+    }
+
+    private var _smokingAllowed: Boolean = false
+    var smokingAllowed: Boolean
+    get() = _smokingAllowed
+    set(value) {
+        _smokingAllowed = value
+    }
+
+    private var _partiesAllowed: Boolean = false
+    var partiesAllowed: Boolean
+    get() = _partiesAllowed
+    set(value) {
+        _partiesAllowed = value
+    }
+
+    private var _animalsAllowed: Boolean = false
+    var animalsAllowed: Boolean
+    get() = _animalsAllowed
+    set(value) {
+        _animalsAllowed = value
+    }
+
+    private var _gender: Int = 0
+    var gender: Int
+    get() = _gender
+    set(value) {
+        _gender = value
     }
 
     private var _selectedOffer: Offer? = null
@@ -278,7 +310,7 @@ class OfferViewModel: ViewModel() {
         }
     }
 
-     fun createOffer(callback: (Boolean) -> Unit){
+    fun createOffer(callback: (Boolean) -> Unit){
         val offer = NewOfferDto(
             property!!.propertyId,
             price,
@@ -287,46 +319,68 @@ class OfferViewModel: ViewModel() {
             startDate.toString(),
             endDate.toString(),
             rules,
-            smokingAllowed = true,
-            partiesAllowed = true,
-            animalsAllowed = true,
-            gender = 0,
+            smokingAllowed,
+            partiesAllowed,
+            animalsAllowed,
+            gender,
         )
-         viewModelScope.launch {
-             _errorMessage.value = null
-             _isLoading.value = true
-             try {
-                 when (val response = apiOfferRepository.createOffer(offer)) {
-                     is ApiResult.Success -> {
-                         Log.d(TAG, " Created property")
-                         callback(true)
-                     }
-                     is ApiResult.Error -> {
-                         val errorMessage = response.message
-                         Log.e(TAG, "Error: $errorMessage")
-                         _errorMessage.value = errorMessage
-                         callback(false)
-                     }
-                 }
-             } catch (e: Exception) {
-                 _errorMessage.value = e.message
-                 Log.e(TAG, "Exception $e")
-                 callback(false)
-             } finally {
-                 _isLoading.value = false
-             }
-         }
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try {
+                when (val response = apiOfferRepository.createOffer(offer)) {
+                    is ApiResult.Success -> {
+                        Log.d(TAG, " Created property")
+                        _resultMessage.value = response.data
+                        callback(true)
+                    }
+                    is ApiResult.Error -> {
+                        val errorMessage = response.message
+                        Log.e(TAG, "Error: $errorMessage")
+                        _errorMessage.value = errorMessage
+                        callback(false)
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+                callback(false)
+            } finally {
+                _isLoading.value = false
+            }
+        }
     }
 
-    fun getWatchedOffers(){
+
+    fun getOffers() {
         viewModelScope.launch {
             _errorMessage.value = null
             _isLoading.value = true
             try{
-                if(pageNumber == 1 && _watchedOffers.value != null) {
+                val filter = OfferFilter(
+                    null,
+                    pageNumber,
+                    pageSize,
+                    province,
+                    city,
+                    distance,
+                    propertyType,
+                    minPrice,
+                    maxPrice,
+                    district,
+                    minArea,
+                    maxArea,
+                    minYear,
+                    maxYear,
+                    minNumberOfRooms,
+                    floor,
+                    equipment
+                )
+                if(pageNumber == 1 && _offers.value != null) {
                     _offers.value!!.clear()
                 }
-                val fetchedOffers = apiOfferRepository.getWatchedOffers(pageNumber, pageSize)
+                Log.i(TAG, "Filter: $filter")
+                val fetchedOffers = apiOfferRepository.getOffers(filter)
                 Log.i(TAG, "Fetched offers: $fetchedOffers")
                 when (fetchedOffers) {
                     is ApiResult.Success -> {
@@ -336,10 +390,10 @@ class OfferViewModel: ViewModel() {
                         _offersNumber = totalCount
                         pageNumber++
 
-                        if(_watchedOffers.value == null) {
-                            _watchedOffers.value = data
+                        if(_offers.value == null) {
+                            _offers.value = data
                         } else {
-                            _watchedOffers.value!!.addAll(data)
+                            _offers.value!!.addAll(data)
                         }
                     }
                     is ApiResult.Error -> {
@@ -357,89 +411,83 @@ class OfferViewModel: ViewModel() {
         }
     }
 
-    fun getOffers() {
-         viewModelScope.launch {
-             _errorMessage.value = null
-             _isLoading.value = true
-             try{
-                 val filter = OfferFilter(
-                 null,
-                 pageNumber,
-                 pageSize,
-                 province,
-                 city,
-                 distance,
-                 propertyType,
-                 minPrice,
-                 maxPrice,
-                 district,
-                 minArea,
-                 maxArea,
-                 minYear,
-                 maxYear,
-                 minNumberOfRooms,
-                 floor,
-                 equipment
-                 )
-                 if(pageNumber == 1 && _offers.value != null) {
-                     _offers.value!!.clear()
-                 }
-                 Log.i(TAG, "Filter: $filter")
-                 val fetchedOffers = apiOfferRepository.getOffers(filter)
-                 Log.i(TAG, "Fetched offers: $fetchedOffers")
-                 when (fetchedOffers) {
-                     is ApiResult.Success -> {
-                         val data = fetchedOffers.data.result as MutableList<Offer>
-                         val totalCount = fetchedOffers.data.totalCount
-                         _newOffers.value = data
-                         _offersNumber = totalCount
-                         pageNumber++
+    fun getOffersForMap() {
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try{
+                val filter = OfferFilter(
+                    null,
+                    pageNumber,
+                    pageSize,
+                    province,
+                    city,
+                    distance,
+                    propertyType,
+                    minPrice,
+                    maxPrice,
+                    district,
+                    minArea,
+                    maxArea,
+                    minYear,
+                    maxYear,
+                    minNumberOfRooms,
+                    floor,
+                    equipment
+                )
+                if(pageNumber == 1 && _offers.value != null) {
+                    _offers.value!!.clear()
+                }
+                Log.i(TAG, "Filter: $filter")
+                val fetchedOffers = apiOfferRepository.getOffersForMap(filter)
+                Log.i(TAG, "Fetched offers: $fetchedOffers")
+                when (fetchedOffers) {
+                    is ApiResult.Success -> {
+                        val data = fetchedOffers.data.result as MutableList<MapOffer>
 
-                         if(_offers.value == null) {
-                             _offers.value = data
-                         } else {
-                             _offers.value!!.addAll(data)
-                         }
-                     }
-                     is ApiResult.Error -> {
-                         val errorMessage = fetchedOffers.message
-                         Log.e(TAG, "Error: $errorMessage")
-                         _errorMessage.value = errorMessage
-                     }
-                 }
-             } catch (e: Exception) {
-                 _errorMessage.value = e.message
-                 Log.e(TAG, "Exception $e")
-             } finally {
-                 _isLoading.value = false
-             }
+                        if(_offers.value == null) {
+                            _mapOffers.value = data
+                        }
+                    }
+                    is ApiResult.Error -> {
+                        val errorMessage = fetchedOffers.message
+                        Log.e(TAG, "Error: $errorMessage")
+                        _errorMessage.value = errorMessage
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 
     fun getMineOffers() {
-         viewModelScope.launch {
-             _errorMessage.value = null
-             _isLoading.value = true
-             try{
-                 val fetchedOffers = apiOfferRepository.getMineOffers()
-                 Log.i(TAG, "Fetched offers: $fetchedOffers")
-                 when (fetchedOffers) {
-                     is ApiResult.Success -> {
-                         val data = fetchedOffers.data
-                         _offers.value = data as MutableList<Offer>
-                     }
-                     is ApiResult.Error -> {
-                         val errorMessage = fetchedOffers.message
-                         Log.e(TAG, "Error: $errorMessage")
-                         _errorMessage.value = errorMessage
-                     }
-                 }
-             } catch (e: Exception) {
-                 _errorMessage.value = e.message
-                 Log.e(TAG, "Exception $e")
-             } finally {
-                 _isLoading.value = false
-             }
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try{
+                val fetchedOffers = apiOfferRepository.getMineOffers()
+                Log.i(TAG, "Fetched offers: $fetchedOffers")
+                when (fetchedOffers) {
+                    is ApiResult.Success -> {
+                        val data = fetchedOffers.data as MutableList<Offer>
+                        _offers.value = data
+                    }
+                    is ApiResult.Error -> {
+                        val errorMessage = fetchedOffers.message
+                        Log.e(TAG, "Error: $errorMessage")
+                        _errorMessage.value = errorMessage
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 
@@ -493,14 +541,6 @@ class OfferViewModel: ViewModel() {
                 _isLoading.value = false
             }
         }
-    }
-
-    fun getLastViewedOffers(): List<Offer>{
-        var offer: MutableList<Offer> = mutableListOf()
-        viewModelScope.launch {
-            offer = apiOfferRepository.getLastViewedOffers() as MutableList<Offer>
-        }
-        return offer
     }
 
     fun clearNullableVariables() {

@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.adapters.OwnerPropertiesAdapter
-import com.example.flats4us21.data.dto.Property
+import com.example.flats4us21.data.Property
 import com.example.flats4us21.databinding.FragmentOwnerPropertiesBinding
 import com.example.flats4us21.viewmodels.OfferViewModel
 import com.example.flats4us21.viewmodels.RealEstateViewModel

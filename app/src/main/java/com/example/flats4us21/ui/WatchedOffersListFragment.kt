@@ -12,26 +12,29 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flats4us21.DrawerActivity
-import com.example.flats4us21.adapters.PropertyAdapter
+import com.example.flats4us21.adapters.OwnerPropertyAdapter
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.utils.Constants
 import com.example.flats4us21.databinding.FragmentWatchedOffersListBinding
 import com.example.flats4us21.viewmodels.OfferViewModel
+import com.example.flats4us21.viewmodels.WatchedOffersViewModel
 
 private const val TAG = "SearchFragment"
 class WatchedOffersListFragment : Fragment() {
     private var _binding: FragmentWatchedOffersListBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerview: RecyclerView
-    private lateinit var adapter: PropertyAdapter
-    private lateinit var viewModel: OfferViewModel
+    private lateinit var adapter: OwnerPropertyAdapter
+    private lateinit var viewModel: WatchedOffersViewModel
+    private lateinit var offersViewModel: OfferViewModel
     private var fetchedOffers: MutableList<Offer> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel = ViewModelProvider(requireActivity())[OfferViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[WatchedOffersViewModel::class.java]
+        offersViewModel = ViewModelProvider(requireActivity())[OfferViewModel::class.java]
         _binding = FragmentWatchedOffersListBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -39,9 +42,11 @@ class WatchedOffersListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        recyclerview = binding.propertyRecyclerView
+        viewModel.pageNumber = 1
         viewModel.getWatchedOffers()
 
-        viewModel.offers.observe(viewLifecycleOwner) { offers ->
+        viewModel.watchedOffers.observe(viewLifecycleOwner) { offers ->
             Log.i(TAG, "Number of offers: ${offers.size}")
             fetchedOffers = offers as MutableList<Offer>
             adapter.setOfferList(fetchedOffers)
@@ -83,7 +88,7 @@ class WatchedOffersListFragment : Fragment() {
             val isTotalMoreThanVisible  = totalItemCount >= Constants.QUERY_PAGE_SIZE
             val shouldPaginate = isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning && isTotalMoreThanVisible && isScrolling
             if(shouldPaginate) {
-                viewModel.getOffers()
+                viewModel.getWatchedOffers()
                 isScrolling = false
             }
         }
@@ -97,16 +102,15 @@ class WatchedOffersListFragment : Fragment() {
     }
 
     private fun setRecyclerView() {
-        adapter = PropertyAdapter(false, fetchedOffers){selectedOffer ->
+        adapter = OwnerPropertyAdapter(false, fetchedOffers){selectedOffer ->
             val bundle = Bundle()
             bundle.putInt(OFFER_ID, selectedOffer.offerId)
-            viewModel.selectedOffer = selectedOffer
             val fragment = OfferDetailFragment()
             fragment.arguments = bundle
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
 
-        adapter.setViewModel(viewModel)
+        adapter.setViewModel(offersViewModel)
 
         recyclerview.adapter = adapter
         recyclerview.layoutManager = LinearLayoutManager(requireContext())

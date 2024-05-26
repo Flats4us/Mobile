@@ -1,13 +1,18 @@
 package com.example.flats4us21.ui
 
+import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.example.flats4us21.DrawerActivity
+import com.example.flats4us21.R
 import com.example.flats4us21.adapters.ImageSliderAdapter
 import com.example.flats4us21.data.Flat
 import com.example.flats4us21.data.House
@@ -18,11 +23,14 @@ import com.example.flats4us21.viewmodels.DetailOfferViewModel
 import com.example.flats4us21.viewmodels.OfferViewModel
 import java.time.Period
 
+const val RENT_PROPOSITION_ID = "RENT_PROPOSITION_ID"
+private const val TAG = "OwnerOfferDetailFragment"
 class OwnerOfferDetailFragment : Fragment() {
     private var _binding : FragmentOwnerOfferDetailBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel : OfferViewModel
     private lateinit var detailOfferViewModel: DetailOfferViewModel
+    private lateinit var currentOffer : Offer
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +61,18 @@ class OwnerOfferDetailFragment : Fragment() {
         }
 
         detailOfferViewModel.offer.observe(viewLifecycleOwner) { offer ->
-            bindOfferData(offer)
+            currentOffer = offer
+            bindOfferData(currentOffer)
+        }
+
+        binding.fab.setOnClickListener {
+            val fragment = RentPropositionDialogFragment()
+            val bundle = Bundle()
+            bundle.putInt(RENT_PROPOSITION_ID, currentOffer.rentPropositionToShow!!)
+            bundle.putInt(OFFER_ID, currentOffer.offerId!!)
+            fragment.arguments = bundle
+            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+
         }
     }
 
@@ -62,12 +81,14 @@ class OwnerOfferDetailFragment : Fragment() {
 
         val imageSlider = binding.image
         imageSlider.adapter = ImageSliderAdapter(offer.property.images)
+        val imageCount = imageSlider.adapter?.itemCount ?: 0
+        var imageText = "1/$imageCount"
+        binding.imageCount.text = imageText
         imageSlider.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                val imageCount = imageSlider.adapter?.itemCount ?: 0
                 val currentImage = position + 1
-                val imageText = "Image $currentImage of $imageCount"
+                imageText = "$currentImage/$imageCount"
                 binding.imageCount.text = imageText
             }
         })
@@ -79,7 +100,7 @@ class OwnerOfferDetailFragment : Fragment() {
         binding.street.text = " ${offer.property.street} ${offer.property.buildingNumber}"
         binding.area.text = offer.property.area.toString()
         binding.numberOfRooms.text = offer.property.numberOfRooms.toString()
-        val period = Period.between(offer.startDate.toLocalDate(), offer.endDate.toLocalDate())
+        val period = Period.between(offer.startDate, offer.endDate)
         val monthsBetween = period.years * 12 + period.months
         binding.period.text = monthsBetween.toString()
         binding.maxResidents.text = offer.property.maxNumberOfInhabitants.toString()
@@ -98,6 +119,14 @@ class OwnerOfferDetailFragment : Fragment() {
         binding.equipment.text = stringBuilder.toString()
         binding.description.text = offer.description
         binding.interestedPeople.text = offer.interestedPeople.toString()
+
+        Log.d(TAG, "rentPropositionToShow: ${offer.rentPropositionToShow}")
+        Log.d(TAG, "offer.rentPropositionToShow != null: ${offer.rentPropositionToShow != null}")
+        if(offer.rentPropositionToShow != null){
+            binding.fab.visibility = View.VISIBLE
+        } else {
+            binding.fab.visibility = View.INVISIBLE
+        }
 
         when(offer.property){
             is House -> {

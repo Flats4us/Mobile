@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flats4us21.DrawerActivity
-import com.example.flats4us21.adapters.PropertyAdapter
+import com.example.flats4us21.adapters.OwnerPropertyAdapter
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.databinding.FragmentOwnerOffersBinding
 import com.example.flats4us21.viewmodels.OfferViewModel
@@ -22,9 +22,9 @@ class OwnerOffersFragment : Fragment() {
     private var _binding : FragmentOwnerOffersBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerview: RecyclerView
-    private lateinit var adapter: PropertyAdapter
+    private lateinit var adapter: OwnerPropertyAdapter
     private lateinit var viewModel: OfferViewModel
-    private val fetchedOffers: MutableList<Offer> = mutableListOf()
+    private var fetchedOffers: MutableList<Offer> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,8 +43,9 @@ class OwnerOffersFragment : Fragment() {
         binding.offerRecyclerView
 
         viewModel.offers.observe(viewLifecycleOwner) { offers ->
-            Log.i(TAG, "Number of offers: $offers.size")
-            fetchedOffers.addAll(offers)
+            Log.i(TAG, "Number of offers: ${offers.size}")
+            fetchedOffers = offers
+            adapter.setOfferList(fetchedOffers)
             adapter.notifyDataSetChanged()
         }
 
@@ -60,7 +61,7 @@ class OwnerOffersFragment : Fragment() {
             }
         }
 
-        adapter = PropertyAdapter(true, fetchedOffers){selectedOffer ->
+        adapter = OwnerPropertyAdapter(true, fetchedOffers){selectedOffer ->
             val bundle = Bundle()
             bundle.putInt(OFFER_ID, selectedOffer.offerId)
             viewModel.selectedOffer = selectedOffer
