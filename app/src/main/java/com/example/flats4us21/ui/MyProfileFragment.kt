@@ -66,6 +66,11 @@ class MyProfileFragment : Fragment() {
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
 
+        binding.reviewsButton.setOnClickListener {
+            val fragment = UserOpinionsFragment()
+            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+        }
+
     }
 
     private fun bindData(userProfile: MyProfile) {

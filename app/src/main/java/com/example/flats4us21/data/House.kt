@@ -1,6 +1,5 @@
 package com.example.flats4us21.data
 
-import com.google.gson.JsonArray
 import com.google.gson.annotations.SerializedName
 
 data class House(
@@ -21,7 +20,7 @@ data class House(
     override val numberOfRooms: Int,
     override val offerIds: Int?,
     override val equipment: MutableList<Equipment>,
-    override val rentOpinions: JsonArray,
+    override val rentOpinions: List<PropertyOpinion>?,
     @SerializedName("landArea")
     val landArea: Int,
     @SerializedName("numberOfFloors")

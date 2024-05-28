@@ -6,6 +6,7 @@ import com.example.flats4us21.data.Flat
 import com.example.flats4us21.data.House
 import com.example.flats4us21.data.Image
 import com.example.flats4us21.data.Property
+import com.example.flats4us21.data.PropertyOpinion
 import com.example.flats4us21.data.Room
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
@@ -61,18 +62,35 @@ class PropertyDeserializer : JsonDeserializer<Property> {
             val equipment: MutableList<Equipment> = equipmentJsonArray?.map {
                 equipmentDeserializer.deserialize(it, Equipment::class.java, context)
             }?.toMutableList() ?: mutableListOf()
-            val rentOpinions = jsonObject.getAsJsonArray("rentOpinions")
+            val propertyOpinionJsonArray = jsonObject.getAsJsonArray("rentOpinions")
+            val propertyOpinion : MutableList<PropertyOpinion> = if (imagesJsonArray != null && !imagesJsonArray.isJsonNull) {
+                propertyOpinionJsonArray.map { jsonElement ->
+                    val propertyOpinionObject = jsonElement.asJsonObject
+                    PropertyOpinion(
+                        rating = propertyOpinionObject["rating"].asInt,
+                        service = propertyOpinionObject["service"].asInt,
+                        location = propertyOpinionObject["location"].asInt,
+                        equipment = propertyOpinionObject["equipment"].asInt,
+                        qualityForMoney = propertyOpinionObject["qualityForMoney"].asInt,
+                        description = propertyOpinionObject["description"].asString
+
+                    )
+                }.toMutableList()
+            } else {
+                mutableListOf()
+            }
+
 
             when (propertyType) {
                 0 -> Flat(propertyId, voivodeship, district, street, buildingNumber, city, postalCode, geoLat, geoLon, area,
                     maxNumberOfInhabitants, constructionYear, images, verificationStatus, numberOfRooms, rentId, equipment,
-                    rentOpinions, floor, flatNumber)
+                    propertyOpinion, floor, flatNumber)
                 1 -> House(propertyId, voivodeship, district, street, buildingNumber, city, postalCode, geoLat, geoLon, area,
                     maxNumberOfInhabitants, constructionYear, images, verificationStatus, numberOfRooms, rentId, equipment,
-                    rentOpinions, landArea, numberOfFloors)
+                    propertyOpinion, landArea, numberOfFloors)
                 else -> Room(propertyId, voivodeship, district, street, buildingNumber, city, postalCode, geoLat, geoLon, area,
                     maxNumberOfInhabitants, constructionYear, images, verificationStatus, numberOfRooms, rentId, equipment,
-                    rentOpinions, floor, flatNumber)
+                    propertyOpinion, floor, flatNumber)
             }
         } catch (e: Exception) {
             Log.e(TAG, "Error deserializing property: ${e.message}")

@@ -62,7 +62,7 @@ data class MyProfile(
     @SerializedName("sumNotFollowingTheArrangements")
     val sumNotFollowingTheArrangements: Int,
     @SerializedName("userOpinions")
-    val userOpinions: List<String>,
+    val userOpinions: List<UserOpinion>?,
     @SerializedName("university")
     val university: String?,
     @SerializedName("links")

@@ -93,6 +93,14 @@ class OfferDetailFragment : Fragment() {
         binding.fab.setOnClickListener {
             showDialog(offerId)
         }
+
+        binding.reviewsButton.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(OFFER_ID, offerId)
+            val fragment = PropertyOpinionsFragment()
+            fragment.arguments = bundle
+            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+        }
     }
 
     private fun bindOfferData(offer: Offer?) {
@@ -167,17 +175,17 @@ class OfferDetailFragment : Fragment() {
 
         when(offer.property){
             is House -> {
-                binding.title.text = PropertyType.HOUSE.name
+                binding.title.text = PropertyType.HOUSE.toPolishString()
                 val house: House = offer.property
                 binding.landArea.text = house.landArea.toString()
                 binding.landAreaLayout.visibility = View.VISIBLE
             }
             is Flat -> {
-                binding.title.text = PropertyType.FLAT.name
+                binding.title.text = PropertyType.FLAT.toPolishString()
             }
 
             is Room -> {
-                binding.title.text = PropertyType.ROOM.name
+                binding.title.text = PropertyType.ROOM.toPolishString()
             }
         }
     }

@@ -1,8 +1,5 @@
 package com.example.flats4us21.data
 
-import com.example.flats4us21.data.Equipment
-import com.example.flats4us21.data.Image
-import com.google.gson.JsonArray
 import com.google.gson.annotations.SerializedName
 
 open class Property(
@@ -41,5 +38,5 @@ open class Property(
     @SerializedName("equipment")
     open val equipment: List<Equipment>,
     @SerializedName("rentOpinions")
-    open val rentOpinions: JsonArray
+    open val rentOpinions: List<PropertyOpinion>?
 )

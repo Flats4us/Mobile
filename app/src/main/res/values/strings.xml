@@ -266,6 +266,8 @@
     <string name="rent_survet">Ankieta najmu</string>
     <string name="service">Usługa</string>
     <string name="quality_for_money">Jakość za pieniądze</string>
+    <string name="opinions_about_user">Opinie o użytkowniku</string>
+    <string name="opinions_about_property">Opinie o nieruchomości</string>
 
     <!-- TODO: meeting_row -->
 </resources>
