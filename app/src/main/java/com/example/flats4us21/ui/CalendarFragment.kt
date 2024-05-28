@@ -11,9 +11,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flats4us21.R
 import com.example.flats4us21.adapters.CalendarAdapter
+import com.example.flats4us21.data.Meeting
 import com.example.flats4us21.databinding.FragmentCalendarBinding
 import com.example.flats4us21.viewmodels.MeetingViewModel
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
@@ -24,6 +26,7 @@ class CalendarFragment : Fragment(), CalendarAdapter.OnCellClickListener {
     private lateinit var monthYearText: TextView
     private lateinit var selectedDate: LocalDate
     private lateinit var meetingViewModel: MeetingViewModel
+    private var fetchedMeetings: MutableList<Meeting> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +41,13 @@ class CalendarFragment : Fragment(), CalendarAdapter.OnCellClickListener {
         super.onViewCreated(view, savedInstanceState)
         initWidgets()
         selectedDate = LocalDate.now()
+        meetingViewModel.getMeetings()
+
+
+        meetingViewModel.meetings.observe(viewLifecycleOwner) { meetings ->
+            fetchedMeetings = meetings as MutableList<Meeting>
+            setMonthView()
+        }
         setMonthView()
         val nextButton = binding.nextButton
         val prevButton = binding.prevButton
@@ -59,27 +69,37 @@ class CalendarFragment : Fragment(), CalendarAdapter.OnCellClickListener {
     private fun setMonthView() {
         monthYearText.text = monthYearFromDate(selectedDate)
         val daysInMonth = daysInMonthArray(selectedDate)
-        val meetingsOfMonth = meetingViewModel.getMeetingsOfMonth(selectedDate.month, selectedDate.year)
-        val calendarAdapter = CalendarAdapter(daysInMonth, this, meetingsOfMonth, viewLifecycleOwner)
+        val meetingsOfMonth = filterMeetingsForCurrentMonth(fetchedMeetings, selectedDate)
+        val calendarAdapter = CalendarAdapter(daysInMonth, this, meetingsOfMonth)
         val layoutManager = GridLayoutManager(requireContext(), 7)
         calendarRecyclerView.layoutManager = layoutManager
         calendarRecyclerView.adapter = calendarAdapter
     }
 
+    private fun filterMeetingsForCurrentMonth(meetings: List<Meeting>, now: LocalDate): List<Meeting> {
+        val currentYearMonth = YearMonth.from(now)
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+
+        return meetings.filter { meeting ->
+            val meetingDate = LocalDateTime.parse(meeting.date, formatter).toLocalDate()
+            val meetingYearMonth = YearMonth.from(meetingDate)
+            meetingYearMonth == currentYearMonth
+        }
+    }
+
     private fun daysInMonthArray(date: LocalDate): ArrayList<String> {
         val daysInMonthArray = ArrayList<String>()
         val yearMonth = YearMonth.from(date)
-
         val daysInMonth = yearMonth.lengthOfMonth()
-
         val firstOfMonth = date.withDayOfMonth(1)
         val dayOfWeek = firstOfMonth.dayOfWeek.value
+        val mondayOfWeek = if (dayOfWeek == 1) 0 else if (dayOfWeek == 0) 6 else dayOfWeek - 1
 
         for (i in 1..42) {
-            if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {
+            if (i <= mondayOfWeek || i > daysInMonth + mondayOfWeek) {
                 daysInMonthArray.add("")
             } else {
-                daysInMonthArray.add((i - dayOfWeek).toString())
+                daysInMonthArray.add((i - mondayOfWeek).toString())
             }
         }
         return daysInMonthArray

@@ -2,18 +2,17 @@ package com.example.flats4us21.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flats4us21.R
 import com.example.flats4us21.data.Meeting
 import com.example.flats4us21.databinding.CalendarCellBinding
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class CalendarAdapter(
     private val daysOfMonth: List<String>,
     private val onCellClickListener: OnCellClickListener,
-    private val meetingsLiveData: LiveData<List<Meeting>>,
-    private val lifecycleOwner: LifecycleOwner
+    private val meetings: List<Meeting>
 ) : RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>() {
 
     interface OnCellClickListener {
@@ -25,7 +24,7 @@ class CalendarAdapter(
 
         init {
             binding.root.setOnClickListener {
-                val date = daysOfMonth[adapterPosition]
+                val date = daysOfMonth[bindingAdapterPosition]
                 onCellClickListener.onCellClick(date)
             }
         }
@@ -46,15 +45,14 @@ class CalendarAdapter(
 
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
         val day = daysOfMonth[position]
+
         holder.dayOfMonth.text = day
 
-        meetingsLiveData.observe(lifecycleOwner) { meetings ->
-            val hasMeeting = hasMeetingOnDay(day, meetings)
-            if (hasMeeting) {
-                holder.binding.root.setBackgroundResource(R.drawable.background_meeting)
-            } else {
-                holder.binding.root.setBackgroundResource(R.drawable.background_cell)
-            }
+        val hasMeeting = hasMeetingOnDay(day, meetings)
+        if (hasMeeting) {
+            holder.binding.root.setBackgroundResource(R.drawable.background_meeting)
+        } else {
+            holder.binding.root.setBackgroundResource(R.drawable.background_cell)
         }
 
         holder.binding.root.setOnClickListener {
@@ -65,9 +63,11 @@ class CalendarAdapter(
 
     private fun hasMeetingOnDay(day: String, meetings: List<Meeting>): Boolean {
         val meetingDay = day.toIntOrNull()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
         if (meetingDay != null) {
             for (meeting in meetings) {
-                if (meeting.date.dayOfMonth == meetingDay) {
+                val meetingDate = LocalDateTime.parse(meeting.date, formatter).toLocalDate()
+                if (meetingDate.dayOfMonth == meetingDay) {
                     return true
                 }
             }

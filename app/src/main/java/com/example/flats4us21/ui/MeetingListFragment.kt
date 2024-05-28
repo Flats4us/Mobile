@@ -15,6 +15,8 @@ import com.example.flats4us21.data.Meeting
 import com.example.flats4us21.databinding.FragmentMeetingListBinding
 import com.example.flats4us21.viewmodels.MeetingViewModel
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class MeetingListFragment : Fragment() {
     private var _binding: FragmentMeetingListBinding? = null
@@ -57,8 +59,9 @@ class MeetingListFragment : Fragment() {
 
         val meetingViewModel = ViewModelProvider(requireActivity())[MeetingViewModel::class.java]
 
-        meetingViewModel.getMeetings(selectedDate).observe(viewLifecycleOwner) { meetings ->
-            updateMeetingsList(meetings)
+        meetingViewModel.meetings.observe(viewLifecycleOwner) { meetings ->
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+            updateMeetingsList(meetings.filter { LocalDateTime.parse(it.date, formatter).toLocalDate() == selectedDate })
         }
     }
 

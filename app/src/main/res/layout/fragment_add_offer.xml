@@ -408,6 +408,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/rent_survet"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center_horizontal"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/questionRecyclerView"
             android:layout_width="match_parent"

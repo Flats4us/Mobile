@@ -8,8 +8,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.flats4us21.R
 import com.example.flats4us21.data.Meeting
-import com.example.flats4us21.data.MeetingStatus
 import com.example.flats4us21.databinding.FragmentMeetingDetailsBinding
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter.ofPattern
 
 class MeetingDetailsFragment : Fragment() {
@@ -30,14 +30,14 @@ class MeetingDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         bindMeetingData(meeting)
         val bottomNav = binding.bottomNavigationView
-        if(meeting.status == MeetingStatus.AWAITS_CONFIRMATION_BY_STUDENT){
-            bottomNav.menu.findItem(R.id.edit).isVisible = false
-            bottomNav.menu.findItem(R.id.cancel).isVisible = false
-        }
-        else{
-            bottomNav.menu.findItem(R.id.accept).isVisible = false
-            bottomNav.menu.findItem(R.id.reject).isVisible = false
-        }
+//        if(meeting.status == MeetingStatus.AWAITS_CONFIRMATION_BY_STUDENT){
+//            bottomNav.menu.findItem(R.id.edit).isVisible = false
+//            bottomNav.menu.findItem(R.id.cancel).isVisible = false
+//        }
+//        else{
+//            bottomNav.menu.findItem(R.id.accept).isVisible = false
+//            bottomNav.menu.findItem(R.id.reject).isVisible = false
+//        }
         bottomNav.setOnItemSelectedListener {
             when (it.itemId){
                 R.id.accept -> Toast.makeText(requireContext(),"Accept Selected", Toast.LENGTH_SHORT).show()
@@ -50,13 +50,18 @@ class MeetingDetailsFragment : Fragment() {
         }
     }
 
-    private fun bindMeetingData(meeting : Meeting){
-        binding.title.text = meeting.date.toLocalDate().toString()
-        binding.time.text = meeting.date.toLocalTime().format(ofPattern("HH:mm")).toString()
-        binding.reason.text = meeting.reason
-        binding.place.text = getString(R.string.city_street_format, meeting.offer.property.city, meeting.offer.property.street)
+    private fun bindMeetingData(meeting: Meeting) {
+        val formatter = ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+        val meetingDateTime = LocalDateTime.parse(meeting.date, formatter)
+        val meetingDate = meetingDateTime.toLocalDate()
+        val meetingTime = meetingDateTime.toLocalTime()
 
+        binding.title.text = meetingDate.format(ofPattern("yyyy-MM-dd")).toString()
+        binding.time.text = meetingTime.format(ofPattern("HH:mm")).toString()
+        binding.reason.text = meeting.reason
+        binding.place.text = meeting.place
     }
+
 
     override fun onDestroy() {
         super.onDestroy()

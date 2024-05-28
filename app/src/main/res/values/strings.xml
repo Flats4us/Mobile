@@ -262,6 +262,10 @@
     <string name="property_details">Szczegóły nieruchomości</string>
     <string name="general_data">Dane ogólne</string>
     <string name="sensitive_data">Dane wrażliwe</string>
+    <string name="create_meeting">Stwórz spotkanie</string>
+    <string name="rent_survet">Ankieta najmu</string>
+    <string name="service">Usługa</string>
+    <string name="quality_for_money">Jakość za pieniądze</string>
 
     <!-- TODO: meeting_row -->
 </resources>

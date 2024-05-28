@@ -23,6 +23,7 @@ import com.example.flats4us21.adapters.ImageSliderAdapter
 import com.example.flats4us21.data.Flat
 import com.example.flats4us21.data.House
 import com.example.flats4us21.data.Offer
+import com.example.flats4us21.data.PropertyType
 import com.example.flats4us21.data.Room
 import com.example.flats4us21.databinding.FragmentOfferDetailBinding
 import com.example.flats4us21.viewmodels.DetailOfferViewModel
@@ -166,12 +167,18 @@ class OfferDetailFragment : Fragment() {
 
         when(offer.property){
             is House -> {
+                binding.title.text = PropertyType.HOUSE.name
                 val house: House = offer.property
                 binding.landArea.text = house.landArea.toString()
                 binding.landAreaLayout.visibility = View.VISIBLE
             }
-            is Flat -> {}
-            is Room -> {}
+            is Flat -> {
+                binding.title.text = PropertyType.FLAT.name
+            }
+
+            is Room -> {
+                binding.title.text = PropertyType.ROOM.name
+            }
         }
     }
 
@@ -197,11 +204,16 @@ class OfferDetailFragment : Fragment() {
                 }
             }
         }
+        layoutMeet.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(OFFER_ID, offerId)
+            val fragment = AddMeetingFragment()
+            fragment.arguments = bundle
+            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+            dialog.dismiss()
+        }
         layoutChat.setOnClickListener {
             Toast.makeText(requireContext(), "Clicked Napisz", Toast.LENGTH_SHORT).show()
-        }
-        layoutMeet.setOnClickListener {
-            Toast.makeText(requireContext(), "Clicked Umów spotkanie", Toast.LENGTH_SHORT).show()
         }
 
         dialog.show()

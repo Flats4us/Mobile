@@ -22,6 +22,7 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import coil.load
+import com.example.flats4us21.ui.CalendarFragment
 import com.example.flats4us21.ui.MapFragment
 import com.example.flats4us21.ui.MyProfileFragment
 import com.example.flats4us21.ui.MyRentsFragment
@@ -35,8 +36,8 @@ import com.example.flats4us21.viewmodels.UserViewModel
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.launch
 
-const val URL = "http://172.21.40.120:5166"
-//const val URL = "http://172.27.80.1:5166"
+//const val URL = "http://172.21.40.120:5166"
+const val URL = "http://172.27.80.1:5166"
 private const val TAG = "DrawerActivity"
 class DrawerActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
@@ -151,7 +152,7 @@ class DrawerActivity : AppCompatActivity() {
             R.id.nav_my_rentals -> replaceFragment(MyRentsFragment())
             R.id.nav_rent -> Toast.makeText(this, "Clicked Opłaty", Toast.LENGTH_SHORT).show()
             R.id.nav_conflicts -> Toast.makeText(this, "Clicked Spory", Toast.LENGTH_SHORT).show()
-            R.id.nav_calendar -> Toast.makeText(this, "Clicked Klaendarz", Toast.LENGTH_SHORT).show()
+            R.id.nav_calendar -> replaceFragment(CalendarFragment())
             R.id.nav_contact -> Toast.makeText(this, "Clicked Kontakt", Toast.LENGTH_SHORT).show()
             R.id.nav_logout -> logout()
         }

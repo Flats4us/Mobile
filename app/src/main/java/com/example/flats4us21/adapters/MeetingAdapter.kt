@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flats4us21.data.Meeting
 import com.example.flats4us21.databinding.MeetingRowBinding
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class MeetingAdapter(
@@ -37,7 +38,9 @@ class MeetingAdapter(
     }
 
     override fun onBindViewHolder(holder: MeetingViewHolder, position: Int) {
-        holder.date.text = meetings[position].date.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")).toString()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+        val meetingDate = LocalDateTime.parse(meetings[position].date, formatter).toLocalTime()
+        holder.date.text = meetingDate.format(DateTimeFormatter.ofPattern("HH:mm")).toString()
         holder.reason.text = meetings[position].reason
         holder.itemView.setOnClickListener{
             onUserClick(meetings[position])

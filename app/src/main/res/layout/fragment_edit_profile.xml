@@ -23,6 +23,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -1019,13 +1020,12 @@
 
             <Button
                 android:id="@+id/editProfileButton"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/image_button_min_height"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="30dp"
                 android:text="Zatwierdź"
-                android:textSize="18sp"
                 android:textStyle="bold"/>
 
 
