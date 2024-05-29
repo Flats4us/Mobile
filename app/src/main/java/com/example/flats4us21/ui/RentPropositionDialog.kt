@@ -82,15 +82,22 @@ class RentPropositionDialogFragment : Fragment()  {
     }
 
     private fun bindData(rent: RentProposition) {
-        val adapter = ProfileAdapter(rent.tenants
-        ) { _, _, position, _ ->
-            val userId = rent.tenants[position].userId
-            val bundle = Bundle()
-            bundle.putInt(USER_ID, userId)
-            val fragment = ProfileFragment()
-            fragment.arguments = bundle
-            (activity as? DrawerActivity)!!.replaceFragment(fragment)
-        }
+        val adapter = ProfileAdapter(
+            rent.tenants,
+            { position ->
+                val userId = rent.tenants[position].userId
+                Log.i(TAG, "userId: $userId")
+                val bundle = Bundle().apply {
+                    putInt(USER_ID, userId)
+                }
+                val fragment = ProfileFragment().apply {
+                    arguments = bundle
+                }
+                (activity as? DrawerActivity)?.replaceFragment(fragment)
+            },
+            null,
+            false
+        )
 
         binding.startDate.text = rent.startDate.split("T")[0]
         binding.duration.text = rent.duration.toString()

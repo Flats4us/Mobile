@@ -18,6 +18,7 @@ import com.example.flats4us21.data.UserMenuData
 import com.example.flats4us21.data.UserType
 import com.example.flats4us21.data.dto.LoginResponse
 import com.example.flats4us21.data.dto.NewUserDto
+import com.example.flats4us21.data.dto.NewUserOpinionDto
 import com.example.flats4us21.data.dto.UpdateMyProfileDto
 import com.example.flats4us21.services.ApiInterestDataSource
 import com.example.flats4us21.services.ApiUserDataSource
@@ -62,6 +63,13 @@ class UserViewModel: ViewModel() {
         get() = _userType
         set(value) {
             _userType = value
+        }
+
+    private var _newUserOpinion: NewUserOpinionDto? = null
+    var newUserOpinion: NewUserOpinionDto?
+        get() = _newUserOpinion
+        set(value) {
+            _newUserOpinion = value
         }
 
     private var _profilePicture: Uri? = null
@@ -412,6 +420,7 @@ class UserViewModel: ViewModel() {
                     is ApiResult.Success -> {
                         val profileData = fetched.data
                         Log.i(TAG, "Fetched Data: $profileData")
+                        _resultMessage.value = profileData
                         callback(true)
                     }
                     is ApiResult.Error -> {
@@ -451,6 +460,36 @@ class UserViewModel: ViewModel() {
                     university
                 )
                 when(val fetched = userRepository.updateMyProfile(updatedMyProfileDto)) {
+                    is ApiResult.Success -> {
+                        val fetchedData = fetched.data
+                        Log.i(TAG, "Fetched Data: $fetchedData")
+                        _resultMessage.value = fetchedData
+                        callback(true)
+                    }
+                    is ApiResult.Error -> {
+                        Log.i(TAG, "ERROR: ${fetched.message}")
+                        _errorMessage.value = fetched.message
+                        Log.e(TAG, "error: ${errorMessage.value}")
+                        callback(false)
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+                callback(false)
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun addUserOpinion(userId: Int, callback: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try{
+
+                when(val fetched = userRepository.addOpinion(userId, _newUserOpinion!!)) {
                     is ApiResult.Success -> {
                         val fetchedData = fetched.data
                         Log.i(TAG, "Fetched Data: $fetchedData")

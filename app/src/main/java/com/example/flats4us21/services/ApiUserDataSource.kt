@@ -8,6 +8,7 @@ import com.example.flats4us21.data.Profile
 import com.example.flats4us21.data.dto.LoginRequest
 import com.example.flats4us21.data.dto.LoginResponse
 import com.example.flats4us21.data.dto.NewUserDto
+import com.example.flats4us21.data.dto.NewUserOpinionDto
 import com.example.flats4us21.data.dto.UpdateMyProfileDto
 import com.example.flats4us21.interceptors.AuthInterceptor
 import com.example.flats4us21.serializer.UserSerializer
@@ -143,6 +144,22 @@ object ApiUserDataSource: UserDataSource{
             val response = apiWithAuthInterceptor.updateMyProfile(updateMyProfileDto)
             if(response.isSuccessful) {
                 val data = response.body()?.string() ?: "Empty response"
+                ApiResult.Success(data)
+            } else
+                ApiResult.Error("Failed to update profile: ${response.errorBody()?.string()}")
+        } catch (e: Exception) {
+            ApiResult.Error("An internal error occurred in updating profile: ${e.message}")
+        }
+    }
+
+    override suspend fun addOpinion(
+        targetUserId: Int,
+        newUserOpinionDto: NewUserOpinionDto
+    ): ApiResult<String> {
+        return try {
+            val response = apiWithAuthInterceptor.addOpinion(targetUserId, newUserOpinionDto)
+            if(response.isSuccessful) {
+                val data = response.body()!!.result
                 ApiResult.Success(data)
             } else
                 ApiResult.Error("Failed to update profile: ${response.errorBody()?.string()}")

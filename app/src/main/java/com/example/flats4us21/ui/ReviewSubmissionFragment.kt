@@ -1,69 +1,125 @@
-package com.example.flats4us21
+package com.example.flats4us21.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import coil.load
+import com.example.flats4us21.DrawerActivity
+import com.example.flats4us21.R
+import com.example.flats4us21.URL
+import com.example.flats4us21.data.Profile
+import com.example.flats4us21.data.dto.NewUserOpinionDto
+import com.example.flats4us21.databinding.FragmentReviewSubmissionScreenBinding
+import com.example.flats4us21.viewmodels.UserViewModel
 
 class ReviewSubmissionFragment : Fragment() {
-
-    private lateinit var userImage: ImageView
-    private lateinit var addReviewText: TextView
-    private lateinit var userNameText: TextView
-    private lateinit var starRating: RatingBar
-    private lateinit var reviewEditText: EditText
-    private lateinit var tag1: CheckBox
-    private lateinit var tag2: CheckBox
-    private lateinit var tagNeg1: CheckBox
-    private lateinit var tagNeg2: CheckBox
-    private lateinit var addButton: Button
-    private lateinit var cancelButton: Button
+    private var _binding: FragmentReviewSubmissionScreenBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var userViewModel: UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.activity_review_submission_screen, container, false)
-
-        userImage = view.findViewById(R.id.userImage)
-//        addReviewText = view.findViewById(R.id.addReviewText)
-        userNameText = view.findViewById(R.id.userNameText)
-        starRating = view.findViewById(R.id.starRating)
-        reviewEditText = view.findViewById(R.id.reviewEditText)
-        tag1 = view.findViewById(R.id.tag1)
-        tag2 = view.findViewById(R.id.tag2)
-        tagNeg1 = view.findViewById(R.id.tagNeg1)
-        tagNeg2 = view.findViewById(R.id.tagNeg2)
-        addButton = view.findViewById(R.id.addButton)
-        cancelButton = view.findViewById(R.id.cancelButton)
-
-        addButton.setOnClickListener {
-            // Handle add button click
-            val opinion = reviewEditText.text.toString()
-            val rating = starRating.rating
-            val tags = mutableListOf<String>()
-
-            if(tag1.isChecked) tags.add(tag1.text.toString())
-            if(tag2.isChecked) tags.add(tag2.text.toString())
-            if(tagNeg1.isChecked) tags.add(tagNeg1.text.toString())
-            if(tagNeg2.isChecked) tags.add(tagNeg2.text.toString())
-
-            // Perform action with the review data
-            submitReview(opinion, rating, tags)
-        }
-
-        cancelButton.setOnClickListener {
-            parentFragmentManager.popBackStack()
-        }
-
-        return view
+    ): View {
+        _binding = FragmentReviewSubmissionScreenBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    private fun submitReview(opinion: String, rating: Float, tags: List<String>) {
-        // Perform your logic here to handle the submitted review
-        // You can access the opinion, rating, and tags and perform necessary actions
-        Toast.makeText(requireContext(), "Review submitted!", Toast.LENGTH_SHORT).show()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
+
+        val userId = arguments?.getInt(USER_ID)
+        userViewModel.getProfile(userId!!)
+
+        userViewModel.profile.observe(viewLifecycleOwner) { profile ->
+            if (profile != null) {
+                bindData(profile)
+            }
+        }
+
+        userViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.progressBar.visibility = if(isLoading) View.VISIBLE else View.GONE
+            binding.mainLayout.visibility = if(isLoading) View.GONE else View.VISIBLE
+        }
+        userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            if (errorMessage != null) {
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+            }
+        }
+
+        userViewModel.resultMessage.observe(viewLifecycleOwner) { errorMessage ->
+            if(errorMessage != null) {
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+            }
+        }
+
+        binding.cancelButton.setOnClickListener {
+            (activity as? DrawerActivity)!!.goBack()
+        }
+
+        binding.addButton.setOnClickListener {
+            collectData()
+            userViewModel.addUserOpinion(userId) {
+                if(it) {
+                    (activity as? DrawerActivity)!!.goBack()
+                }
+            }
+        }
+    }
+
+    private fun collectData() {
+        val rating = binding.starRating.rating
+        val helpful = binding.helpful.isChecked
+        val cooperative = binding.cooperative.isChecked
+        val tidy = binding.tidy.isChecked
+        val friendly = binding.friendly.isChecked
+        val respectingPrivacy = binding.respectingPrivacy.isChecked
+        val communicative = binding.communicative.isChecked
+        val unfair = binding.unfair.isChecked
+        val lackOfHygiene = binding.lackOfHygiene.isChecked
+        val untidy = binding.untidy.isChecked
+        val conflicting = binding.conflicting.isChecked
+        val noisy = binding.noisy.isChecked
+        val notFollowingTheArrangements = binding.notFollowingTheArrangements.isChecked
+        val description = binding.reviewEditText.text.toString()
+
+        userViewModel.newUserOpinion = NewUserOpinionDto(
+            rating.toInt(),
+            helpful,
+            cooperative,
+            tidy,
+            friendly,
+            respectingPrivacy,
+            communicative,
+            unfair,
+            lackOfHygiene,
+            untidy,
+            conflicting,
+            noisy,
+            notFollowingTheArrangements,
+            description
+        )
+
+    }
+
+    private fun bindData(profile: Profile) {
+        val url = "$URL/${profile.profilePicture.path}"
+        binding.profilePicture.load(url) {
+            error(R.drawable.baseline_person_24)
+        }
+        binding.userNameText.text = profile.name
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
+
+

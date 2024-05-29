@@ -9,10 +9,16 @@ import androidx.lifecycle.viewModelScope
 import com.example.flats4us21.data.ApiResult
 import com.example.flats4us21.data.Equipment
 import com.example.flats4us21.data.Image
+import com.example.flats4us21.data.Property
 import com.example.flats4us21.data.PropertyType
 import com.example.flats4us21.data.dto.NewPropertyDto
-import com.example.flats4us21.data.Property
-import com.example.flats4us21.services.*
+import com.example.flats4us21.data.dto.NewRentOpinionDto
+import com.example.flats4us21.services.ApiEquipmentDataSource
+import com.example.flats4us21.services.ApiPropertyDataSource
+import com.example.flats4us21.services.EquipmentDataSource
+import com.example.flats4us21.services.HardcodedPlaceDataSource
+import com.example.flats4us21.services.PlaceDataSource
+import com.example.flats4us21.services.PropertyDataSource
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -36,12 +42,20 @@ class RealEstateViewModel : ViewModel() {
     val equipments: LiveData<List<Equipment>>
         get() = _equipments
 
+    private var _newRentOpinionDto: NewRentOpinionDto? = null
+    var newRentOpinionDto: NewRentOpinionDto?
+        get() = _newRentOpinionDto
+        set(value) {
+            _newRentOpinionDto = value
+        }
+
     private var _isCreating: Boolean = true
     var isCreating: Boolean
         get() = _isCreating
         set(value) {
             _isCreating = value
         }
+
     private var _propertyId: Int = 0
     var propertyId: Int
         get() = _propertyId
@@ -326,6 +340,34 @@ class RealEstateViewModel : ViewModel() {
             _isLoading.value = true
             try {
                 val response = propertyRepository.deleteProperty(propertyId)
+                when (response) {
+                    is ApiResult.Success -> {
+                        Log.d(TAG, " Deleted property: $propertyId")
+                        callback(true)
+                    }
+                    is ApiResult.Error -> {
+                        val errorMessage = response.message
+                        Log.e(TAG, "Error: $errorMessage")
+                        _errorMessage.value = errorMessage
+                        callback(false)
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+                callback(false)
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun addRentOpinion(rentId: Int, callback: (Boolean) -> Unit) {
+        viewModelScope.launch{
+            _errorMessage.value = null
+            _isLoading.value = true
+            try {
+                val response = propertyRepository.addRentOpinion(rentId, _newRentOpinionDto!!)
                 when (response) {
                     is ApiResult.Success -> {
                         Log.d(TAG, " Deleted property: $propertyId")

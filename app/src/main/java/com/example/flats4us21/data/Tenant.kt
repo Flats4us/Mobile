@@ -10,5 +10,5 @@ data class Tenant (
     @SerializedName("fullName")
     val fullName: String,
     @SerializedName("profilePicture")
-    val profilePicture: Image,
+    val profilePicture: Image?,
 )

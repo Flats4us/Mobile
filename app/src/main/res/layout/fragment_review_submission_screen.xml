@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.ReviewSubmissionFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -39,7 +42,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/userImage"
+                    android:id="@+id/profilePicture"
                     android:layout_width="130dp"
                     android:layout_height="130dp"
                     android:layout_marginStart="16dp"
@@ -56,8 +59,8 @@
                     android:text="Imię Nazwisko"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toTopOf="@+id/starRating"
-                    app:layout_constraintStart_toEndOf="@+id/userImage"
-                    app:layout_constraintTop_toTopOf="@+id/userImage" />
+                    app:layout_constraintStart_toEndOf="@+id/profilePicture"
+                    app:layout_constraintTop_toTopOf="@+id/profilePicture" />
 
                 <RatingBar
                     android:id="@+id/starRating"
@@ -65,11 +68,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="0dp"
                     android:layout_marginTop="8dp"
+                    tools:rating="3"
                     android:numStars="5"
                     android:stepSize="1"
                     android:scaleX="0.7"
                     android:scaleY="0.7"
-                    app:layout_constraintStart_toEndOf="@+id/userImage"
+                    android:progressBackgroundTint="@color/design_default_color_secondary_variant"
+                    android:progressTint="@color/orange"
+                    android:secondaryProgressTint="@color/design_default_color_secondary_variant"
+                    app:layout_constraintStart_toEndOf="@+id/profilePicture"
                     app:layout_constraintTop_toBottomOf="@+id/userNameText" />
 
                 <EditText
@@ -83,7 +90,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/userImage" />
+                    app:layout_constraintTop_toBottomOf="@+id/profilePicture" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -105,15 +112,14 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="start|center_vertical">
-
                         <CheckBox
-                            android:id="@+id/tag1"
+                            android:id="@+id/helpful"
                             style="@style/TagStyle"
                             android:text="" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Komunikatywna" />
+                            android:text="@string/helpful" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -121,15 +127,17 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="start|center_vertical">
+
                         <CheckBox
-                            android:id="@+id/tag2"
+                            android:id="@+id/cooperative"
                             style="@style/TagStyle"
                             android:text="" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Miła" />
+                            android:text="@string/cooperative" />
                     </LinearLayout>
+
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -137,13 +145,13 @@
                         android:orientation="horizontal"
                         android:gravity="start|center_vertical">
                         <CheckBox
-                            android:id="@+id/tag3"
+                            android:id="@+id/tidy"
                             style="@style/TagStyle"
                             android:text="" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Uprzejma" />
+                            android:text="@string/tidy" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -152,13 +160,13 @@
                         android:orientation="horizontal"
                         android:gravity="start|center_vertical">
                         <CheckBox
-                            android:id="@+id/tag4"
+                            android:id="@+id/friendly"
                             style="@style/TagStyle"
                             android:text="" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Otwarta" />
+                            android:text="@string/friendly" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -167,13 +175,13 @@
                         android:orientation="horizontal"
                         android:gravity="start|center_vertical">
                         <CheckBox
-                            android:id="@+id/tag5"
+                            android:id="@+id/respectingPrivacy"
                             style="@style/TagStyle"
                             android:text="" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Szczera" />
+                            android:text="@string/respectingPrivacy" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -182,13 +190,13 @@
                         android:orientation="horizontal"
                         android:gravity="start|center_vertical">
                         <CheckBox
-                            android:id="@+id/tagNeg1"
+                            android:id="@+id/communicative"
                             style="@style/TagStyleNegative"
                             android:text="" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Niekomunikatywna" />
+                            android:text="@string/communicative" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -197,13 +205,13 @@
                         android:orientation="horizontal"
                         android:gravity="start|center_vertical">
                         <CheckBox
-                            android:id="@+id/tagNeg2"
+                            android:id="@+id/unfair"
                             style="@style/TagStyleNegative"
                             android:text="" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Nieuprzejma" />
+                            android:text="@string/unfair" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -212,13 +220,13 @@
                         android:orientation="horizontal"
                         android:gravity="start|center_vertical">
                         <CheckBox
-                            android:id="@+id/tagNeg3"
+                            android:id="@+id/lackOfHygiene"
                             style="@style/TagStyleNegative"
                             android:text="" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Głośna" />
+                            android:text="@string/lackOfHygiene" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -227,13 +235,13 @@
                         android:orientation="horizontal"
                         android:gravity="start|center_vertical">
                         <CheckBox
-                            android:id="@+id/tagNeg4"
+                            android:id="@+id/untidy"
                             style="@style/TagStyleNegative"
                             android:text="" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Nieotwarta" />
+                            android:text="@string/untidy" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -242,13 +250,43 @@
                         android:orientation="horizontal"
                         android:gravity="start|center_vertical">
                         <CheckBox
-                            android:id="@+id/tagNeg5"
+                            android:id="@+id/conflicting"
                             style="@style/TagStyleNegative"
                             android:text="" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Nieszczera" />
+                            android:text="@string/conflicting" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="start|center_vertical">
+                        <CheckBox
+                            android:id="@+id/noisy"
+                            style="@style/TagStyleNegative"
+                            android:text="" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/noisy" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="start|center_vertical">
+                        <CheckBox
+                            android:id="@+id/notFollowingTheArrangements"
+                            style="@style/TagStyleNegative"
+                            android:text="" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/notFollowingTheArrangements" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -257,28 +295,38 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/addButton"
+            android:id="@+id/cancelButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/baseline_cancel_24"
             android:drawablePadding="10dp"
             android:gravity="center"
             android:text="@string/cancel"
-            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/cancelButton"
+            android:id="@+id/addButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/baseline_add_24"
             android:drawablePadding="10dp"
             android:gravity="center"
             android:text="@string/add"
-            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</FrameLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

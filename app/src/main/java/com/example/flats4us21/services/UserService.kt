@@ -1,11 +1,12 @@
 package com.example.flats4us21.services
 
-import com.example.flats4us21.data.NewPropertyApiResponse
 import com.example.flats4us21.data.MyProfile
+import com.example.flats4us21.data.NewPropertyApiResponse
 import com.example.flats4us21.data.Profile
 import com.example.flats4us21.data.dto.LoginRequest
 import com.example.flats4us21.data.dto.LoginResponse
 import com.example.flats4us21.data.dto.NewUserDto
+import com.example.flats4us21.data.dto.NewUserOpinionDto
 import com.example.flats4us21.data.dto.OwnerDTO
 import com.example.flats4us21.data.dto.StudentDTO
 import com.example.flats4us21.data.dto.UpdateMyProfileDto
@@ -44,4 +45,7 @@ interface UserService {
 
     @PUT("api/users/current")
     suspend fun updateMyProfile(@Body updateMyProfileDto: UpdateMyProfileDto) : Response<ResponseBody>
+
+    @POST("api/users/{targetUserId}/opinion")
+    suspend fun addOpinion(@Path("targetUserId") targetUserId: Int, @Body newUserOpinionDto : NewUserOpinionDto): Response<NewPropertyApiResponse<String>>
 }
