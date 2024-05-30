@@ -34,34 +34,6 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profilePicture"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:src="@drawable/logo"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageButton
-                    android:id="@+id/addProfilePictureButton"
-                    android:layout_width="@dimen/image_button_min_width"
-                    android:layout_height="@dimen/image_button_min_height"
-                    android:src="@drawable/baseline_edit_24"
-                    android:background="@drawable/background_header"
-                    app:layout_constraintBottom_toBottomOf="@id/profilePicture"
-                    app:layout_constraintEnd_toEndOf="@id/profilePicture"
-                    android:contentDescription="@drawable/baseline_broken_image_24"
-                    tools:ignore="SpeakableTextPresentCheck" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
                 android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">

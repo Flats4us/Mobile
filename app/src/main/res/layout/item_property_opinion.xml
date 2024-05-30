@@ -36,6 +36,18 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginBottom="31dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/userInfo"
+        app:layout_constraintEnd_toEndOf="@+id/userInfo"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="12/05/2022" />
+
     <LinearLayout
         android:id="@+id/rating"
         android:layout_width="match_parent"
@@ -76,157 +88,6 @@
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rating">
-
-        <com.google.android.flexbox.FlexboxLayout
-            android:id="@+id/reviewsFlexboxLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:alignContent="flex_start"
-            app:alignItems="stretch"
-            app:flexWrap="wrap">
-
-            <TextView
-                android:id="@+id/noReviewsText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/no_data_available"
-                android:visibility="gone"/>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutService"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:background="@drawable/oval_white_background"
-                android:backgroundTint="#44C3FA"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="8dp">
-
-                <TextView
-                    android:id="@+id/service"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:text="@string/service"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/sumService"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="4dp"
-                    android:singleLine="true"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/service"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="7" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:background="@drawable/oval_white_background"
-                android:backgroundTint="#44C3FA"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="8dp">
-
-                <TextView
-                    android:id="@+id/location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:text="@string/location"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/sumLocation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="4dp"
-                    android:singleLine="true"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/location"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="7" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutEquipment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:background="@drawable/oval_white_background"
-                android:backgroundTint="#44C3FA"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="8dp">
-
-                <TextView
-                    android:id="@+id/equipmentOpinion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:text="@string/equipment"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/sumEquipment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="4dp"
-                    android:singleLine="true"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/equipmentOpinion"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="7" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutQualityForMoney"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/oval_white_background"
-                android:backgroundTint="#44C3FA"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="8dp">
-
-                <TextView
-                    android:id="@+id/qualityForMoney"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:text="@string/quality_for_money"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/sumQualityForMoney"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="4dp"
-                    android:singleLine="true"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/qualityForMoney"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="7" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.flexbox.FlexboxLayout>
-
 
     </LinearLayout>
 

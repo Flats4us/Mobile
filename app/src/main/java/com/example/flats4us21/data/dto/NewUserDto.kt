@@ -7,7 +7,6 @@ import java.time.LocalDate
 
 data class NewUserDto(
     val userType: UserType,
-    val profilePicture: Uri?,
     val name: String,
     val surname: String,
     val address: String,

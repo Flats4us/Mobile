@@ -51,6 +51,11 @@ class PropertyDeserializer : JsonDeserializer<Property> {
             } else {
                 mutableListOf()
             }
+            val avgRating = jsonObject.get("avgRating").asInt
+            val avgServiceRating = jsonObject.get("avgServiceRating").asInt
+            val avgLocationRating = jsonObject.get("avgLocationRating").asInt
+            val avgEquipmentRating = jsonObject.get("avgEquipmentRating").asInt
+            val avgQualityForMoneyRating = jsonObject.get("avgQualityForMoneyRating").asInt
 
             val verificationStatus = jsonObject.get("verificationStatus").asInt
             val numberOfRooms = if (jsonObject.get("numberOfRooms").isJsonNull) 1 else jsonObject.get("numberOfRooms").asInt
@@ -63,17 +68,30 @@ class PropertyDeserializer : JsonDeserializer<Property> {
                 equipmentDeserializer.deserialize(it, Equipment::class.java, context)
             }?.toMutableList() ?: mutableListOf()
             val propertyOpinionJsonArray = jsonObject.getAsJsonArray("rentOpinions")
-            val propertyOpinion : MutableList<PropertyOpinion> = if (imagesJsonArray != null && !imagesJsonArray.isJsonNull) {
+            val propertyOpinion : MutableList<PropertyOpinion> = if (propertyOpinionJsonArray != null && !propertyOpinionJsonArray.isJsonNull) {
                 propertyOpinionJsonArray.map { jsonElement ->
                     val propertyOpinionObject = jsonElement.asJsonObject
-                    PropertyOpinion(
-                        rating = propertyOpinionObject["rating"].asInt,
-                        service = propertyOpinionObject["service"].asInt,
-                        location = propertyOpinionObject["location"].asInt,
-                        equipment = propertyOpinionObject["equipment"].asInt,
-                        qualityForMoney = propertyOpinionObject["qualityForMoney"].asInt,
-                        description = propertyOpinionObject["description"].asString
+                    val rentOpinionId = propertyOpinionObject["rentOpinionId"].asInt
+                    val date = propertyOpinionObject["date"].asString.split("T")[0]
+                    val rating = propertyOpinionObject["rating"].asInt
+                    val description = propertyOpinionObject["description"].asString
+                    val sourceUserName = propertyOpinionObject["sourceUserName"].asString
+                    val profilePictureObject = if (propertyOpinionObject.has("sourceUserProfilePicture") && !propertyOpinionObject["sourceUserProfilePicture"].isJsonNull) {
+                        propertyOpinionObject.getAsJsonObject("sourceUserProfilePicture")
+                    } else {
+                        null
+                    }
+                    val imageName = profilePictureObject?.get("name")?.asString
+                    val imagePath = profilePictureObject?.get("path")?.asString
 
+                    val profilePicture = if (imageName != null && imagePath != null) Image(imageName, imagePath) else null
+                    PropertyOpinion(
+                        rentOpinionId,
+                        date,
+                        rating,
+                        description,
+                        sourceUserName,
+                        profilePicture
                     )
                 }.toMutableList()
             } else {
@@ -83,13 +101,16 @@ class PropertyDeserializer : JsonDeserializer<Property> {
 
             when (propertyType) {
                 0 -> Flat(propertyId, voivodeship, district, street, buildingNumber, city, postalCode, geoLat, geoLon, area,
-                    maxNumberOfInhabitants, constructionYear, images, verificationStatus, numberOfRooms, rentId, equipment,
+                    maxNumberOfInhabitants, constructionYear, images, avgRating, avgServiceRating, avgLocationRating,
+                    avgEquipmentRating, avgQualityForMoneyRating, verificationStatus, numberOfRooms, rentId, equipment,
                     propertyOpinion, floor, flatNumber)
                 1 -> House(propertyId, voivodeship, district, street, buildingNumber, city, postalCode, geoLat, geoLon, area,
-                    maxNumberOfInhabitants, constructionYear, images, verificationStatus, numberOfRooms, rentId, equipment,
+                    maxNumberOfInhabitants, constructionYear, images, avgRating, avgServiceRating, avgLocationRating,
+                    avgEquipmentRating, avgQualityForMoneyRating, verificationStatus, numberOfRooms, rentId, equipment,
                     propertyOpinion, landArea, numberOfFloors)
                 else -> Room(propertyId, voivodeship, district, street, buildingNumber, city, postalCode, geoLat, geoLon, area,
-                    maxNumberOfInhabitants, constructionYear, images, verificationStatus, numberOfRooms, rentId, equipment,
+                    maxNumberOfInhabitants, constructionYear, images, avgRating, avgServiceRating, avgLocationRating,
+                    avgEquipmentRating, avgQualityForMoneyRating, verificationStatus, numberOfRooms, rentId, equipment,
                     propertyOpinion, floor, flatNumber)
             }
         } catch (e: Exception) {

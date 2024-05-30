@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flats4us21.DrawerActivity
-import com.example.flats4us21.adapters.PropertyAdapter
 import com.example.flats4us21.adapters.RentAdapter
 import com.example.flats4us21.data.Rent
 import com.example.flats4us21.databinding.FragmentMyRentsBinding
@@ -45,8 +44,7 @@ class MyRentsFragment : Fragment() {
         viewModel.rents.observe(viewLifecycleOwner) { rents ->
             Log.i(TAG, "Number of offers: ${rents.size}")
             fetchedRents = rents
-            adapter.setRentList(fetchedRents)
-            adapter.notifyDataSetChanged()
+            updateRentList(false) // Default to showing active rents
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading: Boolean ->
@@ -56,12 +54,12 @@ class MyRentsFragment : Fragment() {
         }
 
         viewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
-            if(errorMessage != null) {
+            if (errorMessage != null) {
                 Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
             }
         }
 
-        adapter = RentAdapter(fetchedRents){selectedRent ->
+        adapter = RentAdapter(fetchedRents) { selectedRent ->
             val bundle = Bundle()
             bundle.putInt(RENT_ID, selectedRent.rentId)
             val fragment = RentDetailFragment()
@@ -71,6 +69,34 @@ class MyRentsFragment : Fragment() {
 
         recyclerview.adapter = adapter
         recyclerview.layoutManager = LinearLayoutManager(requireContext())
+
+        // Button listeners
+        binding.btnActiveRents.setOnClickListener {
+            updateRentList(false)
+        }
+
+        binding.btnFinishedRents.setOnClickListener {
+            updateRentList(true)
+        }
     }
 
+    private fun updateRentList(showFinished: Boolean) {
+        val filteredRents = fetchedRents.filter { it.isFinished == showFinished }
+        adapter.setRentList(filteredRents)
+        adapter.notifyDataSetChanged()
+
+        // Show or hide the empty view
+        if (filteredRents.isEmpty()) {
+            binding.emptyView.visibility = View.VISIBLE
+            binding.rentRecyclerView.visibility = View.GONE
+        } else {
+            binding.emptyView.visibility = View.GONE
+            binding.rentRecyclerView.visibility = View.VISIBLE
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

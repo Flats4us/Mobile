@@ -8,8 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flats4us21.R
@@ -41,7 +39,6 @@ class RegisterFragment : Fragment() {
         pickedInterest = mutableListOf()
         setVisibility()
         setValues()
-        setProfilePicturePicker()
         setupInterest()
 
 
@@ -133,26 +130,9 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    private fun setProfilePicturePicker() {
-        var imageUri: Uri?
-        val photoPicker =
-            registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-                if(uri != null){
-                    imageUri = uri
-                    binding.profilePicture.setImageURI(imageUri)
-                    profilePicture = imageUri
-                }
-            }
-        binding.addProfilePictureButton.setOnClickListener {
-            photoPicker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-        }
-    }
 
     private fun setValues() {
-        if(userViewModel.profilePicture != null){
-            binding.profilePicture.setImageURI(userViewModel.profilePicture)
-            profilePicture = userViewModel.profilePicture
-        }
+
         if(userViewModel.name != ""){
             binding.name.setText(userViewModel.name)
         }

@@ -3,13 +3,13 @@ package com.example.flats4us21.ui
 import android.os.Bundle
 import android.text.InputType
 import android.util.Patterns
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.R
@@ -49,6 +49,14 @@ class RegisterLogInDataFragment : Fragment() {
             setPasswordVisibility(repeatToggle, repeatPassword)
         }
 
+        userViewModel.resultMessage.observe(viewLifecycleOwner) { resultMessage ->
+            if (resultMessage != null) {
+                Toast.makeText(requireContext(), resultMessage, Toast.LENGTH_LONG).show()
+            }
+        }
+
+
+
 
         binding.prevButton.setOnClickListener {
             collectData()
@@ -61,16 +69,15 @@ class RegisterLogInDataFragment : Fragment() {
         binding.buttonRegister.setOnClickListener {
             if(validateData()){
                 collectData()
-                userViewModel.createUser()
-                userViewModel.isLoading.observe(viewLifecycleOwner){ isLoading: Boolean ->
-                    if(!isLoading && userViewModel.errorMessage.value == null){
-                        Toast.makeText(requireContext(), "Utworzono konto", Toast.LENGTH_SHORT).show()
+                userViewModel.createUser() {
+                    if(it) {
                         val fragment = LoginFragment()
                         (activity as? DrawerActivity)!!.replaceFragment(fragment)
                         (requireParentFragment() as RegisterParentFragment).decreaseProgressBar(100)
                         userViewModel.clearData()
                     }
                 }
+
             } else {
                 warnings.forEach { warning ->
                     Toast.makeText(requireContext(), warning, Toast.LENGTH_LONG).show()

@@ -169,8 +169,23 @@ class OfferDetailFragment : Fragment() {
         if(offer.property.equipment.isEmpty()){
             stringBuilder.append("BRAK")
         }
+
+        if(offer.property.avgRating == 0){
+            binding.emptyView.visibility = View.VISIBLE
+            binding.opinionLayout.visibility = View.GONE
+        } else {
+            binding.emptyView.visibility = View.GONE
+            binding.opinionLayout.visibility = View.VISIBLE
+        }
+
         binding.equipment.text = stringBuilder.toString()
         binding.description.text = offer.description
+        binding.ratingBar.rating = offer.property.avgRating.toFloat()
+        binding.reviewsPer.text = (offer.property.avgRating/10*100).toString()
+        binding.sumService.text = offer.property.avgServiceRating.toString()
+        binding.sumLocation.text = offer.property.avgLocationRating.toString()
+        binding.sumEquipment.text = offer.property.avgEquipmentRating.toString()
+        binding.sumQualityForMoney.text = offer.property.avgQualityForMoneyRating.toString()
         binding.interestedPeople.text = offer.interestedPeople.toString()
 
         when(offer.property){

@@ -29,6 +29,16 @@ open class Property(
     open val constructionYear: Int,
     @SerializedName("images")
     open val images: List<Image>,
+    @SerializedName("avgRating")
+    open val avgRating: Int,
+    @SerializedName("avgServiceRating")
+    open val avgServiceRating: Int,
+    @SerializedName("avgLocationRating")
+    open val avgLocationRating: Int,
+    @SerializedName("avgEquipmentRating")
+    open val avgEquipmentRating: Int,
+    @SerializedName("avgQualityForMoneyRating")
+    open val avgQualityForMoneyRating: Int,
     @SerializedName("verificationStatus")
     open val verificationStatus: Int,
     @SerializedName("numberOfRooms")
@@ -40,3 +50,4 @@ open class Property(
     @SerializedName("rentOpinions")
     open val rentOpinions: List<PropertyOpinion>?
 )
+

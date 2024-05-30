@@ -22,7 +22,7 @@ import com.example.flats4us21.data.UserType
 import com.example.flats4us21.databinding.FragmentRegisterSpecificDataBinding
 import com.example.flats4us21.viewmodels.UserViewModel
 import java.time.LocalDate
-import java.util.*
+import java.util.Calendar
 
 class RegisterSpecificDataFragment : Fragment() {
     private  var _binding: FragmentRegisterSpecificDataBinding? = null
@@ -51,12 +51,12 @@ class RegisterSpecificDataFragment : Fragment() {
         setVisibility()
         setValues()
 
-        binding.layoutBirthDate.setOnClickListener{
-            selectedBirthDate = clickDatePicker(binding.birthDate)
+        binding.layoutBirthDate.setOnClickListener {
+            clickBirthDatePicker(binding.birthDate)
         }
 
-        binding.layoutDocumentExpireDate.setOnClickListener{
-            selectedExpireDate = clickDatePicker(binding.documentExpireDate)
+        binding.layoutDocumentExpireDate.setOnClickListener {
+            clickExpireDatePicker(binding.documentExpireDate)
         }
 
         val prevButton = binding.prevButton
@@ -73,7 +73,7 @@ class RegisterSpecificDataFragment : Fragment() {
                 collectData()
                 var fragment: Fragment = SurveyFragment()
                 if(userViewModel.userType == UserType.OWNER.toString())
-                        fragment = RegisterLogInDataFragment()
+                    fragment = RegisterLogInDataFragment()
                 (requireParentFragment() as RegisterParentFragment).replaceFragment(fragment)
                 (requireParentFragment() as RegisterParentFragment).increaseProgressBar()
             }
@@ -113,21 +113,48 @@ class RegisterSpecificDataFragment : Fragment() {
         }
     }
 
-    private fun clickDatePicker(textView: TextView) : LocalDate? {
-        var selectedDate : LocalDate? = LocalDate.now()
+    private fun clickBirthDatePicker(textView: TextView) {
         val myCalendar = Calendar.getInstance()
         val year = myCalendar.get(Calendar.YEAR)
         val month = myCalendar.get(Calendar.MONTH)
         val day = myCalendar.get(Calendar.DAY_OF_MONTH)
 
-        DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDayOfMonth ->
-            selectedDate = LocalDate.of(selectedYear, selectedMonth+1, selectedDayOfMonth)
-            textView.text = selectedDate.toString()
-        },
-        year,
-        month,
-        day).show()
-        return selectedDate
+        val datePickerDialog = DatePickerDialog(
+            requireContext(),
+            { _, selectedYear, selectedMonth, selectedDayOfMonth ->
+                val selectedDate = LocalDate.of(selectedYear, selectedMonth + 1, selectedDayOfMonth)
+                textView.text = selectedDate.toString()
+                selectedBirthDate = selectedDate
+            },
+            year,
+            month,
+            day
+        )
+        datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
+        datePickerDialog.show()
+    }
+
+    private fun clickExpireDatePicker(textView: TextView) {
+        val myCalendar = Calendar.getInstance()
+        val year = myCalendar.get(Calendar.YEAR)
+        val month = myCalendar.get(Calendar.MONTH)
+        val day = myCalendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(
+            requireContext(),
+            { _, selectedYear, selectedMonth, selectedDayOfMonth ->
+                val selectedDate = LocalDate.of(selectedYear, selectedMonth + 1, selectedDayOfMonth)
+                textView.text = selectedDate.toString()
+                selectedExpireDate = selectedDate
+            },
+            year,
+            month,
+            day
+        )
+        // Ustawienie minimalnej daty na jutro
+        myCalendar.add(Calendar.DAY_OF_MONTH, 1)
+        datePickerDialog.datePicker.minDate = myCalendar.timeInMillis
+        datePickerDialog.show()
     }
 
     private fun setValues() {
