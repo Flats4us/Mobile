@@ -6,6 +6,7 @@ import com.example.flats4us21.data.Profile
 import com.example.flats4us21.data.dto.LoginRequest
 import com.example.flats4us21.data.dto.LoginResponse
 import com.example.flats4us21.data.dto.NewOwnerDto
+import com.example.flats4us21.data.dto.NewPasswordDto
 import com.example.flats4us21.data.dto.NewStudentDto
 import com.example.flats4us21.data.dto.NewUserOpinionDto
 import com.example.flats4us21.data.dto.UpdateMyProfileDto
@@ -44,4 +45,7 @@ interface UserService {
 
     @POST("api/users/{targetUserId}/opinion")
     suspend fun addOpinion(@Path("targetUserId") targetUserId: Int, @Body newUserOpinionDto : NewUserOpinionDto): Response<NewPropertyApiResponse<String>>
+
+    @PUT("api/auth/change-password")
+    suspend fun changePassword(@Body newPasswordDto: NewPasswordDto): Response<NewPropertyApiResponse<String>>
 }

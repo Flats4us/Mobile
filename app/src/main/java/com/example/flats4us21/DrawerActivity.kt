@@ -29,6 +29,7 @@ import com.example.flats4us21.ui.MyRentsFragment
 import com.example.flats4us21.ui.NotificationsFragment
 import com.example.flats4us21.ui.OwnerOffersFragment
 import com.example.flats4us21.ui.OwnerPropertiesFragment
+import com.example.flats4us21.ui.RoommatesFragment
 import com.example.flats4us21.ui.SearchFragment
 import com.example.flats4us21.ui.StartScreenFragment
 import com.example.flats4us21.ui.WatchedOffersListFragment
@@ -122,7 +123,7 @@ class DrawerActivity : AppCompatActivity() {
                 handleStudentAndOwnerMenuItems(menuItem)
                 when (menuItem.itemId) {
                     R.id.nav_observed -> replaceFragment(WatchedOffersListFragment())
-                    R.id.nav_roommates -> Toast.makeText(this, "Clicked Współlokatorzy", Toast.LENGTH_SHORT).show()
+                    R.id.nav_roommates -> replaceFragment(RoommatesFragment())
 
                 }
             }

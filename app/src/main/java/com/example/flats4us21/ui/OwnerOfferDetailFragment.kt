@@ -1,18 +1,15 @@
 package com.example.flats4us21.ui
 
-import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.flats4us21.DrawerActivity
-import com.example.flats4us21.R
 import com.example.flats4us21.adapters.ImageSliderAdapter
 import com.example.flats4us21.data.Flat
 import com.example.flats4us21.data.House
@@ -116,8 +113,22 @@ class OwnerOfferDetailFragment : Fragment() {
         if(offer.property.equipment.isEmpty()){
             stringBuilder.append("BRAK")
         }
+        if(offer.property.avgRating == 0){
+            binding.emptyView.visibility = View.VISIBLE
+            binding.opinionLayout.visibility = View.GONE
+        } else {
+            binding.emptyView.visibility = View.GONE
+            binding.opinionLayout.visibility = View.VISIBLE
+        }
+
         binding.equipment.text = stringBuilder.toString()
         binding.description.text = offer.description
+        binding.ratingBar.rating = offer.property.avgRating.toFloat()
+        binding.reviewsPer.text = (offer.property.avgRating/10*100).toString()
+        binding.sumService.text = offer.property.avgServiceRating.toString()
+        binding.sumLocation.text = offer.property.avgLocationRating.toString()
+        binding.sumEquipment.text = offer.property.avgEquipmentRating.toString()
+        binding.sumQualityForMoney.text = offer.property.avgQualityForMoneyRating.toString()
         binding.interestedPeople.text = offer.interestedPeople.toString()
 
         Log.d(TAG, "rentPropositionToShow: ${offer.rentPropositionToShow}")

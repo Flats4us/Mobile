@@ -9,13 +9,14 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.core.view.isVisible
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flats4us21.DataStoreManager
 import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.R
 import com.example.flats4us21.data.MyProfile
+import com.example.flats4us21.data.dto.NewPasswordDto
 import com.example.flats4us21.databinding.FragmentEditProfileBinding
 import com.example.flats4us21.viewmodels.UserViewModel
 import java.time.LocalDate
@@ -52,6 +53,22 @@ class EditProfileFragment : Fragment() {
                 bindData(userProfile)
         }
 
+        userViewModel.resultMessage.observe(viewLifecycleOwner) { resultMessage ->
+            if(resultMessage != null) {
+                Toast.makeText(requireContext(), resultMessage, Toast.LENGTH_LONG).show()
+            }
+        }
+        userViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.detailLayout.visibility = if (isLoading) View.GONE else View.VISIBLE
+        }
+
+        userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            if(errorMessage != null) {
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+            }
+        }
+
         binding.layoutSocialMediaLinks.setOnClickListener{
             val linksDialogFragment = LinksDialogFragment(socialMediaLinks)
             linksDialogFragment.show(parentFragmentManager , "LinksDialogFragment")
@@ -74,7 +91,7 @@ class EditProfileFragment : Fragment() {
         binding.editProfileButton.setOnClickListener {
             if(validateData()){
                 collectData()
-                userViewModel.updateMyProfile() {
+                userViewModel.updateMyProfile {
                     if(it){
                         val fragment = MyProfileFragment()
                         (activity as? DrawerActivity)!!.replaceFragment(fragment)
@@ -82,6 +99,40 @@ class EditProfileFragment : Fragment() {
                 }
             }
         }
+
+        binding.oldPasswordToggle.setOnClickListener{
+            setPasswordVisibility(binding.oldPasswordToggle, binding.oldPassword)
+        }
+
+        binding.newPasswordToggle.setOnClickListener{
+            setPasswordVisibility(binding.newPasswordToggle, binding.newPassword)
+        }
+
+        binding.confirmPasswordToggle.setOnClickListener{
+            setPasswordVisibility(binding.confirmPasswordToggle, binding.confirmNewPassword)
+        }
+
+        binding.editPasswordButton.setOnClickListener {
+            if(validateDataForPassword()){
+                collectDataForPassword()
+                userViewModel.changePassword {
+                    if(it) {
+                        val fragment = MyProfileFragment()
+                        (activity as? DrawerActivity)!!.replaceFragment(fragment)
+                    }
+                }
+            } else {
+                Toast.makeText(requireContext(), "Nie wypełniono poprawnie wszystkich pól", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun collectDataForPassword() {
+        val newPasswordDto = NewPasswordDto(
+            binding.oldPassword.text.toString(),
+            binding.newPassword.text.toString()
+        )
+        userViewModel.newPassword = newPasswordDto
     }
 
     private fun setVisibility() {
@@ -216,6 +267,15 @@ class EditProfileFragment : Fragment() {
         return isAddressValid && isEmailValid && isPhoneNumberValid && isNameValid && isSurnameValid && isDateValid && isStudentNumberValid && isUniversityNameValid && isDocumentNumberValid && isDocumentExpireDateValid && isBankAccountValid
     }
 
+    private fun validateDataForPassword() : Boolean {
+        val isOldPasswordValid = binding.oldPassword.text.isNotEmpty()
+        val isNewPasswordValid = binding.newPassword.text.isNotEmpty()
+        val isConfirmPasswordValid = binding.confirmNewPassword.text.isNotEmpty()
+        val arePasswordsTheSame = arePasswordsTheSame(binding.newPassword, binding.confirmNewPassword)
+
+        return isOldPasswordValid && isNewPasswordValid && isConfirmPasswordValid && arePasswordsTheSame
+    }
+
     private fun validateOptionalEditText(editText: EditText, editTextLayout : ViewGroup, layoutWithHeader : ViewGroup): Boolean {
         val text = editText.text.toString()
         val isValid = text.isNotEmpty()
@@ -233,6 +293,15 @@ class EditProfileFragment : Fragment() {
         editTextLayout.setBackgroundResource(if (isValid || !isVisible) R.drawable.background_input else R.drawable.background_wrong_input)
         return isValid || !isVisible
     }
+
+    private fun arePasswordsTheSame(password: EditText, repeatPassword: EditText): Boolean {
+        val arePasswordsValid = password.text.toString() == repeatPassword.text.toString()
+        if(!arePasswordsValid){
+            Toast.makeText(requireContext(), "Podane hasła różnią się", Toast.LENGTH_LONG).show()
+        }
+        return arePasswordsValid
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

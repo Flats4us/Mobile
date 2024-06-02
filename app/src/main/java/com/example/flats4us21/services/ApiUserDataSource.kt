@@ -8,6 +8,7 @@ import com.example.flats4us21.data.Profile
 import com.example.flats4us21.data.dto.LoginRequest
 import com.example.flats4us21.data.dto.LoginResponse
 import com.example.flats4us21.data.dto.NewOwnerDto
+import com.example.flats4us21.data.dto.NewPasswordDto
 import com.example.flats4us21.data.dto.NewStudentDto
 import com.example.flats4us21.data.dto.NewUserOpinionDto
 import com.example.flats4us21.data.dto.UpdateMyProfileDto
@@ -193,9 +194,22 @@ object ApiUserDataSource: UserDataSource{
                 val data = response.body()!!.result
                 ApiResult.Success(data)
             } else
-                ApiResult.Error("Failed to update profile: ${response.errorBody()?.string()}")
+                ApiResult.Error("Failed to add opinion: ${response.errorBody()?.string()}")
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred in updating profile: ${e.message}")
+            ApiResult.Error("An internal error occurred in adding opinion: ${e.message}")
+        }
+    }
+
+    override suspend fun changePassword(newPasswordDto: NewPasswordDto): ApiResult<String> {
+        return try {
+            val response = apiWithAuthInterceptor.changePassword(newPasswordDto)
+            if(response.isSuccessful) {
+                val data = response.body()!!.result
+                ApiResult.Success(data)
+            } else
+                ApiResult.Error("Failed to change password: ${response.errorBody()?.string()}")
+        } catch (e: Exception) {
+            ApiResult.Error("An internal error occurred in changing password: ${e.message}")
         }
     }
 }

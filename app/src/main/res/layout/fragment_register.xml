@@ -5,6 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/app_background"
+    android:padding="16dp"
     tools:context=".ui.RegisterFragment">
 
     <ScrollView
@@ -21,7 +23,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="16dp"
+            android:background="@drawable/rectangle_white_background">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -35,8 +39,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp">
 
                 <LinearLayout
                     android:id="@+id/layoutName"
@@ -91,8 +95,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp">
 
                 <LinearLayout
                     android:id="@+id/layoutSurname"
@@ -148,8 +152,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp">
 
                 <LinearLayout
                     android:id="@+id/layoutAddress"
@@ -260,8 +264,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp">
 
                 <LinearLayout
                     android:id="@+id/layoutPhoneNumber"
@@ -318,8 +322,8 @@
                 android:id="@+id/layoutLinksWithHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp">
 
                 <LinearLayout
                     android:id="@+id/layoutLinks"
@@ -375,8 +379,9 @@
                 android:id="@+id/layoutInterestsWithHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="@dimen/layout_register_margin_top">
 
                 <LinearLayout
                     android:id="@+id/layoutInterests"

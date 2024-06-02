@@ -5,6 +5,7 @@ import com.example.flats4us21.data.MyProfile
 import com.example.flats4us21.data.Profile
 import com.example.flats4us21.data.dto.LoginResponse
 import com.example.flats4us21.data.dto.NewOwnerDto
+import com.example.flats4us21.data.dto.NewPasswordDto
 import com.example.flats4us21.data.dto.NewStudentDto
 import com.example.flats4us21.data.dto.NewUserOpinionDto
 import com.example.flats4us21.data.dto.UpdateMyProfileDto
@@ -28,5 +29,7 @@ interface UserDataSource {
     suspend fun updateMyProfile(updateMyProfileDto: UpdateMyProfileDto): ApiResult<String>
 
     suspend fun addOpinion(targetUserId: Int,  newUserOpinionDto : NewUserOpinionDto): ApiResult<String>
+
+    suspend fun changePassword(newPasswordDto: NewPasswordDto): ApiResult<String>
 
 }

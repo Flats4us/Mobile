@@ -18,6 +18,7 @@ import com.example.flats4us21.data.UserMenuData
 import com.example.flats4us21.data.UserType
 import com.example.flats4us21.data.dto.LoginResponse
 import com.example.flats4us21.data.dto.NewOwnerDto
+import com.example.flats4us21.data.dto.NewPasswordDto
 import com.example.flats4us21.data.dto.NewStudentDto
 import com.example.flats4us21.data.dto.NewUserOpinionDto
 import com.example.flats4us21.data.dto.UpdateMyProfileDto
@@ -620,6 +621,43 @@ class UserViewModel: ViewModel() {
             try{
 
                 when(val fetched = userRepository.addOpinion(userId, _newUserOpinion!!)) {
+                    is ApiResult.Success -> {
+                        val fetchedData = fetched.data
+                        Log.i(TAG, "Fetched Data: $fetchedData")
+                        _resultMessage.value = fetchedData
+                        callback(true)
+                    }
+                    is ApiResult.Error -> {
+                        Log.i(TAG, "ERROR: ${fetched.message}")
+                        _errorMessage.value = fetched.message
+                        Log.e(TAG, "error: ${errorMessage.value}")
+                        callback(false)
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+                callback(false)
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    private var _newPassword: NewPasswordDto? = null
+    var newPassword: NewPasswordDto?
+        get() = _newPassword
+        set(value) {
+            _newPassword = value
+        }
+
+    fun changePassword(callback: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try{
+
+                when(val fetched = userRepository.changePassword(newPassword!!)) {
                     is ApiResult.Success -> {
                         val fetchedData = fetched.data
                         Log.i(TAG, "Fetched Data: $fetchedData")
