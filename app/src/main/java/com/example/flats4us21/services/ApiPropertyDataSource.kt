@@ -4,8 +4,9 @@ import android.util.Log
 import com.example.flats4us21.URL
 import com.example.flats4us21.data.ApiResult
 import com.example.flats4us21.data.NewPropertyApiResponse
-import com.example.flats4us21.data.dto.NewPropertyDto
 import com.example.flats4us21.data.Property
+import com.example.flats4us21.data.dto.NewPropertyDto
+import com.example.flats4us21.data.dto.NewRentOpinionDto
 import com.example.flats4us21.deserializer.PropertyDeserializer
 import com.example.flats4us21.interceptors.AuthInterceptor
 import com.example.flats4us21.serializer.PropertySerializer
@@ -103,6 +104,19 @@ object ApiPropertyDataSource : PropertyDataSource {
             }
         } catch(e: Exception){
             ApiResult.Error("An internal error occurred: ${e.message}")
+        }
+    }
+
+    override suspend fun addRentOpinion(rentId: Int, opinion: NewRentOpinionDto): ApiResult<String> {
+        return try {
+            val response = api.addOpinion(rentId, opinion)
+            if(response.isSuccessful) {
+                val data = response.body()!!.result
+                ApiResult.Success(data)
+            } else
+                ApiResult.Error( "${response.errorBody()?.string()}")
+        } catch (e: Exception) {
+            ApiResult.Error("An internal error occurred in updating profile: ${e.message}")
         }
     }
 

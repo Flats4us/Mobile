@@ -40,6 +40,7 @@
             android:layout_weight="2"
             android:text="@string/example_of_month"
             android:textSize="20sp"
+            android:layout_gravity="center_vertical"
             android:textAlignment="center"
             android:textColor="@color/black"/>
         <ImageButton
@@ -59,14 +60,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/sunday_short"
-            android:textColor="@color/black"
-            android:textAlignment="center"
-            android:textSize="16sp"/>
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -112,6 +105,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/saturday_short"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:textSize="16sp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sunday_short"
             android:textColor="@color/black"
             android:textAlignment="center"
             android:textSize="16sp"/>

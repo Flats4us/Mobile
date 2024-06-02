@@ -41,7 +41,6 @@ class RegisterSelectingUserTypeFragment : Fragment() {
 
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
             val selectedRadioButton: RadioButton = binding.root.findViewById(checkedId)
-            userViewModel.clearData()
             selectedUserType = UserType.valueOf(selectedRadioButton.tag as String)
         }
 

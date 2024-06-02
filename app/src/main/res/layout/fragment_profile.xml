@@ -19,7 +19,6 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <!-- Profile Header -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -705,27 +704,6 @@
                 </LinearLayout>
 
             </LinearLayout>
-
-            <Button
-                android:id="@+id/editProfileButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/bioTextView"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="32dp"
-                android:text="Edytuj profil" />
-
-            <!-- Bio Description -->
-            <TextView
-                android:id="@+id/bioTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/star_rating_layout"
-                android:layout_marginTop="24dp"
-                android:gravity="center"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp"
-                android:textSize="16sp" />
 
         </LinearLayout>
 

@@ -5,6 +5,14 @@ enum class PropertyType(val value: Int) {
     HOUSE(1),
     ROOM(2);
 
+    fun toPolishString(): String {
+        return when (this) {
+            FLAT -> "Mieszkanie"
+            HOUSE -> "Dom"
+            ROOM -> "Pokój"
+        }
+    }
+
     override fun toString(): String {
         return value.toString()
     }

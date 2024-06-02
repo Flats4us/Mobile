@@ -5,11 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -19,12 +17,10 @@ import com.example.flats4us21.R
 import com.example.flats4us21.adapters.ImageSliderAdapter
 import com.example.flats4us21.data.Flat
 import com.example.flats4us21.data.House
-import com.example.flats4us21.data.Offer
-import com.example.flats4us21.data.Room
 import com.example.flats4us21.data.Property
+import com.example.flats4us21.data.Room
 import com.example.flats4us21.databinding.FragmentOwnerPropertyDetailBinding
 import com.example.flats4us21.viewmodels.RealEstateViewModel
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 const val IS_CREATING = "IS_CREATING"
 const val PROPERTY_ID = "PROPERTY_ID"
@@ -112,6 +108,21 @@ class OwnerPropertyDetailFragment : Fragment() {
                 binding.layoutNumberOfRooms.isVisible = false
             }
         }
+
+        if(property.avgRating == 0){
+            binding.emptyView.visibility = View.VISIBLE
+            binding.opinionLayout.visibility = View.GONE
+        } else {
+            binding.emptyView.visibility = View.GONE
+            binding.opinionLayout.visibility = View.VISIBLE
+        }
+
+        binding.ratingBar.rating = property.avgRating.toFloat()
+        binding.reviewsPer.text = (property.avgRating/10*100).toString()
+        binding.sumService.text = property.avgServiceRating.toString()
+        binding.sumLocation.text = property.avgLocationRating.toString()
+        binding.sumEquipment.text = property.avgEquipmentRating.toString()
+        binding.sumQualityForMoney.text = property.avgQualityForMoneyRating.toString()
     }
 
     private fun showDialog() {

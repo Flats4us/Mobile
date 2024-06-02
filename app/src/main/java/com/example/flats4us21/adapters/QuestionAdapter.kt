@@ -15,12 +15,30 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.flats4us21.R
 import com.example.flats4us21.data.SurveyQuestion
 
-class QuestionAdapter(private val questions: List<SurveyQuestion>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class QuestionAdapter(
+    private val questions: List<SurveyQuestion>,
+    private val initialResponses: Map<String, Any>? = null
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val userResponses: MutableMap<String, Any> = mutableMapOf()
+    private val userResponses: MutableMap<String, Any> = initialResponses?.toMutableMap() ?: mutableMapOf()
+    private var triggerQuestionActive = false
+
+    init {
+        updateTriggerStatus()
+    }
+
+    private fun updateTriggerStatus() {
+        val triggerQuestion = questions.find { it.trigger }
+        triggerQuestionActive = triggerQuestion != null && (userResponses[triggerQuestion.name] as? Boolean ?: false)
+    }
+
+    private fun filteredQuestions(): List<SurveyQuestion> {
+        updateTriggerStatus()
+        return questions.filter { it.optional == false || (it.optional == true && triggerQuestionActive) }
+    }
 
     override fun getItemViewType(position: Int): Int {
-        return when (questions[position].typeName) {
+        return when (filteredQuestions()[position].typeName) {
             "TEXT" -> R.layout.item_question_text
             "NUMBER" -> R.layout.item_question_number
             "SLIDER" -> R.layout.item_question_slider
@@ -43,7 +61,7 @@ class QuestionAdapter(private val questions: List<SurveyQuestion>) : RecyclerVie
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val question = questions[position]
+        val question = filteredQuestions()[position]
         when (holder) {
             is TextViewHolder -> holder.bind(question)
             is NumberViewHolder -> holder.bind(question)
@@ -53,7 +71,7 @@ class QuestionAdapter(private val questions: List<SurveyQuestion>) : RecyclerVie
         }
     }
 
-    override fun getItemCount(): Int = questions.size
+    override fun getItemCount(): Int = filteredQuestions().size
 
     fun getUserResponses(): Map<String, Any> = userResponses
 
@@ -64,6 +82,7 @@ class QuestionAdapter(private val questions: List<SurveyQuestion>) : RecyclerVie
         fun bind(question: SurveyQuestion) {
             title.text = question.name
             editText.hint = question.name
+            editText.setText(userResponses[question.name]?.toString() ?: "")
             editText.addTextChangedListener {
                 userResponses[question.name] = it.toString()
             }
@@ -77,6 +96,7 @@ class QuestionAdapter(private val questions: List<SurveyQuestion>) : RecyclerVie
             title.text = question.name
             editText.hint = question.name
             editText.inputType = InputType.TYPE_CLASS_NUMBER
+            editText.setText(userResponses[question.name]?.toString() ?: "")
             editText.addTextChangedListener {
                 userResponses[question.name] = it.toString().toIntOrNull() ?: 0
             }
@@ -92,6 +112,7 @@ class QuestionAdapter(private val questions: List<SurveyQuestion>) : RecyclerVie
             val max = question.answers[1].toInt()
             slider.max = max
             slider.min = min
+            slider.progress = (userResponses[question.name] as? Int ?: min) - min
 
             slider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -110,8 +131,10 @@ class QuestionAdapter(private val questions: List<SurveyQuestion>) : RecyclerVie
         fun bind(question: SurveyQuestion) {
             title.text = question.name
             switch.text = question.name
+            switch.isChecked = userResponses[question.name] as? Boolean ?: false
             switch.setOnCheckedChangeListener { _, isChecked ->
                 userResponses[question.name] = isChecked
+                notifyDataSetChanged()
             }
         }
     }
@@ -129,6 +152,7 @@ class QuestionAdapter(private val questions: List<SurveyQuestion>) : RecyclerVie
                 }
                 radioGroup.addView(radioButton)
             }
+            radioGroup.check(userResponses[question.name] as? Int ?: -1)
             radioGroup.setOnCheckedChangeListener { _, checkedId ->
                 userResponses[question.name] = checkedId
             }

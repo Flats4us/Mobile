@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import com.example.flats4us21.DataStoreManager
 import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.adapters.ImageSliderAdapter
 import com.example.flats4us21.adapters.ProfileAdapter
@@ -39,6 +40,11 @@ class RentDetailFragment : Fragment() {
 
         viewModel.getRent(rentId!!)
 
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.progressBar.visibility = if(isLoading) View.VISIBLE else View.GONE
+            binding.detailLayout.visibility = if(isLoading) View.GONE else View.VISIBLE
+        }
+
         viewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
             if(errorMessage != null) {
                 Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
@@ -48,6 +54,18 @@ class RentDetailFragment : Fragment() {
         viewModel.rent.observe(viewLifecycleOwner) { rent ->
             bindOfferData(rent)
         }
+
+        binding.fab.setOnClickListener {
+
+            val bundle = Bundle()
+            bundle.putInt(RENT_ID, rentId)
+            val fragment = AddPropertyOpinionFragment().apply {
+                arguments = bundle
+            }
+            (activity as? DrawerActivity)?.replaceFragment(fragment)
+        }
+
+
 
     }
 
@@ -73,15 +91,36 @@ class RentDetailFragment : Fragment() {
         binding.address.text = rent.propertyAddress
 
         val adapter = ProfileAdapter(
-            rent.tenants
-        ) { _, _, position, _ ->
-            val userId = rent.tenants[position].userId
-            Log.i(TAG, "userId: $userId")
-            val bundle = Bundle()
-            bundle.putInt(USER_ID, userId)
-            val fragment = ProfileFragment()
-            fragment.arguments = bundle
-            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+            rent.tenants,
+            { position ->
+                val userId = rent.tenants[position].userId
+                Log.i(TAG, "userId: $userId")
+                val bundle = Bundle().apply {
+                    putInt(USER_ID, userId)
+                }
+                val fragment = ProfileFragment().apply {
+                    arguments = bundle
+                }
+                (activity as? DrawerActivity)?.replaceFragment(fragment)
+            },
+            { position ->
+                val userId = rent.tenants[position].userId
+                Log.i(TAG, "userId: $userId")
+                val bundle = Bundle().apply {
+                    putInt(USER_ID, userId)
+                }
+                val fragment = ReviewSubmissionFragment().apply {
+                    arguments = bundle
+                }
+                (activity as? DrawerActivity)?.replaceFragment(fragment)
+            },
+            rent.isFinished
+        )
+
+        if(rent.isFinished && DataStoreManager.userRole.value == "Student"){
+            binding.fab.visibility = View.VISIBLE
+        } else {
+            binding.fab.visibility = View.GONE
         }
 
         binding.rentRecyclerView.adapter = adapter

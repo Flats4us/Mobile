@@ -15,7 +15,6 @@ class UserSerializer : JsonSerializer<NewUserDto> {
     ): JsonElement {
         val jsonObject = JsonObject()
         jsonObject.addProperty("userType", src.userType.toString())
-        jsonObject.addProperty("profilePicture", src.profilePicture.toString())
         jsonObject.addProperty("name", src.name)
         jsonObject.addProperty("surname", src.surname)
         jsonObject.addProperty("address", src.address)

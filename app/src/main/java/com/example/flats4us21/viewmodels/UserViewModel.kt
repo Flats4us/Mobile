@@ -17,7 +17,10 @@ import com.example.flats4us21.data.SurveyQuestion
 import com.example.flats4us21.data.UserMenuData
 import com.example.flats4us21.data.UserType
 import com.example.flats4us21.data.dto.LoginResponse
-import com.example.flats4us21.data.dto.NewUserDto
+import com.example.flats4us21.data.dto.NewOwnerDto
+import com.example.flats4us21.data.dto.NewPasswordDto
+import com.example.flats4us21.data.dto.NewStudentDto
+import com.example.flats4us21.data.dto.NewUserOpinionDto
 import com.example.flats4us21.data.dto.UpdateMyProfileDto
 import com.example.flats4us21.services.ApiInterestDataSource
 import com.example.flats4us21.services.ApiUserDataSource
@@ -62,6 +65,20 @@ class UserViewModel: ViewModel() {
         get() = _userType
         set(value) {
             _userType = value
+        }
+
+    private var _userResponses: Map<String, Any>? = null
+    var userResponses: Map<String, Any>?
+        get() = _userResponses
+        set(value) {
+            _userResponses = value
+        }
+
+    private var _newUserOpinion: NewUserOpinionDto? = null
+    var newUserOpinion: NewUserOpinionDto?
+        get() = _newUserOpinion
+        set(value) {
+            _newUserOpinion = value
         }
 
     private var _profilePicture: Uri? = null
@@ -226,8 +243,8 @@ class UserViewModel: ViewModel() {
 
     fun getQuestionList(surveyType: String){
         _errorMessage.value = null
+        _isLoading.value = true
         viewModelScope.launch {
-            _isLoading.value = true
             try{
                 val fetchedQuestions = apiSurveyRepository.getSurveyQuestion(surveyType)
                 Log.i(TAG, "Fetched questions: $fetchedQuestions")
@@ -251,37 +268,159 @@ class UserViewModel: ViewModel() {
         }
     }
 
-    fun createUser() {
-        val newUser = NewUserDto(
-            UserType.valueOf(userType!!),
-            profilePicture,
-            name,
-            surname,
-            address,
-            phoneNumber,
-            links,
-            interest,
-            birthDate,
-            university,
-            studentNumber,
-            bankAccount,
-            documentNumber,
-            documentExpireDate,
-            questionResponseList,
-            images,
-            email,
-            password,
-            repeatPassword
-        )
+
+
+    private var _party: Int = 0
+    var party: Int
+        get() = _party
+        set(value) {
+            _party = value
+        }
+
+    private var _tidiness: Int = 0
+    var tidiness: Int
+        get() = _tidiness
+        set(value) {
+            _tidiness = value
+        }
+
+    private var _smoking: Boolean = false
+    var smoking: Boolean
+        get() = _smoking
+        set(value) {
+            _smoking = value
+        }
+
+    private var _sociability: Boolean = false
+    var sociability: Boolean
+        get() = _sociability
+        set(value) {
+            _sociability = value
+        }
+
+    private var _animals: Boolean = false
+    var animals: Boolean
+        get() = _animals
+        set(value) {
+            _animals = value
+        }
+
+    private var _vegan: Boolean = false
+    var vegan: Boolean
+        get() = _vegan
+        set(value) {
+            _vegan = value
+        }
+
+    private var _lookingForRoommate: Boolean = false
+    var lookingForRoommate: Boolean
+        get() = _lookingForRoommate
+        set(value) {
+            _lookingForRoommate = value
+        }
+
+    private var _maxNumberOfRoommates: Int = 0
+    var maxNumberOfRoommates: Int
+        get() = _maxNumberOfRoommates
+        set(value) {
+            _maxNumberOfRoommates = value
+        }
+
+    private var _roommateGender: Int = 0
+    var roommateGender: Int
+        get() = _roommateGender
+        set(value) {
+            _roommateGender = value
+        }
+
+    private var _minRoommateAge: Int = 0
+    var minRoommateAge: Int
+        get() = _minRoommateAge
+        set(value) {
+            _minRoommateAge = value
+        }
+
+    private var _maxRoommateAge: Int = 0
+    var maxRoommateAge: Int
+        get() = _maxRoommateAge
+        set(value) {
+            _maxRoommateAge = value
+        }
+
+    private var _city: String = ""
+    var city: String
+        get() = _city
+        set(value) {
+            _city = value
+        }
+
+    fun createUser(callback: (Boolean) -> Unit) {
         viewModelScope.launch {
             _errorMessage.value = null
             _isLoading.value = true
             try{
-                userRepository.register(newUser)
-                Log.d(TAG, "[createUser] New User to create $newUser")
+                val fetched = if (userType == UserType.OWNER.name) {
+                    val newOwnerDto = NewOwnerDto(
+                        name,
+                        surname,
+                        address,
+                        password,
+                        email,
+                        phoneNumber,
+                        0,
+                        documentExpireDate.toString(),
+                        bankAccount ?: "",
+                        documentNumber ?: "",
+                    )
+                    userRepository.registerOwner(newOwnerDto)
+                } else {
+                    val newStudentDto = NewStudentDto(
+                        name,
+                        surname,
+                        address,
+                        password,
+                        email,
+                        phoneNumber,
+                        1,
+                        documentExpireDate.toString(),
+                        birthDate.toString(),
+                        studentNumber ?: "",
+                        university ?: "",
+                        links,
+                        party,
+                        tidiness,
+                        smoking,
+                        sociability,
+                        animals,
+                        vegan,
+                        lookingForRoommate,
+                        maxNumberOfRoommates,
+                        roommateGender,
+                        minRoommateAge,
+                        maxRoommateAge,
+                        city,
+                        interest
+                    )
+                    userRepository.registerStudent(newStudentDto)
+                }
+                when(fetched) {
+                    is ApiResult.Success -> {
+                        val fetchedData = fetched.data
+                        Log.i(TAG, "Fetched Data: $fetchedData")
+                        _resultMessage.value = "Poprawnie zarejestrowano użytkownika"
+                        callback(true)
+                    }
+                    is ApiResult.Error -> {
+                        Log.i(TAG, "ERROR: ${fetched.message}")
+                        _errorMessage.value = fetched.message
+                        Log.e(TAG, "error: ${errorMessage.value}")
+                        callback(false)
+                    }
+                }
             } catch (e: Exception) {
                 _errorMessage.value = e.message
-                Log.e(TAG, "[createUser] Exception $e")
+                Log.e(TAG, "Exception $e")
+                callback(false)
             } finally {
                 _isLoading.value = false
             }
@@ -412,6 +551,7 @@ class UserViewModel: ViewModel() {
                     is ApiResult.Success -> {
                         val profileData = fetched.data
                         Log.i(TAG, "Fetched Data: $profileData")
+                        _resultMessage.value = profileData
                         callback(true)
                     }
                     is ApiResult.Error -> {
@@ -451,6 +591,73 @@ class UserViewModel: ViewModel() {
                     university
                 )
                 when(val fetched = userRepository.updateMyProfile(updatedMyProfileDto)) {
+                    is ApiResult.Success -> {
+                        val fetchedData = fetched.data
+                        Log.i(TAG, "Fetched Data: $fetchedData")
+                        _resultMessage.value = fetchedData
+                        callback(true)
+                    }
+                    is ApiResult.Error -> {
+                        Log.i(TAG, "ERROR: ${fetched.message}")
+                        _errorMessage.value = fetched.message
+                        Log.e(TAG, "error: ${errorMessage.value}")
+                        callback(false)
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+                callback(false)
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun addUserOpinion(userId: Int, callback: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try{
+
+                when(val fetched = userRepository.addOpinion(userId, _newUserOpinion!!)) {
+                    is ApiResult.Success -> {
+                        val fetchedData = fetched.data
+                        Log.i(TAG, "Fetched Data: $fetchedData")
+                        _resultMessage.value = fetchedData
+                        callback(true)
+                    }
+                    is ApiResult.Error -> {
+                        Log.i(TAG, "ERROR: ${fetched.message}")
+                        _errorMessage.value = fetched.message
+                        Log.e(TAG, "error: ${errorMessage.value}")
+                        callback(false)
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+                callback(false)
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    private var _newPassword: NewPasswordDto? = null
+    var newPassword: NewPasswordDto?
+        get() = _newPassword
+        set(value) {
+            _newPassword = value
+        }
+
+    fun changePassword(callback: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try{
+
+                when(val fetched = userRepository.changePassword(newPassword!!)) {
                     is ApiResult.Success -> {
                         val fetchedData = fetched.data
                         Log.i(TAG, "Fetched Data: $fetchedData")

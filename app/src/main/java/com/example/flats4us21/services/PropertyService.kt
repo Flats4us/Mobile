@@ -1,11 +1,20 @@
 package com.example.flats4us21.services
 
 import com.example.flats4us21.data.NewPropertyApiResponse
-import com.example.flats4us21.data.dto.NewPropertyDto
 import com.example.flats4us21.data.Property
+import com.example.flats4us21.data.dto.NewPropertyDto
+import com.example.flats4us21.data.dto.NewRentOpinionDto
 import okhttp3.MultipartBody
 import retrofit2.Response
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.Multipart
+import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Part
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface PropertyService {
     @POST("/api/properties")
@@ -49,4 +58,7 @@ interface PropertyService {
 
     @DELETE("/api/properties/{id}/files/{fileId}")
     suspend fun deleteFile( @Path("fileId") fileId: String)
+
+    @POST("/api/offers/{rentId}/rent/opinion")
+    suspend fun addOpinion(@Path("rentId") rentId: Int, @Body opinion: NewRentOpinionDto) : Response<NewPropertyApiResponse<String>>
 }

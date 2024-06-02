@@ -23,6 +23,7 @@ import com.example.flats4us21.adapters.ImageSliderAdapter
 import com.example.flats4us21.data.Flat
 import com.example.flats4us21.data.House
 import com.example.flats4us21.data.Offer
+import com.example.flats4us21.data.PropertyType
 import com.example.flats4us21.data.Room
 import com.example.flats4us21.databinding.FragmentOfferDetailBinding
 import com.example.flats4us21.viewmodels.DetailOfferViewModel
@@ -92,6 +93,14 @@ class OfferDetailFragment : Fragment() {
         binding.fab.setOnClickListener {
             showDialog(offerId)
         }
+
+        binding.reviewsButton.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(OFFER_ID, offerId)
+            val fragment = PropertyOpinionsFragment()
+            fragment.arguments = bundle
+            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+        }
     }
 
     private fun bindOfferData(offer: Offer?) {
@@ -160,18 +169,39 @@ class OfferDetailFragment : Fragment() {
         if(offer.property.equipment.isEmpty()){
             stringBuilder.append("BRAK")
         }
+
+        if(offer.property.avgRating == 0){
+            binding.emptyView.visibility = View.VISIBLE
+            binding.opinionLayout.visibility = View.GONE
+        } else {
+            binding.emptyView.visibility = View.GONE
+            binding.opinionLayout.visibility = View.VISIBLE
+        }
+
         binding.equipment.text = stringBuilder.toString()
         binding.description.text = offer.description
+        binding.ratingBar.rating = offer.property.avgRating.toFloat()
+        binding.reviewsPer.text = (offer.property.avgRating/10*100).toString()
+        binding.sumService.text = offer.property.avgServiceRating.toString()
+        binding.sumLocation.text = offer.property.avgLocationRating.toString()
+        binding.sumEquipment.text = offer.property.avgEquipmentRating.toString()
+        binding.sumQualityForMoney.text = offer.property.avgQualityForMoneyRating.toString()
         binding.interestedPeople.text = offer.interestedPeople.toString()
 
         when(offer.property){
             is House -> {
+                binding.title.text = PropertyType.HOUSE.toPolishString()
                 val house: House = offer.property
                 binding.landArea.text = house.landArea.toString()
                 binding.landAreaLayout.visibility = View.VISIBLE
             }
-            is Flat -> {}
-            is Room -> {}
+            is Flat -> {
+                binding.title.text = PropertyType.FLAT.toPolishString()
+            }
+
+            is Room -> {
+                binding.title.text = PropertyType.ROOM.toPolishString()
+            }
         }
     }
 
@@ -197,11 +227,16 @@ class OfferDetailFragment : Fragment() {
                 }
             }
         }
+        layoutMeet.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(OFFER_ID, offerId)
+            val fragment = AddMeetingFragment()
+            fragment.arguments = bundle
+            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+            dialog.dismiss()
+        }
         layoutChat.setOnClickListener {
             Toast.makeText(requireContext(), "Clicked Napisz", Toast.LENGTH_SHORT).show()
-        }
-        layoutMeet.setOnClickListener {
-            Toast.makeText(requireContext(), "Clicked Umów spotkanie", Toast.LENGTH_SHORT).show()
         }
 
         dialog.show()

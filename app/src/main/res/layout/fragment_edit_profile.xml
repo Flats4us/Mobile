@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/app_background"
     android:id="@+id/fragment_container"
     tools:ignore="ExtraText">
 
@@ -17,12 +17,15 @@
 
 
         <LinearLayout
+            android:id="@+id/detailLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <TextView
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -64,24 +67,832 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/rectangle_white_background">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/general_data"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_horizontal"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutResidentialAddressWithHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp">
+
+                    <LinearLayout
+                        android:id="@+id/layoutResidentialAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/background_input"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_marginStart="10dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/baseline_home_24"
+                            app:tint="@color/black" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/textResidentialAddress"
+                                android:layout_width="0dp"
+                                android:layout_height="55dp"
+                                android:background="@null"
+                                android:hint="Adres zamieszkania"
+                                android:imeOptions="actionNext"
+                                android:importantForAutofill="no"
+                                android:inputType="textPostalAddress"
+                                android:paddingStart="10dp"
+                                android:paddingEnd="10dp"
+                                android:text="ul. Polowa"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="41dp"
+                        android:background="@color/white"
+                        android:paddingStart="6dp"
+                        android:paddingEnd="6dp"
+                        android:text="Adres zamieszkania"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/layoutResidentialAddress"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/layoutResidentialAddress"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutEmailWithHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp">
+                    <LinearLayout
+                        android:id="@+id/layoutEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/background_input"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_marginStart="10dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/baseline_email_24"
+                            app:tint="@color/black" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/email"
+                                android:layout_width="0dp"
+                                android:layout_height="55dp"
+                                android:background="@null"
+                                android:hint="@string/nazwa_email_com"
+                                android:imeOptions="actionNext"
+                                android:importantForAutofill="no"
+                                android:inputType="textEmailAddress"
+                                android:paddingStart="10dp"
+                                android:paddingEnd="10dp"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="41dp"
+                        android:background="@color/white"
+                        android:paddingStart="6dp"
+                        android:paddingEnd="6dp"
+                        android:text="@string/email"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/layoutEmail"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/layoutEmail"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutPhoneNumberWithHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp">
+                    <LinearLayout
+                        android:id="@+id/layoutPhoneNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/background_input"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_marginStart="10dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/baseline_smartphone_24"
+                            app:tint="@color/black" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/phoneNumber"
+                                android:layout_width="0dp"
+                                android:layout_height="55dp"
+                                android:background="@null"
+                                android:hint="111-222-333"
+                                android:imeOptions="actionNext"
+                                android:importantForAutofill="no"
+                                android:inputType="textPassword"
+                                android:paddingStart="10dp"
+                                android:paddingEnd="10dp"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/passwordToggle2"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <ImageButton
+                                android:id="@+id/phoneNumberToggle"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:layout_marginEnd="1dp"
+                                android:background="@color/white"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/baseline_visibility_off_24"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:tint="@color/black" />
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="41dp"
+                        android:background="@color/white"
+                        android:paddingStart="6dp"
+                        android:paddingEnd="6dp"
+                        android:text="Numer Telefonu"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/layoutPhoneNumber"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/layoutPhoneNumber"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="20dp">
+
+                    <LinearLayout
+                        android:id="@+id/layoutSocialMediaLinks"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/background_input"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_marginStart="10dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/baseline_share_24"
+                            app:tint="@color/black" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/textSocialMediaLinks"
+                                android:layout_width="0dp"
+                                android:layout_height="57dp"
+                                android:background="@null"
+                                android:gravity="center_vertical"
+                                android:hint="Dotknij, aby dodać linki do mediów"
+                                android:text="www.facebook.com"
+                                android:paddingStart="10dp"
+                                android:paddingEnd="10dp"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="41dp"
+                        android:background="@color/white"
+                        android:layout_marginTop="-6dp"
+                        android:paddingStart="6dp"
+                        android:paddingEnd="6dp"
+                        android:text="Linki do mediów"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/sensitive_data"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_horizontal"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutNameWithHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp">
+
+                    <LinearLayout
+                        android:id="@+id/layoutName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_register_margin_top"
+                        android:background="@drawable/background_input"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_width"
+                            android:layout_height="@dimen/icon_height"
+                            android:layout_marginStart="@dimen/icon_margin"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/baseline_person_24"
+                            app:tint="@color/black" />
+
+                        <EditText
+                            android:id="@+id/name"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/edit_text_height"
+                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                            android:background="@null"
+                            android:hint="@string/name"
+                            android:imeOptions="actionNext"
+                            android:importantForAutofill="no"
+                            android:inputType="text"
+                            android:textSize="@dimen/regular_text_size"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/layoutNameHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                        android:background="@color/white"
+                        android:paddingStart="@dimen/layout_name_padding_vertical"
+                        android:paddingEnd="@dimen/layout_name_padding_vertical"
+                        android:text="@string/required_name"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/layoutName"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/layoutName" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutSurnameWithHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp">
+
+                    <LinearLayout
+                        android:id="@+id/layoutSurname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_register_margin_top"
+                        android:background="@drawable/background_input"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_width"
+                            android:layout_height="@dimen/icon_height"
+                            android:layout_marginStart="@dimen/icon_margin"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/baseline_person_24"
+                            app:tint="@color/black" />
+
+                        <EditText
+                            android:id="@+id/surname"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/edit_text_height"
+                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                            android:background="@null"
+                            android:hint="@string/surname"
+                            android:imeOptions="actionNext"
+                            android:importantForAutofill="no"
+                            android:inputType="text"
+                            android:textSize="@dimen/regular_text_size"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/layoutSurnameHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                        android:background="@color/white"
+                        android:paddingStart="@dimen/layout_name_padding_vertical"
+                        android:paddingEnd="@dimen/layout_name_padding_vertical"
+                        android:text="@string/required_surname"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/layoutSurname"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/layoutSurname" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutBirthDateWithHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp">
+
+                    <LinearLayout
+                        android:id="@+id/layoutDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/background_input"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_marginStart="10dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/baseline_calendar_month_24"
+                            app:tint="@color/black" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/textDate"
+                                android:layout_width="319dp"
+                                android:layout_height="57dp"
+                                android:background="@null"
+                                android:gravity="center_vertical"
+                                android:hint="Dotknij, aby wybrać datę"
+                                android:text="01/01/2023"
+                                android:paddingStart="10dp"
+                                android:paddingEnd="10dp"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="41dp"
+                        android:background="@color/white"
+                        android:paddingStart="6dp"
+                        android:paddingEnd="6dp"
+                        android:text="Data"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/layoutDate"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/layoutDate"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutStudentNumberWithHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp">
+
+                    <LinearLayout
+                        android:id="@+id/layoutStudentNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/background_input"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_marginStart="10dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/baseline_person_24"
+                            app:tint="@color/black" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                            android:id="@+id/textStudentNumber"
+                            android:layout_width="0dp"
+                            android:layout_height="55dp"
+                            android:background="@null"
+                            android:hint="Numer studenta"
+                            android:imeOptions="actionNext"
+                            android:importantForAutofill="no"
+                            android:inputType="text"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:text="123456"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="41dp"
+                        android:background="@color/white"
+                        android:paddingStart="6dp"
+                        android:paddingEnd="6dp"
+                        android:text="Numer studenta"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/layoutStudentNumber"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/layoutStudentNumber"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutUniversityNameWithHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp">
+
+                    <LinearLayout
+                        android:id="@+id/layoutUniversityName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/background_input"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_marginStart="10dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/baseline_home_work_24"
+                            app:tint="@color/black" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/textUniversityName"
+                                android:layout_width="0dp"
+                                android:layout_height="55dp"
+                                android:background="@null"
+                                android:hint="Nazwa uczelni"
+                                android:imeOptions="actionNext"
+                                android:importantForAutofill="no"
+                                android:inputType="text"
+                                android:paddingStart="10dp"
+                                android:paddingEnd="10dp"
+                                android:text="PJATK"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="41dp"
+                        android:background="@color/white"
+                        android:paddingStart="6dp"
+                        android:paddingEnd="6dp"
+                        android:text="Nazwa uczelni"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/layoutUniversityName"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/layoutUniversityName"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutDocumentNumberWithHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp">
+
+                    <LinearLayout
+                        android:id="@+id/layoutDocumentNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_register_margin_top"
+                        android:background="@drawable/background_input"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_width"
+                            android:layout_height="@dimen/icon_height"
+                            android:layout_marginStart="@dimen/icon_margin"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/baseline_person_24"
+                            app:tint="@color/black" />
+
+                        <EditText
+                            android:id="@+id/documentNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/edit_text_height"
+                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                            android:background="@null"
+                            android:hint="@string/document_number"
+                            android:imeOptions="actionNext"
+                            android:importantForAutofill="no"
+                            android:inputType="text"
+                            android:textSize="@dimen/regular_text_size"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/layoutDocumentNumberHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                        android:background="@color/white"
+                        android:paddingStart="@dimen/layout_name_padding_vertical"
+                        android:paddingEnd="@dimen/layout_name_padding_vertical"
+                        android:text="@string/required_document_number"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/layoutDocumentNumber"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/layoutDocumentNumber" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutDocumentExpireDateWithHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp">
+
+                    <LinearLayout
+                        android:id="@+id/layoutDocumentExpireDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_register_margin_top"
+                        android:background="@drawable/background_input"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_width"
+                            android:layout_height="@dimen/icon_height"
+                            android:layout_marginStart="@dimen/icon_margin"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/baseline_person_24"
+                            app:tint="@color/black" />
+
+                        <TextView
+                            android:id="@+id/documentExpireDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/edit_text_height"
+                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                            android:gravity="center_vertical"
+                            android:background="@null"
+                            android:hint="@string/document_expire_date"
+                            android:importantForAutofill="no"
+                            android:textSize="@dimen/regular_text_size"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/layoutDocumentExpireDateHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                        android:background="@color/white"
+                        android:paddingStart="@dimen/layout_name_padding_vertical"
+                        android:paddingEnd="@dimen/layout_name_padding_vertical"
+                        android:text="@string/required_document_expired_date"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/layoutDocumentExpireDate"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/layoutDocumentExpireDate" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutBankAccountWithHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp">
+
+                    <LinearLayout
+                        android:id="@+id/layoutBankAccount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_register_margin_top"
+                        android:background="@drawable/background_input"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_width"
+                            android:layout_height="@dimen/icon_height"
+                            android:layout_marginStart="@dimen/icon_margin"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/baseline_person_24"
+                            app:tint="@color/black" />
+
+                        <EditText
+                            android:id="@+id/bankAccount"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/edit_text_height"
+                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                            android:background="@null"
+                            android:hint="@string/bank_account"
+                            android:imeOptions="actionNext"
+                            android:importantForAutofill="no"
+                            android:inputType="date"
+                            android:textSize="@dimen/regular_text_size"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/layoutBankAccountHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                        android:background="@color/white"
+                        android:paddingStart="@dimen/layout_name_padding_vertical"
+                        android:paddingEnd="@dimen/layout_name_padding_vertical"
+                        android:text="@string/required_bank_account"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/layoutBankAccount"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/layoutBankAccount" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <Button
+                    android:id="@+id/editProfileButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/image_button_min_height"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:layout_marginEnd="30dp"
+                    android:text="Zatwierdź"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_horizontal"/>
+
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/rectangle_white_background"
+            android:layout_marginTop="10dp">
+
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/general_data"
+                android:text="Zmiana hasła"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutResidentialAddressWithHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp">
-
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp">
                 <LinearLayout
-                    android:id="@+id/layoutResidentialAddress"
+                    android:id="@+id/layoutTextPassword1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -95,7 +906,7 @@
                         android:layout_height="22dp"
                         android:layout_marginStart="10dp"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_home_24"
+                        android:src="@drawable/baseline_lock_24"
                         app:tint="@color/black" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -103,144 +914,11 @@
                         android:layout_height="wrap_content">
 
                         <EditText
-                            android:id="@+id/textResidentialAddress"
+                            android:id="@+id/oldPassword"
                             android:layout_width="0dp"
                             android:layout_height="55dp"
                             android:background="@null"
-                            android:hint="Adres zamieszkania"
-                            android:imeOptions="actionNext"
-                            android:importantForAutofill="no"
-                            android:inputType="textPostalAddress"
-                            android:paddingStart="10dp"
-                            android:paddingEnd="10dp"
-                            android:text="ul. Polowa"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="41dp"
-                    android:background="@color/white"
-                    android:paddingStart="6dp"
-                    android:paddingEnd="6dp"
-                    android:text="Adres zamieszkania"
-                    android:textAllCaps="true"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/layoutResidentialAddress"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/layoutResidentialAddress"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutEmailWithHeader"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp">
-                <LinearLayout
-                    android:id="@+id/layoutEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/background_input"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:layout_marginStart="10dp"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_email_24"
-                        app:tint="@color/black" />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/email"
-                            android:layout_width="0dp"
-                            android:layout_height="55dp"
-                            android:background="@null"
-                            android:hint="@string/nazwa_email_com"
-                            android:imeOptions="actionNext"
-                            android:importantForAutofill="no"
-                            android:inputType="textEmailAddress"
-                            android:paddingStart="10dp"
-                            android:paddingEnd="10dp"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </LinearLayout>
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="41dp"
-                    android:background="@color/white"
-                    android:paddingStart="6dp"
-                    android:paddingEnd="6dp"
-                    android:text="@string/email"
-                    android:textAllCaps="true"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/layoutEmail"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/layoutEmail"/>
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutPhoneNumberWithHeader"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp">
-                <LinearLayout
-                    android:id="@+id/layoutPhoneNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/background_input"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:layout_marginStart="10dp"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_smartphone_24"
-                        app:tint="@color/black" />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/phoneNumber"
-                            android:layout_width="0dp"
-                            android:layout_height="55dp"
-                            android:background="@null"
-                            android:hint="111-222-333"
+                            android:hint="@string/password"
                             android:imeOptions="actionNext"
                             android:importantForAutofill="no"
                             android:inputType="textPassword"
@@ -249,12 +927,12 @@
                             android:textSize="18sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/passwordToggle2"
+                            app:layout_constraintEnd_toStartOf="@+id/oldPasswordToggle"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageButton
-                            android:id="@+id/phoneNumberToggle"
+                            android:id="@+id/oldPasswordToggle"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:layout_marginEnd="1dp"
@@ -278,12 +956,14 @@
                     android:background="@color/white"
                     android:paddingStart="6dp"
                     android:paddingEnd="6dp"
-                    android:text="Numer Telefonu"
+                    android:text="Aktualne hasło"
                     android:textAllCaps="true"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/layoutPhoneNumber"
+                    app:layout_constraintBottom_toTopOf="@id/layoutTextPassword1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/layoutPhoneNumber"/>
+                    app:layout_constraintTop_toTopOf="@id/layoutTextPassword1"/>
+
+
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -291,86 +971,10 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp"
-                android:layout_marginTop="20dp">
-
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp">
                 <LinearLayout
-                    android:id="@+id/layoutSocialMediaLinks"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/background_input"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:layout_marginStart="10dp"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_share_24"
-                        app:tint="@color/black" />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/textSocialMediaLinks"
-                            android:layout_width="0dp"
-                            android:layout_height="57dp"
-                            android:background="@null"
-                            android:gravity="center_vertical"
-                            android:hint="Dotknij, aby dodać linki do mediów"
-                            android:text="www.facebook.com"
-                            android:paddingStart="10dp"
-                            android:paddingEnd="10dp"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="41dp"
-                    android:background="@color/white"
-                    android:layout_marginTop="-6dp"
-                    android:paddingStart="6dp"
-                    android:paddingEnd="6dp"
-                    android:text="Linki do mediów"
-                    android:textAllCaps="true"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/sensitive_data"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutNameWithHeader"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp">
-
-                <LinearLayout
-                    android:id="@+id/layoutName"
+                    android:id="@+id/layoutPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_register_margin_top"
@@ -379,281 +983,53 @@
                     android:orientation="horizontal"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <ImageView
-                        android:layout_width="@dimen/icon_width"
-                        android:layout_height="@dimen/icon_height"
-                        android:layout_marginStart="@dimen/icon_margin"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_person_24"
-                        app:tint="@color/black" />
 
-                    <EditText
-                        android:id="@+id/name"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/edit_text_height"
-                        android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                        android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                        android:background="@null"
-                        android:hint="@string/name"
-                        android:imeOptions="actionNext"
-                        android:importantForAutofill="no"
-                        android:inputType="text"
-                        android:textSize="@dimen/regular_text_size"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/layoutNameHeader"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                    android:background="@color/white"
-                    android:paddingStart="@dimen/layout_name_padding_vertical"
-                    android:paddingEnd="@dimen/layout_name_padding_vertical"
-                    android:text="@string/required_name"
-                    android:textAllCaps="true"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/layoutName"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/layoutName" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutSurnameWithHeader"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp">
-
-                <LinearLayout
-                    android:id="@+id/layoutSurname"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_register_margin_top"
-                    android:background="@drawable/background_input"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:layout_width="@dimen/icon_width"
-                        android:layout_height="@dimen/icon_height"
-                        android:layout_marginStart="@dimen/icon_margin"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_person_24"
-                        app:tint="@color/black" />
-
-                    <EditText
-                        android:id="@+id/surname"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/edit_text_height"
-                        android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                        android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                        android:background="@null"
-                        android:hint="@string/surname"
-                        android:imeOptions="actionNext"
-                        android:importantForAutofill="no"
-                        android:inputType="text"
-                        android:textSize="@dimen/regular_text_size"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/layoutSurnameHeader"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                    android:background="@color/white"
-                    android:paddingStart="@dimen/layout_name_padding_vertical"
-                    android:paddingEnd="@dimen/layout_name_padding_vertical"
-                    android:text="@string/required_surname"
-                    android:textAllCaps="true"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/layoutSurname"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/layoutSurname" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutBirthDateWithHeader"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp">
-
-                <LinearLayout
-                    android:id="@+id/layoutDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/background_input"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
                         android:layout_width="22dp"
                         android:layout_height="22dp"
                         android:layout_marginStart="10dp"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_calendar_month_24"
+                        android:src="@drawable/baseline_lock_24"
                         app:tint="@color/black" />
+
+
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
-                            android:id="@+id/textDate"
-                            android:layout_width="319dp"
-                            android:layout_height="57dp"
-                            android:background="@null"
-                            android:gravity="center_vertical"
-                            android:hint="Dotknij, aby wybrać datę"
-                            android:text="01/01/2023"
-                            android:paddingStart="10dp"
-                            android:paddingEnd="10dp"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="41dp"
-                    android:background="@color/white"
-                    android:paddingStart="6dp"
-                    android:paddingEnd="6dp"
-                    android:text="Data"
-                    android:textAllCaps="true"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/layoutDate"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/layoutDate"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutStudentNumberWithHeader"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp">
-
-                <LinearLayout
-                    android:id="@+id/layoutStudentNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/background_input"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:layout_marginStart="10dp"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_person_24"
-                        app:tint="@color/black" />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
 
                         <EditText
-                        android:id="@+id/textStudentNumber"
-                        android:layout_width="0dp"
-                        android:layout_height="55dp"
-                        android:background="@null"
-                        android:hint="Numer studenta"
-                        android:imeOptions="actionNext"
-                        android:importantForAutofill="no"
-                        android:inputType="text"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:text="123456"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="41dp"
-                    android:background="@color/white"
-                    android:paddingStart="6dp"
-                    android:paddingEnd="6dp"
-                    android:text="Numer studenta"
-                    android:textAllCaps="true"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/layoutStudentNumber"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/layoutStudentNumber"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutUniversityNameWithHeader"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp">
-
-                <LinearLayout
-                    android:id="@+id/layoutUniversityName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/background_input"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:layout_marginStart="10dp"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_home_work_24"
-                        app:tint="@color/black" />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/textUniversityName"
+                            android:id="@+id/newPassword"
                             android:layout_width="0dp"
                             android:layout_height="55dp"
                             android:background="@null"
-                            android:hint="Nazwa uczelni"
+                            android:hint="@string/password"
                             android:imeOptions="actionNext"
                             android:importantForAutofill="no"
-                            android:inputType="text"
+                            android:inputType="textPassword"
                             android:paddingStart="10dp"
                             android:paddingEnd="10dp"
-                            android:text="PJATK"
                             android:textSize="18sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/newPasswordToggle"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageButton
+                            android:id="@+id/newPasswordToggle"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginEnd="1dp"
+                            android:background="@color/white"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/baseline_visibility_off_24"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/black" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
@@ -665,24 +1041,22 @@
                     android:background="@color/white"
                     android:paddingStart="6dp"
                     android:paddingEnd="6dp"
-                    android:text="Nazwa uczelni"
+                    android:text="Nowe hasło"
                     android:textAllCaps="true"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/layoutUniversityName"
+                    app:layout_constraintBottom_toTopOf="@id/layoutPassword"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/layoutUniversityName"/>
+                    app:layout_constraintTop_toTopOf="@id/layoutPassword"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutDocumentNumberWithHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp">
-
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp">
                 <LinearLayout
-                    android:id="@+id/layoutDocumentNumber"
+                    android:id="@+id/layoutConfirmPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_register_margin_top"
@@ -691,347 +1065,99 @@
                     android:orientation="horizontal"
                     app:layout_constraintTop_toTopOf="parent">
 
+
+
                     <ImageView
-                        android:layout_width="@dimen/icon_width"
-                        android:layout_height="@dimen/icon_height"
-                        android:layout_marginStart="@dimen/icon_margin"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="10dp"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_person_24"
+                        android:src="@drawable/baseline_lock_24"
                         app:tint="@color/black" />
 
-                    <EditText
-                        android:id="@+id/documentNumber"
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/edit_text_height"
-                        android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                        android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                        android:background="@null"
-                        android:hint="@string/document_number"
-                        android:imeOptions="actionNext"
-                        android:importantForAutofill="no"
-                        android:inputType="text"
-                        android:textSize="@dimen/regular_text_size"
-                        android:textStyle="bold" />
+                        android:layout_height="wrap_content">
+
+
+                        <EditText
+                            android:id="@+id/confirmNewPassword"
+                            android:layout_width="0dp"
+                            android:layout_height="55dp"
+                            android:background="@null"
+                            android:hint="@string/password"
+                            android:imeOptions="actionNext"
+                            android:importantForAutofill="no"
+                            android:inputType="textPassword"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/confirmPasswordToggle"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageButton
+                            android:id="@+id/confirmPasswordToggle"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginEnd="1dp"
+                            android:background="@color/white"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/baseline_visibility_off_24"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/black" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/layoutDocumentNumberHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                    android:layout_marginStart="41dp"
                     android:background="@color/white"
-                    android:paddingStart="@dimen/layout_name_padding_vertical"
-                    android:paddingEnd="@dimen/layout_name_padding_vertical"
-                    android:text="@string/required_document_number"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:text="@string/repeat_password"
                     android:textAllCaps="true"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/layoutDocumentNumber"
+                    app:layout_constraintBottom_toTopOf="@id/layoutConfirmPassword"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/layoutDocumentNumber" />
+                    app:layout_constraintTop_toTopOf="@id/layoutConfirmPassword"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutDocumentExpireDateWithHeader"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp">
-
-                <LinearLayout
-                    android:id="@+id/layoutDocumentExpireDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_register_margin_top"
-                    android:background="@drawable/background_input"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:layout_width="@dimen/icon_width"
-                        android:layout_height="@dimen/icon_height"
-                        android:layout_marginStart="@dimen/icon_margin"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_person_24"
-                        app:tint="@color/black" />
-
-                    <TextView
-                        android:id="@+id/documentExpireDate"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/edit_text_height"
-                        android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                        android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                        android:gravity="center_vertical"
-                        android:background="@null"
-                        android:hint="@string/document_expire_date"
-                        android:importantForAutofill="no"
-                        android:textSize="@dimen/regular_text_size"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/layoutDocumentExpireDateHeader"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                    android:background="@color/white"
-                    android:paddingStart="@dimen/layout_name_padding_vertical"
-                    android:paddingEnd="@dimen/layout_name_padding_vertical"
-                    android:text="@string/required_document_expired_date"
-                    android:textAllCaps="true"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/layoutDocumentExpireDate"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/layoutDocumentExpireDate" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutBankAccountWithHeader"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp">
-
-                <LinearLayout
-                    android:id="@+id/layoutBankAccount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_register_margin_top"
-                    android:background="@drawable/background_input"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:layout_width="@dimen/icon_width"
-                        android:layout_height="@dimen/icon_height"
-                        android:layout_marginStart="@dimen/icon_margin"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_person_24"
-                        app:tint="@color/black" />
-
-                    <EditText
-                        android:id="@+id/bankAccount"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/edit_text_height"
-                        android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                        android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                        android:background="@null"
-                        android:hint="@string/bank_account"
-                        android:imeOptions="actionNext"
-                        android:importantForAutofill="no"
-                        android:inputType="date"
-                        android:textSize="@dimen/regular_text_size"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/layoutBankAccountHeader"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                    android:background="@color/white"
-                    android:paddingStart="@dimen/layout_name_padding_vertical"
-                    android:paddingEnd="@dimen/layout_name_padding_vertical"
-                    android:text="@string/required_bank_account"
-                    android:textAllCaps="true"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/layoutBankAccount"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/layoutBankAccount" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="10dp"-->
-<!--                android:text="Zmiana hasła"-->
-<!--                android:textColor="@color/black"-->
-<!--                android:textSize="30sp"-->
-<!--                android:textStyle="bold"/>-->
-
-<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="30dp"-->
-<!--                android:layout_marginEnd="30dp">-->
-<!--                <LinearLayout-->
-<!--                    android:id="@+id/layoutTextPassword1"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="20dp"-->
-<!--                    android:background="@drawable/background_input"-->
-<!--                    android:gravity="center_vertical"-->
-<!--                    android:orientation="horizontal"-->
-<!--                    app:layout_constraintTop_toTopOf="parent">-->
-
-<!--                    <ImageView-->
-<!--                        android:layout_width="22dp"-->
-<!--                        android:layout_height="22dp"-->
-<!--                        android:layout_marginStart="10dp"-->
-<!--                        android:contentDescription="@string/app_name"-->
-<!--                        android:src="@drawable/baseline_lock_24"-->
-<!--                        app:tint="@color/black" />-->
-
-<!--                    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content">-->
-
-<!--                        <EditText-->
-<!--                            android:id="@+id/textPassword1"-->
-<!--                            android:layout_width="0dp"-->
-<!--                            android:layout_height="55dp"-->
-<!--                            android:background="@null"-->
-<!--                            android:hint="*******"-->
-<!--                            android:imeOptions="actionNext"-->
-<!--                            android:importantForAutofill="no"-->
-<!--                            android:inputType="textPassword"-->
-<!--                            android:paddingStart="10dp"-->
-<!--                            android:paddingEnd="10dp"-->
-<!--                            android:textSize="18sp"-->
-<!--                            android:textStyle="bold"-->
-<!--                            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                            app:layout_constraintEnd_toStartOf="@+id/passwordToggle1"-->
-<!--                            app:layout_constraintStart_toStartOf="parent"-->
-<!--                            app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--                        <ImageButton-->
-<!--                            android:id="@+id/passwordToggle1"-->
-<!--                            android:layout_width="48dp"-->
-<!--                            android:layout_height="48dp"-->
-<!--                            android:layout_marginEnd="1dp"-->
-<!--                            android:background="@color/white"-->
-<!--                            android:contentDescription="@string/app_name"-->
-<!--                            android:src="@drawable/baseline_visibility_off_24"-->
-<!--                            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                            app:layout_constraintEnd_toEndOf="parent"-->
-<!--                            app:layout_constraintTop_toTopOf="parent"-->
-<!--                            app:tint="@color/black" />-->
-
-
-<!--                    </androidx.constraintlayout.widget.ConstraintLayout>-->
-<!--                </LinearLayout>-->
-
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="41dp"-->
-<!--                    android:background="@color/white"-->
-<!--                    android:paddingStart="6dp"-->
-<!--                    android:paddingEnd="6dp"-->
-<!--                    android:text="Aktualne hasło"-->
-<!--                    android:textAllCaps="true"-->
-<!--                    android:textStyle="bold"-->
-<!--                    app:layout_constraintBottom_toTopOf="@id/layoutTextPassword1"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="@id/layoutTextPassword1"/>-->
-
-
-
-
-<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="30dp"-->
-<!--                android:layout_marginEnd="30dp">-->
-<!--                <LinearLayout-->
-<!--                    android:id="@+id/layoutPassword"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginTop="40dp"-->
-<!--                    android:background="@drawable/background_input"-->
-<!--                    android:gravity="center_vertical"-->
-<!--                    android:orientation="horizontal"-->
-<!--                    app:layout_constraintTop_toTopOf="parent">-->
-
-
-
-<!--                    <ImageView-->
-<!--                        android:layout_width="22dp"-->
-<!--                        android:layout_height="22dp"-->
-<!--                        android:layout_marginStart="10dp"-->
-<!--                        android:contentDescription="@string/app_name"-->
-<!--                        android:src="@drawable/baseline_lock_24"-->
-<!--                        app:tint="@color/black" />-->
-
-
-
-<!--                    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content">-->
-
-
-<!--                        <EditText-->
-<!--                            android:id="@+id/textPassword"-->
-<!--                            android:layout_width="0dp"-->
-<!--                            android:layout_height="55dp"-->
-<!--                            android:background="@null"-->
-<!--                            android:hint="*******"-->
-<!--                            android:imeOptions="actionNext"-->
-<!--                            android:importantForAutofill="no"-->
-<!--                            android:inputType="textPassword"-->
-<!--                            android:paddingStart="10dp"-->
-<!--                            android:paddingEnd="10dp"-->
-<!--                            android:textSize="18sp"-->
-<!--                            android:textStyle="bold"-->
-<!--                            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                            app:layout_constraintEnd_toStartOf="@+id/passwordToggle"-->
-<!--                            app:layout_constraintStart_toStartOf="parent"-->
-<!--                            app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--                        <ImageButton-->
-<!--                            android:id="@+id/passwordToggle"-->
-<!--                            android:layout_width="48dp"-->
-<!--                            android:layout_height="48dp"-->
-<!--                            android:layout_marginEnd="1dp"-->
-<!--                            android:background="@color/white"-->
-<!--                            android:contentDescription="@string/app_name"-->
-<!--                            android:src="@drawable/baseline_visibility_off_24"-->
-<!--                            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                            app:layout_constraintEnd_toEndOf="parent"-->
-<!--                            app:layout_constraintTop_toTopOf="parent"-->
-<!--                            app:tint="@color/black" />-->
-
-<!--                    </androidx.constraintlayout.widget.ConstraintLayout>-->
-<!--                </LinearLayout>-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="41dp"-->
-<!--                    android:background="@color/white"-->
-<!--                    android:paddingStart="6dp"-->
-<!--                    android:paddingEnd="6dp"-->
-<!--                    android:text="Nowe hasło"-->
-<!--                    android:textAllCaps="true"-->
-<!--                    android:textStyle="bold"-->
-<!--                    app:layout_constraintBottom_toTopOf="@id/layoutPassword"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="@id/layoutPassword"/>-->
-
-<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
 
             <Button
-                android:id="@+id/editProfileButton"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:id="@+id/editPasswordButton"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/image_button_min_height"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="@dimen/layout_register_margin_top"
                 android:layout_marginEnd="30dp"
                 android:text="Zatwierdź"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"/>
 
+        </LinearLayout>
 
         </LinearLayout>
 
     </ScrollView>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

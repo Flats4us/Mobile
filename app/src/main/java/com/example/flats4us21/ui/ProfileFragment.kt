@@ -2,19 +2,17 @@ package com.example.flats4us21.ui
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.R
 import com.example.flats4us21.URL
 import com.example.flats4us21.adapters.InterestAdapter
-import com.example.flats4us21.data.Interest
-import com.example.flats4us21.data.MyProfile
 import com.example.flats4us21.data.Profile
 import com.example.flats4us21.databinding.FragmentProfileBinding
 import com.example.flats4us21.viewmodels.UserViewModel
@@ -50,6 +48,14 @@ class ProfileFragment : Fragment() {
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             binding.mainLayout.visibility = if (isLoading) View.GONE else View.VISIBLE
+        }
+
+        binding.reviewsButton.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(USER_ID, userId)
+            val fragment = UserOpinionsFragment()
+            fragment.arguments = bundle
+            (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
 
     }

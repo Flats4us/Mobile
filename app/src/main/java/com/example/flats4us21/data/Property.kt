@@ -1,8 +1,5 @@
 package com.example.flats4us21.data
 
-import com.example.flats4us21.data.Equipment
-import com.example.flats4us21.data.Image
-import com.google.gson.JsonArray
 import com.google.gson.annotations.SerializedName
 
 open class Property(
@@ -32,6 +29,16 @@ open class Property(
     open val constructionYear: Int,
     @SerializedName("images")
     open val images: List<Image>,
+    @SerializedName("avgRating")
+    open val avgRating: Int,
+    @SerializedName("avgServiceRating")
+    open val avgServiceRating: Int,
+    @SerializedName("avgLocationRating")
+    open val avgLocationRating: Int,
+    @SerializedName("avgEquipmentRating")
+    open val avgEquipmentRating: Int,
+    @SerializedName("avgQualityForMoneyRating")
+    open val avgQualityForMoneyRating: Int,
     @SerializedName("verificationStatus")
     open val verificationStatus: Int,
     @SerializedName("numberOfRooms")
@@ -41,5 +48,6 @@ open class Property(
     @SerializedName("equipment")
     open val equipment: List<Equipment>,
     @SerializedName("rentOpinions")
-    open val rentOpinions: JsonArray
+    open val rentOpinions: List<PropertyOpinion>?
 )
+

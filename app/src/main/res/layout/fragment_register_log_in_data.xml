@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    android:background="@drawable/app_background"
     tools:context=".ui.RegisterLogInDataFragment">
 
     <ScrollView
@@ -24,6 +26,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
+                android:background="@drawable/rectangle_white_background"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -41,8 +44,8 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp">
 
                     <LinearLayout
                         android:id="@+id/layoutEmail"
@@ -96,8 +99,8 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp">
 
                     <LinearLayout
                         android:id="@+id/layoutPassword"
@@ -175,8 +178,9 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="@dimen/layout_register_margin_top">
 
                     <LinearLayout
                         android:id="@+id/layoutRepeatPassword"

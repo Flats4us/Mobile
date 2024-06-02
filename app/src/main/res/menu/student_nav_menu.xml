@@ -8,9 +8,9 @@
         android:title="@string/start"/>
 
     <item
-        android:id="@+id/nav_matching"
+        android:id="@+id/nav_roommates"
         android:icon="@drawable/baseline_people_24"
-        android:title="@string/matching"/>
+        android:title="@string/roommates"/>
 
     <item
         android:id="@+id/nav_observed"
@@ -80,16 +80,6 @@
         android:id="@+id/nav_calendar"
         android:icon="@drawable/baseline_calendar_month_24"
         android:title="@string/calendar"/>
-
-    <item
-        android:id="@+id/nav_roommates"
-        android:icon="@drawable/baseline_people_24"
-        android:title="@string/roommates"/>
-
-    <item
-        android:id="@+id/nav_contact"
-        android:icon="@drawable/baseline_phone_24"
-        android:title="@string/contact"/>
 
     <item
         android:id="@+id/nav_logout"

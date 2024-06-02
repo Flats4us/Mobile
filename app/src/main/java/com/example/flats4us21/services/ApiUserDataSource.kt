@@ -7,10 +7,12 @@ import com.example.flats4us21.data.MyProfile
 import com.example.flats4us21.data.Profile
 import com.example.flats4us21.data.dto.LoginRequest
 import com.example.flats4us21.data.dto.LoginResponse
-import com.example.flats4us21.data.dto.NewUserDto
+import com.example.flats4us21.data.dto.NewOwnerDto
+import com.example.flats4us21.data.dto.NewPasswordDto
+import com.example.flats4us21.data.dto.NewStudentDto
+import com.example.flats4us21.data.dto.NewUserOpinionDto
 import com.example.flats4us21.data.dto.UpdateMyProfileDto
 import com.example.flats4us21.interceptors.AuthInterceptor
-import com.example.flats4us21.serializer.UserSerializer
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +28,6 @@ object ApiUserDataSource: UserDataSource{
 
 
     val gson: Gson = GsonBuilder()
-        .registerTypeAdapter(NewUserDto::class.java, UserSerializer())
         .create()
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
@@ -75,8 +76,40 @@ object ApiUserDataSource: UserDataSource{
         }
     }
 
-    override suspend fun register(user: NewUserDto) {
-        api.registerUser(user)
+    override suspend fun registerStudent( user: NewStudentDto): ApiResult<LoginResponse?> {
+        return try {
+            val response = api.registerStudent(user)
+            if(response.isSuccessful) {
+                val data = response.body()
+                if (data != null) {
+                    ApiResult.Success(data)
+                } else {
+                    ApiResult.Error("Response body is null")
+                }
+            } else {
+                ApiResult.Error("Failed to fetch data: ${response.message()}")
+            }
+        }  catch (e: Exception) {
+            ApiResult.Error("An internal error occurred: ${e.message}")
+        }
+    }
+
+    override suspend fun registerOwner( user: NewOwnerDto): ApiResult<LoginResponse?> {
+        return try {
+            val response = api.registerOwner(user)
+            if(response.isSuccessful) {
+                val data = response.body()
+                if (data != null) {
+                    ApiResult.Success(data)
+                } else {
+                    ApiResult.Error("Response body is null")
+                }
+            } else {
+                ApiResult.Error("Failed to fetch data: ${response.message()}")
+            }
+        }  catch (e: Exception) {
+            ApiResult.Error("An internal error occurred: ${e.message}")
+        }
     }
 
     override suspend fun checkEmail(email: String): ApiResult<Boolean> {
@@ -148,6 +181,35 @@ object ApiUserDataSource: UserDataSource{
                 ApiResult.Error("Failed to update profile: ${response.errorBody()?.string()}")
         } catch (e: Exception) {
             ApiResult.Error("An internal error occurred in updating profile: ${e.message}")
+        }
+    }
+
+    override suspend fun addOpinion(
+        targetUserId: Int,
+        newUserOpinionDto: NewUserOpinionDto
+    ): ApiResult<String> {
+        return try {
+            val response = apiWithAuthInterceptor.addOpinion(targetUserId, newUserOpinionDto)
+            if(response.isSuccessful) {
+                val data = response.body()!!.result
+                ApiResult.Success(data)
+            } else
+                ApiResult.Error("Failed to add opinion: ${response.errorBody()?.string()}")
+        } catch (e: Exception) {
+            ApiResult.Error("An internal error occurred in adding opinion: ${e.message}")
+        }
+    }
+
+    override suspend fun changePassword(newPasswordDto: NewPasswordDto): ApiResult<String> {
+        return try {
+            val response = apiWithAuthInterceptor.changePassword(newPasswordDto)
+            if(response.isSuccessful) {
+                val data = response.body()!!.result
+                ApiResult.Success(data)
+            } else
+                ApiResult.Error("Failed to change password: ${response.errorBody()?.string()}")
+        } catch (e: Exception) {
+            ApiResult.Error("An internal error occurred in changing password: ${e.message}")
         }
     }
 }
