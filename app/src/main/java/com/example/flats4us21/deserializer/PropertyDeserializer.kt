@@ -62,7 +62,7 @@ class PropertyDeserializer : JsonDeserializer<Property> {
             val numberOfFloors = if (jsonObject.get("numberOfFloors").isJsonNull) 1 else jsonObject.get("numberOfFloors").asInt
             val landArea = if (jsonObject.get("plotArea").isJsonNull) 0 else jsonObject.get("plotArea").asInt
             val floor = if (jsonObject.get("floor").isJsonNull) 0 else jsonObject.get("floor").asInt
-            val rentId = if (jsonObject.get("offerIds").isJsonNull) null else jsonObject.get("offerIds").asInt
+            val rentId = if (jsonObject.get("offers").isJsonNull) null else jsonObject.get("offers").asInt
             val equipmentJsonArray = jsonObject.getAsJsonArray("equipment")
             val equipment: MutableList<Equipment> = equipmentJsonArray?.map {
                 equipmentDeserializer.deserialize(it, Equipment::class.java, context)

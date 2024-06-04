@@ -20,37 +20,29 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
+    <com.google.android.material.tabs.TabLayout
         android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
+        android:background="@null"
         app:layout_constraintTop_toBottomOf="@+id/title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-            android:id="@+id/potentialButton"
+        <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/oval_white_background"
-            android:padding="4dp"
             android:text="Propozycje"
-            android:textSize="@dimen/h3"
-            android:textStyle="bold" />
+            android:background="@null"/>
 
-        <TextView
-            android:id="@+id/existingButton"
+        <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/oval_white_background"
-            android:padding="4dp"
-            android:text="Istniejący"
-            android:textSize="@dimen/h3" />
+            android:text="Dopasowani"
+            android:background="@null"/>
 
-    </LinearLayout>
+    </com.google.android.material.tabs.TabLayout>
+
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/matches"

@@ -1,10 +1,13 @@
 package com.example.flats4us21.ui
 
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -12,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.flats4us21.DataStoreManager
 import com.example.flats4us21.DrawerActivity
+import com.example.flats4us21.R
 import com.example.flats4us21.adapters.ImageSliderAdapter
 import com.example.flats4us21.adapters.ProfileAdapter
 import com.example.flats4us21.data.Rent
@@ -56,16 +60,8 @@ class RentDetailFragment : Fragment() {
         }
 
         binding.fab.setOnClickListener {
-
-            val bundle = Bundle()
-            bundle.putInt(RENT_ID, rentId)
-            val fragment = AddPropertyOpinionFragment().apply {
-                arguments = bundle
-            }
-            (activity as? DrawerActivity)?.replaceFragment(fragment)
+            showDialog(rentId)
         }
-
-
 
     }
 
@@ -125,5 +121,37 @@ class RentDetailFragment : Fragment() {
 
         binding.rentRecyclerView.adapter = adapter
         binding.rentRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun showDialog(rentId: Int) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.bottom_sheet_menu_rent_layout)
+
+        val layoutArgument = dialog.findViewById<View>(R.id.layoutArgument)
+        val layoutAddOpinion = dialog.findViewById<View>(R.id.layoutAddOpinion)
+
+        layoutArgument.setOnClickListener {
+            TODO("Not yet implemented")
+        }
+        layoutAddOpinion.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(RENT_ID, rentId)
+            val fragment = AddPropertyOpinionFragment().apply {
+                arguments = bundle
+            }
+            (activity as? DrawerActivity)?.replaceFragment(fragment)
+        }
+
+        dialog.show()
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+        dialog.window?.setGravity(Gravity.BOTTOM)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

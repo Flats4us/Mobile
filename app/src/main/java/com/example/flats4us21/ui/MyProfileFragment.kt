@@ -1,12 +1,10 @@
 package com.example.flats4us21.ui
 
-import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -21,6 +19,7 @@ import com.example.flats4us21.viewmodels.UserViewModel
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import com.google.android.material.tabs.TabLayout
 
 private const val TAG = "MyProfileFragment"
 class MyProfileFragment : Fragment() {
@@ -43,34 +42,40 @@ class MyProfileFragment : Fragment() {
         viewModel.getMyProfile()
 
         viewModel.myProfile.observe(viewLifecycleOwner) { userProfile ->
-            if(userProfile != null)
+            if (userProfile != null)
                 bindData(userProfile)
         }
 
-        binding.accountButton.setOnClickListener {
-            binding.profileLayout.visibility = View.VISIBLE
-            binding.personalDataLayout.visibility = View.GONE
-            binding.accountButton.typeface = Typeface.DEFAULT_BOLD
-            binding.personalDataButton.typeface = Typeface.DEFAULT
-        }
+        binding.buttonsLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                when (tab.position) {
+                    0 -> {
+                        binding.profileLayout.visibility = View.VISIBLE
+                        binding.personalDataLayout.visibility = View.GONE
+                    }
+                    1 -> {
+                        binding.profileLayout.visibility = View.GONE
+                        binding.personalDataLayout.visibility = View.VISIBLE
+                    }
+                }
+            }
 
-        binding.personalDataButton.setOnClickListener {
-            binding.profileLayout.visibility = View.GONE
-            binding.personalDataLayout.visibility = View.VISIBLE
-            binding.personalDataButton.typeface = Typeface.DEFAULT_BOLD
-            binding.accountButton.typeface = Typeface.DEFAULT
-        }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+        })
 
         binding.editProfileButton.setOnClickListener {
             val fragment = EditProfileFragment()
-            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+            (activity as? DrawerActivity)?.replaceFragment(fragment)
         }
 
         binding.reviewsButton.setOnClickListener {
             val fragment = UserOpinionsFragment()
-            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+            (activity as? DrawerActivity)?.replaceFragment(fragment)
         }
-
     }
 
     private fun bindData(userProfile: MyProfile) {
@@ -89,24 +94,24 @@ class MyProfileFragment : Fragment() {
             "0"
         }
 
-        if(userProfile.links != null){
-            binding.facebook.isVisible = userProfile.links.any {it.contains("facebook")}
-            binding.twitter.isVisible = userProfile.links.any {it.contains("twitter")}
-            binding.instagram.isVisible = userProfile.links.any {it.contains("instagram")}
+        if (userProfile.links != null) {
+            binding.facebook.isVisible = userProfile.links.any { it.contains("facebook") }
+            binding.twitter.isVisible = userProfile.links.any { it.contains("twitter") }
+            binding.instagram.isVisible = userProfile.links.any { it.contains("instagram") }
         } else {
             binding.facebook.isVisible = false
             binding.twitter.isVisible = false
             binding.instagram.isVisible = false
         }
 
-        if(userProfile.university != null) {
+        if (userProfile.university != null) {
             binding.university.text = userProfile.university
             binding.studyLayout.visibility = View.VISIBLE
         } else {
             binding.studyLayout.visibility = View.GONE
         }
 
-        if(userProfile.interests.isNullOrEmpty()){
+        if (userProfile.interests.isNullOrEmpty()) {
             binding.interestsRecyclerView.visibility = View.GONE
             binding.emptyView.visibility = View.VISIBLE
         } else {
@@ -221,35 +226,33 @@ class MyProfileFragment : Fragment() {
 
         binding.noReviewsText.visibility = if (hasReviews) View.GONE else View.VISIBLE
 
-
         binding.email.text = userProfile.email
         binding.phoneNumber.text = userProfile.phoneNumber
-        if(userProfile.studentNumber != null){
+        if (userProfile.studentNumber != null) {
             binding.studentNumber.text = userProfile.studentNumber
             binding.studentNumberLayout.visibility = View.VISIBLE
         } else {
             binding.studentNumberLayout.visibility = View.GONE
         }
-        if(userProfile.birthDate != null){
+        if (userProfile.birthDate != null) {
             binding.birthDate.text = userProfile.birthDate.split("T")[0]
             binding.birthDateLayout.visibility = View.VISIBLE
         } else {
             binding.birthDateLayout.visibility = View.GONE
         }
-        if(userProfile.bankAccount != null) {
+        if (userProfile.bankAccount != null) {
             binding.bankAccount.text = userProfile.bankAccount
             binding.bankAccountLayout.visibility = View.VISIBLE
         } else {
             binding.bankAccountLayout.visibility = View.GONE
         }
-        if(userProfile.documentNumber != null) {
+        if (userProfile.documentNumber != null) {
             binding.documentNumber.text = userProfile.documentNumber
             binding.documentNumberLayout.visibility = View.VISIBLE
         } else {
             binding.documentNumberLayout.visibility = View.GONE
         }
         binding.documentExpireDate.text = userProfile.documentExpireDate.split("T")[0]
-
     }
 
     override fun onDestroyView() {

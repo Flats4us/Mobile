@@ -130,7 +130,6 @@ class QuestionAdapter(
         private val title: TextView = view.findViewById(R.id.questionName)
         fun bind(question: SurveyQuestion) {
             title.text = question.name
-            switch.text = question.name
             switch.isChecked = userResponses[question.name] as? Boolean ?: false
             switch.setOnCheckedChangeListener { _, isChecked ->
                 userResponses[question.name] = isChecked

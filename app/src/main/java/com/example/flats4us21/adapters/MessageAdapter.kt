@@ -2,30 +2,133 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flats4us21.R
-import com.example.flats4us21.data.Message
+import com.example.flats4us21.data.ChatMessage
+import com.google.android.material.imageview.ShapeableImageView
+import java.text.SimpleDateFormat
+import java.util.Locale
 
-class MessageAdapter(private val messages: List<Message>) : RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {
+class MessageAdapter(
+    private val context: Context,
+    private val messages: List<ChatMessage>,
+    private val loggedInUserId: Int
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    class MessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val messageTextView: TextView = view.findViewById(R.id.messageTextView)
-        val timestampTextView: TextView = view.findViewById(R.id.timestampTextView)
+    private val VIEW_TYPE_MY_MESSAGE = 1
+    private val VIEW_TYPE_USER_MESSAGE = 2
+    private val TIME_THRESHOLD = 5 * 60 * 1000
+
+    private val visibleTimestamps = mutableSetOf<Int>()
+
+    override fun getItemViewType(position: Int): Int {
+        return if (messages[position].senderId == loggedInUserId) VIEW_TYPE_MY_MESSAGE else VIEW_TYPE_USER_MESSAGE
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.message_item, parent, false)
-        return MessageViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return if (viewType == VIEW_TYPE_MY_MESSAGE) {
+            MyMessageViewHolder(
+                LayoutInflater.from(context).inflate(R.layout.item_my_message, parent, false)
+            )
+        } else {
+            UserMessageViewHolder(
+                LayoutInflater.from(context).inflate(R.layout.item_user_message, parent, false)
+            )
+        }
     }
 
-    override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
+    override fun getItemCount(): Int = messages.size
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val message = messages[position]
-        holder.messageTextView.text = message.text
-        holder.timestampTextView.text = message.time
+
+        if (holder is MyMessageViewHolder) {
+            holder.bind(message, position)
+        } else if (holder is UserMessageViewHolder) {
+            holder.bind(message, position)
+        }
     }
 
-    override fun getItemCount() = messages.size
-}
+    inner class MyMessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private val messageTextView: TextView = view.findViewById(R.id.messageTextView)
+        private val timestampTextView: TextView = view.findViewById(R.id.timestampTextView)
 
+        fun bind(message: ChatMessage, position: Int) {
+            messageTextView.text = message.content
+
+            val shouldShowTimestamp = shouldShowTimestamp(position)
+            val formattedTimestamp = formatTimestamp(message.dateTime, position)
+            timestampTextView.visibility = if (shouldShowTimestamp || visibleTimestamps.contains(position)) View.VISIBLE else View.GONE
+            timestampTextView.text = formattedTimestamp
+
+            messageTextView.setOnClickListener {
+                toggleTimestampVisibility(position)
+            }
+
+            itemView.setOnClickListener {
+                toggleTimestampVisibility(position)
+            }
+        }
+    }
+
+    inner class UserMessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private val messageTextView: TextView = view.findViewById(R.id.messageTextView)
+        private val timestampTextView: TextView = view.findViewById(R.id.timestampTextView)
+        private val userPhoto: ShapeableImageView = view.findViewById(R.id.userPhoto)
+
+        fun bind(message: ChatMessage, position: Int) {
+            messageTextView.text = message.content
+
+            val shouldShowTimestamp = shouldShowTimestamp(position)
+            val formattedTimestamp = formatTimestamp(message.dateTime, position)
+            timestampTextView.visibility = if (shouldShowTimestamp || visibleTimestamps.contains(position)) View.VISIBLE else View.GONE
+            timestampTextView.text = formattedTimestamp
+
+            // Show user photo only for the last message from the same user in a sequence
+            if (position < messages.size - 1 && messages[position + 1].senderId == message.senderId) {
+                userPhoto.visibility = View.INVISIBLE
+            } else {
+                userPhoto.visibility = View.VISIBLE
+            }
+
+            messageTextView.setOnClickListener {
+                toggleTimestampVisibility(position)
+            }
+
+            itemView.setOnClickListener {
+                toggleTimestampVisibility(position)
+            }
+        }
+    }
+
+    private fun toggleTimestampVisibility(position: Int) {
+        if (visibleTimestamps.contains(position)) {
+            visibleTimestamps.remove(position)
+        } else {
+            visibleTimestamps.add(position)
+        }
+        notifyItemChanged(position)
+    }
+
+    private fun shouldShowTimestamp(position: Int): Boolean {
+        if (position == 0) return true
+        val previousMessageTime = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSS", Locale.getDefault())
+            .parse(messages[position - 1].dateTime)?.time ?: 0
+        val currentMessageTime = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSS", Locale.getDefault())
+            .parse(messages[position].dateTime)?.time ?: 0
+        return (currentMessageTime - previousMessageTime) > TIME_THRESHOLD
+    }
+
+    private fun formatTimestamp(dateTime: String, position: Int): String {
+        val messageTime = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSS", Locale.getDefault()).parse(dateTime)
+        val currentTime = System.currentTimeMillis()
+
+        val dateFormat: SimpleDateFormat = if (currentTime - messageTime.time > 24 * 60 * 60 * 1000) {
+            SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+        } else {
+            SimpleDateFormat("HH:mm", Locale.getDefault())
+        }
+        return dateFormat.format(messageTime)
+    }
+}

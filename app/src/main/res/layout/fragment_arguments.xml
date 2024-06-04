@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.MyRentsFragment"
-    android:background="@drawable/app_background">
+    tools:context=".services.ArgumentsFragment">
 
     <TextView
         android:id="@+id/title"
@@ -14,7 +13,7 @@
         android:layout_marginTop="@dimen/header_vertical_space"
         android:layout_marginBottom="@dimen/header_vertical_space"
         android:gravity="center_horizontal"
-        android:text="@string/my_rentals"
+        android:text="@string/arguements"
         android:textSize="@dimen/h1"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,35 +33,33 @@
         <com.google.android.material.tabs.TabItem
             android:layout_height="0dp"
             android:layout_width="0dp"
-            android:text="Aktywne najmy"
+            android:text="Otwarte"
             android:background="@null"/>
 
         <com.google.android.material.tabs.TabItem
             android:layout_height="0dp"
             android:layout_width="0dp"
-            android:text="Skończone najmy"
+            android:text="Zamknięte"
             android:background="@null"/>
 
     </com.google.android.material.tabs.TabLayout>
 
-
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rentRecyclerView"
-        android:layout_width="match_parent"
+        android:id="@+id/chatsRecyclerView"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="@dimen/recyclerview_padding"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonsLayout" />
+        app:layout_constraintTop_toBottomOf="@id/buttonsLayout" />
 
     <TextView
         android:id="@+id/emptyView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="@string/no_rentals_available"
+        android:text="@string/no_data_available"
         android:textSize="18sp"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/buttonsLayout"
@@ -79,7 +76,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -269,6 +269,9 @@
     <string name="opinions_about_user">Opinie o użytkowniku</string>
     <string name="opinions_about_property">Opinie o nieruchomości</string>
     <string name="no_rentals_available">Nie ma najmów do wyświetlenia</string>
+    <string name="create_argument">Utwórz spór</string>
+    <string name="required_description">Opis*</string>
+    <string name="arguements">Spory</string>
 
     <!-- TODO: meeting_row -->
 </resources>

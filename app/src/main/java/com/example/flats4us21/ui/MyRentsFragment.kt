@@ -15,10 +15,10 @@ import com.example.flats4us21.adapters.RentAdapter
 import com.example.flats4us21.data.Rent
 import com.example.flats4us21.databinding.FragmentMyRentsBinding
 import com.example.flats4us21.viewmodels.RentViewModel
+import com.google.android.material.tabs.TabLayout
 
 private const val TAG = "MyRentsFragment"
 const val RENT_ID = "RENT_ID"
-
 class MyRentsFragment : Fragment() {
     private var _binding: FragmentMyRentsBinding? = null
     private val binding get() = _binding!!
@@ -70,14 +70,23 @@ class MyRentsFragment : Fragment() {
         recyclerview.adapter = adapter
         recyclerview.layoutManager = LinearLayoutManager(requireContext())
 
-        // Button listeners
-        binding.btnActiveRents.setOnClickListener {
-            updateRentList(false)
-        }
 
-        binding.btnFinishedRents.setOnClickListener {
-            updateRentList(true)
-        }
+        binding.buttonsLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                when (tab.position) {
+                    0 -> updateRentList(false)
+                    1 -> updateRentList(true)
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab) {
+            }
+        })
+
     }
 
     private fun updateRentList(showFinished: Boolean) {

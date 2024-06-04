@@ -1,6 +1,5 @@
 package com.example.flats4us21.ui
 
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.flats4us21.R
 import com.example.flats4us21.databinding.FragmentRoommatesBinding
+import com.google.android.material.tabs.TabLayout
 
 
 class RoommatesFragment : Fragment() {
@@ -27,17 +27,21 @@ class RoommatesFragment : Fragment() {
 
         replaceFragment(StudentMatchesFragment())
 
-        binding.potentialButton.setOnClickListener {
-            binding.potentialButton.typeface = Typeface.DEFAULT_BOLD
-            binding.existingButton.typeface = Typeface.DEFAULT
-            replaceFragment(StudentMatchesFragment())
-        }
+        binding.buttons.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                when (tab.position) {
+                    0 -> replaceFragment(StudentMatchesFragment())
+                    1 -> replaceFragment(StudentExistingMatchesFragment())
+                }
+            }
 
-        binding.existingButton.setOnClickListener {
-            binding.existingButton.typeface = Typeface.DEFAULT_BOLD
-            binding.potentialButton.typeface = Typeface.DEFAULT
-            replaceFragment(StudentExistingMatchesFragment())
-        }
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab) {
+            }
+        })
+
     }
 
     fun replaceFragment(fragment : Fragment){

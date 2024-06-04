@@ -1,3 +1,4 @@
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.R
 import com.example.flats4us21.databinding.FragmentDisputeBinding
 import com.example.flats4us21.databinding.FragmentSampleDisputeContentBinding
@@ -77,15 +77,7 @@ class DisputeFragment : Fragment(), OnDisputeClickListener {
     }
 
     override fun onDisputeClicked(dispute: Dispute) {
-        val chatFragment = ChatFragment.newInstance(dispute)
-
-        // Start the fragment transaction
-        childFragmentManager.beginTransaction().apply {
-            (activity as? DrawerActivity)!!.replaceFragment(chatFragment)
-            //replace(R.id.fragment_container_disputes1, chatFragment)
-            addToBackStack(null)
-            commit()
-        }
+        TODO()
     }
 
 }
