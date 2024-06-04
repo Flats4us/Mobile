@@ -144,12 +144,12 @@
 
 
     <string name="report_issue">Zgłoś nam problem</string>
-    <string name="what_it_concerns">Czego dotyczy:</string>
+    <string name="required_what_it_concerns">Czego dotyczy:*</string>
     <string name="issue_with_app">Problem z aplikacją</string>
     <string name="issue_with_payment">Problem z płatnością</string>
     <string name="issue_with_profile">Problem z profilem</string>
     <string name="other">Inne</string>
-    <string name="issue_description">Opis problemu</string>
+    <string name="required_issue_description">Opis problemu</string>
     <string name="report">Zgłoś</string>
     <string name="report_next_issue">Zgłoś kolejny problem</string>
     <string name="no_option_selected">Nie wybrano żadnej opcji</string>

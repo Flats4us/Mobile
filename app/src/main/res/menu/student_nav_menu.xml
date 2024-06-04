@@ -46,26 +46,6 @@
         android:icon="@drawable/baseline_settings_24"
         android:title="@string/settings"/>
 
-
-    <item
-        android:title="@string/payment">
-        <menu>
-
-            <item
-                android:id="@+id/nav_his"
-                android:title="@string/payment_history"/>
-
-            <item
-                android:id="@+id/nav_method"
-                android:title="@string/payment_methods"/>
-
-            <item
-                android:id="@+id/nav_rent"
-                android:title="@string/fee"/>
-
-        </menu>
-    </item>
-
     <item
         android:id="@+id/nav_my_rentals"
         android:icon="@drawable/baseline_home_work_24"

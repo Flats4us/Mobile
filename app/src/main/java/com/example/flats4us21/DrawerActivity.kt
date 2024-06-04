@@ -24,6 +24,7 @@ import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.example.flats4us21.ui.CalendarFragment
 import com.example.flats4us21.ui.ChatsFragment
+import com.example.flats4us21.ui.ITIssueReportFragment
 import com.example.flats4us21.ui.MapFragment
 import com.example.flats4us21.ui.MyProfileFragment
 import com.example.flats4us21.ui.MyRentsFragment
@@ -125,6 +126,7 @@ class DrawerActivity : AppCompatActivity() {
                 when (menuItem.itemId) {
                     R.id.nav_observed -> replaceFragment(WatchedOffersListFragment())
                     R.id.nav_roommates -> replaceFragment(RoommatesFragment())
+                    R.id.reviews -> Toast.makeText(this, "Clicked Opinie", Toast.LENGTH_SHORT).show()
 
                 }
             }
@@ -148,11 +150,9 @@ class DrawerActivity : AppCompatActivity() {
         when(menuItem.itemId){
             R.id.nav_messages -> replaceFragment(ChatsFragment())
             R.id.nav_profile -> replaceFragment(MyProfileFragment())
-            R.id.reviews -> Toast.makeText(this, "Clicked Opinie", Toast.LENGTH_SHORT).show()
-            R.id.nav_his -> Toast.makeText(this, "Clicked Historia płatności", Toast.LENGTH_SHORT).show()
-            R.id.nav_method -> Toast.makeText(this, "Clicked Metody płatności", Toast.LENGTH_SHORT).show()
+
+            R.id.nav_report_issue -> replaceFragment(ITIssueReportFragment())
             R.id.nav_my_rentals -> replaceFragment(MyRentsFragment())
-            R.id.nav_rent -> Toast.makeText(this, "Clicked Opłaty", Toast.LENGTH_SHORT).show()
             R.id.nav_conflicts -> Toast.makeText(this, "Clicked Spory", Toast.LENGTH_SHORT).show()
             R.id.nav_calendar -> replaceFragment(CalendarFragment())
             R.id.nav_logout -> logout()
