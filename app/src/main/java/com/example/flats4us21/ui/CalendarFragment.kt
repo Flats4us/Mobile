@@ -95,15 +95,16 @@ class CalendarFragment : Fragment(), CalendarAdapter.OnCellClickListener {
         val dayOfWeek = firstOfMonth.dayOfWeek.value
         val mondayOfWeek = if (dayOfWeek == 1) 0 else if (dayOfWeek == 0) 6 else dayOfWeek - 1
 
-        for (i in 1..42) {
-            if (i <= mondayOfWeek || i > daysInMonth + mondayOfWeek) {
-                daysInMonthArray.add("")
-            } else {
-                daysInMonthArray.add((i - mondayOfWeek).toString())
-            }
+        for (i in 1..mondayOfWeek) {
+            daysInMonthArray.add("")
+        }
+
+        for (i in 1..daysInMonth) {
+            daysInMonthArray.add(i.toString())
         }
         return daysInMonthArray
     }
+
 
     private fun monthYearFromDate(date: LocalDate): String {
         val formatter = DateTimeFormatter.ofPattern("MMMM yyyy")

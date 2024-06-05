@@ -13,8 +13,6 @@ data class Rent(
     val isFinished: Boolean,
     @SerializedName("offerId")
     val offerId: Int,
-    @SerializedName("payments")
-    val payments: List<Any>,
     @SerializedName("propertyAddress")
     val propertyAddress: String,
     @SerializedName("propertyId")
@@ -28,5 +26,7 @@ data class Rent(
     @SerializedName("startDate")
     val startDate: String,
     @SerializedName("tenants")
-    val tenants: List<Tenant>
+    val tenants: List<Tenant>,
+    @SerializedName("payments")
+    val payments: List<Payment>
 )

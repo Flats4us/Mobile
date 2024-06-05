@@ -106,12 +106,12 @@ class QuestionAdapter(
     inner class SliderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val slider: SeekBar = view.findViewById(R.id.answerSlider)
         private val title: TextView = view.findViewById(R.id.questionName)
+
         fun bind(question: SurveyQuestion) {
             title.text = question.name
             val min = question.answers[0].toInt()
             val max = question.answers[1].toInt()
-            slider.max = max
-            slider.min = min
+            slider.max = max - min
             slider.progress = (userResponses[question.name] as? Int ?: min) - min
 
             slider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -125,12 +125,16 @@ class QuestionAdapter(
         }
     }
 
+
     inner class SwitchViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val switch: Switch = view.findViewById(R.id.answerSwitch)
         private val title: TextView = view.findViewById(R.id.questionName)
         fun bind(question: SurveyQuestion) {
             title.text = question.name
             switch.isChecked = userResponses[question.name] as? Boolean ?: false
+            if (!userResponses.containsKey(question.name)) {
+                userResponses[question.name] = switch.isChecked
+            }
             switch.setOnCheckedChangeListener { _, isChecked ->
                 userResponses[question.name] = isChecked
                 notifyDataSetChanged()

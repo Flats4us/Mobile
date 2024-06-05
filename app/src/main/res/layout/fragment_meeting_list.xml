@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.MeetingListFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/rectangle_white_background">
 
     <TextView
         android:id="@+id/dateTextView"
@@ -32,7 +33,7 @@
             android:text="@string/empty"
             android:visibility="gone"
             android:gravity="center"
-            android:textSize="@dimen/h2" />
+            android:textSize="@dimen/h2"/>
     </RelativeLayout>
 
 </LinearLayout>

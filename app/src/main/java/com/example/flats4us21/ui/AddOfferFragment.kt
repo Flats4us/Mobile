@@ -1,6 +1,5 @@
 package com.example.flats4us21.ui
 
-import com.example.flats4us21.adapters.QuestionAdapter
 import android.app.DatePickerDialog
 import android.net.Uri
 import android.os.Bundle
@@ -25,12 +24,13 @@ import com.example.flats4us21.DataStoreManager
 import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.R
 import com.example.flats4us21.adapters.PropertySpinnerAdapter
+import com.example.flats4us21.adapters.QuestionAdapter
 import com.example.flats4us21.data.Property
 import com.example.flats4us21.databinding.FragmentAddOfferBinding
 import com.example.flats4us21.viewmodels.OfferViewModel
 import com.example.flats4us21.viewmodels.UserViewModel
 import java.time.LocalDate
-import java.util.*
+import java.util.Calendar
 
 private const val TAG = "AddOfferFragment"
 class AddOfferFragment : Fragment() {
@@ -73,6 +73,11 @@ class AddOfferFragment : Fragment() {
         }
         offerViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if(isLoading) View.VISIBLE else View.GONE
+        }
+        offerViewModel.resultMessage.observe(viewLifecycleOwner) { resultMessage ->
+            if(resultMessage != null) {
+                Toast.makeText(requireContext(), resultMessage, Toast.LENGTH_LONG).show()
+            }
         }
         offerViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
             if(errorMessage != null) {

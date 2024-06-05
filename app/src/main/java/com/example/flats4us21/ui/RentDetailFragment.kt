@@ -17,6 +17,7 @@ import com.example.flats4us21.DataStoreManager
 import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.R
 import com.example.flats4us21.adapters.ImageSliderAdapter
+import com.example.flats4us21.adapters.PaymentAdapter
 import com.example.flats4us21.adapters.ProfileAdapter
 import com.example.flats4us21.data.Rent
 import com.example.flats4us21.databinding.FragmentRentDetailBinding
@@ -121,6 +122,11 @@ class RentDetailFragment : Fragment() {
 
         binding.rentRecyclerView.adapter = adapter
         binding.rentRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        val paymentAdapter = PaymentAdapter(rent.payments)
+
+        binding.paymentRecyclerView.adapter = paymentAdapter
+        binding.paymentRecyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
     private fun showDialog(rentId: Int) {

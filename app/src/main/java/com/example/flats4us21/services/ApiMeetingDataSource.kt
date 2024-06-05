@@ -3,6 +3,8 @@ package com.example.flats4us21.services
 import com.example.flats4us21.URL
 import com.example.flats4us21.data.ApiResult
 import com.example.flats4us21.data.Meeting
+import com.example.flats4us21.data.RentDecision
+import com.example.flats4us21.data.dto.NewMeetingDto
 import com.example.flats4us21.interceptors.AuthInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -52,9 +54,27 @@ class ApiMeetingDataSource : MeetingDataSource {
         }
     }
 
-    override suspend fun createMeeting(meeting: Meeting): ApiResult<String> {
+    override suspend fun createMeeting(meeting: NewMeetingDto): ApiResult<String> {
         return try {
             val response = api.createMeeting(meeting)
+            if(response.isSuccessful) {
+                val data = response.body()
+                if (data != null) {
+                    ApiResult.Success(data.result)
+                } else {
+                    ApiResult.Error("Response body is null")
+                }
+            } else {
+                ApiResult.Error("Failed to fetch data: ${response.message()}")
+            }
+        } catch (e: Exception) {
+            ApiResult.Error("An internal error occurred: ${e.message}")
+        }
+    }
+
+    override suspend fun acceptMeeting(id: Int, decision: RentDecision): ApiResult<String> {
+        return try {
+            val response = api.acceptMeeting(id, decision)
             if(response.isSuccessful) {
                 val data = response.body()
                 if (data != null) {
