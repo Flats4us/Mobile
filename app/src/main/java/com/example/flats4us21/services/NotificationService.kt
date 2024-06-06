@@ -1,13 +1,12 @@
 package com.example.flats4us21.services
 
 import com.example.flats4us21.data.Notification
-import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.Body
+import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface NotificationService {
-    @GET("/s22677/JSON-data-example/main/Notification/Notification.json")
-    suspend fun getNotifications() : List<Notification>
+    @POST("api/Notification")
+    suspend fun getNotifications(@Query("userId") userId: Int, @Body notification: Notification) : List<Notification>
 
-    @GET("/s22677/JSON-data-example/main/Notification/{id}/Notification.json")
-    suspend fun getNotifications(@Path("id")notificationId: Int) : Notification
 }

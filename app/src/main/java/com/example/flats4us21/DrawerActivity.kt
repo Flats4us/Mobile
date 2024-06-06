@@ -33,6 +33,7 @@ import com.example.flats4us21.ui.OwnerOffersFragment
 import com.example.flats4us21.ui.OwnerPropertiesFragment
 import com.example.flats4us21.ui.RoommatesFragment
 import com.example.flats4us21.ui.SearchFragment
+import com.example.flats4us21.ui.SettingsFragment
 import com.example.flats4us21.ui.StartScreenFragment
 import com.example.flats4us21.ui.WatchedOffersListFragment
 import com.example.flats4us21.viewmodels.UserViewModel
@@ -118,7 +119,7 @@ class DrawerActivity : AppCompatActivity() {
         when(menuItem.itemId){
             R.id.nav_start -> replaceFragment(SearchFragment())
             R.id.nav_map -> replaceFragment(MapFragment())
-            R.id.nav_settings -> Toast.makeText(this, "Clicked Ustawienia", Toast.LENGTH_SHORT).show()
+            R.id.nav_settings -> replaceFragment(SettingsFragment())
         }
         when (userRole) {
             "Student" -> {
@@ -150,7 +151,6 @@ class DrawerActivity : AppCompatActivity() {
         when(menuItem.itemId){
             R.id.nav_messages -> replaceFragment(ChatsFragment())
             R.id.nav_profile -> replaceFragment(MyProfileFragment())
-
             R.id.nav_report_issue -> replaceFragment(ITIssueReportFragment())
             R.id.nav_my_rentals -> replaceFragment(MyRentsFragment())
             R.id.nav_conflicts -> Toast.makeText(this, "Clicked Spory", Toast.LENGTH_SHORT).show()

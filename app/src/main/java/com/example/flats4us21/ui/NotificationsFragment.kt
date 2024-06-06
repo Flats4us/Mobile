@@ -61,11 +61,8 @@ class NotificationsFragment : Fragment() {
         }
 
         adapter = NotificationAdapter(fetchedNotifications) { selectedNotification ->
-            val bundle = Bundle()
-            bundle.putInt(NOTIFICATION_ID, selectedNotification.notificationId)
             viewModel.selectedNotification = selectedNotification
             val fragment = NotificationDetailsFragment()
-            fragment.arguments = bundle
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
 

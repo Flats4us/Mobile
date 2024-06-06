@@ -272,6 +272,7 @@
     <string name="create_argument">Utwórz spór</string>
     <string name="required_description">Opis*</string>
     <string name="arguements">Spory</string>
+    <string name="new_email">Nowy email</string>
 
     <!-- TODO: meeting_row -->
 </resources>

@@ -55,8 +55,7 @@ class NotificationDetailsFragment : Fragment() {
         notification ?: return
 
         binding.title.text = notification.title
-        binding.time.text = notification.time
-        binding.description.text = notification.description
+        binding.description.text = notification.body
     }
 
 }
