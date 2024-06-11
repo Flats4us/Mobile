@@ -35,10 +35,13 @@ import com.example.flats4us21.ui.RoommatesFragment
 import com.example.flats4us21.ui.SearchFragment
 import com.example.flats4us21.ui.SettingsFragment
 import com.example.flats4us21.ui.StartScreenFragment
+import com.example.flats4us21.ui.USER_ID
+import com.example.flats4us21.ui.UserOpinionsFragment
 import com.example.flats4us21.ui.WatchedOffersListFragment
 import com.example.flats4us21.viewmodels.UserViewModel
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.launch
+import java.time.Instant
 
 const val URL = "http://172.21.40.120:5166"
 //const val URL = "http://172.27.80.1:5166"
@@ -56,6 +59,13 @@ class DrawerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_drawer)
         viewModel = ViewModelProvider(this)[UserViewModel::class.java]
         DataStoreManager.initialize(applicationContext)
+
+        DataStoreManager.tokenExpiresAt.observe(this) { expiresAt ->
+            if (expiresAt != null && isTokenExpired(expiresAt)) {
+                logout()
+            }
+        }
+
         setContentView(R.layout.activity_drawer)
         val toolbar : Toolbar = findViewById(R.id.toolbar)
         drawerLayout  = findViewById(R.id.drawerLayout)
@@ -105,6 +115,11 @@ class DrawerActivity : AppCompatActivity() {
         }
     }
 
+    private fun isTokenExpired(expiresAt: Long): Boolean {
+        val currentTime = Instant.now().epochSecond
+        return currentTime > expiresAt
+    }
+
     private fun setupDrawerContent() {
         navView.setNavigationItemSelectedListener { menuItem ->
             selectDrawerItem(menuItem)
@@ -127,7 +142,13 @@ class DrawerActivity : AppCompatActivity() {
                 when (menuItem.itemId) {
                     R.id.nav_observed -> replaceFragment(WatchedOffersListFragment())
                     R.id.nav_roommates -> replaceFragment(RoommatesFragment())
-                    R.id.reviews -> Toast.makeText(this, "Clicked Opinie", Toast.LENGTH_SHORT).show()
+                    R.id.reviews -> {
+                        val bundle = Bundle()
+                        bundle.putInt(USER_ID, viewModel.profile.value?.userId ?: -1)
+                        val fragment = UserOpinionsFragment()
+                        fragment.arguments = bundle
+                        replaceFragment(fragment)
+                    }
 
                 }
             }

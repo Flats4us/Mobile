@@ -37,7 +37,8 @@ class SurveyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        userViewModel.getQuestionList(userViewModel.userType!!)
+        if(userViewModel.questionList.value.isNullOrEmpty())
+            userViewModel.getQuestionList(userViewModel.userType!!)
 
         userResponses = userViewModel.userResponses
 
@@ -89,7 +90,6 @@ class SurveyFragment : Fragment() {
         if(userResponses != null) {
             if(
                 userResponses!!["party"] == null ||
-                userResponses!!["tidiness"] == null ||
                 userResponses!!["smoking"] == null ||
                 userResponses!!["sociability"] == null ||
                 userResponses!!["animals"] == null ||
@@ -128,6 +128,7 @@ class SurveyFragment : Fragment() {
             userViewModel.minRoommateAge = userResponses!!["minRoommateAge"] as? Int ?: 0
             userViewModel.maxRoommateAge = userResponses!!["maxRoommateAge"] as? Int ?: 0
             userViewModel.city = userResponses!!["city"] as? String ?: ""
+            userViewModel.userResponses = userResponses
         }
     }
 

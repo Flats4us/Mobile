@@ -13,8 +13,9 @@ import com.example.flats4us21.services.ChatDataSource
 import kotlinx.coroutines.launch
 
 private const val TAG = "ChatViewModel"
-class ChatViewModel: ViewModel() {
-    private val chatRepository : ChatDataSource = ApiChatDataSource()
+
+class ChatViewModel : ViewModel() {
+    private val apiChatDataSource: ChatDataSource = ApiChatDataSource()
 
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean>
@@ -24,41 +25,37 @@ class ChatViewModel: ViewModel() {
     val errorMessage: LiveData<String?>
         get() = _errorMessage
 
-    private val _chatMessages: MutableLiveData<MutableList<ChatMessage>> = MutableLiveData()
-    val chatMessages: MutableLiveData<MutableList<ChatMessage>>
-        get() = _chatMessages
+    private val _userChats = MutableLiveData<List<Chat>>()
+    val userChats: LiveData<List<Chat>> get() = _userChats
 
-    private val _chatParticipants: MutableLiveData<Int> = MutableLiveData()
-    val chatParticipants: MutableLiveData<Int>
-        get() = _chatParticipants
+    private val _chatHistory = MutableLiveData<List<ChatMessage>>()
+    val chatHistory: LiveData<List<ChatMessage>> get() = _chatHistory
 
-    private val _chats: MutableLiveData<MutableList<Chat>> = MutableLiveData()
-    val chats: MutableLiveData<MutableList<Chat>>
-        get() = _chats
+    private val _chatParticipants = MutableLiveData<Int>()
+    val chatParticipants: LiveData<Int> get() = _chatParticipants
 
     fun sendMessage(receiverUserId: Int, message: String, callback: (Boolean) -> Unit) {
         viewModelScope.launch {
             _errorMessage.value = null
             _isLoading.value = true
-            try{
-                when(val fetchedData = chatRepository.sendMessage(receiverUserId, message)) {
+            try {
+                when (val result = apiChatDataSource.sendMessage(receiverUserId, message)) {
                     is ApiResult.Success -> {
-                        val data = fetchedData.data
                         callback(true)
                     }
                     is ApiResult.Error -> {
-                        Log.i(TAG, "ERROR: ${fetchedData.message}")
-                        _errorMessage.value = fetchedData.message
+                        Log.i(TAG, "ERROR: ${result.message}")
+                        _errorMessage.postValue(result.message)
                         Log.e(TAG, "error: ${errorMessage.value}")
                         callback(false)
                     }
                 }
             } catch (e: Exception) {
-                _errorMessage.value = e.message
+                _errorMessage.postValue(e.message)
                 Log.e(TAG, "Exception $e")
                 callback(false)
             } finally {
-                _isLoading.value = false
+                _isLoading.postValue(false)
             }
         }
     }
@@ -67,24 +64,24 @@ class ChatViewModel: ViewModel() {
         viewModelScope.launch {
             _errorMessage.value = null
             _isLoading.value = true
-            try{
-                when(val fetchedChatMessages = chatRepository.getChatHistory(chatId)) {
+            try {
+                Log.d(TAG, "Requesting chat history for chatId: $chatId")
+                when (val result = apiChatDataSource.getChatHistory(chatId)) {
                     is ApiResult.Success -> {
-                        val chatData = fetchedChatMessages.data
-                        _chatMessages.value = chatData as MutableList<ChatMessage>
-                        Log.i(TAG, chatData.toString())
+                        Log.d(TAG, "Received chat history for chatId: $chatId")
+                        _chatHistory.postValue(result.data)
                     }
                     is ApiResult.Error -> {
-                        Log.i(TAG, "ERROR: ${fetchedChatMessages.message}")
-                        _errorMessage.value = fetchedChatMessages.message
+                        Log.i(TAG, "ERROR: ${result.message}")
+                        _errorMessage.postValue(result.message)
                         Log.e(TAG, "error: ${errorMessage.value}")
                     }
                 }
             } catch (e: Exception) {
-                _errorMessage.value = e.message
+                _errorMessage.postValue(e.message)
                 Log.e(TAG, "Exception $e")
             } finally {
-                _isLoading.value = false
+                _isLoading.postValue(false)
             }
         }
     }
@@ -93,24 +90,24 @@ class ChatViewModel: ViewModel() {
         viewModelScope.launch {
             _errorMessage.value = null
             _isLoading.value = true
-            try{
-                when(val fetchedChatMessages = chatRepository.getChatParticipants(chatId)) {
+            try {
+                Log.d(TAG, "Requesting chat participants for chatId: $chatId")
+                when (val result = apiChatDataSource.getChatParticipants(chatId)) {
                     is ApiResult.Success -> {
-                        val profileData = fetchedChatMessages.data
-                        _chatParticipants.value = profileData
-                        Log.i(TAG, profileData.toString())
+                        Log.d(TAG, "Received chat participants for chatId: $chatId")
+                        _chatParticipants.postValue(result.data)
                     }
                     is ApiResult.Error -> {
-                        Log.i(TAG, "ERROR: ${fetchedChatMessages.message}")
-                        _errorMessage.value = fetchedChatMessages.message
+                        Log.i(TAG, "ERROR: ${result.message}")
+                        _errorMessage.postValue(result.message)
                         Log.e(TAG, "error: ${errorMessage.value}")
                     }
                 }
             } catch (e: Exception) {
-                _errorMessage.value = e.message
+                _errorMessage.postValue(e.message)
                 Log.e(TAG, "Exception $e")
             } finally {
-                _isLoading.value = false
+                _isLoading.postValue(false)
             }
         }
     }
@@ -119,24 +116,24 @@ class ChatViewModel: ViewModel() {
         viewModelScope.launch {
             _errorMessage.value = null
             _isLoading.value = true
-            try{
-                when(val fetchedChats = chatRepository.getUserChats()) {
+            try {
+                Log.d(TAG, "Requesting user chats")
+                when (val result = apiChatDataSource.getUserChats()) {
                     is ApiResult.Success -> {
-                        val profileData = fetchedChats.data
-                        _chats.value = profileData as MutableList<Chat>
-                        Log.i(TAG, profileData.toString())
+                        Log.d(TAG, "Received user chats")
+                        _userChats.postValue(result.data)
                     }
                     is ApiResult.Error -> {
-                        Log.i(TAG, "ERROR: ${fetchedChats.message}")
-                        _errorMessage.value = fetchedChats.message
+                        Log.i(TAG, "ERROR: ${result.message}")
+                        _errorMessage.postValue(result.message)
                         Log.e(TAG, "error: ${errorMessage.value}")
                     }
                 }
             } catch (e: Exception) {
-                _errorMessage.value = e.message
+                _errorMessage.postValue(e.message)
                 Log.e(TAG, "Exception $e")
             } finally {
-                _isLoading.value = false
+                _isLoading.postValue(false)
             }
         }
     }

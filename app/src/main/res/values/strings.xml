@@ -273,6 +273,8 @@
     <string name="required_description">Opis*</string>
     <string name="arguements">Spory</string>
     <string name="new_email">Nowy email</string>
+    <string name="invalid_email">Niepoprawny adres email</string>
+    <string name="invalid_password">Nie podano hasła</string>
 
     <!-- TODO: meeting_row -->
 </resources>

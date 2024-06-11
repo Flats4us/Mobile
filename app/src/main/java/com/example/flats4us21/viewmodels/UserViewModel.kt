@@ -446,47 +446,41 @@ class UserViewModel: ViewModel() {
         repeatPassword = ""
     }
 
-    fun login(email: String, password: String) {
+    fun login(email: String, password: String, callback: (Boolean) -> Unit) {
         viewModelScope.launch {
             _errorMessage.value = null
             _isLoading.value = true
-            try{
-                val fetchedLoginResponse = userRepository.login(email, password)
-                Log.i(TAG, "Fetched loginResponse: $fetchedLoginResponse")
-                when (fetchedLoginResponse) {
+            try {
+                when (val fetchedLoginResponse = userRepository.login(email, password)) {
                     is ApiResult.Success -> {
-                        Log.i(TAG, "Success")
-                        val data = fetchedLoginResponse.data
-                        _loginResponse.value = data
-                        loginResponse.value?.let { DataStoreManager.saveUserData(it) }
-                        when(val fetchedProfile = userRepository.getProfile()) {
-                            is ApiResult.Success -> {
-                                val profileData = fetchedProfile.data
-                                _myProfile.value = profileData
-                                Log.i(TAG, profileData.toString())
-                                Log.i(TAG, _myProfile.value.toString())
-                            }
-                            is ApiResult.Error -> {
-                                Log.i(TAG, "ERROR: ${fetchedProfile.message}")
-                                _errorMessage.value = fetchedProfile.message
-                                Log.e(TAG, "error: ${errorMessage.value}")
-                            }
+                        if (fetchedLoginResponse.data != null) {
+                            _loginResponse.value = fetchedLoginResponse.data
+                            DataStoreManager.saveUserData(fetchedLoginResponse.data)
                         }
+                        fetchUserProfile()
+                        callback(true)
                     }
                     is ApiResult.Error -> {
-                        Log.i(TAG, "ERROR: ${fetchedLoginResponse.message}")
                         _errorMessage.value = fetchedLoginResponse.message
-                        Log.e(TAG, "error: ${errorMessage.value}")
+                        callback(false)
                     }
                 }
             } catch (e: Exception) {
                 _errorMessage.value = e.message
-                Log.e(TAG, "Exception $e")
+                callback(false)
             } finally {
                 _isLoading.value = false
             }
         }
     }
+
+    private suspend fun fetchUserProfile() {
+        when (val fetchedProfile = userRepository.getProfile()) {
+            is ApiResult.Success -> _myProfile.value = fetchedProfile.data
+            is ApiResult.Error -> _errorMessage.value = fetchedProfile.message
+        }
+    }
+
 
     fun getMyProfile(){
         viewModelScope.launch {

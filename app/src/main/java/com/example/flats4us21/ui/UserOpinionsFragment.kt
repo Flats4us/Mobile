@@ -34,7 +34,7 @@ class UserOpinionsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val userId = arguments?.getInt(USER_ID, -1)
-        if (userId != null) {
+        if (userId != null && userId != -1) {
             viewModel.getProfile(userId)
         } else {
             viewModel.getMyProfile()

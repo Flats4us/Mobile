@@ -45,18 +45,22 @@ class ChatFragment : Fragment() {
             viewModel.getChatHistory(chatId)
         }
 
-        viewModel.chatMessages.observe(viewLifecycleOwner) { chatHistory ->
-            bindData(chatId, chatHistory)
+        viewModel.chatHistory.observe(viewLifecycleOwner) { chatHistory ->
+            Log.d(TAG, "Observed chat history: $chatHistory")
+            if (chatId != null) {
+                bindData(chatId, chatHistory as MutableList<ChatMessage>)
+            }
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading: Boolean ->
-            Log.i(TAG, "isLoading $isLoading")
+            Log.d(TAG, "Loading state: $isLoading")
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             binding.mainLayout.visibility = if (isLoading) View.GONE else View.VISIBLE
         }
 
         viewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
             if(errorMessage != null) {
+                Log.e(TAG, "Error: $errorMessage")
                 Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
             }
         }
@@ -64,53 +68,67 @@ class ChatFragment : Fragment() {
         binding.sendButton.setOnClickListener {
             val messageContent = binding.messageEditText.text.toString().trim()
             if (messageContent.isNotEmpty()) {
-                addMessage(chatId!!, messageContent)
+                if (chatId != null) {
+                    addMessage(chatId, messageContent)
+                }
                 binding.messageEditText.text.clear()
             }
         }
     }
 
-    private fun bindData(chatId: Int?, chatHistory: MutableList<ChatMessage>) {
-        val otherUserName = viewModel.chats.value!!.filter { it.chatId == chatId }[0].otherUsername
-        binding.nameAndSurname.text = otherUserName
+    private fun bindData(chatId: Int, chatHistory: MutableList<ChatMessage>) {
+        val userChats = viewModel.userChats.value
+        if (userChats != null) {
+            val otherUserName = userChats.filter { it.chatId == chatId }[0].otherUsername
+            binding.nameAndSurname.text = otherUserName
 
-        if (!::recyclerView.isInitialized) {
-            recyclerView = binding.chatRecyclerView
-            recyclerView.layoutManager = LinearLayoutManager(requireContext()).apply {
-                stackFromEnd = true
+            if (!::recyclerView.isInitialized) {
+                recyclerView = binding.chatRecyclerView
+                recyclerView.layoutManager = LinearLayoutManager(requireContext()).apply {
+                    stackFromEnd = true
+                }
             }
+
+            fetchedMessages.clear()
+            fetchedMessages.addAll(chatHistory)
+
+            if (!::adapter.isInitialized) {
+                val chatParticipants = viewModel.chatParticipants.value
+                if (chatParticipants != null) {
+                    adapter = MessageAdapter(requireContext(), fetchedMessages, chatParticipants)
+                    recyclerView.adapter = adapter
+                }
+            } else {
+                adapter.notifyDataSetChanged()
+            }
+
+            recyclerView.scrollToPosition(fetchedMessages.size - 1)
         }
-
-        fetchedMessages.clear()
-        fetchedMessages.addAll(chatHistory)
-
-        if (!::adapter.isInitialized) {
-            adapter = MessageAdapter(requireContext(), fetchedMessages, viewModel.chatParticipants.value!!)
-            recyclerView.adapter = adapter
-        } else {
-            adapter.notifyDataSetChanged()
-        }
-
-        recyclerView.scrollToPosition(fetchedMessages.size - 1)
     }
 
     private fun addMessage(chatId: Int, content: String) {
-        val newMessage = ChatMessage(
-            chatMessageId = fetchedMessages.size + 1,
-            content = content,
-            dateTime = getCurrentDateTime(),
-            senderId = viewModel.chatParticipants.value!!,
-            groupChatId = null,
-            chatId = chatId,
-            groupChat = null,
-            chat = null
-        )
-        val otherUserId = viewModel.chats.value!!.filter { it.chatId == chatId }[0].otherUserId
-        viewModel.sendMessage(otherUserId, content) {
-            if(it) {
-                fetchedMessages.add(newMessage)
-                adapter.notifyItemInserted(fetchedMessages.size - 1)
-                recyclerView.scrollToPosition(fetchedMessages.size - 1)
+        val userChats = viewModel.userChats.value
+        if (userChats != null) {
+            val otherUserId = userChats.filter { it.chatId == chatId }[0].otherUserId
+            viewModel.sendMessage(otherUserId, content) { isSuccess ->
+                if (isSuccess) {
+                    val chatParticipants = viewModel.chatParticipants.value
+                    if (chatParticipants != null) {
+                        val newMessage = ChatMessage(
+                            chatMessageId = fetchedMessages.size + 1,
+                            content = content,
+                            dateTime = getCurrentDateTime(),
+                            senderId = chatParticipants,
+                            groupChatId = null,
+                            chatId = chatId,
+                            groupChat = null,
+                            chat = null
+                        )
+                        fetchedMessages.add(newMessage)
+                        adapter.notifyItemInserted(fetchedMessages.size - 1)
+                        recyclerView.scrollToPosition(fetchedMessages.size - 1)
+                    }
+                }
             }
         }
     }

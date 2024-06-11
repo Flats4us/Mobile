@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@drawable/rectangle_white_background"
+        android:background="@drawable/other_user_message_bubble"
         tools:text="Hello World!"
         android:layout_marginRight="24dp"
         android:layout_gravity="left"

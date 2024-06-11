@@ -17,11 +17,11 @@ import com.example.flats4us21.databinding.FragmentLoginBinding
 import com.example.flats4us21.viewmodels.UserViewModel
 
 private const val TAG = "LoginFragment"
+
 class LoginFragment : Fragment() {
-    private var _binding : FragmentLoginBinding? = null
+    private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private lateinit var userViewModel: UserViewModel
-    private var warnings : MutableList<String> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,43 +35,39 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         userViewModel = ViewModelProvider(requireActivity())[UserViewModel::class.java]
 
-        val toggle = binding.passwordToggle
-        val password =  binding.textPassword
-        toggle.setOnClickListener{
-            setPasswordVisibility(toggle, password)
+        setupUI()
+        observeViewModel()
+    }
+
+    private fun setupUI() {
+        binding.passwordToggle.setOnClickListener {
+            togglePasswordVisibility(binding.passwordToggle, binding.textPassword)
         }
 
-        userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
-            if(errorMessage != null) {
-                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
-            }
-        }
-
-        val buttonLogin = binding.buttonLogin
-        buttonLogin.setOnClickListener {
-            warnings.clear()
-            if(validateData()){
-                userViewModel.login(binding.email.text.toString(), binding.textPassword.text.toString())
-            } else {
-                warnings.forEach { warning ->
-                    Toast.makeText(requireContext(), warning, Toast.LENGTH_LONG).show()
-                }
-            }
-            userViewModel.loginResponse.observe(viewLifecycleOwner) { loginResponse ->
-                loginResponse?.let {
-                    val fragment = SearchFragment()
-                    (activity as? DrawerActivity)?.replaceFragment(fragment)
+        binding.buttonLogin.setOnClickListener {
+            if (validateData()) {
+                userViewModel.login(binding.email.text.toString(), binding.textPassword.text.toString()){ success ->
+                    if (success) {
+                        (activity as? DrawerActivity)?.replaceFragment(SearchFragment())
+                    }
                 }
             }
         }
-        val forgotYourPasswordButton = binding.forgotYourPassword
-        forgotYourPasswordButton.setOnClickListener {
-            val fragment = ForgotMyPasswordFragment()
-            (activity as? DrawerActivity)?.replaceFragment(fragment)
+
+        binding.forgotYourPassword.setOnClickListener {
+            (activity as? DrawerActivity)?.replaceFragment(ForgotMyPasswordFragment())
         }
     }
 
-    private fun setPasswordVisibility(toggle : ImageButton, password : EditText) {
+    private fun observeViewModel() {
+        userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun togglePasswordVisibility(toggle: ImageButton, password: EditText) {
         if (password.inputType == InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD) {
             toggle.setImageResource(R.drawable.baseline_visibility_24)
             password.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
@@ -82,28 +78,32 @@ class LoginFragment : Fragment() {
     }
 
     private fun validateData(): Boolean {
-        val isEmailValid = isEmailValid(binding.email, binding.layoutEmail)
-        val isPasswordValid = isPasswordValid(binding.textPassword, binding.layoutPassword)
+        val isEmailValid = validateEmail(binding.email)
+        val isPasswordValid = validatePassword(binding.textPassword)
 
         return isEmailValid && isPasswordValid
     }
 
-    private fun isEmailValid(editText: EditText, editTextLayout: ViewGroup): Boolean {
+    private fun validateEmail(editText: EditText): Boolean {
         val email = editText.text.toString().trim()
         val isValid = Patterns.EMAIL_ADDRESS.matcher(email).matches()
-        if(!isValid){
-            warnings.add("Zły email")
+        if (!isValid) {
+            Toast.makeText(requireContext(), getString(R.string.invalid_email), Toast.LENGTH_LONG).show()
+            binding.layoutEmail.setBackgroundResource(R.drawable.background_wrong_input)
+        } else {
+            binding.layoutEmail.setBackgroundResource(R.drawable.background_input)
         }
-        editTextLayout.setBackgroundResource(if (isValid) R.drawable.background_input else R.drawable.background_wrong_input)
         return isValid
     }
 
-    private fun isPasswordValid(editText: EditText, editTextLayout: ViewGroup): Boolean {
+    private fun validatePassword(editText: EditText): Boolean {
         val isValid = editText.text.toString().isNotEmpty()
-        if(!isValid){
-            warnings.add("Nie podano hasła")
+        if (!isValid) {
+            Toast.makeText(requireContext(), getString(R.string.invalid_password), Toast.LENGTH_LONG).show()
+            binding.layoutPassword.setBackgroundResource(R.drawable.background_wrong_input)
+        } else {
+            binding.layoutPassword.setBackgroundResource(R.drawable.background_input)
         }
-        editTextLayout.setBackgroundResource(if (isValid) R.drawable.background_input else R.drawable.background_wrong_input)
         return isValid
     }
 

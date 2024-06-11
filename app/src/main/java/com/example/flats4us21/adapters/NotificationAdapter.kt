@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.flats4us21.R
 import com.example.flats4us21.data.Notification
 import com.example.flats4us21.databinding.NotificationRowBinding
-import com.example.flats4us21.viewmodels.OfferViewModel
+
 //TODO: Correct changing fragment
 class NotificationAdapter(
     private val notifications: MutableList<Notification>,
@@ -18,7 +18,6 @@ class NotificationAdapter(
         RecyclerView.ViewHolder(binding.root){
         val titleTextView: TextView = itemView.findViewById(R.id.title)
         val descriptionTextView: TextView = itemView.findViewById(R.id.description)
-        val timeTextView: TextView = itemView.findViewById(R.id.time)
 
         init {
             binding.root.setOnClickListener { onUserClick(notifications[bindingAdapterPosition]) }
@@ -42,7 +41,6 @@ class NotificationAdapter(
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
         val notification : Notification = notifications[position]
         holder.titleTextView.text = notification.title
-        holder.descriptionTextView.text = notification.description
-        holder.timeTextView.text = notification.time
+        holder.descriptionTextView.text = notification.body
     }
 }

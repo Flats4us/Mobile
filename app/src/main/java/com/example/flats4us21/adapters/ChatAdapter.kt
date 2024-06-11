@@ -9,7 +9,7 @@ import com.example.flats4us21.databinding.ItemChatBinding
 
 class ChatAdapter(
     private val chats: MutableList<Chat>,
-    private val onUserClick : (Chat) -> Unit
+    private val onUserClick: (Chat) -> Unit
 ) : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
 
     inner class ChatViewHolder(binding: ItemChatBinding) :
@@ -40,5 +40,11 @@ class ChatAdapter(
         holder.itemView.setOnClickListener {
             onUserClick(chats[position])
         }
+    }
+
+    fun updateChats(newChats: List<Chat>) {
+        chats.clear()
+        chats.addAll(newChats)
+        notifyDataSetChanged()
     }
 }

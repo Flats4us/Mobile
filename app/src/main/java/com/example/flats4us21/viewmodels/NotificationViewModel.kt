@@ -6,15 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.flats4us21.data.Notification
-import com.example.flats4us21.services.ApiNotificationDataSource
-import com.example.flats4us21.services.NotificationDataSource
+import com.example.flats4us21.services.SignalRService
 import kotlinx.coroutines.launch
 
-private const val TAG = "RealEstateViewModel"
+private const val TAG = "NotificationViewModel"
 
-class NotificationViewModel: ViewModel() {
-    private val notificationRepository : NotificationDataSource = ApiNotificationDataSource
+class NotificationViewModel : ViewModel() {
 
+    private val signalRService = SignalRService()
     private val _notifications: MutableLiveData<List<Notification>> = MutableLiveData()
     val notifications: LiveData<List<Notification>>
         get() = _notifications
@@ -27,27 +26,34 @@ class NotificationViewModel: ViewModel() {
     val errorMessage: LiveData<String?>
         get() = _errorMessage
 
-    fun getUserNotifications(){
+    init {
+        startSignalRConnection()
+        observeSignalRNotifications()
+    }
+
+    private fun startSignalRConnection() {
         viewModelScope.launch {
-            _errorMessage.value = null
-            _isLoading.value = true
             try {
-                val fetchedProperties = notificationRepository.getNotification()
-                Log.d(TAG, "[getUserProperties] Fetched properties: $fetchedProperties")
-                _notifications.value = fetchedProperties
+                signalRService.startConnection()
             } catch (e: Exception) {
                 _errorMessage.value = e.message
                 Log.e(TAG, "Exception $e")
-            } finally {
-                _isLoading.value = false
             }
         }
     }
 
-    private var _selectedNotification: Notification? = null
-    var selectedNotification: Notification?
-        get() = _selectedNotification
-        set(value) {
-            _selectedNotification = value
+    private fun observeSignalRNotifications() {
+        signalRService.notifications.observeForever { notification ->
+            notification?.let {
+                val currentList = _notifications.value.orEmpty().toMutableList()
+                currentList.add(it)
+                _notifications.value = currentList
+            }
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        signalRService.stopConnection()
+    }
 }

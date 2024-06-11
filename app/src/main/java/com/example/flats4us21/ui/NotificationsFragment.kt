@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.adapters.NotificationAdapter
 import com.example.flats4us21.data.Notification
 import com.example.flats4us21.databinding.FragmentNotificationsBinding
@@ -19,6 +18,7 @@ import com.example.flats4us21.viewmodels.NotificationViewModel
 
 private const val TAG = "NotificationsFragment"
 const val NOTIFICATION_ID = "NOTIFICATION_ID"
+
 class NotificationsFragment : Fragment() {
     private var _binding : FragmentNotificationsBinding? = null
     private val binding get() = _binding!!
@@ -39,11 +39,11 @@ class NotificationsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[NotificationViewModel::class.java]
-        viewModel.getUserNotifications()
         recyclerview = binding.notificationRecyclerView
 
         viewModel.notifications.observe(viewLifecycleOwner) { notifications ->
-            Log.i(TAG, "Number of notifications: $notifications.size")
+            Log.i(TAG, "Number of notifications: ${notifications.size}")
+            fetchedNotifications.clear()
             fetchedNotifications.addAll(notifications)
             adapter.notifyDataSetChanged()
         }
@@ -61,9 +61,9 @@ class NotificationsFragment : Fragment() {
         }
 
         adapter = NotificationAdapter(fetchedNotifications) { selectedNotification ->
-            viewModel.selectedNotification = selectedNotification
-            val fragment = NotificationDetailsFragment()
-            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+//            viewModel.selectedNotification = selectedNotification
+//            val fragment = NotificationDetailsFragment()
+//            (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
 
         recyclerview.adapter = adapter

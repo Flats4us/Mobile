@@ -1,6 +1,7 @@
 package com.example.flats4us21.services
 
 import com.example.flats4us21.URL
+import com.example.flats4us21.data.ApiResult
 import com.example.flats4us21.data.Notification
 import com.example.flats4us21.interceptors.AuthInterceptor
 import com.google.gson.Gson
@@ -34,12 +35,22 @@ object ApiNotificationDataSource : NotificationDataSource {
             .create(NotificationService::class.java)
     }
 
-    override suspend fun getNotification(): List<Notification> {
-        return api.getNotifications()
-    }
-
-    override suspend fun getNotification(notificationId: Int): Notification {
-        return api.getNotifications(notificationId)
+    override suspend fun getNotification(userId: Int, notification: Notification): ApiResult<List<Notification>> {
+        return try {
+            val response = api.getNotifications(userId, notification)
+            if(response.isSuccessful) {
+                val data = response.body()
+                if (data != null) {
+                    ApiResult.Success(data)
+                } else {
+                    ApiResult.Error("Response body is null")
+                }
+            } else {
+                ApiResult.Error("Failed to fetch data: ${response.message()}")
+            }
+        } catch (e: Exception) {
+            ApiResult.Error("An internal error occurred: ${e.message}")
+        }
     }
 
 }
