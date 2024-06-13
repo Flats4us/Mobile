@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flats4us21.DrawerActivity
@@ -29,19 +30,35 @@ class AddPropertyOpinionFragment : Fragment() {
 
         realEstateViewModel = ViewModelProvider(this)[RealEstateViewModel::class.java]
 
-        val rentId = arguments?.getInt(RENT_ID)
+        val rentId = arguments?.getInt(RENT_ID) ?: return
 
+        setupButtons(rentId)
+    }
+
+    private fun setupButtons(rentId: Int) {
         binding.cancelButton.setOnClickListener {
-            (activity as? DrawerActivity)!!.goBack()
+            (activity as? DrawerActivity)?.goBack()
         }
 
         binding.addButton.setOnClickListener {
-            collectData()
-            realEstateViewModel.addRentOpinion(rentId!!) {
-                if(it) {
-                    (activity as? DrawerActivity)!!.goBack()
+            if (validateData()) {
+                collectData()
+                realEstateViewModel.addRentOpinion(rentId) {
+                    if (it) {
+                        (activity as? DrawerActivity)?.goBack()
+                    }
                 }
             }
+        }
+    }
+
+    private fun validateData(): Boolean {
+        val rating = binding.starRating.rating
+        return if (rating < 1) {
+            Toast.makeText(context, "Rating must be at least 1", Toast.LENGTH_SHORT).show()
+            false
+        } else {
+            true
         }
     }
 
@@ -67,5 +84,4 @@ class AddPropertyOpinionFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

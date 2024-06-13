@@ -11,13 +11,5 @@
         @SerializedName("dateTime")
         val dateTime: String,
         @SerializedName("senderId")
-        val senderId: Int,
-        @SerializedName("groupChatId")
-        val groupChatId: Any?,
-        @SerializedName("chatId")
-        val chatId: Int,
-        @SerializedName("groupChat")
-        val groupChat: Any?,
-        @SerializedName("chat")
-        val chat: Any?
+        val senderId: Int
     )

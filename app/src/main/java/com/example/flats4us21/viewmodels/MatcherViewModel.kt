@@ -96,7 +96,7 @@ class MatcherViewModel : ViewModel() {
             _isLoading.value = true
             try{
                 val matchDecision = RentDecision(decision)
-                val fetchedRents = matcherRepository.addNewMatcher(studentId, matchDecision)
+                val fetchedRents = matcherRepository.acceptPotentialMatch(studentId, matchDecision)
                 Log.i(TAG, "Fetched existing matches: $fetchedRents")
                 when (fetchedRents) {
                     is ApiResult.Success -> {

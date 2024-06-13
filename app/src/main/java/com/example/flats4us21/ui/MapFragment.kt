@@ -3,7 +3,6 @@ package com.example.flats4us21.ui
 import android.app.Dialog
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.util.Log
 import android.view.Gravity
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -39,19 +38,16 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 private const val TAG = "MapFragment"
+
 class MapFragment : Fragment() {
 
     private lateinit var binding: ActivityMapBinding
     private lateinit var viewModel: OfferViewModel
-    private lateinit var container: ViewGroup
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        if (container != null) {
-            this.container = container
-        }
         binding = ActivityMapBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[OfferViewModel::class.java]
 
@@ -59,15 +55,29 @@ class MapFragment : Fragment() {
             context, PreferenceManager.getDefaultSharedPreferences(context)
         )
 
-        binding.mapFragment.setTileSource(TileSourceFactory.MAPNIK)
-        binding.mapFragment.setBuiltInZoomControls(true)
-        binding.mapFragment.setMultiTouchControls(true)
+        setupMap()
+        setupObservers()
+        setupListeners()
 
+        return binding.root
+    }
+
+    private fun setupMap() {
+        binding.mapFragment.apply {
+            setTileSource(TileSourceFactory.MAPNIK)
+            setBuiltInZoomControls(true)
+            setMultiTouchControls(true)
+        }
+    }
+
+    private fun setupObservers() {
         viewModel.getOffersForMap()
         viewModel.mapOffers.observe(viewLifecycleOwner) { offers ->
             showAvailableOffers(offers)
         }
+    }
 
+    private fun setupListeners() {
         binding.addressEditText.onEnterKeyPressed {
             val address = binding.addressEditText.text.toString()
             lifecycleScope.launch {
@@ -86,8 +96,6 @@ class MapFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
-
-        return binding.root
     }
 
     private fun EditText.onEnterKeyPressed(callback: () -> Unit) {
@@ -105,7 +113,6 @@ class MapFragment : Fragment() {
         lifecycleScope.launch {
             binding.mapFragment.overlays.clear()
             offers.forEach { offer ->
-                val property = offer.property
                 val location = getGeoPoint(offer)
                 location?.let {
                     addOfferMarker(offer, it)
@@ -134,41 +141,8 @@ class MapFragment : Fragment() {
         binding.mapFragment.overlays.add(marker)
     }
 
-//    private fun Offer.getOfferDescription(): String = """
-//        |Date Issued: $dateIssue
-//        |Status: $status
-//        |Price: $price
-//        |Description: $description
-//        |Interested People: $interestedPeople
-//        |Property: ${property.getPropertyDescription()}
-//    """.trimMargin()
-//
-//    private fun Property.getPropertyDescription(): String = """
-//        |Voivodeship: $voivodeship
-//        |City: $city
-//        |District: $district
-//        |Street: $street $buildingNumber
-//        |Area: ${area}m²
-//        |Construction Year: $constructionYear
-//        |Number of Rooms: $numberOfRooms
-//        |Equipment: ${equipment.joinToString(", ")}
-//        |Images: ${images.joinToString { it.toString() }}
-//    """.trimMargin()
-
-
-
     private suspend fun getGeoPoint(offer: MapOffer): GeoPoint? = withContext(Dispatchers.IO) {
         try {
-//            val baseUrl = "https://nominatim.openstreetmap.org/search"
-//            val format = "json"
-//            val url = "$baseUrl?q=${address.replace(" ", "+")}&format=$format&limit=1"
-//            val connection = URL(url).openConnection() as HttpURLConnection
-//            connection.setRequestProperty("User-Agent", "Flats4UsApp")
-//            val response = connection.inputStream.bufferedReader().readText()
-//            connection.disconnect()
-//            JSONArray(response).optJSONObject(0)?.let {
-//                GeoPoint(it.getDouble("lat"), it.getDouble("lon"))
-//            }
             GeoPoint(offer.property.geoLat, offer.property.geoLon)
         } catch (e: Exception) {
             null
@@ -195,26 +169,27 @@ class MapFragment : Fragment() {
     private fun showDialog(offerId: Int) {
         viewModel.getOffer(offerId)
 
-        val dialog = Dialog(requireContext())
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.bottom_sheet_offer_preview_layout)
+        val dialog = Dialog(requireContext()).apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setContentView(R.layout.bottom_sheet_offer_preview_layout)
+        }
 
         val imageSlider = dialog.findViewById<ViewPager2>(R.id.image)
-        val imageCountTV : TextView = dialog.findViewById(R.id.imageCount)
-        val ownerPhoto : ImageView = dialog.findViewById(R.id.ownerPhoto)
-        val owner : TextView = dialog.findViewById(R.id.owner)
-        val startDate : TextView = dialog.findViewById(R.id.startDate)
-        val endDate : TextView = dialog.findViewById(R.id.endDate)
-        val price : TextView = dialog.findViewById(R.id.price)
-        val deposit : TextView = dialog.findViewById(R.id.deposit)
-        val city : TextView = dialog.findViewById(R.id.city)
-        val district : TextView = dialog.findViewById(R.id.district)
-        val street : TextView = dialog.findViewById(R.id.street)
-        val area : TextView = dialog.findViewById(R.id.area)
-        val numberOfRooms : TextView = dialog.findViewById(R.id.numberOfRooms)
+        val imageCountTV: TextView = dialog.findViewById(R.id.imageCount)
+        val ownerPhoto: ImageView = dialog.findViewById(R.id.ownerPhoto)
+        val owner: TextView = dialog.findViewById(R.id.owner)
+        val startDate: TextView = dialog.findViewById(R.id.startDate)
+        val endDate: TextView = dialog.findViewById(R.id.endDate)
+        val price: TextView = dialog.findViewById(R.id.price)
+        val deposit: TextView = dialog.findViewById(R.id.deposit)
+        val city: TextView = dialog.findViewById(R.id.city)
+        val district: TextView = dialog.findViewById(R.id.district)
+        val street: TextView = dialog.findViewById(R.id.street)
+        val area: TextView = dialog.findViewById(R.id.area)
+        val numberOfRooms: TextView = dialog.findViewById(R.id.numberOfRooms)
         val offerDetailButton: Button = dialog.findViewById(R.id.see_details)
 
-        viewModel.offer.observe(viewLifecycleOwner) {offer ->
+        viewModel.offer.observe(viewLifecycleOwner) { offer ->
             imageSlider.adapter = ImageSliderAdapter(offer!!.property.images)
             imageSlider.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
@@ -225,13 +200,10 @@ class MapFragment : Fragment() {
                     imageCountTV.text = imageText
                 }
             })
-            val url = "$URL/${offer.owner.profilePicture?.path}"
-            Log.i(TAG, url)
-            ownerPhoto.load(url) {
+            ownerPhoto.load("$URL/${offer.owner.profilePicture?.path}") {
                 error(R.drawable.baseline_person_24)
             }
             owner.text = getString(R.string.name_and_surname, offer.owner.name, offer.owner.surname)
-
             startDate.text = offer.dateIssue
             endDate.text = offer.dateIssue
             price.text = offer.price
@@ -242,20 +214,19 @@ class MapFragment : Fragment() {
             area.text = offer.property.area.toString()
             numberOfRooms.text = offer.property.numberOfRooms.toString()
             offerDetailButton.setOnClickListener {
-                val bundle = Bundle()
-                bundle.putInt(OFFER_ID, offer.offerId)
-                val fragment = OfferDetailFragment()
-                fragment.arguments = bundle
-                (activity as? DrawerActivity)!!.replaceFragment(fragment)
+                val bundle = Bundle().apply { putInt(OFFER_ID, offer.offerId) }
+                val fragment = OfferDetailFragment().apply { arguments = bundle }
+                (activity as? DrawerActivity)?.replaceFragment(fragment)
                 dialog.dismiss()
             }
         }
 
-        dialog.show()
-        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-        dialog.window?.setGravity(Gravity.BOTTOM)
-
+        dialog.apply {
+            show()
+            window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            window?.setBackgroundDrawableResource(android.R.color.transparent)
+            window?.attributes?.windowAnimations = R.style.DialogAnimation
+            window?.setGravity(Gravity.BOTTOM)
+        }
     }
 }

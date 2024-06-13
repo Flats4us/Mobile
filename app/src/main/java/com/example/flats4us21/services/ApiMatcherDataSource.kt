@@ -71,7 +71,7 @@ class ApiMatcherDataSource : MatcherDataSource {
         }
     }
 
-    override suspend fun addNewMatcher(
+    override suspend fun acceptPotentialMatch(
         studentId: Int,
         decision: RentDecision
     ): ApiResult<String> {

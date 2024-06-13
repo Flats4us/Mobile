@@ -9,5 +9,5 @@ interface MatcherDataSource {
 
     suspend fun getExistingMatches(): ApiResult<List<StudentForMatcher>>
 
-    suspend fun addNewMatcher(studentId: Int, decision: RentDecision): ApiResult<String>
+    suspend fun acceptPotentialMatch(studentId: Int, decision: RentDecision): ApiResult<String>
 }

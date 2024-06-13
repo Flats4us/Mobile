@@ -19,6 +19,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 
 private const val TAG = "StudentForMatcherFragment"
+
 class StudentForMatcherFragment : Fragment() {
     private var _binding: FragmentStudentForMatcherBinding? = null
     private val binding get() = _binding!!
@@ -28,12 +29,11 @@ class StudentForMatcherFragment : Fragment() {
         private const val ARG_STUDENT = "student"
 
         fun newInstance(student: StudentForMatcher): StudentForMatcherFragment {
-            val fragment = StudentForMatcherFragment()
-            val bundle = Bundle().apply {
-                putParcelable(ARG_STUDENT, student)
+            return StudentForMatcherFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(ARG_STUDENT, student)
+                }
             }
-            fragment.arguments = bundle
-            return fragment
         }
     }
 
@@ -47,38 +47,46 @@ class StudentForMatcherFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val student = arguments?.getParcelable<StudentForMatcher>(ARG_STUDENT)
-        student?.let {
-            binding.profileName.text = it.name
-            binding.profileAge.text = "Age: ${it.age}"
-            binding.profileUniversity.text = "University: ${it.university}"
+        arguments?.getParcelable<StudentForMatcher>(ARG_STUDENT)?.let { student ->
+            bindData(student)
+            setupButtons(student)
+        }
+    }
 
-            val url = "$URL/${it.profilePicture?.path ?: ""}"
+    private fun bindData(student: StudentForMatcher) {
+        with(binding) {
+            profileName.text = student.name
+            profileAge.text = "Age: ${student.age}"
+            profileUniversity.text = "University: ${student.university}"
+
+            val url = "$URL/${student.profilePicture?.path.orEmpty()}"
             Log.i(TAG, url)
-            binding.profileImage.load(url) {
+            profileImage.load(url) {
                 error(R.drawable.baseline_person_24)
             }
 
-            if(it.interest.isNullOrEmpty()){
-                binding.interestsRecyclerView.visibility = View.GONE
+            if (student.interest.isNullOrEmpty()) {
+                interestsRecyclerView.visibility = View.GONE
             } else {
-                val recyclerView = binding.interestsRecyclerView
-                binding.interestsRecyclerView.visibility = View.VISIBLE
-                val adapter = InterestAdapter(it.interest)
-                recyclerView.adapter = adapter
-                val flexboxLayoutManager = FlexboxLayoutManager(context)
-                flexboxLayoutManager.flexDirection = FlexDirection.ROW
-                flexboxLayoutManager.justifyContent = JustifyContent.FLEX_START
-                recyclerView.layoutManager = flexboxLayoutManager
+                interestsRecyclerView.apply {
+                    visibility = View.VISIBLE
+                    adapter = InterestAdapter(student.interest)
+                    layoutManager = FlexboxLayoutManager(context).apply {
+                        flexDirection = FlexDirection.ROW
+                        justifyContent = JustifyContent.FLEX_START
+                    }
+                }
             }
+        }
+    }
 
-            binding.acceptButton.setOnClickListener { _ ->
-                matcherViewModel.addMatchDecision(it.userId, true)
-            }
+    private fun setupButtons(student: StudentForMatcher) {
+        binding.acceptButton.setOnClickListener {
+            matcherViewModel.addMatchDecision(student.userId, true)
+        }
 
-            binding.rejectButton.setOnClickListener { _ ->
-                matcherViewModel.addMatchDecision(it.userId, false)
-            }
+        binding.rejectButton.setOnClickListener {
+            matcherViewModel.addMatchDecision(student.userId, false)
         }
     }
 

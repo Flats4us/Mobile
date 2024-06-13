@@ -1,5 +1,7 @@
+package com.example.flats4us21.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +14,7 @@ import java.util.Locale
 
 class MessageAdapter(
     private val context: Context,
-    private val messages: List<ChatMessage>,
+    private var messages: MutableList<ChatMessage>,
     private val loggedInUserId: Int
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -23,7 +25,7 @@ class MessageAdapter(
     private val visibleTimestamps = mutableSetOf<Int>()
 
     override fun getItemViewType(position: Int): Int {
-        return if (messages[position].senderId == loggedInUserId) VIEW_TYPE_MY_MESSAGE else VIEW_TYPE_USER_MESSAGE
+        return if (messages[position].senderId == loggedInUserId) VIEW_TYPE_USER_MESSAGE else VIEW_TYPE_MY_MESSAGE
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -123,4 +125,12 @@ class MessageAdapter(
         }
         return dateFormat.format(messageTime)
     }
+
+    fun updateMessages(newMessages: List<ChatMessage>) {
+
+        messages = newMessages as MutableList<ChatMessage>
+        notifyDataSetChanged()
+        Log.d("MessageAdapter", "Updating messages with: $messages")
+    }
+
 }

@@ -14,7 +14,6 @@ import com.example.flats4us21.data.StudentForMatcher
 import com.example.flats4us21.databinding.FragmentStudentExistingMatchesBinding
 import com.example.flats4us21.viewmodels.MatcherViewModel
 
-
 class StudentExistingMatchesFragment : Fragment() {
     private var _binding: FragmentStudentExistingMatchesBinding? = null
     private val binding get() = _binding!!
@@ -31,52 +30,54 @@ class StudentExistingMatchesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupObservers()
         matcherViewModel.getExistingMatches()
+    }
 
+    private fun setupObservers() {
         matcherViewModel.existingMatches.observe(viewLifecycleOwner) { matches ->
             bindData(matches)
         }
 
         matcherViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            binding.progressBar.visibility = if(isLoading) View.VISIBLE else View.GONE
-            binding.matchesRecyclerView.visibility = if(isLoading) View.GONE else View.VISIBLE
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.matchesRecyclerView.visibility = if (isLoading) View.GONE else View.VISIBLE
         }
 
         matcherViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
-            if(errorMessage != null) {
-                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+            errorMessage?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
             }
         }
-
-
     }
 
-    private fun bindData(matches: MutableList<StudentForMatcher>){
-        val adapter = ExistingMatchesAdapter(
-            matches
-        )
-        { position ->
-            val userId = matches[position].userId
-            val bundle = Bundle().apply {
-                putInt(USER_ID, userId)
-            }
-            //TODO: replace with actual fragment
-            val fragment = ProfileFragment().apply {
-                arguments = bundle
-            }
-            (activity as? DrawerActivity)?.replaceFragment(fragment)
+    private fun bindData(matches: MutableList<StudentForMatcher>) {
+        val adapter = ExistingMatchesAdapter(matches) { position ->
+            navigateToProfile(matches[position].userId)
         }
 
-        if(matches.isEmpty()){
+        if (matches.isEmpty()) {
             binding.noDataText.visibility = View.VISIBLE
             binding.matchesRecyclerView.visibility = View.GONE
         } else {
             binding.noDataText.visibility = View.GONE
             binding.matchesRecyclerView.visibility = View.VISIBLE
+            binding.matchesRecyclerView.adapter = adapter
+            binding.matchesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         }
-
-        binding.matchesRecyclerView.adapter = adapter
-        binding.matchesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
+    private fun navigateToProfile(userId: Int) {
+        val bundle = Bundle().apply {
+            putInt(USER_ID, userId)
+        }
+        val fragment = ChatFragment()
+        fragment.arguments = bundle
+        (activity as? DrawerActivity)?.replaceFragment(fragment)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

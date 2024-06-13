@@ -34,40 +34,47 @@ class ReviewSubmissionFragment : Fragment() {
 
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
-        val userId = arguments?.getInt(USER_ID)
-        userViewModel.getProfile(userId!!)
+        val userId = arguments?.getInt(USER_ID) ?: return
 
+        setupObservers()
+        setupButtons(userId)
+
+        userViewModel.getProfile(userId)
+    }
+
+    private fun setupObservers() {
         userViewModel.profile.observe(viewLifecycleOwner) { profile ->
-            if (profile != null) {
-                bindData(profile)
-            }
+            profile?.let { bindData(it) }
         }
 
         userViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            binding.progressBar.visibility = if(isLoading) View.VISIBLE else View.GONE
-            binding.mainLayout.visibility = if(isLoading) View.GONE else View.VISIBLE
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.mainLayout.visibility = if (isLoading) View.GONE else View.VISIBLE
         }
+
         userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
-            if (errorMessage != null) {
-                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+            errorMessage?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
             }
         }
 
-        userViewModel.resultMessage.observe(viewLifecycleOwner) { errorMessage ->
-            if(errorMessage != null) {
-                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+        userViewModel.resultMessage.observe(viewLifecycleOwner) { resultMessage ->
+            resultMessage?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
             }
         }
+    }
 
+    private fun setupButtons(userId: Int) {
         binding.cancelButton.setOnClickListener {
-            (activity as? DrawerActivity)!!.goBack()
+            (activity as? DrawerActivity)?.goBack()
         }
 
         binding.addButton.setOnClickListener {
             collectData()
-            userViewModel.addUserOpinion(userId) {
-                if(it) {
-                    (activity as? DrawerActivity)!!.goBack()
+            userViewModel.addUserOpinion(userId) { success ->
+                if (success) {
+                    (activity as? DrawerActivity)?.goBack()
                 }
             }
         }
@@ -105,7 +112,6 @@ class ReviewSubmissionFragment : Fragment() {
             notFollowingTheArrangements,
             description
         )
-
     }
 
     private fun bindData(profile: Profile) {
@@ -121,5 +127,3 @@ class ReviewSubmissionFragment : Fragment() {
         _binding = null
     }
 }
-
-

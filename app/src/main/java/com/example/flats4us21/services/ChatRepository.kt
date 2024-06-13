@@ -1,66 +1,81 @@
 package com.example.flats4us21.services
 
+import android.util.Log
 import com.example.flats4us21.DataStoreManager
-import com.example.flats4us21.data.Chat
-import com.example.flats4us21.data.ChatMessage
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.example.flats4us21.URL
 import com.microsoft.signalr.HubConnection
 import com.microsoft.signalr.HubConnectionBuilder
 import com.microsoft.signalr.HubConnectionState
 import io.reactivex.rxjava3.core.Single
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import java.io.IOException
 
-class ChatRepository(private val httpClient: OkHttpClient) {
+class ChatRepository {
 
-    private val apiRoute = "http://172.21.40.120:5166/api/chat"
-    private val baseRoute = "http://172.21.40.120:5166"
     private lateinit var hubConnection: HubConnection
-    private val onReceivePrivateMessageCallbacks: MutableList<(Int, String) -> Unit> = mutableListOf()
-    private val gson = Gson()
+    private val onReceivePrivateMessageCallbacks: MutableList<(Int, String, String) -> Unit> = mutableListOf()
 
     fun startConnection() {
-        stopConnection()
-        hubConnection = HubConnectionBuilder.create("$baseRoute/chatHub")
+        if (::hubConnection.isInitialized && hubConnection.connectionState == HubConnectionState.CONNECTED) {
+            Log.d("SignalR", "Already connected")
+            return
+        }
+
+        hubConnection = HubConnectionBuilder.create("$URL/chatHub")
             .withAccessTokenProvider(getTokenFromDataStore())
             .build()
 
-        hubConnection.start().blockingAwait()
-        registerEventHandlers()
+        hubConnection.start()
+            .doOnComplete {
+                Log.d("SignalR", "Hub connection started: ${hubConnection.connectionState}")
+                registerEventHandlers()
+            }
+            .doOnError { error ->
+                Log.e("SignalR", "Error starting connection: ${error.message}")
+            }
+            .blockingAwait()
     }
 
     private fun registerEventHandlers() {
-        onReceivePrivateMessageCallbacks.forEach { callback ->
-            hubConnection.on("ReceivePrivateMessage", { user: Int, message: String ->
-                callback(user, message)
-            }, Int::class.java, String::class.java)
+        Log.d("SignalR", "Registering event handlers")
+        hubConnection.on("ReceivePrivateMessage", { userId: Int, message: String, date: String ->
+            Log.d("SignalR", "Received message from $userId: $message")
+            onReceivePrivateMessage(userId, message, date)
+        }, Int::class.java, String::class.java, String::class.java)
+        Log.d("SignalR", "Event handlers registered")
+    }
+
+    private var onReceivePrivateMessageCallback: ((Int, String, String) -> Unit)? = null
+
+    fun setOnReceivePrivateMessageCallback(callback: (Int, String, String) -> Unit) {
+        onReceivePrivateMessageCallback = callback
+        Log.d("ChatRepository", "Set receive private message callback")
+    }
+
+    private fun onReceivePrivateMessage(userId: Int, message: String, date: String) {
+        Log.d("SignalR", "Handling message from $userId: $message")
+        onReceivePrivateMessageCallback?.invoke(userId, message, date)
+        onReceivePrivateMessageCallbacks.forEach { it.invoke(userId, message, date) }
+    }
+
+    fun sendMessage(receiverId: Int, message: String) {
+        if (isConnected()) {
+            hubConnection.send("SendPrivateMessage", receiverId, message)
+            Log.d("SignalR", "Message sent to $receiverId: $message")
+        } else {
+            Log.d("SignalR", "Cannot send message, not connected")
         }
     }
 
-    fun addReceivePrivateMessageHandler(callback: (Int, String) -> Unit) {
-        onReceivePrivateMessageCallbacks.add(callback)
-    }
-
-    fun sendPrivateMessage(receiverId: Int, message: String) {
-        hubConnection.send("SendPrivateMessage", receiverId, message)
-    }
-
-    fun sendMessage(user: String, message: String) {
-        hubConnection.send("SendMessage", user, message)
-    }
-
-    fun isConnected(): Boolean {
-        return this::hubConnection.isInitialized && hubConnection.connectionState == HubConnectionState.CONNECTED
+    private fun isConnected(): Boolean {
+        val isConnected = this::hubConnection.isInitialized && hubConnection.connectionState == HubConnectionState.CONNECTED
+        Log.d("SignalR", "Connection state: $isConnected")
+        return isConnected
     }
 
     fun stopConnection() {
         if (isConnected()) {
             hubConnection.stop()
+            Log.d("SignalR", "Hub connection stopped")
         }
     }
 
@@ -70,53 +85,11 @@ class ChatRepository(private val httpClient: OkHttpClient) {
             runBlocking {
                 token = DataStoreManager.readUserData()?.token ?: ""
             }
+            Log.d("SignalR", "Retrieved token: $token")
             if (token.isNotEmpty()) {
                 token
             } else {
                 throw Throwable("Token not found")
-            }
-        }
-    }
-
-    suspend fun getConversations(): List<Chat> {
-        return withContext(Dispatchers.IO) {
-            val request = Request.Builder()
-                .url("$apiRoute/user/chats")
-                .build()
-
-            httpClient.newCall(request).execute().use { response ->
-                if (!response.isSuccessful) throw IOException("Unexpected code $response")
-                val jsonResponse = response.body?.string() ?: ""
-                val listType = object : TypeToken<List<Chat>>() {}.type
-                gson.fromJson(jsonResponse, listType)
-            }
-        }
-    }
-
-    suspend fun getMessages(chatId: String): List<ChatMessage> {
-        return withContext(Dispatchers.IO) {
-            val request = Request.Builder()
-                .url("$apiRoute/history/$chatId")
-                .build()
-
-            httpClient.newCall(request).execute().use { response ->
-                if (!response.isSuccessful) throw IOException("Unexpected code $response")
-                val jsonResponse = response.body?.string() ?: ""
-                val listType = object : TypeToken<List<ChatMessage>>() {}.type
-                gson.fromJson(jsonResponse, listType)
-            }
-        }
-    }
-
-    suspend fun getParticipantId(chatId: String): String {
-        return withContext(Dispatchers.IO) {
-            val request = Request.Builder()
-                .url("$apiRoute/participant/$chatId")
-                .build()
-
-            httpClient.newCall(request).execute().use { response ->
-                if (!response.isSuccessful) throw IOException("Unexpected code $response")
-                response.body?.string() ?: ""
             }
         }
     }
