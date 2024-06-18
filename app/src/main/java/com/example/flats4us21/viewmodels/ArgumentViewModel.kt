@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.flats4us21.data.ApiResult
+import com.example.flats4us21.data.Argument
 import com.example.flats4us21.data.dto.NewArgumentDto
 import com.example.flats4us21.services.ApiArgumentDataSource
 import com.example.flats4us21.services.ArgumentDataSource
@@ -22,6 +23,34 @@ class ArgumentViewModel: ViewModel() {
     private val _errorMessage = MutableLiveData<String?>(null)
     val errorMessage: LiveData<String?>
         get() = _errorMessage
+
+    private val _userArguments = MutableLiveData<List<Argument>>()
+    val userArguments: LiveData<List<Argument>> get() = _userArguments
+
+    fun getArgument() {
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try{
+                when(val fetchedData = argumentRepository.getArguments()) {
+                    is ApiResult.Success -> {
+                        val data = fetchedData.data
+                        _userArguments.value = data
+                    }
+                    is ApiResult.Error -> {
+                        Log.i(TAG, "ERROR: ${fetchedData.message}")
+                        _errorMessage.value = fetchedData.message
+                        Log.e(TAG, "error: ${errorMessage.value}")
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
 
     fun addArgument(argument: NewArgumentDto, callback: (Boolean) -> Unit) {
         viewModelScope.launch {
@@ -112,6 +141,14 @@ class ArgumentViewModel: ViewModel() {
                 when(val fetchedData = argumentRepository.askingForIntervention(id)) {
                     is ApiResult.Success -> {
                         val data = fetchedData.data
+                        _userArguments.value = _userArguments.value!!.map {
+                            if (it.argumentId == id) {
+                                it.copy(interventionNeed = true)
+                            } else {
+                                it
+                            }
+                        }
+                        Log.i(TAG, "SUCCESS: ${_userArguments.value!!.find { it.argumentId == id }}")
                         callback(true)
                     }
                     is ApiResult.Error -> {

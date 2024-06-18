@@ -1,9 +1,16 @@
 package com.example.flats4us21.data
 
+import com.google.gson.annotations.SerializedName
+
 open class User(
-    open val id : Int,
-    open val name : String,
-    open val surname : String,
-    open val email : String,
-    open val phoneNumber: String
+    @SerializedName("user_Id")
+    open val id: Int,
+    @SerializedName("user_name")
+    open val name: String,
+    @SerializedName("user_surname")
+    open val surname: String,
+    @SerializedName("user_email")
+    open val email: String,
+    @SerializedName("user_phoneNumber")
+    open val phoneNumber: String,
 )

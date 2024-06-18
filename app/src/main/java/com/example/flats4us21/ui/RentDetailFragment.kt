@@ -13,21 +13,25 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import coil.load
 import com.example.flats4us21.DataStoreManager
 import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.R
+import com.example.flats4us21.URL
 import com.example.flats4us21.adapters.ImageSliderAdapter
 import com.example.flats4us21.adapters.PaymentAdapter
 import com.example.flats4us21.adapters.ProfileAdapter
 import com.example.flats4us21.data.Rent
 import com.example.flats4us21.databinding.FragmentRentDetailBinding
 import com.example.flats4us21.viewmodels.RentViewModel
+import com.example.flats4us21.viewmodels.UserViewModel
 
 private const val TAG = "RentDetailFragment"
 class RentDetailFragment : Fragment() {
     private var _binding : FragmentRentDetailBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel : RentViewModel
+    private lateinit var userViewModel : UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +46,7 @@ class RentDetailFragment : Fragment() {
         val rentId = arguments?.getInt(RENT_ID, -1)
 
         viewModel = ViewModelProvider(requireActivity())[RentViewModel::class.java]
+        userViewModel = ViewModelProvider(requireActivity())[UserViewModel::class.java]
 
         viewModel.getRent(rentId!!)
 
@@ -82,6 +87,21 @@ class RentDetailFragment : Fragment() {
                 binding.imageCount.text = imageText
             }
         })
+
+        val url = "$URL/${rent.owner.profilePicture?.path}"
+        Log.i(TAG, url)
+        binding.ownerPhoto.load(url) {
+            error(R.drawable.baseline_person_24)
+        }
+        binding.owner.text = getString(R.string.name_and_surname, rent.owner.name, rent.owner.surname)
+        binding.ownerLayout.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(USER_ID, rent.owner.id)
+            val fragment = ProfileFragment()
+            fragment.arguments = bundle
+            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+        }
+
         binding.startDate.text = rent.startDate.split("T")[0]
         binding.endDate.text = rent.startDate.split("T")[0]
         binding.duration.text = rent.duration.toString()
@@ -114,7 +134,7 @@ class RentDetailFragment : Fragment() {
             rent.isFinished
         )
 
-        if(rent.isFinished && DataStoreManager.userRole.value == "Student"){
+        if(rent.isFinished && DataStoreManager.userRole.value == "Student" && userViewModel.myProfile.value!!.userId == rent.mainTenantId) {
             binding.fab.visibility = View.VISIBLE
         } else {
             binding.fab.visibility = View.GONE

@@ -275,6 +275,13 @@
     <string name="new_email">Nowy email</string>
     <string name="invalid_email">Niepoprawny adres email</string>
     <string name="invalid_password">Nie podano hasła</string>
+    <string name="users">Użytkownicy</string>
+    <string name="accept">Akceptuj</string>
+    <string name="ask_moderator_for_intervention">Poproś moderatora o pomoc</string>
+    <string name="accept_argument">Akceptuj ustalenia sporu</string>
+    <string name="information_about_acceptance">Druga strona sporu akceptuje ustalone warunki</string>
+    <string name="enter_message">Wpisz wiadomość...</string>
+    <string name="ended_argument">Spór został zakończony</string>
 
     <!-- TODO: meeting_row -->
 </resources>

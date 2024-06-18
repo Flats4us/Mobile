@@ -20,7 +20,6 @@ import java.util.Date
 import java.util.Locale
 
 private const val TAG = "ChatFragment"
-
 class ChatFragment : Fragment() {
 
     private var _binding: FragmentChatBinding? = null
@@ -98,11 +97,8 @@ class ChatFragment : Fragment() {
             Log.d(TAG, "Fetched messages after update: $fetchedMessages")
 
             if (!::adapter.isInitialized) {
-                val chatParticipants = viewModel.chatParticipants.value
-                if (chatParticipants != null) {
-                    adapter = MessageAdapter(requireContext(), fetchedMessages, chatParticipants)
-                    recyclerView.adapter = adapter
-                }
+                adapter = MessageAdapter(requireContext(), fetchedMessages, userViewModel.myProfile.value?.userId ?: 0)
+                recyclerView.adapter = adapter
             } else {
                 adapter.updateMessages(fetchedMessages)
             }

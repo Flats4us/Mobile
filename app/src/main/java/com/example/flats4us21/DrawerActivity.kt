@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -22,6 +21,7 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import coil.load
+import com.example.flats4us21.ui.ArgumentsFragment
 import com.example.flats4us21.ui.CalendarFragment
 import com.example.flats4us21.ui.ChatsFragment
 import com.example.flats4us21.ui.ITIssueReportFragment
@@ -134,7 +134,6 @@ class DrawerActivity : AppCompatActivity() {
         when(menuItem.itemId){
             R.id.nav_start -> replaceFragment(SearchFragment())
             R.id.nav_map -> replaceFragment(MapFragment())
-            R.id.nav_settings -> replaceFragment(SettingsFragment())
         }
         when (userRole) {
             "Student" -> {
@@ -172,9 +171,10 @@ class DrawerActivity : AppCompatActivity() {
         when(menuItem.itemId){
             R.id.nav_messages -> replaceFragment(ChatsFragment())
             R.id.nav_profile -> replaceFragment(MyProfileFragment())
+            R.id.nav_settings -> replaceFragment(SettingsFragment())
             R.id.nav_report_issue -> replaceFragment(ITIssueReportFragment())
             R.id.nav_my_rentals -> replaceFragment(MyRentsFragment())
-            R.id.nav_conflicts -> Toast.makeText(this, "Clicked Spory", Toast.LENGTH_SHORT).show()
+            R.id.nav_conflicts -> replaceFragment(ArgumentsFragment())
             R.id.nav_calendar -> replaceFragment(CalendarFragment())
             R.id.nav_logout -> logout()
         }

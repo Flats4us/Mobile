@@ -12,7 +12,7 @@ import com.example.flats4us21.data.ChatMessage
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class MessageAdapter(
+class ArgumentMessageAdapter(
     private val context: Context,
     private var messages: MutableList<ChatMessage>,
     private val loggedInUserId: Int

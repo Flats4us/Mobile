@@ -13,6 +13,7 @@ class ChatRepository {
 
     private lateinit var hubConnection: HubConnection
     private val onReceivePrivateMessageCallbacks: MutableList<(Int, String, String) -> Unit> = mutableListOf()
+    private val onReceiveGroupMessageCallbacks: MutableList<(Int, Int, String, String) -> Unit> = mutableListOf()
 
     fun startConnection() {
         if (::hubConnection.isInitialized && hubConnection.connectionState == HubConnectionState.CONNECTED) {
@@ -36,18 +37,28 @@ class ChatRepository {
     }
 
     private fun registerEventHandlers() {
-        Log.d("SignalR", "Registering event handlers")
         hubConnection.on("ReceivePrivateMessage", { userId: Int, message: String, date: String ->
             Log.d("SignalR", "Received message from $userId: $message")
             onReceivePrivateMessage(userId, message, date)
         }, Int::class.java, String::class.java, String::class.java)
-        Log.d("SignalR", "Event handlers registered")
+
+        hubConnection.on("ReceiveGroupMessage", { groupChatId: Int, senderId: Int, message: String, date: String ->
+            Log.d("SignalR", "Received message from group chat $groupChatId: $message")
+            onReceiveGroupMessage(groupChatId, senderId, message, date)
+        }, Int::class.java, Int::class.java, String::class.java, String::class.java)
     }
 
     private var onReceivePrivateMessageCallback: ((Int, String, String) -> Unit)? = null
 
+    private var onReceiveGroupMessageCallback: ((Int, Int, String, String) -> Unit)? = null
+
     fun setOnReceivePrivateMessageCallback(callback: (Int, String, String) -> Unit) {
         onReceivePrivateMessageCallback = callback
+        Log.d("ChatRepository", "Set receive private message callback")
+    }
+
+    fun setOnReceivePrivateMessageCallback(callback: (Int, Int, String, String) -> Unit) {
+        onReceiveGroupMessageCallback = callback
         Log.d("ChatRepository", "Set receive private message callback")
     }
 
@@ -57,10 +68,25 @@ class ChatRepository {
         onReceivePrivateMessageCallbacks.forEach { it.invoke(userId, message, date) }
     }
 
+    private fun onReceiveGroupMessage(groupChatId: Int, senderId: Int, message: String, date: String) {
+        Log.d("SignalR", "Handling message from $groupChatId: $message")
+        onReceiveGroupMessageCallback?.invoke(groupChatId, senderId, message, date)
+        onReceiveGroupMessageCallbacks.forEach { it.invoke(groupChatId, senderId, message, date) }
+    }
+
     fun sendMessage(receiverId: Int, message: String) {
         if (isConnected()) {
             hubConnection.send("SendPrivateMessage", receiverId, message)
             Log.d("SignalR", "Message sent to $receiverId: $message")
+        } else {
+            Log.d("SignalR", "Cannot send message, not connected")
+        }
+    }
+
+    fun sendGroupMessage(groupChatId: Int, message: String) {
+        if (isConnected()) {
+            hubConnection.send("SendGroupChatMessage", groupChatId, message)
+            Log.d("SignalR", "Message sent to $groupChatId: $message")
         } else {
             Log.d("SignalR", "Cannot send message, not connected")
         }

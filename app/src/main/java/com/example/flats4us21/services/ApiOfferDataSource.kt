@@ -17,6 +17,7 @@ import com.example.flats4us21.data.utils.RentResult
 import com.example.flats4us21.deserializer.MapOffersDeserializer
 import com.example.flats4us21.deserializer.OfferDeserializer
 import com.example.flats4us21.deserializer.OffersDeserializer
+import com.example.flats4us21.deserializer.RentResultDeserializer
 import com.example.flats4us21.interceptors.AuthInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -33,6 +34,7 @@ object ApiOfferDataSource : OfferDataSource {
         .registerTypeAdapter(OffersResult::class.java, OffersDeserializer())
         .registerTypeAdapter(MapOffersResult::class.java, MapOffersDeserializer())
         .registerTypeAdapter(Offer::class.java, OfferDeserializer())
+        .registerTypeAdapter(RentResult::class.java, RentResultDeserializer())
         .create()
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {

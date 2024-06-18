@@ -75,6 +75,7 @@
     <!-- Drawable -->
     <dimen name="drawable_padding">24dp</dimen>
     <dimen name="image_button_inside_edit_text_margin">4dp</dimen>
+    <dimen name="app_padding">16dp</dimen>
 
 
 </resources>

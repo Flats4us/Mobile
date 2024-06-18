@@ -2,6 +2,7 @@ package com.example.flats4us21.services
 
 import com.example.flats4us21.URL
 import com.example.flats4us21.data.ApiResult
+import com.example.flats4us21.data.Argument
 import com.example.flats4us21.data.dto.NewArgumentDto
 import com.example.flats4us21.interceptors.AuthInterceptor
 import com.google.gson.Gson
@@ -33,6 +34,24 @@ class ApiArgumentDataSource: ArgumentDataSource {
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(ArgumentService::class.java)
+    }
+
+    override suspend fun getArguments(): ApiResult<List<Argument>> {
+        return try {
+            val response = api.getArguments()
+            if(response.isSuccessful) {
+                val data = response.body()
+                if (data != null) {
+                    ApiResult.Success(data)
+                } else {
+                    ApiResult.Error("Response body is null")
+                }
+            } else {
+                ApiResult.Error("Failed to fetch data: ${response.message()}")
+            }
+        } catch (e: Exception) {
+            ApiResult.Error("An internal error occurred: ${e.message}")
+        }
     }
 
     override suspend fun addArgument(argument: NewArgumentDto): ApiResult<String> {

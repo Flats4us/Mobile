@@ -3,30 +3,35 @@ package com.example.flats4us21.data
 
 import com.google.gson.annotations.SerializedName
 
-
 data class Rent(
+    @SerializedName("rentId")
+    val rentId: Int,
+    @SerializedName("propertyId")
+    val propertyId: Int,
+    @SerializedName("offerId")
+    val offerId: Int,
+    @SerializedName("isFinished")
+    val isFinished: Boolean,
+    @SerializedName("startDate")
+    val startDate: String,
     @SerializedName("duration")
     val duration: Int,
     @SerializedName("endDate")
     val endDate: String,
-    @SerializedName("isFinished")
-    val isFinished: Boolean,
-    @SerializedName("offerId")
-    val offerId: Int,
     @SerializedName("propertyAddress")
     val propertyAddress: String,
-    @SerializedName("propertyId")
-    val propertyId: Int,
-    @SerializedName("propertyImages")
-    val propertyImages: List<Image>,
     @SerializedName("propertyType")
     val propertyType: Int,
-    @SerializedName("rentId")
-    val rentId: Int,
-    @SerializedName("startDate")
-    val startDate: String,
+    @SerializedName("mainTenantId")
+    val mainTenantId: Int,
+    @SerializedName("owner")
+    val owner: Owner,
+    @SerializedName("propertyImages")
+    val propertyImages: List<Image>,
     @SerializedName("tenants")
     val tenants: List<Tenant>,
     @SerializedName("payments")
-    val payments: List<Payment>
+    val payments: List<Payment>,
+    @SerializedName("arguments")
+    val arguments: List<Argument>
 )

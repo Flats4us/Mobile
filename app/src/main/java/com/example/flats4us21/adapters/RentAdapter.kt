@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.flats4us21.R
 import com.example.flats4us21.URL
-import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.Rent
 import com.example.flats4us21.databinding.RentRowBinding
 

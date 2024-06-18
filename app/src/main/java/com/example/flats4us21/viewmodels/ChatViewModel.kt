@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.flats4us21.data.ApiResult
 import com.example.flats4us21.data.Chat
 import com.example.flats4us21.data.ChatMessage
+import com.example.flats4us21.data.GroupChatInfo
 import com.example.flats4us21.services.ApiChatDataSource
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -37,6 +38,12 @@ class ChatViewModel : ViewModel() {
     private val _chatParticipants = MutableLiveData<Int>()
     val chatParticipants: LiveData<Int> get() = _chatParticipants
 
+    private val _groupChatHistory = MutableLiveData<List<ChatMessage>>()
+    val groupChatHistory: LiveData<List<ChatMessage>> get() = _groupChatHistory
+
+    private val _groupChatInfo = MutableLiveData<GroupChatInfo>()
+    val groupChatInfo: LiveData<GroupChatInfo> get() = _groupChatInfo
+
     init {
         apiChatDataSource.setOnReceivePrivateMessageCallback { userId, message, date ->
             Log.d(TAG, "Message received from $userId: $message")
@@ -46,6 +53,20 @@ class ChatViewModel : ViewModel() {
                 content = message,
                 dateTime = date,
                 senderId = userId
+            )
+            currentChatHistory.add(newMessage)
+            _chatHistory.postValue(currentChatHistory)
+            Log.d(TAG, "Updated chat history: $currentChatHistory")
+        }
+
+        apiChatDataSource.setOnReceiveGroupMessageCallback { groupChatId, senderId, message, date ->
+            Log.d(TAG, "Message received from $groupChatId: $message")
+            val currentChatHistory = _chatHistory.value?.toMutableList() ?: mutableListOf()
+            val newMessage = ChatMessage(
+                chatMessageId = currentChatHistory.size + 1,
+                content = message,
+                dateTime = date,
+                senderId = senderId
             )
             currentChatHistory.add(newMessage)
             _chatHistory.postValue(currentChatHistory)
@@ -99,6 +120,40 @@ class ChatViewModel : ViewModel() {
         }
     }
 
+    fun sendGroupMessage(groupChatId: Int, message: String, senderId: Int) {
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try {
+                Log.d(TAG, "Sending message to $groupChatId")
+                when (val result = apiChatDataSource.sendGroupMessage(groupChatId, message)) {
+                    is ApiResult.Success -> {
+                        val currentChatHistory = _chatHistory.value?.toMutableList() ?: mutableListOf()
+                        val newMessage = ChatMessage(
+                            chatMessageId = _chatHistory.value!!.size + 1,
+                            content = message,
+                            dateTime = LocalDateTime.now().toString(),
+                            senderId = senderId
+                        )
+                        currentChatHistory.add(newMessage)
+                        _chatHistory.postValue(currentChatHistory)
+                        Log.d(TAG, "Message sent successfully to $groupChatId")
+                    }
+                    is ApiResult.Error -> {
+                        Log.i(TAG, "ERROR: ${result.message}")
+                        _errorMessage.postValue(result.message)
+                        Log.e(TAG, "error: ${errorMessage.value}")
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.postValue(e.message)
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.postValue(false)
+            }
+        }
+    }
+
     fun getUserChats() {
         viewModelScope.launch {
             _errorMessage.value = null
@@ -134,7 +189,7 @@ class ChatViewModel : ViewModel() {
                 when (val result = apiChatDataSource.getChatHistory(chatId)) {
                     is ApiResult.Success -> {
                         Log.d(TAG, "Received chat history for chatId: $chatId")
-                        _chatHistory.postValue(result.data)
+                        _chatHistory.value =  result.data
                     }
                     is ApiResult.Error -> {
                         Log.i(TAG, "ERROR: ${result.message}")
@@ -161,6 +216,59 @@ class ChatViewModel : ViewModel() {
                     is ApiResult.Success -> {
                         Log.d(TAG, "Received chat participants for chatId: $chatId")
                         _chatParticipants.postValue(result.data)
+                    }
+                    is ApiResult.Error -> {
+                        Log.i(TAG, "ERROR: ${result.message}")
+                        _errorMessage.postValue(result.message)
+                        Log.e(TAG, "error: ${errorMessage.value}")
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.postValue(e.message)
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.postValue(false)
+            }
+        }
+    }
+
+    fun getGroupChatInfo(chatId: Int) {
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try {
+                Log.d(TAG, "Requesting group chat info for chatId: $chatId")
+                when (val result = apiChatDataSource.getGroupChatInfo(chatId)) {
+                    is ApiResult.Success -> {
+                        Log.d(TAG, "Received group chat info for chatId: $chatId : ${result.data}")
+                        _groupChatInfo.postValue(result.data)
+                    }
+                    is ApiResult.Error -> {
+                        Log.i(TAG, "ERROR: ${result.message}")
+                        _errorMessage.postValue(result.message)
+                        Log.e(TAG, "error: ${errorMessage.value}")
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.postValue(e.message)
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.postValue(false)
+            }
+        }
+    }
+
+    fun getGroupChatHistory(chatId: Int) {
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            _chatHistory.value = mutableListOf()
+            try {
+                Log.d(TAG, "Requesting chat history for chatId: $chatId")
+                when (val result = apiChatDataSource.getGroupChatHistory(chatId)) {
+                    is ApiResult.Success -> {
+                        Log.d(TAG, "Received chat history for chatId: $chatId")
+                        _chatHistory.postValue(result.data)
                     }
                     is ApiResult.Error -> {
                         Log.i(TAG, "ERROR: ${result.message}")

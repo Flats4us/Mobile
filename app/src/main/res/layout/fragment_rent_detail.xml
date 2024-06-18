@@ -59,6 +59,44 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout
+                    android:id="@+id/ownerLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/header_vertical_space"
+                    android:layout_marginBottom="@dimen/header_vertical_space"
+                    android:background="@drawable/rectangle_white_background"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/owner"
+                        android:textSize="@dimen/regular_text_size"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/text_view_horizontal_margin" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/ownerPhoto"
+                        android:layout_width="@dimen/image_view_small_profile_picture_width"
+                        android:layout_height="@dimen/image_view_small_profile_picture_height"
+                        android:layout_gravity="center"
+                        android:src="@drawable/baseline_person_24"
+                        app:shapeAppearanceOverlay="@style/Circular"
+                        android:background="@color/white"
+                        android:layout_marginEnd="@dimen/text_view_horizontal_margin"/>
+
+                    <TextView
+                        android:id="@+id/owner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/regular_text_size"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"/>
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -111,6 +149,15 @@
                             android:textSize="@dimen/subtext_text_size"
                             android:layout_weight="1"/>
                     </LinearLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/rectangle_white_background"
+                    android:padding="16dp"
+                    android:layout_marginBottom="8dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -228,25 +275,29 @@
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:gravity="center_horizontal"
-                            android:padding="8dp"/>
+                            android:padding="8dp"
+                            android:layout_weight="1"/>
                         <TextView
                             android:text="Kwota"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:gravity="center_horizontal"
-                            android:padding="8dp"/>
+                            android:padding="8dp"
+                            android:layout_weight="1"/>
                         <TextView
                             android:text="Opłacono"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:gravity="center_horizontal"
-                            android:padding="8dp"/>
+                            android:padding="8dp"
+                            android:layout_weight="1"/>
                         <TextView
                             android:text="Termin"
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:gravity="center_horizontal"
-                            android:padding="8dp"/>
+                            android:padding="8dp"
+                            android:layout_weight="1"/>
                     </TableRow>
 
                     <androidx.recyclerview.widget.RecyclerView

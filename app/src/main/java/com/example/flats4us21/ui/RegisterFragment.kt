@@ -77,58 +77,71 @@ class RegisterFragment : Fragment() {
     }
 
     private fun setupInterest() {
-        val interest = binding.interests
-        val interestList: MutableList<Int> = mutableListOf()
+        val interestTextView = binding.interests
+        val selectedInterests: MutableList<Int> = mutableListOf()
+
         userViewModel.getInterests()
-        userViewModel.isLoading.observe(viewLifecycleOwner) {isLoading ->
-            binding.progressBar.visibility = if(isLoading) View.VISIBLE else View.GONE
+        userViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
+
         userViewModel.interests.observe(viewLifecycleOwner) { interests ->
-            val interestArray = interests.map {it.interestName }.toTypedArray()
-            val selectedInterest = BooleanArray(interestArray.size) {index ->
-                userViewModel.interest.contains(index+1)
+            val interestArray = interests.map { it.interestName }.toTypedArray()
+            val selectedInterestArray = BooleanArray(interestArray.size) { index ->
+                userViewModel.interest.contains(index + 1)
             }
 
-            interest.setOnClickListener{
-                val builder = AlertDialog.Builder(requireContext())
-
-                builder.setTitle("Wybierz zainteresowania")
-                builder.setCancelable(false)
-                builder.setMultiChoiceItems(interestArray, selectedInterest){_, position, isChecked ->
-                    selectedInterest[position] = isChecked
-
-                    if(isChecked) {
-                        interestList.add(position)
-                        interestList.sort()
-                    } else {
-                        interestList.remove(position)
-                    }
-                }
-                builder.setPositiveButton("Akceptuj") {_, _ ->
-                    for (j in selectedInterest.indices) {
-                        if (selectedInterest[j] && !pickedInterest.contains(j + 1)){
-                            pickedInterest.add(j + 1)
-                        } else if (!selectedInterest[j] && pickedInterest.contains(j +1)){
-                            pickedInterest.remove(j + 1)
-                        }
-                    }
-                }
-                builder.setNegativeButton("Anuluj") {dialog, _ ->
-                    dialog.dismiss()
-                }
-                builder.setNeutralButton("Wyczyść") {_, _ ->
-                    for(j in selectedInterest.indices) {
-                        selectedInterest[j] = false
-                        interestList.clear()
-                        interest.text = ""
-                        pickedInterest.remove(j+1)
-                    }
-                }
-                val alertDialog = builder.create()
-                alertDialog.show()
+            interestTextView.setOnClickListener {
+                showInterestDialog(interestArray, selectedInterestArray, selectedInterests)
             }
         }
     }
+
+    private fun showInterestDialog(interestArray: Array<String>, selectedInterestArray: BooleanArray, selectedInterests: MutableList<Int>) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Wybierz zainteresowania")
+            .setCancelable(false)
+            .setMultiChoiceItems(interestArray, selectedInterestArray) { _, position, isChecked ->
+                selectedInterestArray[position] = isChecked
+                if (isChecked) {
+                    selectedInterests.add(position)
+                } else {
+                    selectedInterests.remove(position)
+                }
+            }
+            .setPositiveButton("Akceptuj") { _, _ ->
+                updatePickedInterests(selectedInterestArray)
+            }
+            .setNegativeButton("Anuluj") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setNeutralButton("Wyczyść") { _, _ ->
+                clearSelectedInterests(selectedInterestArray, selectedInterests)
+            }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
+    }
+
+    private fun updatePickedInterests(selectedInterestArray: BooleanArray) {
+        for (j in selectedInterestArray.indices) {
+            if (selectedInterestArray[j] && !pickedInterest.contains(j + 1)) {
+                pickedInterest.add(j + 1)
+            } else if (!selectedInterestArray[j] && pickedInterest.contains(j + 1)) {
+                pickedInterest.remove(j + 1)
+            }
+        }
+    }
+
+    private fun clearSelectedInterests(selectedInterestArray: BooleanArray, selectedInterests: MutableList<Int>) {
+        for (j in selectedInterestArray.indices) {
+            selectedInterestArray[j] = false
+        }
+        selectedInterests.clear()
+        binding.interests.text = ""
+        pickedInterest.clear()
+    }
+
 
 
     private fun setValues() {
