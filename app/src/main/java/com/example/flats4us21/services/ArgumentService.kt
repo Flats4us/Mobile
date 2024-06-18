@@ -8,7 +8,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
-import retrofit2.http.Query
+import retrofit2.http.Path
 
 interface ArgumentService {
 
@@ -19,12 +19,12 @@ interface ArgumentService {
     @POST("api/arguments")
     suspend fun addArgument(@Body argument: NewArgumentDto): Response<NewPropertyApiResponse<String>>
 
-    @PUT("api/arguments/ownerAcceptArgument")
-    suspend fun ownerAcceptArgument(@Query("id") id: Int): Response<NewPropertyApiResponse<String>>
+    @PUT("api/arguments/{argumentId}/owner-accept")
+    suspend fun ownerAcceptArgument(@Path("argumentId") argumentId: Int): Response<NewPropertyApiResponse<String>>
 
-    @PUT("api/arguments/studentAcceptArgument")
-    suspend fun studentAcceptArgument(@Query("argumentId") argumentId: Int): Response<NewPropertyApiResponse<String>>
+    @PUT("api/arguments/{argumentId}/student-accept")
+    suspend fun studentAcceptArgument(@Path("argumentId") argumentId: Int): Response<NewPropertyApiResponse<String>>
 
-    @PUT("api/arguments/askingForIntervention/{id}")
-    suspend fun askingForIntervention(@Query("id") id: Int): Response<NewPropertyApiResponse<String>>
+    @PUT("api/arguments/{argumentId}/asking-for-intervention")
+    suspend fun askingForIntervention(@Path("argumentId") argumentId: Int): Response<NewPropertyApiResponse<String>>
 }

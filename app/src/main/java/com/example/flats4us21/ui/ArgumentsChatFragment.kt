@@ -10,15 +10,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.flats4us21.DataStoreManager
 import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.adapters.ArgumentMessageAdapter
 import com.example.flats4us21.data.Argument
 import com.example.flats4us21.data.ChatMessage
 import com.example.flats4us21.data.GroupChatInfo
+import com.example.flats4us21.data.UserType
 import com.example.flats4us21.databinding.FragmentArgumentsChatBinding
 import com.example.flats4us21.viewmodels.ArgumentViewModel
 import com.example.flats4us21.viewmodels.ChatViewModel
 import com.example.flats4us21.viewmodels.UserViewModel
+import java.util.Locale
 
 private const val TAG = "ArgumentsChatFragment"
 class ArgumentsChatFragment : Fragment() {
@@ -114,8 +117,8 @@ class ArgumentsChatFragment : Fragment() {
     }
 
     private fun bindArgumentData(argument: Argument) {
-        if(argument.ownerAcceptanceDate.isNullOrEmpty() && !argument.studentAccceptanceDate.isNullOrEmpty() ||
-            !argument.ownerAcceptanceDate.isNullOrEmpty() && argument.studentAccceptanceDate.isNullOrEmpty()) {
+        if(argument.ownerAcceptanceDate.isNullOrEmpty() && !argument.studentAccceptanceDate.isNullOrEmpty() && DataStoreManager.userRole.value.toString().uppercase(Locale.ROOT) == UserType.OWNER.toString() ||
+            !argument.ownerAcceptanceDate.isNullOrEmpty() && argument.studentAccceptanceDate.isNullOrEmpty() && DataStoreManager.userRole.value.toString().uppercase(Locale.ROOT) == UserType.STUDENT.toString()) {
             binding.acceptanceInformationLayout.visibility = View.VISIBLE
         } else {
             binding.acceptanceInformationLayout.visibility = View.GONE

@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.R
 import com.example.flats4us21.data.dto.NewArgumentDto
 import com.example.flats4us21.databinding.FragmentAddArgumentBinding
@@ -35,11 +36,12 @@ class AddArgumentFragment : Fragment() {
 
         binding.createArgumentButton.setOnClickListener {
             if (validateData()) {
-                val newArgumentDto = NewArgumentDto(rentId!!, binding.description.text.toString())
+                val newArgumentDto = NewArgumentDto(binding.title.text.toString() ,binding.description.text.toString(), rentId!!)
 
                 viewModel.addArgument(newArgumentDto) {
                     if (it) {
-                        TODO("Not yet implemented")
+                        val fragment = ArgumentsFragment()
+                        (activity as? DrawerActivity)?.replaceFragment(fragment)
                     }
                 }
             }
@@ -48,9 +50,10 @@ class AddArgumentFragment : Fragment() {
     }
 
     private fun validateData(): Boolean {
+        val isTitleValid = validateOptionalEditText(binding.title, binding.layoutTitle, binding.layoutTitleHeader, binding.layoutTitleWithHeader)
         val isDescriptionValid = validateOptionalEditText(binding.description, binding.layoutDescription, binding.layoutDescriptionHeader, binding.layoutDescriptionWithHeader)
 
-        return isDescriptionValid
+        return isTitleValid && isDescriptionValid
     }
 
     private fun validateOptionalEditText(editText: EditText, editTextLayout : ViewGroup, header : TextView, layoutWithHeader : ViewGroup): Boolean {

@@ -134,12 +134,6 @@ class RentDetailFragment : Fragment() {
             rent.isFinished
         )
 
-        if(rent.isFinished && DataStoreManager.userRole.value == "Student" && userViewModel.myProfile.value!!.userId == rent.mainTenantId) {
-            binding.fab.visibility = View.VISIBLE
-        } else {
-            binding.fab.visibility = View.GONE
-        }
-
         binding.rentRecyclerView.adapter = adapter
         binding.rentRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -150,6 +144,7 @@ class RentDetailFragment : Fragment() {
     }
 
     private fun showDialog(rentId: Int) {
+        val rent = viewModel.rent.value ?: return
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.bottom_sheet_menu_rent_layout)
@@ -157,16 +152,32 @@ class RentDetailFragment : Fragment() {
         val layoutArgument = dialog.findViewById<View>(R.id.layoutArgument)
         val layoutAddOpinion = dialog.findViewById<View>(R.id.layoutAddOpinion)
 
+        if(rent.isFinished && DataStoreManager.userRole.value == "Student" && userViewModel.myProfile.value!!.userId == rent.mainTenantId) {
+            layoutAddOpinion.visibility = View.VISIBLE
+        } else {
+            layoutAddOpinion.visibility = View.GONE
+        }
+        if(rent.isFinished) {
+            layoutArgument.visibility = View.GONE
+        } else {
+            layoutArgument.visibility = View.VISIBLE
+        }
+
         layoutArgument.setOnClickListener {
-            TODO("Not yet implemented")
+            val bundle = Bundle()
+            bundle.putInt(RENT_ID, rentId)
+            val fragment = AddArgumentFragment()
+            fragment.arguments = bundle
+            (activity as? DrawerActivity)?.replaceFragment(fragment)
+            dialog.dismiss()
         }
         layoutAddOpinion.setOnClickListener {
             val bundle = Bundle()
             bundle.putInt(RENT_ID, rentId)
-            val fragment = AddPropertyOpinionFragment().apply {
-                arguments = bundle
-            }
+            val fragment = AddPropertyOpinionFragment()
+            fragment.arguments = bundle
             (activity as? DrawerActivity)?.replaceFragment(fragment)
+            dialog.dismiss()
         }
 
         dialog.show()

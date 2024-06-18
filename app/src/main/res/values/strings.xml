@@ -282,6 +282,8 @@
     <string name="information_about_acceptance">Druga strona sporu akceptuje ustalone warunki</string>
     <string name="enter_message">Wpisz wiadomość...</string>
     <string name="ended_argument">Spór został zakończony</string>
+    <string name="argument_title">tytuł argumentu</string>
+    <string name="required_argument_title">Tytuł argumentu*</string>
 
     <!-- TODO: meeting_row -->
 </resources>

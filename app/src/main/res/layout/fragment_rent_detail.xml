@@ -244,8 +244,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rentRecyclerView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/rectangle_white_background" />
+                        android:layout_height="wrap_content"/>
 
                 </LinearLayout>
 

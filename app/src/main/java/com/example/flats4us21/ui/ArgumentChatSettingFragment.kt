@@ -68,7 +68,8 @@ class ArgumentChatSettingFragment : Fragment() {
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
         binding.acceptLayout.setOnClickListener {
-            if(DataStoreManager.userRole.toString().uppercase(Locale.ROOT) == UserType.STUDENT.toString()) {
+            Log.d("DataStoreManager", "DataStoreManager.userRole.toString().uppercase(Locale.ROOT) ${DataStoreManager.userRole.toString().uppercase(Locale.ROOT)} ==  UserType.STUDENT.toString() ${UserType.STUDENT.toString()} ${DataStoreManager.userRole.toString().uppercase(Locale.ROOT) == UserType.STUDENT.toString()}")
+            if(DataStoreManager.userRole.value.toString().uppercase(Locale.ROOT) == UserType.STUDENT.toString()) {
                 argumentViewModel.studentAcceptArgument(argumentId) {
                     if(it) {
                         (activity as? DrawerActivity)!!.goBack()
@@ -93,17 +94,17 @@ class ArgumentChatSettingFragment : Fragment() {
 
     private fun bindData(argument: Argument) {
         binding.title.text = viewModel.groupChatInfo.value!!.name
-        val acceptVisibility = argument.ownerAcceptanceDate.isNullOrEmpty()
+        val acceptVisibility = !argument.studentAccceptanceDate.isNullOrEmpty()
                 && DataStoreManager.userRole.value.toString().uppercase(Locale.ROOT) == UserType.STUDENT.toString()
-                || argument.studentAccceptanceDate.isNullOrEmpty()
+                || !argument.ownerAcceptanceDate.isNullOrEmpty()
                 && DataStoreManager.userRole.value.toString().uppercase(Locale.ROOT) == UserType.OWNER.toString()
         Log.d("acceptVisibility", " argument.ownerAcceptanceDate.isNullOrEmpty() ${argument.ownerAcceptanceDate.isNullOrEmpty()} ${DataStoreManager.userRole.value.toString().uppercase(Locale.ROOT)} == ${UserType.STUDENT.toString()} $acceptVisibility")
         Log.d("acceptVisibility", " ${argument.studentAccceptanceDate.isNullOrEmpty()} ${DataStoreManager.userRole.value.toString().uppercase(Locale.ROOT)} == ${UserType.OWNER.toString()} $acceptVisibility")
 
         if(acceptVisibility) {
-            binding.acceptLayout.visibility = View.VISIBLE
-        } else {
             binding.acceptLayout.visibility = View.GONE
+        } else {
+            binding.acceptLayout.visibility = View.VISIBLE
         }
 
         if(argument.interventionNeed) {

@@ -94,7 +94,6 @@ class MyRentsFragment : Fragment() {
         adapter.setRentList(filteredRents)
         adapter.notifyDataSetChanged()
 
-        // Show or hide the empty view
         if (filteredRents.isEmpty()) {
             binding.emptyView.visibility = View.VISIBLE
             binding.rentRecyclerView.visibility = View.GONE

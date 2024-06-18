@@ -1,5 +1,6 @@
 package com.example.flats4us21.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -8,7 +9,7 @@ import com.example.flats4us21.data.Argument
 import com.example.flats4us21.databinding.ItemArgumentBinding
 
 class ArgumentAdapter(
-    private val arguments: MutableList<Argument>,
+    private var arguments: MutableList<Argument>,
     private val onUserClick: (Argument) -> Unit
 ) : RecyclerView.Adapter<ArgumentAdapter.ArgumentViewHolder>() {
 
@@ -43,8 +44,8 @@ class ArgumentAdapter(
     }
 
     fun updateArguments(newArguments: List<Argument>) {
-        arguments.clear()
-        arguments.addAll(newArguments)
+        arguments = newArguments as MutableList<Argument>
         notifyDataSetChanged()
+        Log.d("ArgumentAdapter", "Updating arguments with: $arguments")
     }
 }
