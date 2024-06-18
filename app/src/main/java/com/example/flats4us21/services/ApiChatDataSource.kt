@@ -14,6 +14,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+private const val TAG = "ApiChatDataSource"
 class ApiChatDataSource :ChatDataSource {
 
     val gson: Gson = GsonBuilder()
@@ -35,37 +36,37 @@ class ApiChatDataSource :ChatDataSource {
             .create(ChatService::class.java)
     }
 
-    private val chatRepository = ChatRepository()
+    private val signalRChatService = SignalRChatService()
 
     fun startConnection() {
-        chatRepository.startConnection()
-        Log.d("ApiChatDataSource", "Started connection")
+        signalRChatService.startConnection()
+        Log.d(TAG, "Started connection")
     }
 
     fun stopConnection() {
-        chatRepository.stopConnection()
-        Log.d("ApiChatDataSource", "Stopped connection")
+        signalRChatService.stopConnection()
+        Log.d(TAG, "Stopped connection")
     }
 
     override suspend fun sendMessage(receiverUserId: Int, message: String): ApiResult<Boolean> {
         return try {
-            chatRepository.sendMessage(receiverUserId, message)
-            Log.d("ApiChatDataSource", "Message sent to $receiverUserId: $message")
+            signalRChatService.sendMessage(receiverUserId, message)
+            Log.d(TAG, "Message sent to $receiverUserId: $message")
             ApiResult.Success(true)
         } catch (e: Exception) {
-            Log.e("ApiChatDataSource", "Error sending message: ${e.message}")
+            Log.e(TAG, "Error sending message: ${e.message}")
             ApiResult.Error("An internal error occurred: ${e.message}")
         }
     }
 
     override suspend fun sendGroupMessage(groupChatId: Int, message: String): ApiResult<Boolean> {
         return try {
-            Log.d("ApiChatDataSource", "Sending message to $groupChatId: $message")
-            chatRepository.sendGroupMessage(groupChatId, message)
-            Log.d("ApiChatDataSource", "Message sent to $groupChatId: $message")
+            Log.d(TAG, "Sending message to $groupChatId: $message")
+            signalRChatService.sendGroupMessage(groupChatId, message)
+            Log.d(TAG, "Message sent to $groupChatId: $message")
             ApiResult.Success(true)
         } catch (e: Exception) {
-            Log.e("ApiChatDataSource", "Error sending message: ${e.message}")
+            Log.e(TAG, "Error sending message: ${e.message}")
             ApiResult.Error("An internal error occurred: ${e.message}")
         }
     }
@@ -75,7 +76,7 @@ class ApiChatDataSource :ChatDataSource {
             val response = api.getChatHistory(chatId)
             if(response.isSuccessful) {
                 val data = response.body()
-                Log.d("ApiChatDataSource", "Received chat history for chatId: $chatId")
+                Log.d(TAG, "Received chat history for chatId: $chatId")
                 if(data != null) {
                     ApiResult.Success(data)
                 } else {
@@ -85,7 +86,7 @@ class ApiChatDataSource :ChatDataSource {
                 ApiResult.Error("An error occurred: ${response.code()}")
             }
         } catch (e: Exception) {
-            Log.e("ApiChatDataSource", "Error getting chat history: ${e.message}")
+            Log.e(TAG, "Error getting chat history: ${e.message}")
             ApiResult.Error("An internal error occurred: ${e.message}")
         }
     }
@@ -95,7 +96,7 @@ class ApiChatDataSource :ChatDataSource {
             val response = api.getChatParticipants(chatId)
             if(response.isSuccessful) {
                 val data = response.body()
-                Log.d("ApiChatDataSource", "Received chat participants for chatId: $chatId")
+                Log.d(TAG, "Received chat participants for chatId: $chatId")
                 if(data != null) {
                     ApiResult.Success(data.result)
                 } else {
@@ -105,7 +106,7 @@ class ApiChatDataSource :ChatDataSource {
                 ApiResult.Error("An error occurred: ${response.code()}")
             }
         } catch (e: Exception) {
-            Log.e("ApiChatDataSource", "Error getting chat participants: ${e.message}")
+            Log.e(TAG, "Error getting chat participants: ${e.message}")
             ApiResult.Error("An internal error occurred: ${e.message}")
         }
     }
@@ -115,7 +116,7 @@ class ApiChatDataSource :ChatDataSource {
             val response = api.getUserChats()
             if(response.isSuccessful) {
                 val data = response.body()
-                Log.d("ApiChatDataSource", "Received user chats")
+                Log.d(TAG, "Received user chats")
                 if(data != null) {
                     ApiResult.Success(data)
                 } else {
@@ -125,7 +126,7 @@ class ApiChatDataSource :ChatDataSource {
                 ApiResult.Error("An error occurred: ${response.code()}")
             }
         } catch (e: Exception) {
-            Log.e("ApiChatDataSource", "Error getting user chats: ${e.message}")
+            Log.e(TAG, "Error getting user chats: ${e.message}")
             ApiResult.Error("An internal error occurred: ${e.message}")
         }
     }
@@ -135,7 +136,7 @@ class ApiChatDataSource :ChatDataSource {
             val response = api.getGroupChatInfo(chatId)
             if(response.isSuccessful) {
                 val data = response.body()
-                Log.d("ApiChatDataSource", "Received group chat info for chatId: $chatId: $data")
+                Log.d(TAG, "Received group chat info for chatId: $chatId: $data")
                 if(data != null) {
                     Log.d("ApiChatDataSource", "Group chat info: $data")
                     ApiResult.Success(data)
@@ -146,7 +147,7 @@ class ApiChatDataSource :ChatDataSource {
                 ApiResult.Error("An error occurred: ${response.code()}")
             }
         } catch (e: Exception) {
-            Log.e("ApiChatDataSource", "Error getting group chat info: ${e.message}")
+            Log.e(TAG, "Error getting group chat info: ${e.message}")
             ApiResult.Error("An internal error occurred: ${e.message}")
         }
     }
@@ -156,7 +157,7 @@ class ApiChatDataSource :ChatDataSource {
             val response = api.getGroupChatHistory(chatId)
             if(response.isSuccessful) {
                 val data = response.body()
-                Log.d("ApiChatDataSource", "Received group chat history for chatId: $chatId")
+                Log.d(TAG, "Received group chat history for chatId: $chatId")
                 if(data != null) {
                     ApiResult.Success(data)
                 } else {
@@ -166,18 +167,18 @@ class ApiChatDataSource :ChatDataSource {
                 ApiResult.Error("An error occurred: ${response.code()}")
             }
         } catch (e: Exception) {
-            Log.e("ApiChatDataSource", "Error getting group chat history: ${e.message}")
+            Log.e(TAG, "Error getting group chat history: ${e.message}")
             ApiResult.Error("An internal error occurred: ${e.message}")
         }
     }
 
     fun setOnReceivePrivateMessageCallback(callback: (Int, String, String) -> Unit) {
-        chatRepository.setOnReceivePrivateMessageCallback(callback)
-        Log.d("ApiChatDataSource", "Set receive private message callback")
+        signalRChatService.setOnReceivePrivateMessageCallback(callback)
+        Log.d(TAG, "Set receive private message callback")
     }
 
     fun setOnReceiveGroupMessageCallback(callback: (Int, Int, String, String) -> Unit) {
-        chatRepository.setOnReceivePrivateMessageCallback(callback)
-        Log.d("ApiChatDataSource", "Set receive group message callback")
+        signalRChatService.setOnReceivePrivateMessageCallback(callback)
+        Log.d(TAG, "Set receive group message callback")
     }
 }

@@ -1,5 +1,6 @@
 package com.example.flats4us21.services
 
+import android.util.Log
 import com.example.flats4us21.URL
 import com.example.flats4us21.data.ApiResult
 import com.example.flats4us21.data.Notification
@@ -11,7 +12,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object ApiNotificationDataSource : NotificationDataSource {
+private const val TAG = "ApiNotificationDataSource"
+class ApiNotificationDataSource : NotificationDataSource {
 
 
     val gson: Gson = GsonBuilder()
@@ -35,9 +37,21 @@ object ApiNotificationDataSource : NotificationDataSource {
             .create(NotificationService::class.java)
     }
 
-    override suspend fun getNotification(userId: Int, notification: Notification): ApiResult<List<Notification>> {
+    private val signalRNotificationService = SignalRNotificationService()
+
+    fun startConnection() {
+        signalRNotificationService.startConnection()
+        Log.d(TAG, "Started connection")
+    }
+
+    fun stopConnection() {
+        signalRNotificationService.stopConnection()
+        Log.d(TAG, "Stopped connection")
+    }
+
+    override suspend fun getUnreadNotifications(): ApiResult<List<Notification>> {
         return try {
-            val response = api.getNotifications(userId, notification)
+            val response = api.getUnreadNotifications()
             if(response.isSuccessful) {
                 val data = response.body()
                 if (data != null) {
@@ -51,6 +65,47 @@ object ApiNotificationDataSource : NotificationDataSource {
         } catch (e: Exception) {
             ApiResult.Error("An internal error occurred: ${e.message}")
         }
+    }
+
+    override suspend fun getAllNotifications(): ApiResult<List<Notification>> {
+        return try {
+            val response = api.getAllNotifications()
+            if(response.isSuccessful) {
+                val data = response.body()
+                if (data != null) {
+                    ApiResult.Success(data)
+                } else {
+                    ApiResult.Error("Response body is null")
+                }
+            } else {
+                ApiResult.Error("Failed to fetch data: ${response.message()}")
+            }
+        } catch (e: Exception) {
+            ApiResult.Error("An internal error occurred: ${e.message}")
+        }
+    }
+
+    override suspend fun markNotificationsAsRead(notificationIds: List<Int>): ApiResult<String> {
+        return try {
+            val response = api.markNotificationsAsRead(notificationIds)
+            if(response.isSuccessful) {
+                val data = response.body()
+                if (data != null) {
+                    ApiResult.Success(data)
+                } else {
+                    ApiResult.Error("Response body is null")
+                }
+            } else {
+                ApiResult.Error("Failed to fetch data: ${response.message()}")
+            }
+        } catch (e: Exception) {
+            ApiResult.Error("An internal error occurred: ${e.message}")
+        }
+    }
+
+    fun setOnReceiveNotificationCallback(callback: (String, String) -> Unit) {
+        signalRNotificationService.setOnReceiveNotificationCallback(callback)
+        Log.d(TAG, "Set receive private message callback")
     }
 
 }

@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.adapters.NotificationAdapter
 import com.example.flats4us21.data.Notification
 import com.example.flats4us21.databinding.FragmentNotificationsBinding
@@ -39,7 +40,13 @@ class NotificationsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[NotificationViewModel::class.java]
+
+        viewModel.startConnection()
+
         recyclerview = binding.notificationRecyclerView
+
+        viewModel.getUnreadNotifications()
+        viewModel.getAllNotifications()
 
         viewModel.notifications.observe(viewLifecycleOwner) { notifications ->
             Log.i(TAG, "Number of notifications: ${notifications.size}")
@@ -61,9 +68,11 @@ class NotificationsFragment : Fragment() {
         }
 
         adapter = NotificationAdapter(fetchedNotifications) { selectedNotification ->
-//            viewModel.selectedNotification = selectedNotification
-//            val fragment = NotificationDetailsFragment()
-//            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+            val bundle = Bundle()
+            bundle.putInt(NOTIFICATION_ID, selectedNotification.notificationId)
+            val fragment = NotificationDetailsFragment()
+            fragment.arguments = bundle
+            (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
 
         recyclerview.adapter = adapter
@@ -72,6 +81,8 @@ class NotificationsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+
+        viewModel.stopConnection()
         _binding = null
     }
 }

@@ -9,7 +9,7 @@ import com.microsoft.signalr.HubConnectionState
 import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.runBlocking
 
-class ChatRepository {
+class SignalRChatService {
 
     private lateinit var hubConnection: HubConnection
     private val onReceivePrivateMessageCallbacks: MutableList<(Int, String, String) -> Unit> = mutableListOf()
