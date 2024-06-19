@@ -14,12 +14,13 @@
         android:layout_height="match_parent"
         android:background="@drawable/rounded_rectangle">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/profile_image"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/baseline_person_24"/>
+            android:src="@drawable/baseline_person_24"
+            app:shapeAppearanceOverlay="@style/Circular"/>
 
         <TextView
             android:id="@+id/profile_name"
@@ -29,8 +30,9 @@
             android:layout_marginTop="8dp"
             android:text="Name"
             android:textColor="@android:color/black"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textSize="@dimen/h2"
+            android:textStyle="bold"
+            android:layout_marginStart="8dp"/>
 
         <TextView
             android:id="@+id/profile_age"
@@ -39,7 +41,8 @@
             android:layout_below="@id/profile_name"
             android:text="Age"
             android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:layout_marginStart="8dp"/>
 
         <TextView
             android:id="@+id/profile_university"
@@ -48,14 +51,15 @@
             android:layout_below="@id/profile_age"
             android:text="University"
             android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:layout_marginStart="8dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/interestsRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/profile_university"/>
-
+            android:layout_below="@+id/profile_university"
+            android:layout_marginStart="8dp"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/accept_button"

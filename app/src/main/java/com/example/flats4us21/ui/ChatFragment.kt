@@ -10,18 +10,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import com.example.flats4us21.R
+import com.example.flats4us21.URL
 import com.example.flats4us21.adapters.MessageAdapter
 import com.example.flats4us21.data.ChatMessage
+import com.example.flats4us21.data.Profile
 import com.example.flats4us21.databinding.FragmentChatBinding
 import com.example.flats4us21.viewmodels.ChatViewModel
 import com.example.flats4us21.viewmodels.UserViewModel
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 private const val TAG = "ChatFragment"
 class ChatFragment : Fragment() {
-
     private var _binding: FragmentChatBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: ChatViewModel
@@ -29,6 +29,10 @@ class ChatFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: MessageAdapter
     private var fetchedMessages: MutableList<ChatMessage> = mutableListOf()
+    private var chatId: Int = 0
+    private var userId: Int = 0
+    private var isCreating: Boolean = false
+    private var isAdapterInitialized = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         viewModel = ViewModelProvider(requireActivity())[ChatViewModel::class.java]
@@ -40,21 +44,55 @@ class ChatFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         viewModel.startConnection()
 
-        val chatId = arguments?.getInt(CHAT_ID)
+        chatId = arguments?.getInt(CHAT_ID) ?:0
+        userId = arguments?.getInt(USER_ID) ?: 0
+        isCreating = arguments?.getBoolean(IS_CREATING) ?: false
 
-        if(chatId != null) {
-            viewModel.getChatParticipants(chatId)
-            viewModel.getChatHistory(chatId)
+        if(chatId != 0 || isCreating) {
+            if (!isCreating) {
+                userViewModel.getProfile(userId)
+                viewModel.getChatHistory(chatId)
+            } else {
+                userViewModel.getProfile(userId)
+            }
+        }
+        setupObservers()
+        setupListeners()
+    }
+
+    private fun setupRecyclerView() {
+        recyclerView = binding.chatRecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        adapter = MessageAdapter(requireContext(), fetchedMessages, userViewModel.myProfile.value?.userId ?: 0, userViewModel.profile.value!!.profilePicture)
+        recyclerView.adapter = adapter
+        recyclerView.scrollToPosition(fetchedMessages.size - 1)
+        isAdapterInitialized = true
+    }
+
+    private fun setupListeners() {
+        binding.sendButton.setOnClickListener {
+            val messageContent = binding.messageEditText.text.toString().trim()
+            if (messageContent.isNotEmpty()) {
+                viewModel.sendMessage(userViewModel.myProfile.value?.userId ?: 0, userId, messageContent)
+                binding.messageEditText.text.clear()
+            }
+        }
+    }
+
+    private fun setupObservers() {
+        userViewModel.profile.observe(viewLifecycleOwner) { profile ->
+            if (profile != null) {
+                Log.d(TAG, "Observed profile: $profile")
+                bindHeaderData(profile)
+                setupRecyclerView()
+            }
         }
 
         viewModel.chatHistory.observe(viewLifecycleOwner) { chatHistory ->
             Log.d(TAG, "Observed chat history: $chatHistory")
-            if (chatId != null) {
-                bindData(chatId, chatHistory as MutableList<ChatMessage>)
-            }
+            bindMessageData(chatHistory as MutableList<ChatMessage>)
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading: Boolean ->
@@ -69,76 +107,33 @@ class ChatFragment : Fragment() {
                 Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
             }
         }
-
-        binding.sendButton.setOnClickListener {
-            val messageContent = binding.messageEditText.text.toString().trim()
-            if (messageContent.isNotEmpty()) {
-                    addMessage(messageContent)
-                binding.messageEditText.text.clear()
-            }
-        }
     }
 
-    private fun bindData(chatId: Int, chatHistory: MutableList<ChatMessage>) {
-        val userChats = viewModel.userChats.value
-        if (userChats != null) {
-            val otherUserName = userChats.firstOrNull { it.chatId == chatId }?.otherUsername
-            binding.nameAndSurname.text = otherUserName
+    private fun bindHeaderData(profile: Profile?) {
+        profile ?: return
 
-            if (!::recyclerView.isInitialized) {
-                recyclerView = binding.chatRecyclerView
-                recyclerView.layoutManager = LinearLayoutManager(requireContext()).apply {
-                    stackFromEnd = true
-                }
-            }
+        val url = "$URL/${profile.profilePicture.path}"
+        Log.i(TAG, url)
+        binding.profilePicture.load(url) {
+            error(R.drawable.baseline_person_24)
+        }
+        binding.nameAndSurname.text = profile.name
+    }
 
-            fetchedMessages.clear()
-            fetchedMessages.addAll(chatHistory)
-            Log.d(TAG, "Fetched messages after update: $fetchedMessages")
+    private fun bindMessageData(chatHistory: MutableList<ChatMessage>) {
+        fetchedMessages.clear()
+        fetchedMessages.addAll(chatHistory)
+        Log.d(TAG, "Fetched messages after update: $fetchedMessages")
 
-            if (!::adapter.isInitialized) {
-                adapter = MessageAdapter(requireContext(), fetchedMessages, userViewModel.myProfile.value?.userId ?: 0)
-                recyclerView.adapter = adapter
-            } else {
-                adapter.updateMessages(fetchedMessages)
-            }
-
+        if(isAdapterInitialized) {
+            adapter.updateMessages(fetchedMessages)
             recyclerView.scrollToPosition(fetchedMessages.size - 1)
         }
-    }
-
-    private fun addMessage(content: String) {
-        val userChats = viewModel.userChats.value
-        if (userChats != null) {
-            val otherUserId = viewModel.chatParticipants.value!!
-            viewModel.sendMessage(otherUserId, content) { isSuccess ->
-                if (isSuccess) {
-                    val chatParticipants = viewModel.chatParticipants.value
-                    if (chatParticipants != null) {
-                        val newMessage = ChatMessage(
-                            chatMessageId = fetchedMessages.size + 1,
-                            content = content,
-                            dateTime = getCurrentDateTime(),
-                            senderId = userViewModel.myProfile.value?.userId ?: 0
-                        )
-                        fetchedMessages.add(newMessage)
-                        adapter.notifyItemInserted(fetchedMessages.size - 1)
-                        recyclerView.scrollToPosition(fetchedMessages.size - 1)
-                    }
-                }
-            }
-        }
-    }
-
-    private fun getCurrentDateTime(): String {
-        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSS", Locale.getDefault())
-        return sdf.format(Date())
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
 
-        // Stop SignalR connection when the fragment is destroyed
         viewModel.stopConnection()
         _binding = null
     }

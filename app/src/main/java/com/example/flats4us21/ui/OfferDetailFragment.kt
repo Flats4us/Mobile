@@ -38,6 +38,7 @@ class OfferDetailFragment : Fragment() {
     private lateinit var detailOfferViewModel: DetailOfferViewModel
     private lateinit var addButton: ImageButton
     private var isObserved = false
+    private lateinit var offer: Offer
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -87,6 +88,7 @@ class OfferDetailFragment : Fragment() {
         }
 
         detailOfferViewModel.offer.observe(viewLifecycleOwner) { offer ->
+            this.offer = offer
             bindOfferData(offer)
         }
 
@@ -96,7 +98,7 @@ class OfferDetailFragment : Fragment() {
 
         binding.reviewsButton.setOnClickListener {
             val bundle = Bundle()
-            bundle.putInt(OFFER_ID, offerId)
+            bundle.putInt(PROPERTY_ID, offer.property.propertyId)
             val fragment = PropertyOpinionsFragment()
             fragment.arguments = bundle
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
@@ -181,7 +183,6 @@ class OfferDetailFragment : Fragment() {
         binding.equipment.text = stringBuilder.toString()
         binding.description.text = offer.description
         binding.ratingBar.rating = offer.property.avgRating.toFloat()
-        binding.reviewsPer.text = (offer.property.avgRating/10*100).toString()
         binding.sumService.text = offer.property.avgServiceRating.toString()
         binding.sumLocation.text = offer.property.avgLocationRating.toString()
         binding.sumEquipment.text = offer.property.avgEquipmentRating.toString()

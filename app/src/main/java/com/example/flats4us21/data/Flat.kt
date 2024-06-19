@@ -23,7 +23,7 @@ data class Flat(
     override val avgQualityForMoneyRating: Int,
     override val verificationStatus: Int,
     override val numberOfRooms: Int,
-    override val offerIds: Int?,
+    override val offers: List<PropertyOffer>?,
     override val equipment: MutableList<Equipment>,
     override val rentOpinions: List<PropertyOpinion>?,
     @SerializedName("floor")
@@ -51,7 +51,7 @@ data class Flat(
     avgQualityForMoneyRating,
     verificationStatus,
     numberOfRooms,
-    offerIds,
+    offers,
     equipment,
     rentOpinions
 )

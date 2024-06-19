@@ -7,15 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.flats4us21.R
+import com.example.flats4us21.URL
 import com.example.flats4us21.data.ChatMessage
+import com.example.flats4us21.data.Image
+import com.google.android.material.imageview.ShapeableImageView
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class MessageAdapter(
     private val context: Context,
     private var messages: MutableList<ChatMessage>,
-    private val loggedInUserId: Int
+    private val loggedInUserId: Int,
+    private val profilePicture: Image
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val VIEW_TYPE_MY_MESSAGE = 1
@@ -78,6 +83,7 @@ class MessageAdapter(
     inner class UserMessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val messageTextView: TextView = view.findViewById(R.id.messageTextView)
         private val timestampTextView: TextView = view.findViewById(R.id.timestampTextView)
+        private val userPhoto: ShapeableImageView = view.findViewById(R.id.userPhoto)
 
         fun bind(message: ChatMessage, position: Int) {
             messageTextView.text = message.content
@@ -86,6 +92,17 @@ class MessageAdapter(
             val formattedTimestamp = formatTimestamp(message.dateTime, position)
             timestampTextView.visibility = if (shouldShowTimestamp || visibleTimestamps.contains(position)) View.VISIBLE else View.GONE
             timestampTextView.text = formattedTimestamp
+
+            val url = "$URL/${profilePicture.path}"
+            userPhoto.load(url) {
+                error(R.drawable.baseline_person_24)
+            }
+
+            if (position < messages.size - 1 && messages[position + 1].senderId == message.senderId) {
+                userPhoto.visibility = View.INVISIBLE
+            } else {
+                userPhoto.visibility = View.VISIBLE
+            }
 
             messageTextView.setOnClickListener {
                 toggleTimestampVisibility(position)

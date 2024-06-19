@@ -253,29 +253,15 @@
                                 android:hint="111-222-333"
                                 android:imeOptions="actionNext"
                                 android:importantForAutofill="no"
-                                android:inputType="textPassword"
+                                android:inputType="phone"
                                 android:paddingStart="10dp"
                                 android:paddingEnd="10dp"
                                 android:textSize="18sp"
                                 android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toStartOf="@+id/passwordToggle2"
+                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
-
-                            <ImageButton
-                                android:id="@+id/phoneNumberToggle"
-                                android:layout_width="48dp"
-                                android:layout_height="48dp"
-                                android:layout_marginEnd="1dp"
-                                android:background="@color/white"
-                                android:contentDescription="@string/app_name"
-                                android:src="@drawable/baseline_visibility_off_24"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:tint="@color/black" />
-
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </LinearLayout>

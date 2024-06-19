@@ -1,14 +1,29 @@
 package com.example.flats4us21.services
 
-import com.example.flats4us21.data.*
+import com.example.flats4us21.data.MapOffersResult
+import com.example.flats4us21.data.NewPropertyApiResponse
+import com.example.flats4us21.data.Offer
+import com.example.flats4us21.data.OffersResult
+import com.example.flats4us21.data.Rent
+import com.example.flats4us21.data.RentDecision
+import com.example.flats4us21.data.RentProposition
 import com.example.flats4us21.data.dto.NewOfferDto
 import com.example.flats4us21.data.dto.NewRentProposition
 import com.example.flats4us21.data.utils.RentResult
-import okhttp3.RequestBody
 import retrofit2.Response
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface OfferService {
+
+    @GET("/api/offers/{id}")
+    suspend fun getOffer(@Path("id") offerId: Int): Response<Offer>
+
     @GET("/api/offers")
     suspend fun getOffers(
         @Query("Sorting") sorting: String?,
@@ -46,9 +61,6 @@ interface OfferService {
         @Query("Equipment") equipment: List<Int>?
     ): Response<MapOffersResult>
 
-    @GET("/api/offers/{id}")
-    suspend fun getOffer(@Path("id") offerId: Int): Response<Offer>
-
     @GET("/api/offers/mine")
     suspend fun getMineOffers(): Response<OffersResult>
 
@@ -70,7 +82,7 @@ interface OfferService {
     @DELETE("/api/offers/{offerId}/interest")
     suspend fun deleteOfferInterest(@Path("offerId") offerId: Int): Response<NewPropertyApiResponse<String>>
 
-    @GET("api/rent/{rentId}/proposition")
+    @GET("/api/rent/{rentId}/proposition")
     suspend fun getRentProposition(@Path("rentId") rentId: Int): Response<RentProposition>
 
     @PUT("/api/offers/{offerId}/rent/accept")
@@ -81,4 +93,10 @@ interface OfferService {
 
     @GET("/api/rent/{id}")
     suspend fun getRent(@Path("id") rentId: Int): Response<Rent>
+
+    @PUT("/api/offers/{id}/cancel")
+    suspend fun cancelOffer(@Path("id") offerId: Int): Response<NewPropertyApiResponse<String>>
+
+    @POST("/api/offers/{id}/promotion")
+    suspend fun promoteOffer(@Path("id") offerId: Int): Response<NewPropertyApiResponse<String>>
 }

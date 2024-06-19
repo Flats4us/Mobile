@@ -65,6 +65,24 @@ object ApiPropertyDataSource : PropertyDataSource {
         }
     }
 
+    override suspend fun getProperty(propertyId: Int): ApiResult<Property> {
+        return try {
+            val response = api.getProperty(propertyId)
+            if(response.isSuccessful) {
+                val data = response.body()
+                if (data != null) {
+                    ApiResult.Success(data)
+                } else {
+                    ApiResult.Error("Odpowiedź jest pusta")
+                }
+            } else {
+                ApiResult.Error("Nie otrzymano danych: ${response.code()}")
+            }
+        } catch (e: Exception) {
+            ApiResult.Error("Wewnętrzny błąd: ${e.message}")
+        }
+    }
+
     override suspend fun addProperty(property: NewPropertyDto): ApiResult<Int> {
         return try {
             val createPropertyResponse = api.createProperty(property)
@@ -89,7 +107,6 @@ object ApiPropertyDataSource : PropertyDataSource {
             val titleDeedRequestBody = titleDeedFile.asRequestBody("text/plain".toMediaTypeOrNull())
             val titleDeedPart = MultipartBody.Part.createFormData("TitleDeed", titleDeedFile.name, titleDeedRequestBody)
 
-            // Convert image Files to List of MultipartBody.Part
             val imageParts = imageFiles.mapIndexed { _, file ->
                 val requestBody = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
                 val image = MultipartBody.Part.createFormData("Images", file.name, requestBody)

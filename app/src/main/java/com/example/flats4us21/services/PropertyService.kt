@@ -23,6 +23,9 @@ interface PropertyService {
     @GET("/api/properties")
     suspend fun getProperties(@Query("showOnlyVerified") showOnlyVerified: Boolean) : Response<List<Property>>
 
+    @GET("/api/properties/{id}")
+    suspend fun getProperty(@Path("id") propertyId: Int) : Response<Property>
+
     @DELETE("/api/properties/{id}")
     suspend fun deleteProperty(@Path("id") propertyId: Int) : Response<Void>
 

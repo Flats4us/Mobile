@@ -44,6 +44,8 @@ class ChatsFragment : Fragment() {
         adapter = ChatAdapter(mutableListOf()) { selectedChat ->
             val bundle = Bundle()
             bundle.putInt(CHAT_ID, selectedChat.chatId)
+            bundle.putInt(USER_ID, selectedChat.otherUserId)
+            bundle.putBoolean(IS_CREATING, false)
             val fragment = ChatFragment()
             fragment.arguments = bundle
             (activity as? DrawerActivity)!!.replaceFragment(fragment)

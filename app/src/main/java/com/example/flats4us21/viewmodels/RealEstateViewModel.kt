@@ -38,6 +38,10 @@ class RealEstateViewModel : ViewModel() {
         return placeRepository.getDistricts(city)
     }
 
+    private val _property = MutableLiveData<Property>()
+    val property: LiveData<Property>
+        get() = _property
+
     private val _equipments = MutableLiveData<List<Equipment>>()
     val equipments: LiveData<List<Equipment>>
         get() = _equipments
@@ -252,8 +256,7 @@ class RealEstateViewModel : ViewModel() {
             _errorMessage.value = null
             _isLoading.value = true
             try {
-                val response = propertyRepository.addProperty(newProperty)
-                when (response) {
+                when (val response = propertyRepository.addProperty(newProperty)) {
                     is ApiResult.Success -> {
                         val propertyId = response.data
                         Log.i(TAG, "BEFORE add files to property")
@@ -315,8 +318,7 @@ class RealEstateViewModel : ViewModel() {
             _errorMessage.value = null
             _isLoading.value = true
             try {
-                val response = propertyRepository.updateProperty(propertyId, property)
-                when(response) {
+                when(val response = propertyRepository.updateProperty(propertyId, property)) {
                     is ApiResult.Success -> {
                         Log.i(TAG, response.data.result)
                     }
@@ -334,13 +336,37 @@ class RealEstateViewModel : ViewModel() {
         }
     }
 
+    fun getProperty(propertyId: Int) {
+        viewModelScope.launch{
+            _errorMessage.value = null
+            _isLoading.value = true
+            try {
+                when (val response = propertyRepository.getProperty(propertyId)) {
+                    is ApiResult.Success -> {
+                        val fetchedProperty = response.data
+                        _property.value = fetchedProperty
+                    }
+                    is ApiResult.Error -> {
+                        val errorMessage = response.message
+                        Log.e(TAG, "Error: $errorMessage")
+                        _errorMessage.value = errorMessage
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
     fun deleteProperty(propertyId: Int, callback: (Boolean) -> Unit) {
         viewModelScope.launch{
             _errorMessage.value = null
             _isLoading.value = true
             try {
-                val response = propertyRepository.deleteProperty(propertyId)
-                when (response) {
+                when (val response = propertyRepository.deleteProperty(propertyId)) {
                     is ApiResult.Success -> {
                         Log.d(TAG, " Deleted property: $propertyId")
                         callback(true)

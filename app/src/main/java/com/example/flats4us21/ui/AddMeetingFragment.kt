@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flats4us21.DrawerActivity
+import com.example.flats4us21.R
 import com.example.flats4us21.data.dto.NewMeetingDto
 import com.example.flats4us21.databinding.FragmentAddMeetingBinding
 import com.example.flats4us21.viewmodels.MeetingViewModel
@@ -40,11 +41,6 @@ class AddMeetingFragment : Fragment() {
 
         meetingViewModel = ViewModelProvider(requireActivity())[MeetingViewModel::class.java]
 
-        meetingViewModel.resultMessage.observe(viewLifecycleOwner) { resultMessage ->
-            if(resultMessage != null) {
-                Toast.makeText(requireContext(), resultMessage, Toast.LENGTH_LONG).show()
-            }
-        }
         meetingViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
             if(errorMessage != null) {
                 Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
@@ -59,6 +55,7 @@ class AddMeetingFragment : Fragment() {
             collectData(offerId)
             meetingViewModel.createMeeting {
                 if(it){
+                    Toast.makeText(requireContext(), getString(R.string.added_meeting), Toast.LENGTH_LONG).show()
                     (activity as? DrawerActivity)!!.goBack()
                 }
             }

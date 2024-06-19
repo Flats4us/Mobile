@@ -55,6 +55,7 @@
 
     <string name="filter_offers">Filtruj oferty</string>
     <string name="location">Lokalizacja</string>
+    <string name="location_with_colon">Lokalizacja:</string>
     <string name="price">Cena</string>
     <string name="min_price">Cena minimalna</string>
     <string name="max_price">Cena maksymalna</string>
@@ -84,6 +85,7 @@
     <string name="years"> lata</string>
     <string name="max_residents">Max liczba mieszkańców</string>
     <string name="equipment">Wyposażenie</string>
+    <string name="equipment_with_colon">Wyposażenie:</string>
     <string name="description">Opis</string>
     <string name="interested_people">Zainteresowani</string>
     <string name="chat">Napisz</string>
@@ -265,7 +267,9 @@
     <string name="create_meeting">Stwórz spotkanie</string>
     <string name="rent_survet">Ankieta najmu</string>
     <string name="service">Usługa</string>
+    <string name="service_with_colon">Usługa:</string>
     <string name="quality_for_money">Jakość za pieniądze</string>
+    <string name="quality_for_money_with_colon">Jakość za pieniądze:</string>
     <string name="opinions_about_user">Opinie o użytkowniku</string>
     <string name="opinions_about_property">Opinie o nieruchomości</string>
     <string name="no_rentals_available">Nie ma najmów do wyświetlenia</string>
@@ -284,6 +288,15 @@
     <string name="ended_argument">Spór został zakończony</string>
     <string name="argument_title">tytuł argumentu</string>
     <string name="required_argument_title">Tytuł argumentu*</string>
+    <string name="added_meeting">Dodano spotkanie</string>
+    <string name="password_changed">Hasło zostało zmienione</string>
+    <string name="invalid_data">Nie wypełniono poprawnie wszystkich pól</string>
+    <string name="profile_updated">Zaktualizowano dane profilu</string>
+    <string name="deleted_property">Usunięto nieruchomość</string>
+    <string name="property_has_associated_offers">Nieruchomość nie może zostać usunięta, ponieważ jest powiązana z ofertą</string>
+    <string name="end_offer">Zakończ ofertę</string>
+    <string name="related_property">Powiązana nieruchomość</string>
+    <string name="promote_offer">Promuj ofertę</string>
 
     <!-- TODO: meeting_row -->
 </resources>

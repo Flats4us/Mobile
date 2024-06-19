@@ -25,4 +25,6 @@ interface OfferDataSource {
     suspend fun addRentDecision(offerId: Int, decision : Boolean) : ApiResult<String>
     suspend fun getRents(): ApiResult<RentResult>
     suspend fun getRent(rentId: Int): ApiResult<Rent>
+    suspend fun cancelOffer(offerId: Int): ApiResult<String>
+    suspend fun promoteOffer(offerId: Int): ApiResult<String>
 }

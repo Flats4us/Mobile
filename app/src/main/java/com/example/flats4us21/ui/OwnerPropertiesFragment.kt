@@ -58,7 +58,10 @@ class OwnerPropertiesFragment : Fragment() {
 
         adapter = OwnerPropertiesAdapter(fetchedProperties){selectedProperty ->
             realEstateViewModel.selectedProperty = selectedProperty
+            val bundle = Bundle()
+            bundle.putInt(PROPERTY_ID, selectedProperty.propertyId)
             val fragment = OwnerPropertyDetailFragment()
+            fragment.arguments = bundle
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
 

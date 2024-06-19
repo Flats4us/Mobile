@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -29,6 +30,7 @@ class OwnerPropertyDetailFragment : Fragment() {
     private var _binding : FragmentOwnerPropertyDetailBinding? = null
     private val binding get() = _binding!!
     private lateinit var realEstateViewModel: RealEstateViewModel
+    private lateinit var property: Property
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +44,25 @@ class OwnerPropertyDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         realEstateViewModel = ViewModelProvider(requireActivity())[RealEstateViewModel::class.java]
-        bindData(realEstateViewModel.selectedProperty!!)
+
+        val propertyId = arguments?.getInt(PROPERTY_ID)
+        if(propertyId != null) {
+            realEstateViewModel.getProperty(propertyId)
+        }
+        realEstateViewModel.property.observe(viewLifecycleOwner) {
+            if(it != null) {
+                property = it
+                bindData(it)
+            }
+        }
+
+        binding.reviewsButton.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(OFFER_ID, property.propertyId)
+            val fragment = PropertyOpinionsFragment()
+            fragment.arguments = bundle
+            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+        }
 
         binding.fab.setOnClickListener {
             showDialog()
@@ -118,7 +138,6 @@ class OwnerPropertyDetailFragment : Fragment() {
         }
 
         binding.ratingBar.rating = property.avgRating.toFloat()
-        binding.reviewsPer.text = (property.avgRating/10*100).toString()
         binding.sumService.text = property.avgServiceRating.toString()
         binding.sumLocation.text = property.avgLocationRating.toString()
         binding.sumEquipment.text = property.avgEquipmentRating.toString()
@@ -136,18 +155,22 @@ class OwnerPropertyDetailFragment : Fragment() {
         layoutEdit.setOnClickListener {
             val bundle = Bundle()
             bundle.putBoolean(IS_CREATING, false)
-            bundle.putInt(PROPERTY_ID, realEstateViewModel.selectedProperty!!.propertyId)
+            bundle.putInt(PROPERTY_ID, property.propertyId)
             val fragment = AddRealEstateFragment()
             fragment.arguments = bundle
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
         layoutDelete.setOnClickListener {
-            realEstateViewModel.deleteProperty(realEstateViewModel.selectedProperty!!.propertyId) { result ->
-                result.let {
-                    Log.e(TAG, result.toString())
-                    val fragment = OwnerPropertiesFragment()
-                    (activity as? DrawerActivity)!!.replaceFragment(fragment)
+            Log.d(TAG, "offers: ${property.offers} isNullOrEmpty ${!property.offers.isNullOrEmpty()}")
+            if(property!!.offers.isNullOrEmpty()) {
+                realEstateViewModel.deleteProperty(property.propertyId) { result ->
+                    if (result) {
+                        Toast.makeText(requireContext(), getString(R.string.deleted_property), Toast.LENGTH_LONG).show()
+                        (activity as? DrawerActivity)!!.goBack()
+                    }
                 }
+            } else {
+                Toast.makeText(requireContext(), getString(R.string.property_has_associated_offers), Toast.LENGTH_LONG).show()
             }
         }
 

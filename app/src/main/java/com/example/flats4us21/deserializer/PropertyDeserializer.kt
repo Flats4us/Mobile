@@ -6,6 +6,7 @@ import com.example.flats4us21.data.Flat
 import com.example.flats4us21.data.House
 import com.example.flats4us21.data.Image
 import com.example.flats4us21.data.Property
+import com.example.flats4us21.data.PropertyOffer
 import com.example.flats4us21.data.PropertyOpinion
 import com.example.flats4us21.data.Room
 import com.google.gson.JsonDeserializationContext
@@ -62,7 +63,24 @@ class PropertyDeserializer : JsonDeserializer<Property> {
             val numberOfFloors = if (jsonObject.get("numberOfFloors").isJsonNull) 1 else jsonObject.get("numberOfFloors").asInt
             val landArea = if (jsonObject.get("plotArea").isJsonNull) 0 else jsonObject.get("plotArea").asInt
             val floor = if (jsonObject.get("floor").isJsonNull) 0 else jsonObject.get("floor").asInt
-            val rentId = if (jsonObject.get("offers").isJsonNull) null else jsonObject.get("offers").asInt
+            val offersJsonElement = jsonObject["offers"]
+            val offers: MutableList<PropertyOffer>? = if (offersJsonElement != null && !offersJsonElement.isJsonNull && offersJsonElement.isJsonArray) {
+                val offersJsonArray = offersJsonElement.asJsonArray
+                offersJsonArray.map { jsonElement ->
+                    val offerObject = jsonElement.asJsonObject
+                    val offerId = offerObject["offerId"].asInt
+                    val startDate = offerObject["startDate"].asString.split("T")[0]
+                    val offerStatus = offerObject["offerStatus"].asInt
+                    PropertyOffer(
+                        offerId,
+                        startDate,
+                        offerStatus
+                    )
+                }.toMutableList()
+            } else {
+                null
+            }
+
             val equipmentJsonArray = jsonObject.getAsJsonArray("equipment")
             val equipment: MutableList<Equipment> = equipmentJsonArray?.map {
                 equipmentDeserializer.deserialize(it, Equipment::class.java, context)
@@ -98,19 +116,18 @@ class PropertyDeserializer : JsonDeserializer<Property> {
                 mutableListOf()
             }
 
-
             when (propertyType) {
                 0 -> Flat(propertyId, voivodeship, district, street, buildingNumber, city, postalCode, geoLat, geoLon, area,
                     maxNumberOfInhabitants, constructionYear, images, avgRating, avgServiceRating, avgLocationRating,
-                    avgEquipmentRating, avgQualityForMoneyRating, verificationStatus, numberOfRooms, rentId, equipment,
+                    avgEquipmentRating, avgQualityForMoneyRating, verificationStatus, numberOfRooms, offers, equipment,
                     propertyOpinion, floor, flatNumber)
                 1 -> House(propertyId, voivodeship, district, street, buildingNumber, city, postalCode, geoLat, geoLon, area,
                     maxNumberOfInhabitants, constructionYear, images, avgRating, avgServiceRating, avgLocationRating,
-                    avgEquipmentRating, avgQualityForMoneyRating, verificationStatus, numberOfRooms, rentId, equipment,
+                    avgEquipmentRating, avgQualityForMoneyRating, verificationStatus, numberOfRooms, offers, equipment,
                     propertyOpinion, landArea, numberOfFloors)
                 else -> Room(propertyId, voivodeship, district, street, buildingNumber, city, postalCode, geoLat, geoLon, area,
                     maxNumberOfInhabitants, constructionYear, images, avgRating, avgServiceRating, avgLocationRating,
-                    avgEquipmentRating, avgQualityForMoneyRating, verificationStatus, numberOfRooms, rentId, equipment,
+                    avgEquipmentRating, avgQualityForMoneyRating, verificationStatus, numberOfRooms, offers, equipment,
                     propertyOpinion, floor, flatNumber)
             }
         } catch (e: Exception) {

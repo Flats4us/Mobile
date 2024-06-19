@@ -34,11 +34,7 @@ class SettingsChangePasswordFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        userViewModel.resultMessage.observe(viewLifecycleOwner) { resultMessage ->
-            if(resultMessage != null) {
-                Toast.makeText(requireContext(), resultMessage, Toast.LENGTH_LONG).show()
-            }
-        }
+
         userViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
@@ -65,11 +61,12 @@ class SettingsChangePasswordFragment : Fragment() {
                 collectDataForPassword()
                 userViewModel.changePassword {
                     if(it) {
+                        Toast.makeText(requireContext(), getString(R.string.password_changed), Toast.LENGTH_LONG).show()
                         (activity as? DrawerActivity)!!.goBack()
                     }
                 }
             } else {
-                Toast.makeText(requireContext(), "Nie wypełniono poprawnie wszystkich pól", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), getString(R.string.invalid_data), Toast.LENGTH_LONG).show()
             }
         }
 

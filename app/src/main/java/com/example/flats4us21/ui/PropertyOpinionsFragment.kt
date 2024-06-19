@@ -10,19 +10,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flats4us21.adapters.PropertyOpinionAdapter
 import com.example.flats4us21.data.PropertyOpinion
 import com.example.flats4us21.databinding.FragmentPropertyOpinionsBinding
-import com.example.flats4us21.viewmodels.OfferViewModel
+import com.example.flats4us21.viewmodels.RealEstateViewModel
 
 class PropertyOpinionsFragment : Fragment() {
     private var _binding: FragmentPropertyOpinionsBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: OfferViewModel
+    private lateinit var viewModel: RealEstateViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPropertyOpinionsBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(requireActivity())[OfferViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[RealEstateViewModel::class.java]
         return binding.root
     }
 
@@ -31,15 +31,15 @@ class PropertyOpinionsFragment : Fragment() {
 
         setupObservers()
 
-        val offerId = arguments?.getInt(OFFER_ID, -1) ?: -1
-        if (offerId != -1) {
-            viewModel.getOffer(offerId)
+        val propertyId = arguments?.getInt(PROPERTY_ID, -1) ?: -1
+        if (propertyId != -1) {
+            viewModel.getProperty(propertyId)
         }
     }
 
     private fun setupObservers() {
-        viewModel.offer.observe(viewLifecycleOwner) { offer ->
-            offer?.property?.rentOpinions?.let { bindData(it) }
+        viewModel.property.observe(viewLifecycleOwner) { property ->
+            property.rentOpinions?.let { bindData(it) }
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->

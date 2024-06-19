@@ -23,7 +23,7 @@ data class House(
     override val avgQualityForMoneyRating: Int,
     override val verificationStatus: Int,
     override val numberOfRooms: Int,
-    override val offerIds: Int?,
+    override val offers: List<PropertyOffer>?,
     override val equipment: MutableList<Equipment>,
     override val rentOpinions: List<PropertyOpinion>?,
     @SerializedName("landArea")
@@ -51,7 +51,7 @@ data class House(
     avgQualityForMoneyRating,
     verificationStatus,
     numberOfRooms,
-    offerIds,
+    offers,
     equipment,
     rentOpinions
 )

@@ -343,4 +343,32 @@ object ApiOfferDataSource : OfferDataSource {
         }
     }
 
+    override suspend fun cancelOffer(offerId: Int): ApiResult<String> {
+        return try {
+            val response = api.cancelOffer(offerId)
+            if(response.isSuccessful) {
+                val data = response.body()?.result ?: ""
+                ApiResult.Success(data)
+            } else {
+                ApiResult.Error("Failed to cancel offer to watched: ${response.errorBody()?.string() ?: ""}")
+            }
+        } catch (e: Exception) {
+            ApiResult.Error("An internal error occurred: ${e.message}")
+        }
+    }
+
+    override suspend fun promoteOffer(offerId: Int): ApiResult<String> {
+        return try {
+            val response = api.promoteOffer(offerId)
+            if(response.isSuccessful) {
+                val data = response.body()?.result ?: ""
+                ApiResult.Success(data)
+            } else {
+                ApiResult.Error("Failed to promote offer to watched: ${response.errorBody()?.string() ?: ""}")
+            }
+        } catch (e: Exception) {
+            ApiResult.Error("An internal error occurred: ${e.message}")
+        }
+    }
+
 }

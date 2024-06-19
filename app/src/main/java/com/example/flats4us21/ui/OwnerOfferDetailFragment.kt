@@ -1,15 +1,19 @@
 package com.example.flats4us21.ui
 
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.flats4us21.DrawerActivity
+import com.example.flats4us21.R
 import com.example.flats4us21.adapters.ImageSliderAdapter
 import com.example.flats4us21.data.Flat
 import com.example.flats4us21.data.House
@@ -62,14 +66,16 @@ class OwnerOfferDetailFragment : Fragment() {
             bindOfferData(currentOffer)
         }
 
-        binding.fab.setOnClickListener {
-            val fragment = RentPropositionDialogFragment()
+        binding.reviewsButton.setOnClickListener {
             val bundle = Bundle()
-            bundle.putInt(RENT_PROPOSITION_ID, currentOffer.rentPropositionToShow!!)
-            bundle.putInt(OFFER_ID, currentOffer.offerId!!)
+            bundle.putInt(PROPERTY_ID, currentOffer.property.propertyId)
+            val fragment = PropertyOpinionsFragment()
             fragment.arguments = bundle
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
+        }
 
+        binding.fab.setOnClickListener {
+            showDialog()
         }
     }
 
@@ -124,7 +130,6 @@ class OwnerOfferDetailFragment : Fragment() {
         binding.equipment.text = stringBuilder.toString()
         binding.description.text = offer.description
         binding.ratingBar.rating = offer.property.avgRating.toFloat()
-        binding.reviewsPer.text = (offer.property.avgRating/10*100).toString()
         binding.sumService.text = offer.property.avgServiceRating.toString()
         binding.sumLocation.text = offer.property.avgLocationRating.toString()
         binding.sumEquipment.text = offer.property.avgEquipmentRating.toString()
@@ -133,11 +138,6 @@ class OwnerOfferDetailFragment : Fragment() {
 
         Log.d(TAG, "rentPropositionToShow: ${offer.rentPropositionToShow}")
         Log.d(TAG, "offer.rentPropositionToShow != null: ${offer.rentPropositionToShow != null}")
-        if(offer.rentPropositionToShow != null){
-            binding.fab.visibility = View.VISIBLE
-        } else {
-            binding.fab.visibility = View.INVISIBLE
-        }
 
         when(offer.property){
             is House -> {
@@ -148,6 +148,59 @@ class OwnerOfferDetailFragment : Fragment() {
             is Flat -> {}
             is Room -> {}
         }
+    }
+
+    private fun showDialog() {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.bottom_sheet_menu_owner_offer_layout)
+
+        val layoutPromote = dialog.findViewById<View>(R.id.layoutPromote)
+        val layoutRelatedProperty = dialog.findViewById<View>(R.id.layoutRelatedProperty)
+        val layoutEndOffer = dialog.findViewById<View>(R.id.layoutEndOffer)
+        val layoutRentProposition = dialog.findViewById<View>(R.id.layoutRentProposition)
+
+        layoutPromote.setOnClickListener {
+           viewModel.promoteOffer(currentOffer.offerId)
+            dialog.dismiss()
+        }
+        layoutRelatedProperty.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(PROPERTY_ID, currentOffer.property.propertyId)
+            val fragment = OwnerPropertyDetailFragment()
+            fragment.arguments = bundle
+            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+            dialog.dismiss()
+        }
+        layoutEndOffer.setOnClickListener {
+            viewModel.cancelOffer(currentOffer.offerId)
+            dialog.dismiss()
+        }
+        layoutRentProposition.setOnClickListener {
+            val fragment = RentPropositionDialogFragment()
+            val bundle = Bundle()
+            bundle.putInt(RENT_PROPOSITION_ID, currentOffer.rentPropositionToShow!!)
+            bundle.putInt(OFFER_ID, currentOffer.offerId)
+            fragment.arguments = bundle
+            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+        }
+
+        if(currentOffer.isPromoted) {
+            layoutPromote.visibility = View.GONE
+        } else {
+            layoutPromote.visibility = View.VISIBLE
+        }
+        if(currentOffer.rentPropositionToShow != null){
+            binding.fab.visibility = View.VISIBLE
+        } else {
+            binding.fab.visibility = View.INVISIBLE
+        }
+
+        dialog.show()
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+        dialog.window?.setGravity(Gravity.BOTTOM)
     }
 
     override fun onDestroyView() {

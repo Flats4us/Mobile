@@ -30,19 +30,24 @@ class ChatViewModel : ViewModel() {
         get() = _errorMessage
 
     private val _userChats = MutableLiveData<List<Chat>>()
-    val userChats: LiveData<List<Chat>> get() = _userChats
+    val userChats: LiveData<List<Chat>>
+        get() = _userChats
 
     private val _chatHistory = MutableLiveData<List<ChatMessage>>()
-    val chatHistory: LiveData<List<ChatMessage>> get() = _chatHistory
+    val chatHistory: LiveData<List<ChatMessage>>
+        get() = _chatHistory
 
     private val _chatParticipants = MutableLiveData<Int>()
-    val chatParticipants: LiveData<Int> get() = _chatParticipants
+    val chatParticipants: LiveData<Int>
+        get() = _chatParticipants
 
     private val _groupChatHistory = MutableLiveData<List<ChatMessage>>()
-    val groupChatHistory: LiveData<List<ChatMessage>> get() = _groupChatHistory
+    val groupChatHistory: LiveData<List<ChatMessage>>
+        get() = _groupChatHistory
 
     private val _groupChatInfo = MutableLiveData<GroupChatInfo>()
-    val groupChatInfo: LiveData<GroupChatInfo> get() = _groupChatInfo
+    val groupChatInfo: LiveData<GroupChatInfo>
+        get() = _groupChatInfo
 
     init {
         apiChatDataSource.setOnReceivePrivateMessageCallback { userId, message, date ->
@@ -84,36 +89,37 @@ class ChatViewModel : ViewModel() {
         Log.d(TAG, "Stopped connection")
     }
 
-    fun sendMessage(receiverUserId: Int, message: String, callback: (Boolean) -> Unit) {
+    fun sendMessage(senderId: Int, receiverUserId: Int, message: String) {
         viewModelScope.launch {
             _errorMessage.value = null
             _isLoading.value = true
             try {
                 when (val result = apiChatDataSource.sendMessage(receiverUserId, message)) {
                     is ApiResult.Success -> {
+                        Log.d(TAG, "Before getting chat history")
                         val currentChatHistory = _chatHistory.value?.toMutableList() ?: mutableListOf()
+                        Log.d(TAG, "After getting chat history")
                         val newMessage = ChatMessage(
-                            chatMessageId = _chatHistory.value!!.size + 1,
+                            chatMessageId = currentChatHistory.size + 1,
                             content = message,
                             dateTime = LocalDateTime.now().toString(),
-                            senderId = 0
+                            senderId = senderId
                         )
                         currentChatHistory.add(newMessage)
-                        _chatHistory.postValue(currentChatHistory)
-                        callback(true)
+                        Log.d(TAG, "Before adding to chat history: $currentChatHistory")
+                        _chatHistory.value = currentChatHistory
+                        Log.d(TAG, "After adding to chat history: ${_chatHistory.value}")
                         Log.d(TAG, "Message sent successfully to $receiverUserId")
                     }
                     is ApiResult.Error -> {
                         Log.i(TAG, "ERROR: ${result.message}")
                         _errorMessage.postValue(result.message)
                         Log.e(TAG, "error: ${errorMessage.value}")
-                        callback(false)
                     }
                 }
             } catch (e: Exception) {
                 _errorMessage.postValue(e.message)
                 Log.e(TAG, "Exception $e")
-                callback(false)
             } finally {
                 _isLoading.postValue(false)
             }

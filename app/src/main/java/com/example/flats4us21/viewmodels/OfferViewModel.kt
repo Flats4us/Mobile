@@ -8,16 +8,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.flats4us21.data.ApiResult
 import com.example.flats4us21.data.MapOffer
 import com.example.flats4us21.data.Offer
+import com.example.flats4us21.data.Property
 import com.example.flats4us21.data.dto.NewOfferDto
 import com.example.flats4us21.data.dto.OfferFilter
-import com.example.flats4us21.data.Property
 import com.example.flats4us21.services.ApiOfferDataSource
 import com.example.flats4us21.services.ApiPropertyDataSource
 import com.example.flats4us21.services.OfferDataSource
 import com.example.flats4us21.services.PropertyDataSource
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
-import kotlin.math.ceil
 
 private const val TAG = "OfferViewModel"
 class OfferViewModel: ViewModel() {
@@ -524,6 +523,58 @@ class OfferViewModel: ViewModel() {
             _isLoading.value = true
             try {
                 when (val response = apiOfferRepository.removeOfferToWatched(offerId)) {
+                    is ApiResult.Success -> {
+                        Log.d(TAG, response.data)
+                        _resultMessage.value = response.data
+                    }
+                    is ApiResult.Error -> {
+                        val errorMessage = response.message
+                        Log.e(TAG, "Error: $errorMessage")
+                        _errorMessage.value = errorMessage
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun cancelOffer(offerId: Int){
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _resultMessage.value = null
+            _isLoading.value = true
+            try {
+                when (val response = apiOfferRepository.cancelOffer(offerId)) {
+                    is ApiResult.Success -> {
+                        Log.d(TAG, response.data)
+                        _resultMessage.value = response.data
+                    }
+                    is ApiResult.Error -> {
+                        val errorMessage = response.message
+                        Log.e(TAG, "Error: $errorMessage")
+                        _errorMessage.value = errorMessage
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun promoteOffer(offerId: Int){
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _resultMessage.value = null
+            _isLoading.value = true
+            try {
+                when (val response = apiOfferRepository.promoteOffer(offerId)) {
                     is ApiResult.Success -> {
                         Log.d(TAG, response.data)
                         _resultMessage.value = response.data

@@ -53,11 +53,6 @@ class EditProfileFragment : Fragment() {
                 bindData(userProfile)
         }
 
-        userViewModel.resultMessage.observe(viewLifecycleOwner) { resultMessage ->
-            if(resultMessage != null) {
-                Toast.makeText(requireContext(), resultMessage, Toast.LENGTH_LONG).show()
-            }
-        }
         userViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             binding.detailLayout.visibility = if (isLoading) View.GONE else View.VISIBLE
@@ -84,15 +79,12 @@ class EditProfileFragment : Fragment() {
             selectedExpireDate = clickDatePicker(binding.documentExpireDate)
         }
 
-        binding.phoneNumberToggle.setOnClickListener {
-            setPasswordVisibility(it as ImageButton, binding.phoneNumber)
-        }
-
         binding.editProfileButton.setOnClickListener {
             if(validateData()){
                 collectData()
                 userViewModel.updateMyProfile {
                     if(it){
+                        Toast.makeText(requireContext(), getString(R.string.profile_updated), Toast.LENGTH_LONG).show()
                         val fragment = MyProfileFragment()
                         (activity as? DrawerActivity)!!.replaceFragment(fragment)
                     }
@@ -117,12 +109,11 @@ class EditProfileFragment : Fragment() {
                 collectDataForPassword()
                 userViewModel.changePassword {
                     if(it) {
-                        val fragment = MyProfileFragment()
-                        (activity as? DrawerActivity)!!.replaceFragment(fragment)
+                        Toast.makeText(requireContext(), getString(R.string.password_changed), Toast.LENGTH_LONG).show()
                     }
                 }
             } else {
-                Toast.makeText(requireContext(), "Nie wypełniono poprawnie wszystkich pól", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), getString(R.string.invalid_data), Toast.LENGTH_LONG).show()
             }
         }
     }

@@ -43,8 +43,8 @@ open class Property(
     open val verificationStatus: Int,
     @SerializedName("numberOfRooms")
     open val numberOfRooms: Int,
-    @SerializedName("offerIds")
-    open val offerIds: Int?,
+    @SerializedName("offers")
+    open val offers: List<PropertyOffer>?,
     @SerializedName("equipment")
     open val equipment: List<Equipment>,
     @SerializedName("rentOpinions")
