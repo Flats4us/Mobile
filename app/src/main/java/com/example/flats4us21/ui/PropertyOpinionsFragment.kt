@@ -39,7 +39,9 @@ class PropertyOpinionsFragment : Fragment() {
 
     private fun setupObservers() {
         viewModel.property.observe(viewLifecycleOwner) { property ->
-            property.rentOpinions?.let { bindData(it) }
+            if(property != null && property.rentOpinions != null) {
+                bindData(property.rentOpinions!!)
+            }
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
@@ -51,11 +53,9 @@ class PropertyOpinionsFragment : Fragment() {
     private fun bindData(rentOpinions: List<PropertyOpinion>) {
         if (rentOpinions.isNotEmpty()) {
             binding.noReviewsText.visibility = View.GONE
-            binding.opinionsRecyclerView.apply {
-                visibility = View.VISIBLE
-                layoutManager = LinearLayoutManager(context)
-                adapter = PropertyOpinionAdapter(rentOpinions)
-            }
+            binding.opinionsRecyclerView.visibility = View.VISIBLE
+            binding.opinionsRecyclerView.layoutManager = LinearLayoutManager(context)
+            binding.opinionsRecyclerView.adapter = PropertyOpinionAdapter(rentOpinions)
         } else {
             binding.noReviewsText.visibility = View.VISIBLE
             binding.opinionsRecyclerView.visibility = View.GONE

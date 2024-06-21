@@ -61,7 +61,6 @@ class ApiChatDataSource :ChatDataSource {
 
     override suspend fun sendGroupMessage(groupChatId: Int, message: String): ApiResult<Boolean> {
         return try {
-            Log.d(TAG, "Sending message to $groupChatId: $message")
             signalRChatService.sendGroupMessage(groupChatId, message)
             Log.d(TAG, "Message sent to $groupChatId: $message")
             ApiResult.Success(true)
@@ -96,7 +95,6 @@ class ApiChatDataSource :ChatDataSource {
             val response = api.getChatParticipants(chatId)
             if(response.isSuccessful) {
                 val data = response.body()
-                Log.d(TAG, "Received chat participants for chatId: $chatId")
                 if(data != null) {
                     ApiResult.Success(data.result)
                 } else {
@@ -116,7 +114,6 @@ class ApiChatDataSource :ChatDataSource {
             val response = api.getUserChats()
             if(response.isSuccessful) {
                 val data = response.body()
-                Log.d(TAG, "Received user chats")
                 if(data != null) {
                     ApiResult.Success(data)
                 } else {
@@ -178,7 +175,7 @@ class ApiChatDataSource :ChatDataSource {
     }
 
     fun setOnReceiveGroupMessageCallback(callback: (Int, Int, String, String) -> Unit) {
-        signalRChatService.setOnReceivePrivateMessageCallback(callback)
+        signalRChatService.setOnReceiveGroupMessageCallback(callback)
         Log.d(TAG, "Set receive group message callback")
     }
 }

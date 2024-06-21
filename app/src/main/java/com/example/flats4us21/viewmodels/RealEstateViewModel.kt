@@ -1,5 +1,6 @@
 package com.example.flats4us21.viewmodels
 
+import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -7,8 +8,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.flats4us21.data.ApiResult
+import com.example.flats4us21.data.CSVUtils
 import com.example.flats4us21.data.Equipment
 import com.example.flats4us21.data.Image
+import com.example.flats4us21.data.Place
 import com.example.flats4us21.data.Property
 import com.example.flats4us21.data.PropertyType
 import com.example.flats4us21.data.dto.NewPropertyDto
@@ -437,6 +440,22 @@ class RealEstateViewModel : ViewModel() {
         _images.clear()
         _imageFiles.clear()
         _titleDeedFile = null
+    }
+
+    private val cities: MutableLiveData<List<Place>> = MutableLiveData()
+
+    fun loadCities(context: Context) {
+        val loadedCities = CSVUtils.loadCities(context, "wojewodztwa_miasta.csv")
+        Log.d(TAG, "Loaded cities: $loadedCities")
+        cities.value = loadedCities
+        Log.d(TAG, "Cities: ${cities.value}")
+    }
+
+    fun getCitiesByVoivodeship(voivodeship: String): List<String> {
+        Log.d(TAG, "voivodeship: $voivodeship")
+        val cities = cities.value!!.filter { it.voivodeship == voivodeship.uppercase() }.map { it.name }
+        Log.d(TAG, "Cities: $cities")
+        return cities
     }
 
 }

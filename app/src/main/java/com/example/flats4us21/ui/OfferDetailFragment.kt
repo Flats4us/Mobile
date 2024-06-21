@@ -212,7 +212,6 @@ class OfferDetailFragment : Fragment() {
         dialog.setContentView(R.layout.bottom_sheet_menu_offer_layout)
 
         val layoutRent = dialog.findViewById<View>(R.id.layoutRent)
-        val layoutChat = dialog.findViewById<View>(R.id.layoutChat)
         val layoutMeet = dialog.findViewById<View>(R.id.layoutMeet)
 
         layoutRent.setOnClickListener {
@@ -224,9 +223,10 @@ class OfferDetailFragment : Fragment() {
 
             detailOfferViewModel.newRent.observe(viewLifecycleOwner) { rent ->
                 if(rent != null){
-                    Log.d("OfferDetailFragment", rent.toString())
+                    Log.d(TAG, rent.toString())
                 }
             }
+            dialog.dismiss()
         }
         layoutMeet.setOnClickListener {
             val bundle = Bundle()
@@ -235,9 +235,6 @@ class OfferDetailFragment : Fragment() {
             fragment.arguments = bundle
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
             dialog.dismiss()
-        }
-        layoutChat.setOnClickListener {
-            Toast.makeText(requireContext(), "Clicked Napisz", Toast.LENGTH_SHORT).show()
         }
 
         dialog.show()

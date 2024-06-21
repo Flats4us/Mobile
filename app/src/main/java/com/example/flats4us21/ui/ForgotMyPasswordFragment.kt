@@ -44,6 +44,8 @@ class ForgotMyPasswordFragment : Fragment() {
             if(isEmailValid(binding.email, binding.layoutEmail)){
                 userViewModel.sendPasswordResetLink(binding.email.text.toString()) {
                     if(it) {
+                        Toast.makeText(requireContext(),
+                            getString(R.string.send_email_with_forgot_my_password_link), Toast.LENGTH_LONG).show()
                         (activity as DrawerActivity).goBack()
                     }
                 }

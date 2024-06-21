@@ -9,67 +9,55 @@ import com.microsoft.signalr.HubConnectionState
 import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.runBlocking
 
+private const val TAG = "SignalRChatService"
 class SignalRChatService {
-
     private lateinit var hubConnection: HubConnection
     private val onReceivePrivateMessageCallbacks: MutableList<(Int, String, String) -> Unit> = mutableListOf()
     private val onReceiveGroupMessageCallbacks: MutableList<(Int, Int, String, String) -> Unit> = mutableListOf()
+    private var onReceivePrivateMessageCallback: ((Int, String, String) -> Unit)? = null
+    private var onReceiveGroupMessageCallback: ((Int, Int, String, String) -> Unit)? = null
 
     fun startConnection() {
         if (::hubConnection.isInitialized && hubConnection.connectionState == HubConnectionState.CONNECTED) {
-            Log.d("SignalR", "Already connected")
+            Log.d(TAG, "Already connected")
             return
         }
-
         hubConnection = HubConnectionBuilder.create("$URL/chatHub")
             .withAccessTokenProvider(getTokenFromDataStore())
             .build()
-
+        registerEventHandlers()
         hubConnection.start()
-            .doOnComplete {
-                Log.d("SignalR", "Hub connection started: ${hubConnection.connectionState}")
-                registerEventHandlers()
-            }
-            .doOnError { error ->
-                Log.e("SignalR", "Error starting connection: ${error.message}")
-            }
             .blockingAwait()
     }
 
     private fun registerEventHandlers() {
         hubConnection.on("ReceivePrivateMessage", { userId: Int, message: String, date: String ->
-            Log.d("SignalR", "Received message from $userId: $message")
             onReceivePrivateMessage(userId, message, date)
         }, Int::class.java, String::class.java, String::class.java)
 
         hubConnection.on("ReceiveGroupMessage", { groupChatId: Int, senderId: Int, message: String, date: String ->
-            Log.d("SignalR", "Received message from group chat $groupChatId: $message")
             onReceiveGroupMessage(groupChatId, senderId, message, date)
         }, Int::class.java, Int::class.java, String::class.java, String::class.java)
     }
 
-    private var onReceivePrivateMessageCallback: ((Int, String, String) -> Unit)? = null
-
-    private var onReceiveGroupMessageCallback: ((Int, Int, String, String) -> Unit)? = null
-
     fun setOnReceivePrivateMessageCallback(callback: (Int, String, String) -> Unit) {
         onReceivePrivateMessageCallback = callback
-        Log.d("ChatRepository", "Set receive private message callback")
+        Log.d(TAG, "Set receive private message callback")
     }
 
-    fun setOnReceivePrivateMessageCallback(callback: (Int, Int, String, String) -> Unit) {
+    fun setOnReceiveGroupMessageCallback(callback: (Int, Int, String, String) -> Unit) {
         onReceiveGroupMessageCallback = callback
-        Log.d("ChatRepository", "Set receive private message callback")
+        Log.d(TAG, "Set receive group message callback")
     }
 
     private fun onReceivePrivateMessage(userId: Int, message: String, date: String) {
-        Log.d("SignalR", "Handling message from $userId: $message")
+        Log.d(TAG, "Message from $userId: $message")
         onReceivePrivateMessageCallback?.invoke(userId, message, date)
         onReceivePrivateMessageCallbacks.forEach { it.invoke(userId, message, date) }
     }
 
     private fun onReceiveGroupMessage(groupChatId: Int, senderId: Int, message: String, date: String) {
-        Log.d("SignalR", "Handling message from $groupChatId: $message")
+        Log.d(TAG, "Message from $groupChatId: $message")
         onReceiveGroupMessageCallback?.invoke(groupChatId, senderId, message, date)
         onReceiveGroupMessageCallbacks.forEach { it.invoke(groupChatId, senderId, message, date) }
     }
@@ -77,31 +65,31 @@ class SignalRChatService {
     fun sendMessage(receiverId: Int, message: String) {
         if (isConnected()) {
             hubConnection.send("SendPrivateMessage", receiverId, message)
-            Log.d("SignalR", "Message sent to $receiverId: $message")
+            Log.d(TAG, "Message sent to $receiverId: $message")
         } else {
-            Log.d("SignalR", "Cannot send message, not connected")
+            Log.d(TAG, "Not connected")
         }
     }
 
     fun sendGroupMessage(groupChatId: Int, message: String) {
         if (isConnected()) {
             hubConnection.send("SendGroupChatMessage", groupChatId, message)
-            Log.d("SignalR", "Message sent to $groupChatId: $message")
+            Log.d(TAG, "Message sent to $groupChatId: $message")
         } else {
-            Log.d("SignalR", "Cannot send message, not connected")
+            Log.d(TAG, "Not connected")
         }
     }
 
     private fun isConnected(): Boolean {
-        val isConnected = this::hubConnection.isInitialized && hubConnection.connectionState == HubConnectionState.CONNECTED
-        Log.d("SignalR", "Connection state: $isConnected")
+        val isConnected = ::hubConnection.isInitialized && hubConnection.connectionState == HubConnectionState.CONNECTED
+        Log.d(TAG, "Connection: $isConnected")
         return isConnected
     }
 
     fun stopConnection() {
         if (isConnected()) {
             hubConnection.stop()
-            Log.d("SignalR", "Hub connection stopped")
+            Log.d(TAG, "Stopped hub connection")
         }
     }
 
@@ -111,7 +99,7 @@ class SignalRChatService {
             runBlocking {
                 token = DataStoreManager.readUserData()?.token ?: ""
             }
-            Log.d("SignalR", "Retrieved token: $token")
+            Log.d(TAG, "Retrieved token: $token")
             if (token.isNotEmpty()) {
                 token
             } else {

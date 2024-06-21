@@ -29,28 +29,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/layoutChat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_message_24"
-            app:tint="@color/black"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/chat"
-            android:layout_marginStart="30dp"
-            android:textSize="16sp"/>
-
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/layoutMeet"

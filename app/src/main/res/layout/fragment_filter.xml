@@ -116,7 +116,7 @@
                         android:background="@color/white"
                         android:paddingStart="@dimen/layout_name_padding_vertical"
                         android:paddingEnd="@dimen/layout_name_padding_vertical"
-                        android:text="@string/required_voivodeship"
+                        android:text="@string/voivodeship"
                         android:textAllCaps="true"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@id/layoutVoivodeship"
@@ -125,34 +125,50 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:orientation="horizontal"
-                    android:background="@drawable/background_input"
-                    android:layout_weight="1"
-                    android:layout_marginHorizontal="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginTop="@dimen/layout_with_edit_text_vertical_margin">
-                    <ImageView
-                        android:layout_width="@dimen/icon_width"
-                        android:layout_height="@dimen/icon_height"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/baseline_location_on_24"
-                        android:layout_marginHorizontal="@dimen/icon_margin"
-                        tools:ignore="ContentDescription" />
-                    <EditText
-                        android:id="@+id/city"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+
+                    <LinearLayout
+                        android:id="@+id/layoutCity"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/edit_text_height"
-                        android:hint="@string/city"
-                        android:background="@null"
-                        android:imeOptions="actionNext"
-                        android:importantForAutofill="no"
-                        android:inputType="text"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:layout_marginVertical="@dimen/edit_text_horizontal_margin"/>
-                </LinearLayout>
+                        android:layout_height="0dp"
+                        android:orientation="horizontal"
+                        android:background="@drawable/background_input"
+                        android:layout_weight="1"
+                        android:layout_marginTop="@dimen/layout_register_margin_top"
+                        app:layout_constraintTop_toTopOf="parent">
+                        <ImageView
+                            android:layout_width="@dimen/icon_width"
+                            android:layout_height="@dimen/icon_height"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/baseline_location_on_24"
+                            android:layout_marginHorizontal="@dimen/icon_margin"
+                            tools:ignore="ContentDescription" />
+                        <Spinner
+                            android:id="@+id/city"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/spinner_height"
+                            android:contentDescription="@string/real_estate_type"/>
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/layoutCityHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                        android:background="@color/white"
+                        android:paddingStart="@dimen/layout_name_padding_vertical"
+                        android:paddingEnd="@dimen/layout_name_padding_vertical"
+                        android:text="@string/city"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/layoutCity"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/layoutCity"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -208,7 +224,7 @@
                     android:background="@drawable/background_input"
                     android:layout_weight="1"
                     android:layout_marginHorizontal="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginTop="@dimen/layout_with_edit_text_vertical_margin">
+                    android:layout_marginTop="@dimen/layout_register_margin_top">
                     <ImageView
                         android:layout_width="@dimen/icon_width"
                         android:layout_height="@dimen/icon_height"

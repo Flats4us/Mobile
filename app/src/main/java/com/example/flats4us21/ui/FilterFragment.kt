@@ -2,39 +2,44 @@ package com.example.flats4us21.ui
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.R
 import com.example.flats4us21.data.PropertyType
+import com.example.flats4us21.data.utils.QuestionTranslator
 import com.example.flats4us21.databinding.FragmentFilterBinding
 import com.example.flats4us21.viewmodels.OfferViewModel
 import com.example.flats4us21.viewmodels.RealEstateViewModel
 
 private const val TAG = "FilterFragment"
+
 class FilterFragment : Fragment() {
-    private var _binding : FragmentFilterBinding? = null
+    private var _binding: FragmentFilterBinding? = null
     private val binding get() = _binding!!
     private lateinit var realEstateViewModel: RealEstateViewModel
     private lateinit var offerViewModel: OfferViewModel
     private var selectedProperty: String = ""
     private var selectedVoivodeship: String = ""
+    private var selectedCity: String = ""
     private var selectedDistrict: String = ""
-    private var selectedSorcting: String = ""
+    private var selectedSorting: String = ""
     private lateinit var pickedEquipment: MutableList<Int>
     private lateinit var DEFAULT_PROPERTY_TYPE: String
-    private lateinit var sortingAdapter : ArrayAdapter<String>
-    private lateinit var propertyTypeAdapter : ArrayAdapter<String>
-    private lateinit var voivodeshipAdapter : ArrayAdapter<String>
-    private lateinit var districtAdapter : ArrayAdapter<String>
+    private lateinit var sortingAdapter: ArrayAdapter<String>
+    private lateinit var propertyTypeAdapter: ArrayAdapter<String>
+    private lateinit var voivodeshipAdapter: ArrayAdapter<String>
+    private lateinit var cityAdapter: ArrayAdapter<String>
+    private lateinit var districtAdapter: ArrayAdapter<String>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,14 +54,14 @@ class FilterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         DEFAULT_PROPERTY_TYPE = getString(R.string.choose_an_option)
         pickedEquipment = mutableListOf()
+        realEstateViewModel.loadCities(requireContext())
+        realEstateViewModel.fetchVoivodeships()
 
         setupSortingSpinner()
-        setupPropertyTypeSpinner()
         setupVoivodeshipSpinner()
-        setupDistrictSpinner()
+        setupPropertyTypeSpinner()
         setupEquipment()
         setValues()
-
 
         val clearButton = binding.clearButton
         clearButton.setOnClickListener {
@@ -70,10 +75,116 @@ class FilterFragment : Fragment() {
             val fragment = SearchFragment()
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
-
     }
 
     private fun setupSortingSpinner() {
+        val sortingSpinner: Spinner = binding.sorting
+        val res = resources
+        val sortingOptions = res.getStringArray(R.array.sorting_options)
+        sortingAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, sortingOptions)
+        sortingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        sortingSpinner.adapter = sortingAdapter
+
+        sortingSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                val sortingOption = sortingOptions[position]
+                selectedSorting = if (sortingOption != DEFAULT_PROPERTY_TYPE) {
+                    sortingOption
+                } else {
+                    ""
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+    }
+
+    private fun setupVoivodeshipSpinner() {
+        val voivodeshipSpinner = binding.voivodeship
+        val voivodeships = realEstateViewModel.voivodeshipSuggestions
+        if (voivodeships.isNotEmpty() && voivodeships[0] != DEFAULT_PROPERTY_TYPE) {
+            voivodeships.add(0, DEFAULT_PROPERTY_TYPE)
+        }
+        Log.d(TAG, "setupVoivodeshipSpinner: $voivodeships")
+        voivodeshipAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, voivodeships)
+        voivodeshipAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        voivodeshipSpinner.adapter = voivodeshipAdapter
+
+        voivodeshipSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                val newSelectedVoivodeship = parent.getItemAtPosition(position) as String
+                if (newSelectedVoivodeship != selectedVoivodeship) {
+                    selectedVoivodeship = newSelectedVoivodeship
+                    Log.d(TAG, "onItemSelected: $selectedVoivodeship")
+                    setupCitySpinner(selectedVoivodeship)
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+    }
+
+    private fun setupCitySpinner(voivodeship: String, fetchedCity: String = "") {
+        Log.d(TAG, "setupCitySpinner: $voivodeship, $fetchedCity")
+        val citySpinner = binding.city
+        val cities = ArrayList(realEstateViewModel.getCitiesByVoivodeship(voivodeship))
+        if (cities.isNotEmpty() && cities[0] != DEFAULT_PROPERTY_TYPE) {
+            cities.add(0, DEFAULT_PROPERTY_TYPE)
+        }
+        Log.d(TAG, "setupCitySpinner: $cities")
+        cityAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, cities)
+        cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        citySpinner.adapter = cityAdapter
+        citySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                val newSelectedCity = cities[position]
+                if (newSelectedCity != selectedCity) {
+                    selectedCity = if (newSelectedCity != DEFAULT_PROPERTY_TYPE) {
+                        newSelectedCity
+                    } else {
+                        ""
+                    }
+                    if (newSelectedCity != DEFAULT_PROPERTY_TYPE)
+                        setupDistrictSpinner(selectedCity)
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+        Log.d(TAG, "fetchedCity != \"\": ${fetchedCity != ""}")
+        if (fetchedCity != "")
+            citySpinner.setSelection(cityAdapter.getPosition(fetchedCity))
+    }
+
+    private fun setupDistrictSpinner(city: String, fetchedDistrict: String = "") {
+        Log.d(TAG, "setupDistrictSpinner: $city, $fetchedDistrict")
+        val districtSpinner = binding.district
+        val districts = realEstateViewModel.getDistricts(city)
+        if (districts.isNotEmpty() && districts[0] != DEFAULT_PROPERTY_TYPE) {
+            districts.add(0, DEFAULT_PROPERTY_TYPE)
+        }
+        districtAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, districts)
+        districtAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        districtSpinner.adapter = districtAdapter
+        districtSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                val newSelectedDistrict = districts[position]
+                if (newSelectedDistrict != selectedDistrict) {
+                    selectedDistrict = if (newSelectedDistrict != DEFAULT_PROPERTY_TYPE) {
+                        newSelectedDistrict
+                    } else {
+                        ""
+                    }
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+        Log.d(TAG, "fetchedDistrict != \"\": ${fetchedDistrict != ""}")
+        if (fetchedDistrict != "") {
+            districtSpinner.setSelection(districtAdapter.getPosition(fetchedDistrict))
+        }
     }
 
     private fun setupPropertyTypeSpinner() {
@@ -82,7 +193,11 @@ class FilterFragment : Fragment() {
         propertyTypeSpinner.adapter = propertyTypeAdapter
 
         val onItemSelectedListener = createOnItemSelectedListener {
-            selectedProperty = it
+            selectedProperty = if (it != DEFAULT_PROPERTY_TYPE) {
+                it
+            } else {
+                ""
+            }
         }
         propertyTypeSpinner.onItemSelectedListener = onItemSelectedListener
     }
@@ -93,78 +208,16 @@ class FilterFragment : Fragment() {
                 action(parent?.getItemAtPosition(position) as String)
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
-    }
-
-    private fun setupVoivodeshipSpinner() {
-        val voivodeship = binding.voivodeship
-        voivodeshipAdapter = createSpinnerAdapter(realEstateViewModel.voivodeshipSuggestions)
-        voivodeshipAdapter.insert(DEFAULT_PROPERTY_TYPE, 0)
-        voivodeship.adapter = voivodeshipAdapter
-
-        val onItemSelectedListener = createOnItemSelectedListener { selectedVoivodeship = it }
-        voivodeship.onItemSelectedListener = onItemSelectedListener
-
-        realEstateViewModel.fetchVoivodeships()
     }
 
     private fun createSpinnerAdapter(data: List<String>): ArrayAdapter<String> {
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, data)
-        if(data.isNotEmpty() && data[0] !=DEFAULT_PROPERTY_TYPE)
+        if (data.isNotEmpty() && data[0] != DEFAULT_PROPERTY_TYPE)
             adapter.insert(DEFAULT_PROPERTY_TYPE, 0)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         return adapter
-    }
-
-    private fun setupDistrictSpinner() {
-        val district = binding.district
-        val cityEditText = binding.city
-        val districtData = mutableListOf<String>()
-        districtAdapter = createSpinnerAdapter(districtData)
-
-        district.adapter = districtAdapter
-
-        cityEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable?) {
-                val city = s.toString()
-                if (city.isNotEmpty()) {
-                    val districts = realEstateViewModel.getDistricts(city)
-                    if (districts.isNotEmpty()){
-                        districtData.clear()
-                        districtData.addAll(districts)
-
-                        updateDistrictSpinner(districtData)
-                        district.isEnabled = true
-                        binding.districtHeader.setText(R.string.required_district)
-                    } else {
-                        district.isEnabled = false
-                        binding.districtHeader.setText(R.string.district)
-                        realEstateViewModel.district = ""
-                    }
-                } else {
-                    districtData.clear()
-                    updateDistrictSpinner(districtData)
-                    district.isEnabled = false
-                    binding.districtHeader.setText(R.string.district)
-                }
-            }
-        })
-
-        val onItemSelectedListener = createOnItemSelectedListener { selectedDistrict = it }
-        district.onItemSelectedListener = onItemSelectedListener
-    }
-
-    private fun updateDistrictSpinner(districts: List<String>) {
-        val districtAdapter = createSpinnerAdapter(districts)
-        binding.district.adapter = districtAdapter
-        binding.district.isEnabled = true
-
     }
 
     private fun setupEquipment() {
@@ -172,12 +225,12 @@ class FilterFragment : Fragment() {
         val equipmentList: MutableList<Int> = mutableListOf()
         realEstateViewModel.getEquipmentList()
         realEstateViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            binding.progressBar.visibility = if(isLoading) View.VISIBLE else View.GONE
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
         realEstateViewModel.equipments.observe(viewLifecycleOwner) { equipments ->
             val equipmentArray = equipments.map { it.equipmentName }.toTypedArray()
             val selectedEquipment = BooleanArray(equipmentArray.size) { index ->
-                realEstateViewModel.equipment.contains(index+1)
+                realEstateViewModel.equipment.contains(index + 1)
             }
 
             equipment.setOnClickListener {
@@ -212,7 +265,7 @@ class FilterFragment : Fragment() {
                         selectedEquipment[j] = false
                         equipmentList.clear()
                         equipment.text = ""
-                        pickedEquipment.remove(j+1)
+                        pickedEquipment.remove(j + 1)
                     }
                 }
                 val alertDialog = builder.create()
@@ -223,7 +276,6 @@ class FilterFragment : Fragment() {
 
     private fun setValues() {
         with(binding) {
-            city.setText(offerViewModel.city ?: "")
             distance.setText(offerViewModel.distance?.toString() ?: "")
             minPrice.setText(offerViewModel.minPrice?.toString() ?: "")
             maxPrice.setText(offerViewModel.maxPrice?.toString() ?: "")
@@ -233,55 +285,91 @@ class FilterFragment : Fragment() {
             maxYear.setText(offerViewModel.maxYear?.toString() ?: "")
             rooms.setText(offerViewModel.minNumberOfRooms?.toString() ?: "")
             floor.setText(offerViewModel.floor?.toString() ?: "")
-            if(offerViewModel.propertyType != null)
+            if (!offerViewModel.sorting.isNullOrEmpty())
+                sorting.setSelection(sortingAdapter.getPosition(QuestionTranslator.convertToSort(offerViewModel.sorting!!, requireContext())))
+            if (offerViewModel.propertyType != null)
                 propertyTypeSpinner.setSelection(propertyTypeAdapter.getPosition(PropertyType.fromValue(offerViewModel.propertyType!!).name))
-            voivodeship.setSelection(voivodeshipAdapter.getPosition(offerViewModel.province))
-            val districts = realEstateViewModel.getDistricts(city.text.toString())
-            if(districts.isEmpty()) {
-                district.isEnabled = false
-            } else {
-                updateDistrictSpinner(districts)
-                district.setSelection(districtAdapter.getPosition(realEstateViewModel.district))
+            if (!offerViewModel.province.isNullOrEmpty()) {
+                voivodeship.setSelection(voivodeshipAdapter.getPosition(offerViewModel.province), true)
+                Log.d(TAG, "setValues: ${offerViewModel.province}")
+                if (offerViewModel.city != null) {
+                    setupCitySpinner(offerViewModel.province!!, offerViewModel.city!!)
+                    Log.d(TAG, "setValues: ${offerViewModel.province}, ${offerViewModel.city}")
+                    if (offerViewModel.district != null) {
+                        setupDistrictSpinner(offerViewModel.city!!, offerViewModel.district!!)
+                        Log.d(TAG, "setValues: ${offerViewModel.city}, ${offerViewModel.district!!}")
+                    }
+                }
             }
         }
     }
 
     private fun collectData() {
-        with(binding){
-            if(isNotEmpty(city))
-                offerViewModel.city = city.text.toString()
-            if(isNotEmpty(distance))
+        with(binding) {
+            if (isNotEmpty(distance))
                 offerViewModel.distance = distance.text.toString().toInt()
-            if(isNotEmpty(minPrice))
+            else
+                offerViewModel.distance = null
+            if (isNotEmpty(minPrice))
                 offerViewModel.minPrice = minPrice.text.toString().toInt()
-            if(isNotEmpty(maxPrice))
+            else
+                offerViewModel.minPrice = null
+            if (isNotEmpty(maxPrice))
                 offerViewModel.maxPrice = maxPrice.text.toString().toInt()
-            if(isNotEmpty(minSize))
+            else
+                offerViewModel.maxPrice = null
+            if (isNotEmpty(minSize))
                 offerViewModel.minArea = minSize.text.toString().toInt()
-            if(isNotEmpty(maxSize))
+            else
+                offerViewModel.minArea = null
+            if (isNotEmpty(maxSize))
                 offerViewModel.maxArea = maxSize.text.toString().toInt()
-            if(isNotEmpty(minYear))
+            else
+                offerViewModel.maxArea = null
+            if (isNotEmpty(minYear))
                 offerViewModel.minYear = minYear.text.toString().toInt()
-            if(isNotEmpty(maxYear))
+            else
+                offerViewModel.minYear = null
+            if (isNotEmpty(maxYear))
                 offerViewModel.maxYear = maxYear.text.toString().toInt()
-            if(isNotEmpty(rooms))
+            else
+                offerViewModel.maxYear = null
+            if (isNotEmpty(rooms))
                 offerViewModel.minNumberOfRooms = rooms.text.toString().toInt()
-            if(isNotEmpty(floor))
+            else
+                offerViewModel.minNumberOfRooms = null
+            if (isNotEmpty(floor))
                 offerViewModel.floor = floor.text.toString().toInt()
-
-
+            else
+                offerViewModel.floor = null
         }
-        if(selectedProperty.isNotEmpty() && selectedProperty != DEFAULT_PROPERTY_TYPE)
+        if (selectedSorting.isNotEmpty())
+            offerViewModel.sorting = QuestionTranslator.convertToUrl(selectedSorting, requireContext())
+        else
+            offerViewModel.sorting = null
+        if (selectedProperty.isNotEmpty() && selectedProperty != DEFAULT_PROPERTY_TYPE)
             offerViewModel.propertyType = PropertyType.valueOf(selectedProperty).value
-        if(selectedVoivodeship.isNotEmpty())
+        else
+            offerViewModel.propertyType = null
+        if (selectedVoivodeship.isNotEmpty())
             offerViewModel.province = selectedVoivodeship
-        if(selectedDistrict.isNotEmpty())
+        else
+            offerViewModel.province = null
+        if (selectedCity.isNotEmpty())
+            offerViewModel.city = selectedCity
+        else
+            offerViewModel.city = null
+        if (selectedDistrict.isNotEmpty())
             offerViewModel.district = selectedDistrict
-        if(pickedEquipment != null && pickedEquipment.isNotEmpty())
+        else
+            offerViewModel.district = null
+        if (pickedEquipment != null && pickedEquipment.isNotEmpty())
             offerViewModel.equipment = pickedEquipment
+        else
+            offerViewModel.equipment = null
     }
 
-    private fun isNotEmpty(editText: EditText) : Boolean{
+    private fun isNotEmpty(editText: EditText): Boolean {
         return !editText.text.isNullOrEmpty()
     }
 

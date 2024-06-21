@@ -11,6 +11,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.flats4us21.DataStoreManager
 import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.R
 import com.example.flats4us21.databinding.FragmentLoginBinding
@@ -48,7 +49,7 @@ class LoginFragment : Fragment() {
             if (validateData()) {
                 userViewModel.login(binding.email.text.toString(), binding.textPassword.text.toString()){ success ->
                     if (success) {
-                        (activity as? DrawerActivity)?.replaceFragment(SearchFragment())
+
                     }
                 }
             }
@@ -63,6 +64,12 @@ class LoginFragment : Fragment() {
         userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
             errorMessage?.let {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+            }
+        }
+        DataStoreManager.userRole.observe(viewLifecycleOwner) { userRole ->
+            if (userRole != null) {
+                userViewModel.getMyProfile()
+                (activity as? DrawerActivity)?.replaceFragment(SearchFragment())
             }
         }
     }

@@ -15,13 +15,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.R
 import com.example.flats4us21.adapters.EmailRoommateAdapter
 import com.example.flats4us21.data.dto.NewRentProposition
 import com.example.flats4us21.databinding.FragmentRealEstateRentalDialogBinding
 import com.example.flats4us21.viewmodels.DetailOfferViewModel
 import java.time.LocalDate
-import java.util.*
+import java.util.Calendar
 
 private const val TAG = "RealEstateRentalDialogFragment"
 class RealEstateRentalDialogFragment(private val detailOfferViewModel: DetailOfferViewModel) : DialogFragment() {
@@ -84,6 +85,9 @@ class RealEstateRentalDialogFragment(private val detailOfferViewModel: DetailOff
                             detailOfferViewModel.addRentProposition(offerId){result ->
                                 if(result){
                                     dismiss()
+                                    (activity as? DrawerActivity)!!.clearBackStack()
+                                    val fragment = SearchFragment()
+                                    (activity as? DrawerActivity)!!.replaceFragment(fragment)
                                 }
                             }
                         }

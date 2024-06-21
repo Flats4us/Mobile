@@ -1,11 +1,9 @@
 package com.example.flats4us21.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.example.flats4us21.DataStoreManager
 import com.example.flats4us21.R
 import com.example.flats4us21.URL
 import com.example.flats4us21.data.Tenant
@@ -48,11 +46,6 @@ class ProfileAdapter(
         holder.nameAndSurname.text = profile.fullName
         holder.button.setOnClickListener {
             profileListener(position)
-        }
-        if (isRentFinished && DataStoreManager.userRole.value == "Owner") {
-            holder.opinionButton.visibility = View.VISIBLE
-        } else {
-            holder.opinionButton.visibility = View.GONE
         }
         if(opinionListener != null){
         holder.opinionButton.setOnClickListener {

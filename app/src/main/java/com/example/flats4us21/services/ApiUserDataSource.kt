@@ -78,7 +78,12 @@ object ApiUserDataSource : UserDataSource {
             val response = service.login(loginRequest)
             if (response.isSuccessful) {
                 val data = response.body()
-                ApiResult.Success(data)
+                if (data != null) {
+                    DataStoreManager.saveUserData(data)
+                    ApiResult.Success(data)
+                } else {
+                    ApiResult.Error("Response body is null")
+                }
             } else {
                 ApiResult.Error("Failed to fetch data: ${response.errorBody()?.string()}")
             }

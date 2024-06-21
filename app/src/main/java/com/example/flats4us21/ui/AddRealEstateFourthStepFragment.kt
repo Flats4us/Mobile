@@ -68,11 +68,11 @@ class AddRealEstateFourthStepFragment : Fragment() {
         }
         binding.addPropertyButton.setOnClickListener {
             realEstateViewModel.createProperty { result ->
-                result?.let {
+                if (result != null) {
                     Log.e(TAG, result)
                     Toast.makeText(requireContext(), result, Toast.LENGTH_LONG).show()
-                } ?: run {
                 }
+
             }
             performAction()
         }

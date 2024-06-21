@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flats4us21.DrawerActivity
+import com.example.flats4us21.R
 import com.example.flats4us21.data.dto.NewRentOpinionDto
 import com.example.flats4us21.databinding.FragmentAddPropertyOpinionBinding
 import com.example.flats4us21.viewmodels.RealEstateViewModel
@@ -45,6 +46,7 @@ class AddPropertyOpinionFragment : Fragment() {
                 collectData()
                 realEstateViewModel.addRentOpinion(rentId) {
                     if (it) {
+                        Toast.makeText(requireContext(), getString(R.string.added_opinion), Toast.LENGTH_LONG).show()
                         (activity as? DrawerActivity)?.goBack()
                     }
                 }
@@ -55,7 +57,7 @@ class AddPropertyOpinionFragment : Fragment() {
     private fun validateData(): Boolean {
         val rating = binding.starRating.rating
         return if (rating < 1) {
-            Toast.makeText(context, "Rating must be at least 1", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.min_rating), Toast.LENGTH_LONG).show()
             false
         } else {
             true

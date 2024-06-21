@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.flats4us21.DataStoreManager
 import com.example.flats4us21.data.ApiResult
 import com.example.flats4us21.data.DocumentType
 import com.example.flats4us21.data.Interest
@@ -455,9 +454,8 @@ class UserViewModel: ViewModel() {
                     is ApiResult.Success -> {
                         if (fetchedLoginResponse.data != null) {
                             _loginResponse.value = fetchedLoginResponse.data
-                            DataStoreManager.saveUserData(fetchedLoginResponse.data)
                         }
-                        fetchUserProfile()
+                       // fetchUserProfile()
                         callback(true)
                     }
                     is ApiResult.Error -> {
@@ -473,14 +471,6 @@ class UserViewModel: ViewModel() {
             }
         }
     }
-
-    private suspend fun fetchUserProfile() {
-        when (val fetchedProfile = userRepository.getProfile()) {
-            is ApiResult.Success -> _myProfile.value = fetchedProfile.data
-            is ApiResult.Error -> _errorMessage.value = fetchedProfile.message
-        }
-    }
-
 
     fun getMyProfile(){
         viewModelScope.launch {
@@ -673,5 +663,37 @@ class UserViewModel: ViewModel() {
                 _isLoading.value = false
             }
         }
+    }
+
+    fun checkEmail(email: String, callback: (Boolean) -> Unit){
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try {
+                when (val response = userRepository.checkEmail(email)) {
+                    is ApiResult.Success -> {
+                        Log.d(TAG, "Does this email: $email exist? ${response.data}")
+                        callback(response.data)
+                    }
+                    is ApiResult.Error -> {
+                        val errorMessage = response.message
+                        Log.e(TAG, "Error: $errorMessage")
+                        _errorMessage.value = errorMessage
+                        callback(false)
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+                callback(false)
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun logout() {
+        _loginResponse.value = null
+        _myProfile.value = null
     }
 }

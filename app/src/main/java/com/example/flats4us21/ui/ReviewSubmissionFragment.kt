@@ -57,12 +57,6 @@ class ReviewSubmissionFragment : Fragment() {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
             }
         }
-
-        userViewModel.resultMessage.observe(viewLifecycleOwner) { resultMessage ->
-            resultMessage?.let {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
-            }
-        }
     }
 
     private fun setupButtons(userId: Int) {
@@ -74,6 +68,7 @@ class ReviewSubmissionFragment : Fragment() {
             collectData()
             userViewModel.addUserOpinion(userId) { success ->
                 if (success) {
+                    Toast.makeText(requireContext(), getString(R.string.added_opinion), Toast.LENGTH_LONG).show()
                     (activity as? DrawerActivity)?.goBack()
                 }
             }

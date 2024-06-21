@@ -110,8 +110,7 @@ class DetailOfferViewModel: ViewModel() {
             _errorMessage.value = null
             _isLoading.value = true
             try {
-                val response = apiUserRepository.checkEmail(email)
-                when (response) {
+                when (val response = apiUserRepository.checkEmail(email)) {
                     is ApiResult.Success -> {
                         Log.d(TAG, "Does this email: $email exist? ${response.data}")
                         callback(response.data)

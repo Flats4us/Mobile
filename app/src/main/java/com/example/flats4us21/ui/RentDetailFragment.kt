@@ -10,6 +10,9 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
@@ -23,6 +26,7 @@ import com.example.flats4us21.adapters.PaymentAdapter
 import com.example.flats4us21.adapters.ProfileAdapter
 import com.example.flats4us21.data.Rent
 import com.example.flats4us21.databinding.FragmentRentDetailBinding
+import com.example.flats4us21.viewmodels.RealEstateViewModel
 import com.example.flats4us21.viewmodels.RentViewModel
 import com.example.flats4us21.viewmodels.UserViewModel
 
@@ -31,6 +35,7 @@ class RentDetailFragment : Fragment() {
     private var _binding : FragmentRentDetailBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel : RentViewModel
+    private lateinit var propertyViewModel : RealEstateViewModel
     private lateinit var userViewModel : UserViewModel
 
     override fun onCreateView(
@@ -46,6 +51,7 @@ class RentDetailFragment : Fragment() {
         val rentId = arguments?.getInt(RENT_ID, -1)
 
         viewModel = ViewModelProvider(requireActivity())[RentViewModel::class.java]
+        propertyViewModel = ViewModelProvider(requireActivity())[RealEstateViewModel::class.java]
         userViewModel = ViewModelProvider(requireActivity())[UserViewModel::class.java]
 
         viewModel.getRent(rentId!!)
@@ -112,24 +118,35 @@ class RentDetailFragment : Fragment() {
             { position ->
                 val userId = rent.tenants[position].userId
                 Log.i(TAG, "userId: $userId")
-                val bundle = Bundle().apply {
-                    putInt(USER_ID, userId)
-                }
-                val fragment = ProfileFragment().apply {
-                    arguments = bundle
+                val fragment: Fragment = if(userId != userViewModel.myProfile.value!!.userId) {
+                    val bundle = Bundle()
+                    bundle.putInt(USER_ID, userId)
+                    val fragment = ProfileFragment()
+                    fragment.arguments = bundle
+                    fragment
+                } else {
+                    MyProfileFragment()
                 }
                 (activity as? DrawerActivity)?.replaceFragment(fragment)
             },
             { position ->
                 val userId = rent.tenants[position].userId
                 Log.i(TAG, "userId: $userId")
-                val bundle = Bundle().apply {
-                    putInt(USER_ID, userId)
+                val bundle = Bundle()
+                bundle.putInt(USER_ID, userId)
+                val fragment = ReviewSubmissionFragment()
+                fragment.arguments = bundle
+                if (userId == userViewModel.myProfile.value!!.userId){
+                    Toast.makeText(requireContext(), getString(R.string.opinion_about_myself), Toast.LENGTH_LONG).show()
+                } else {
+                    checkIfOpinionAboutUserExists(userId) { exists ->
+                        if (!exists) {
+                            (activity as? DrawerActivity)?.replaceFragment(fragment)
+                        } else {
+                            Toast.makeText(requireContext(), getString(R.string.already_submitted_opinion), Toast.LENGTH_LONG).show()
+                        }
+                    }
                 }
-                val fragment = ReviewSubmissionFragment().apply {
-                    arguments = bundle
-                }
-                (activity as? DrawerActivity)?.replaceFragment(fragment)
             },
             rent.isFinished
         )
@@ -151,6 +168,14 @@ class RentDetailFragment : Fragment() {
 
         val layoutArgument = dialog.findViewById<View>(R.id.layoutArgument)
         val layoutAddOpinion = dialog.findViewById<View>(R.id.layoutAddOpinion)
+
+        checkIfOpinionAboutRentExists(rentId) { exists ->
+            if (!exists) {
+                layoutAddOpinion.visibility = View.VISIBLE
+            } else {
+                layoutAddOpinion.visibility = View.GONE
+            }
+        }
 
         if(rent.isFinished && DataStoreManager.userRole.value == "Student" && userViewModel.myProfile.value!!.userId == rent.mainTenantId) {
             layoutAddOpinion.visibility = View.VISIBLE
@@ -185,6 +210,60 @@ class RentDetailFragment : Fragment() {
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
         dialog.window?.setGravity(Gravity.BOTTOM)
+    }
+
+    private fun checkIfOpinionAboutUserExists(userId: Int, callback: (Boolean) -> Unit) {
+        userViewModel.getProfile(userId)
+        userViewModel.profile.observeOnce(viewLifecycleOwner) { profile ->
+            if (profile != null) {
+                if (profile.userId == userViewModel.myProfile.value!!.userId) {
+                    callback(true)
+                }
+                if (!profile.userOpinions.isNullOrEmpty()) {
+                    val opinions = profile.userOpinions
+                    val myOpinion = opinions.firstOrNull { it.sourceUserId == userViewModel.myProfile.value!!.userId }
+                    if (myOpinion != null) {
+                        callback(true)
+                    } else {
+                        callback(false)
+                    }
+                } else {
+                    callback(false)
+                }
+            }
+        }
+    }
+
+    private fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
+        observe(lifecycleOwner, object : Observer<T> {
+            override fun onChanged(value: T) {
+                observer.onChanged(value)
+                removeObserver(this)
+            }
+        })
+    }
+
+
+    private fun checkIfOpinionAboutRentExists(propertyId: Int, callback: (Boolean) -> Unit) {
+        propertyViewModel.getProperty(propertyId)
+        propertyViewModel.property.observeOnce(viewLifecycleOwner) { property ->
+            if (property != null) {
+                if (property.rentOpinions.isNullOrEmpty()) {
+                    callback(false)
+                }
+                if (!property.rentOpinions.isNullOrEmpty()) {
+                    val opinions = property.rentOpinions
+                    val myOpinion = opinions!!.firstOrNull { it.sourceUserId == userViewModel.myProfile.value!!.userId }
+                    if (myOpinion != null) {
+                        callback(true)
+                    } else {
+                        callback(false)
+                    }
+                } else {
+                    callback(false)
+                }
+            }
+        }
     }
 
     override fun onDestroy() {

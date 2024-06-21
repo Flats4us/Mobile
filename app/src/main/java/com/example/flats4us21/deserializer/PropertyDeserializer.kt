@@ -93,7 +93,8 @@ class PropertyDeserializer : JsonDeserializer<Property> {
                     val date = propertyOpinionObject["date"].asString.split("T")[0]
                     val rating = propertyOpinionObject["rating"].asInt
                     val description = propertyOpinionObject["description"].asString
-                    val sourceUserName = propertyOpinionObject["sourceUserName"].asString
+                    val sourceUserId = propertyOpinionObject["sourceUserId"].asInt
+                    val sourceUserName = if (propertyOpinionObject["sourceUserName"].isJsonNull) "" else propertyOpinionObject["sourceUserName"].asString
                     val profilePictureObject = if (propertyOpinionObject.has("sourceUserProfilePicture") && !propertyOpinionObject["sourceUserProfilePicture"].isJsonNull) {
                         propertyOpinionObject.getAsJsonObject("sourceUserProfilePicture")
                     } else {
@@ -108,6 +109,7 @@ class PropertyDeserializer : JsonDeserializer<Property> {
                         date,
                         rating,
                         description,
+                        sourceUserId,
                         sourceUserName,
                         profilePicture
                     )

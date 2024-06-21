@@ -88,11 +88,6 @@ class MyProfileFragment : Fragment() {
 
         binding.nameTextview.text = userProfile.name
         binding.ratingBar.rating = userProfile.avgRating
-        binding.reviewsPer.text = if (userProfile.avgRating.toInt() != 0) {
-            (userProfile.avgRating / 5).toString()
-        } else {
-            "0"
-        }
 
         if (userProfile.links != null) {
             binding.facebook.isVisible = userProfile.links.any { it.contains("facebook") }

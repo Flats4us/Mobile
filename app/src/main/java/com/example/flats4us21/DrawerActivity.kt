@@ -1,6 +1,3 @@
-
-
-
 package com.example.flats4us21
 
 import android.os.Bundle
@@ -110,6 +107,7 @@ class DrawerActivity : AppCompatActivity() {
                 profilePicture.load(url) {
                     error(R.drawable.baseline_person_24)
                 }
+                profilePicture.isVisible = true
             }
 
         }
@@ -192,6 +190,10 @@ class DrawerActivity : AppCompatActivity() {
         supportFragmentManager.popBackStack()
     }
 
+    fun clearBackStack() {
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    }
+
     private fun logout() {
         clearUserData()
         val profilePicture = headerView.findViewById<ImageView>(R.id.profilePicture)
@@ -199,8 +201,10 @@ class DrawerActivity : AppCompatActivity() {
         val nameAndSurname : TextView = headerView.findViewById(R.id.nameAndSurname)
 
         profilePicture.setImageResource(R.drawable.baseline_person_24)
+        profilePicture.isVisible = false
         nameAndSurname.text = getString(R.string.guest)
         mail.visibility = View.INVISIBLE
+        viewModel.logout()
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 
         replaceFragment(StartScreenFragment())

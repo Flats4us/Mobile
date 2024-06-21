@@ -79,6 +79,7 @@ object ApiOfferDataSource : OfferDataSource {
                 offerFilter.sorting,
                 offerFilter.pageNumber,
                 offerFilter.pageSize,
+                offerFilter.province,
                 offerFilter.city,
                 offerFilter.distnace,
                 offerFilter.propertyType,

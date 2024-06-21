@@ -357,7 +357,7 @@ class OfferViewModel: ViewModel() {
             _isLoading.value = true
             try{
                 val filter = OfferFilter(
-                    null,
+                    sorting,
                     pageNumber,
                     pageSize,
                     province,
@@ -375,6 +375,7 @@ class OfferViewModel: ViewModel() {
                     floor,
                     equipment
                 )
+                Log.i(TAG, "Filter: $filter")
                 if(pageNumber == 1 && _offers.value != null) {
                     _offers.value!!.clear()
                 }

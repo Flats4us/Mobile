@@ -19,6 +19,7 @@
         android:layout_height="@dimen/image_view_menu_profile_picture_width"
         app:srcCompat="@drawable/baseline_person_24"
         android:scaleType="centerCrop"
+        android:visibility="invisible"
         app:shapeAppearanceOverlay="@style/Circular"
         android:background="@color/white"/>
 

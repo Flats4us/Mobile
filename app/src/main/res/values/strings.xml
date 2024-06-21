@@ -297,6 +297,57 @@
     <string name="end_offer">Zakończ ofertę</string>
     <string name="related_property">Powiązana nieruchomość</string>
     <string name="promote_offer">Promuj ofertę</string>
+    <string name="already_submitted_opinion">Już wystawiłeś opinię</string>
+    <string name="min_rating">Ocena musi być minimum 1</string>
+    <string name="opinion_about_myself">Nie można sobie wystawić opinię</string>
+
+    <string name="question_party">Jak bardzo imprezujesz?</string>
+    <string name="question_smoking">Czy palisz papierosy?</string>
+    <string name="question_sociability">Jak bardzo jesteś towarzyski/a?</string>
+    <string name="question_animals">Czy masz zwierzęt?</string>
+    <string name="question_vegan">Czy jesteś weganinem/wegetarianinem?</string>
+    <string name="question_lookingForRoommate">Czy szukasz współlokatora?</string>
+    <string name="question_maxNumberOfRoommates">Jaką maksymalny liczbę współlokatorów akceptujesz?</string>
+    <string name="question_roommateGender">Preferowany/na płeć współlokatora:</string>
+    <string name="question_minRoommateAge">Minimalny wiek współlokatora:</string>
+    <string name="question_maxRoommateAge">Maksymalny wiek współlokatora:</string>
+    <string name="question_city">Miasto preferowane do zamieszkania:</string>
+    <string name="question_smokingAllowed">Czy palenie jest dozwolone?</string>
+    <string name="question_partiesAllowed">Czy imprezy są dozwolone?</string>
+    <string name="question_animalsAllowed">Czy zwierzęta są dozwolone?</string>
+    <string name="question_gender">Preferowany/na płeć:</string>
+
+    <string name="answer_male">Mężczyzna</string>
+    <string name="answer_female">Kobieta</string>
+    <string name="answer_both">Oboje</string>
+
+    <string name="sorting_option_1">ceny: od najniższej</string>
+    <string name="sorting_option_2">ceny: od najwyższej</string>
+    <string name="sorting_option_3">liczba pokoi: od najniższej</string>
+    <string name="sorting_option_4">liczba pokoi: od najwyższej</string>
+    <string name="sorting_option_5">powierzchnia: od najniższej</string>
+    <string name="sorting_option_6">powierzchnia: od najwyższej</string>
+
+    <string name="url_sorting_option_1">Price ASC</string>
+    <string name="url_sorting_option_2">Price DSC</string>
+    <string name="url_sorting_option_3">NumberOfRooms ASC</string>
+    <string name="url_sorting_option_4">NumberOfRooms DSC</string>
+    <string name="url_sorting_option_5">Area ASC</string>
+    <string name="url_sorting_option_6">Area DSC</string>
+    <string name="added_opinion">Dodano opinię</string>
+    <string name="email_already_exist">Email już istnieje</string>
+    <string name="send_email_with_forgot_my_password_link">Jeżeli podany adres e-mail jest u nas zarejestrowany, otrzymasz na niego wiadomość.</string>
+
+
+    <string-array name="sorting_options">
+        <item>@string/choose_an_option</item>
+        <item>@string/sorting_option_1</item>
+        <item>@string/sorting_option_2</item>
+        <item>@string/sorting_option_3</item>
+        <item>@string/sorting_option_4</item>
+        <item>@string/sorting_option_5</item>
+        <item>@string/sorting_option_6</item>
+    </string-array>
 
     <!-- TODO: meeting_row -->
 </resources>
