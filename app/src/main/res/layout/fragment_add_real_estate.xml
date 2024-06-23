@@ -4,14 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".ui.AddRealEstateFragment">
+    tools:context=".ui.AddRealEstateFragment"
+    android:background="@drawable/app_background">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/header_vertical_space"
-        android:layout_marginBottom="@dimen/header_vertical_space"
+        android:layout_marginTop="@dimen/app_padding"
+        android:layout_marginBottom="@dimen/header_vertical_margin"
         android:gravity="center_horizontal"
         android:text="@string/add_real_estate"
         android:textSize="@dimen/h1"
@@ -22,8 +23,9 @@
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:progressDrawable="@drawable/custom_progress_bar"/>
+        android:layout_height="@dimen/progress_bar_add_property_height"
+        android:progressDrawable="@drawable/custom_progress_bar"
+        android:layout_marginBottom="@dimen/progress_bar_add_property_margin_bottom"/>
 
 
     <androidx.fragment.app.FragmentContainerView
@@ -31,6 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/horizontal_space"
-        tools:layout="@layout/fragment_start_screen"/>
+        android:background="@drawable/rectangle_white_background"
+        tools:layout="@layout/fragment_add_real_estate_first_step"/>
 
 </LinearLayout>

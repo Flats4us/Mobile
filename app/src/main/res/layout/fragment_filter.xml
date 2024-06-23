@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:padding="@dimen/app_padding"
+    android:background="@drawable/app_background"
     tools:context=".ui.FilterFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,664 +20,761 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/filter_offers"
                     android:gravity="center"
                     android:textSize="@dimen/h1"
+                    android:layout_marginBottom="@dimen/header_vertical_margin"
                     android:textStyle="bold"/>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
-
-                    <LinearLayout
-                        android:id="@+id/layoutSorting"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/layout_register_margin_top"
-                        android:background="@drawable/background_input"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent">
-                        <ImageView
-                            android:layout_width="@dimen/icon_width"
-                            android:layout_height="@dimen/icon_height"
-                            android:layout_marginStart="@dimen/icon_margin"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/baseline_sort_24"
-                            app:tint="@color/black" />
-                        <Spinner
-                            android:id="@+id/sorting"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/spinner_height"
-                            android:contentDescription="@string/real_estate_type"/>
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/sortingHeader"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                        android:background="@color/white"
-                        android:paddingStart="@dimen/layout_name_padding_vertical"
-                        android:paddingEnd="@dimen/layout_name_padding_vertical"
-                        android:text="@string/sorting"
-                        android:textAllCaps="true"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@id/layoutSorting"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/layoutSorting"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
-
-                    <LinearLayout
-                        android:id="@+id/layoutVoivodeship"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/layout_register_margin_top"
-                        android:background="@drawable/background_input"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent">
-                        <ImageView
-                            android:layout_width="@dimen/icon_width"
-                            android:layout_height="@dimen/icon_height"
-                            android:layout_marginStart="@dimen/icon_margin"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/baseline_location_on_24"
-                            app:tint="@color/black" />
-                        <Spinner
-                            android:id="@+id/voivodeship"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/spinner_height"
-                            android:contentDescription="@string/real_estate_type"/>
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/voivodeshipHeader"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                        android:background="@color/white"
-                        android:paddingStart="@dimen/layout_name_padding_vertical"
-                        android:paddingEnd="@dimen/layout_name_padding_vertical"
-                        android:text="@string/voivodeship"
-                        android:textAllCaps="true"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@id/layoutVoivodeship"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/layoutVoivodeship"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
-
-                    <LinearLayout
-                        android:id="@+id/layoutCity"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:orientation="horizontal"
-                        android:background="@drawable/background_input"
-                        android:layout_weight="1"
-                        android:layout_marginTop="@dimen/layout_register_margin_top"
-                        app:layout_constraintTop_toTopOf="parent">
-                        <ImageView
-                            android:layout_width="@dimen/icon_width"
-                            android:layout_height="@dimen/icon_height"
-                            android:layout_gravity="center_vertical"
-                            android:src="@drawable/baseline_location_on_24"
-                            android:layout_marginHorizontal="@dimen/icon_margin"
-                            tools:ignore="ContentDescription" />
-                        <Spinner
-                            android:id="@+id/city"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/spinner_height"
-                            android:contentDescription="@string/real_estate_type"/>
-                    </LinearLayout>
-                    <TextView
-                        android:id="@+id/layoutCityHeader"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                        android:background="@color/white"
-                        android:paddingStart="@dimen/layout_name_padding_vertical"
-                        android:paddingEnd="@dimen/layout_name_padding_vertical"
-                        android:text="@string/city"
-                        android:textAllCaps="true"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@id/layoutCity"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/layoutCity"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
-
-                    <LinearLayout
-                        android:id="@+id/layoutDistrict"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/layout_register_margin_top"
-                        android:background="@drawable/background_input"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent">
-                        <ImageView
-                            android:layout_width="@dimen/icon_width"
-                            android:layout_height="@dimen/icon_height"
-                            android:layout_marginStart="@dimen/icon_margin"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/baseline_location_on_24"
-                            app:tint="@color/black" />
-                        <Spinner
-                            android:id="@+id/district"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/spinner_height"
-
-                            android:contentDescription="@string/real_estate_type"/>
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/districtHeader"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                        android:background="@color/white"
-                        android:paddingStart="@dimen/layout_name_padding_vertical"
-                        android:paddingEnd="@dimen/layout_name_padding_vertical"
-                        android:text="@string/district"
-                        android:textAllCaps="true"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@id/layoutDistrict"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/layoutDistrict"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:orientation="horizontal"
-                    android:background="@drawable/background_input"
-                    android:layout_weight="1"
-                    android:layout_marginHorizontal="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginTop="@dimen/layout_register_margin_top">
-                    <ImageView
-                        android:layout_width="@dimen/icon_width"
-                        android:layout_height="@dimen/icon_height"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/baseline_location_on_24"
-                        android:layout_marginHorizontal="@dimen/icon_margin"
-                        tools:ignore="ContentDescription" />
-                    <EditText
-                        android:id="@+id/distance"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/edit_text_height"
-                        android:hint="@string/distance"
-                        android:background="@null"
-                        android:imeOptions="actionNext"
-                        android:importantForAutofill="no"
-                        android:inputType="text"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:layout_marginVertical="@dimen/edit_text_horizontal_margin"/>
-                </LinearLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
-
-                    <LinearLayout
-                        android:id="@+id/layoutPropertyType"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/layout_register_margin_top"
-                        android:background="@drawable/background_input"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent">
-                        <ImageView
-                            android:layout_width="@dimen/icon_width"
-                            android:layout_height="@dimen/icon_height"
-                            android:layout_marginStart="@dimen/icon_margin"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/baseline_home_24"
-                            app:tint="@color/black" />
-
-                        <Spinner
-                            android:id="@+id/propertyTypeSpinner"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/spinner_height"
-                            android:contentDescription="@string/real_estate_type"/>
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/propertyTypeHeader"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                        android:background="@color/white"
-                        android:paddingStart="@dimen/layout_name_padding_vertical"
-                        android:paddingEnd="@dimen/layout_name_padding_vertical"
-                        android:text="@string/required_property_type"
-                        android:textAllCaps="true"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@id/layoutPropertyType"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/layoutPropertyType"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginHorizontal="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginTop="@dimen/layout_with_edit_text_vertical_margin">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/price"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/h2"/>
-                    <LinearLayout
+                    android:paddingBottom="@dimen/layout_text_view_settings_padding"
+                    android:background="@drawable/rectangle_white_background">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="fill_horizontal">
+                        android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
 
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:id="@+id/layoutSorting"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
+                            android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                             android:background="@drawable/background_input"
-                            android:layout_weight="1">
-                            <EditText
-                                android:id="@+id/minPrice"
-                                android:layout_width="0dp"
-                                android:layout_height="@dimen/edit_text_height"
-                                android:hint="@string/min_price"
-                                android:background="@null"
-                                android:imeOptions="actionNext"
-                                android:importantForAutofill="no"
-                                android:inputType="numberDecimal"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:layout_weight="1"
-                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                                tools:ignore="NestedWeights" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/currency"
-                                android:textStyle="bold"
-                                android:textSize="@dimen/edit_text_size"
-                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"/>
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="@dimen/icon_width"
+                                android:layout_height="@dimen/icon_height"
+                                android:layout_marginStart="@dimen/icon_margin"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/baseline_sort_24"
+                                app:tint="@color/black" />
+
+                            <Spinner
+                                android:id="@+id/sorting"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/spinner_height"
+                                android:contentDescription="@string/real_estate_type"
+                                tools:ignore="DuplicateSpeakableTextCheck" />
+
                         </LinearLayout>
 
                         <TextView
+                            android:id="@+id/sortingHeader"
                             android:layout_width="wrap_content"
-                            android:layout_height="@dimen/edit_text_height"
-                            android:gravity="center_vertical"
-                            android:text="-"
-                            android:textSize="@dimen/edit_text_size"
-                            android:textStyle="bold"
-                            android:layout_marginStart="@dimen/regular_vertical_space"
-                            android:layout_marginEnd="@dimen/regular_vertical_space"
-                            tools:ignore="HardcodedText" />
-                        <LinearLayout
-                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@drawable/background_input"
-                            android:layout_weight="1">
-                            <EditText
-                                android:id="@+id/maxPrice"
-                                android:layout_width="0dp"
-                                android:layout_height="@dimen/edit_text_height"
-                                android:hint="@string/max_price"
-                                android:background="@null"
-                                android:imeOptions="actionNext"
-                                android:importantForAutofill="no"
-                                android:inputType="numberDecimal"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:layout_weight="1"
-                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                                tools:ignore="NestedWeights" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/currency"
-                                android:textStyle="bold"
-                                android:textSize="@dimen/edit_text_size"
-                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"/>
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_marginHorizontal="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginTop="@dimen/layout_with_edit_text_vertical_margin">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/area"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/h2"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="fill_horizontal">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@drawable/background_input"
-                            android:layout_weight="1">
-                            <EditText
-                                android:id="@+id/minSize"
-                                android:layout_width="0dp"
-                                android:layout_height="@dimen/edit_text_height"
-                                android:hint="@string/min_size"
-                                android:background="@null"
-                                android:imeOptions="actionNext"
-                                android:importantForAutofill="no"
-                                android:inputType="numberDecimal"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:layout_weight="1"
-                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                                tools:ignore="NestedWeights" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/unit"
-                                android:textStyle="bold"
-                                android:textSize="@dimen/edit_text_size"
-                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"/>
-                        </LinearLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/edit_text_height"
-                            android:gravity="center_vertical"
-                            android:text="-"
-                            android:textSize="@dimen/edit_text_size"
-                            android:textStyle="bold"
-                            android:layout_marginStart="@dimen/text_view_horizontal_margin"
-                            android:layout_marginEnd="@dimen/text_view_horizontal_margin"
-                            tools:ignore="HardcodedText" />
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@drawable/background_input"
-                            android:layout_weight="1">
-                            <EditText
-                                android:id="@+id/maxSize"
-                                android:layout_width="0dp"
-                                android:layout_height="@dimen/edit_text_height"
-                                android:hint="@string/max_size"
-                                android:background="@null"
-                                android:imeOptions="actionNext"
-                                android:importantForAutofill="no"
-                                android:inputType="numberDecimal"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:layout_weight="1"
-                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                                tools:ignore="NestedWeights" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/unit"
-                                android:textStyle="bold"
-                                android:textSize="@dimen/edit_text_size"
-                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"/>
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_marginHorizontal="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginTop="@dimen/layout_with_edit_text_vertical_margin">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/construction_year"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/h2"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="fill_horizontal">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@drawable/background_input"
-                            android:layout_weight="1">
-                            <EditText
-                                android:id="@+id/minYear"
-                                android:layout_width="0dp"
-                                android:layout_height="@dimen/edit_text_height"
-                                android:hint="@string/min_year"
-                                android:background="@null"
-                                android:imeOptions="actionNext"
-                                android:importantForAutofill="no"
-                                android:inputType="numberDecimal"
-                                android:maxLength="4"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:layout_weight="1"
-                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                                tools:ignore="NestedWeights" />
-                        </LinearLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/edit_text_height"
-                            android:gravity="center_vertical"
-                            android:text="-"
-                            android:textSize="@dimen/edit_text_size"
-                            android:textStyle="bold"
-                            android:layout_marginStart="@dimen/text_view_horizontal_margin"
-                            android:layout_marginEnd="@dimen/text_view_horizontal_margin"
-                            tools:ignore="HardcodedText" />
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@drawable/background_input"
-                            android:layout_weight="1">
-                            <EditText
-                                android:id="@+id/maxYear"
-                                android:layout_width="0dp"
-                                android:layout_height="@dimen/edit_text_height"
-                                android:hint="@string/max_year"
-                                android:background="@null"
-                                android:imeOptions="actionNext"
-                                android:importantForAutofill="no"
-                                android:inputType="numberDecimal"
-                                android:ellipsize="end"
-                                android:maxLength="4"
-                                android:maxLines="1"
-                                android:layout_weight="1"
-                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                                tools:ignore="NestedWeights" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_marginHorizontal="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginTop="@dimen/layout_with_edit_text_vertical_margin">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/rooms"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/h2"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:orientation="horizontal"
-                        android:background="@drawable/background_input"
-                        android:layout_weight="1">
-                        <EditText
-                            android:id="@+id/rooms"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/edit_text_height"
-                            android:hint="@string/rooms_hint"
+                            android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
                             android:background="@null"
-                            android:imeOptions="actionNext"
-                            android:importantForAutofill="no"
-                            android:inputType="number"
-                            android:ellipsize="end"
-                            android:maxLines="1"
+                            android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
+                            android:text="@string/sorting"
+                            android:textAllCaps="true"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@id/layoutSorting"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/layoutSorting"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/layoutVoivodeship"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/layout_edit_text_margin_top"
+                            android:background="@drawable/background_input"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="@dimen/icon_width"
+                                android:layout_height="@dimen/icon_height"
+                                android:layout_marginStart="@dimen/icon_margin"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/baseline_location_on_24"
+                                app:tint="@color/black" />
+
+                            <Spinner
+                                android:id="@+id/voivodeship"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/spinner_height"
+                                android:contentDescription="@string/real_estate_type"/>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/voivodeshipHeader"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                            android:background="@null"
+                            android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
+                            android:text="@string/voivodeship"
+                            android:textAllCaps="true"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@id/layoutVoivodeship"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/layoutVoivodeship"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/layoutCity"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:orientation="horizontal"
+                            android:background="@drawable/background_input"
                             android:layout_weight="1"
-                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                            tools:ignore="NestedWeights" />
-                    </LinearLayout>
-                </LinearLayout>
+                            android:layout_marginTop="@dimen/layout_edit_text_margin_top"
+                            app:layout_constraintTop_toTopOf="parent">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_marginHorizontal="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginTop="@dimen/layout_with_edit_text_vertical_margin">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/floor"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/h2"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:orientation="horizontal"
-                        android:background="@drawable/background_input"
-                        android:layout_weight="1">
-                        <EditText
-                            android:id="@+id/floor"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/edit_text_height"
-                            android:hint="2"
-                            android:background="@null"
-                            android:imeOptions="actionNext"
-                            android:importantForAutofill="no"
-                            android:inputType="number"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:layout_weight="1"
-                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
-                            tools:ignore="HardcodedText,NestedWeights" />
-                    </LinearLayout>
-                </LinearLayout>
+                            <ImageView
+                                android:layout_width="@dimen/icon_width"
+                                android:layout_height="@dimen/icon_height"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/baseline_location_on_24"
+                                android:layout_marginHorizontal="@dimen/icon_margin"
+                                tools:ignore="ContentDescription" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                    android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+                            <Spinner
+                                android:id="@+id/city"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/spinner_height"
+                                android:contentDescription="@string/real_estate_type"
+                                tools:ignore="DuplicateSpeakableTextCheck" />
 
-                    <LinearLayout
-                        android:id="@+id/layoutEquipment"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/layout_register_margin_top"
-                        android:background="@drawable/background_input"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <ImageView
-                            android:layout_width="@dimen/icon_width"
-                            android:layout_height="@dimen/icon_height"
-                            android:layout_marginStart="@dimen/icon_margin"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/baseline_weekend_24"
-                            app:tint="@color/black" />
+                        </LinearLayout>
 
                         <TextView
-                            android:id="@+id/equipment"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/edit_text_height"
-                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                            android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                            android:id="@+id/layoutCityHeader"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
                             android:background="@null"
-                            android:drawablePadding="@dimen/drawable_padding"
-                            android:gravity="center_vertical"
-                            android:hint="@string/equipment"
-                            android:textSize="@dimen/regular_text_size"
+                            android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
+                            android:text="@string/city"
+                            android:textAllCaps="true"
                             android:textStyle="bold"
-                            app:drawableEndCompat="@drawable/baseline_arrow_drop_down_24" />
+                            app:layout_constraintBottom_toTopOf="@id/layoutCity"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/layoutCity"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/layoutDistrict"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/layout_edit_text_margin_top"
+                            android:background="@drawable/background_input"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="@dimen/icon_width"
+                                android:layout_height="@dimen/icon_height"
+                                android:layout_marginStart="@dimen/icon_margin"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/baseline_location_on_24"
+                                app:tint="@color/black" />
+
+                            <Spinner
+                                android:id="@+id/district"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/spinner_height"
+                                android:contentDescription="@string/real_estate_type"/>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/districtHeader"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                            android:background="@null"
+                            android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
+                            android:text="@string/district"
+                            android:textAllCaps="true"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@id/layoutDistrict"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/layoutDistrict"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/layoutDistance"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/layout_edit_text_margin_top"
+                            android:background="@drawable/background_input"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="@dimen/icon_width"
+                                android:layout_height="@dimen/icon_height"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/baseline_straighten_24"
+                                android:layout_marginStart="@dimen/icon_margin"
+                                tools:ignore="ContentDescription" />
+
+                            <EditText
+                                android:id="@+id/distance"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/edit_text_height"
+                                android:hint="@string/distance"
+                                android:background="@null"
+                                android:imeOptions="actionNext"
+                                android:importantForAutofill="no"
+                                android:inputType="text"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:textSize="@dimen/edit_text_size"
+                                android:textStyle="bold"
+                                tools:ignore="VisualLintTextFieldSize" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/distanceHeader"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                            android:background="@null"
+                            android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
+                            android:text="@string/district"
+                            android:textAllCaps="true"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@id/layoutDistance"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/layoutDistance"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/layoutPropertyType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/layout_edit_text_margin_top"
+                            android:background="@drawable/background_input"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="@dimen/icon_width"
+                                android:layout_height="@dimen/icon_height"
+                                android:layout_marginStart="@dimen/icon_margin"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/baseline_home_24"
+                                app:tint="@color/black" />
+
+                            <Spinner
+                                android:id="@+id/propertyTypeSpinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/spinner_height"
+                                android:contentDescription="@string/real_estate_type"/>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/propertyTypeHeader"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                            android:background="@null"
+                            android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
+                            android:text="@string/required_property_type"
+                            android:textAllCaps="true"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@id/layoutPropertyType"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/layoutPropertyType"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/price"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/h2"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="fill_horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:background="@drawable/background_input"
+                                android:layout_weight="1">
+
+                                <EditText
+                                    android:id="@+id/minPrice"
+                                    android:layout_width="0dp"
+                                    android:layout_height="@dimen/edit_text_height"
+                                    android:hint="@string/min_price"
+                                    android:background="@null"
+                                    android:imeOptions="actionNext"
+                                    android:importantForAutofill="no"
+                                    android:inputType="numberDecimal"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:layout_weight="1"
+                                    android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                                    android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                                    tools:ignore="NestedWeights,VisualLintTextFieldSize" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                                    android:text="@string/currency"
+                                    android:textSize="@dimen/edit_text_size"
+                                    android:textStyle="bold"
+                                    tools:ignore="TextContrastCheck" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/edit_text_height"
+                                android:layout_marginStart="@dimen/regular_vertical_space"
+                                android:layout_marginEnd="@dimen/regular_vertical_space"
+                                android:gravity="center_vertical"
+                                android:text="-"
+                                android:textSize="@dimen/edit_text_size"
+                                android:textStyle="bold"
+                                tools:ignore="HardcodedText,TextContrastCheck" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:background="@drawable/background_input"
+                                android:layout_weight="1">
+
+                                <EditText
+                                    android:id="@+id/maxPrice"
+                                    android:layout_width="0dp"
+                                    android:layout_height="@dimen/edit_text_height"
+                                    android:hint="@string/max_price"
+                                    android:background="@null"
+                                    android:imeOptions="actionNext"
+                                    android:importantForAutofill="no"
+                                    android:inputType="numberDecimal"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:layout_weight="1"
+                                    android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                                    android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                                    tools:ignore="NestedWeights,VisualLintTextFieldSize" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/currency"
+                                    android:textStyle="bold"
+                                    android:textSize="@dimen/edit_text_size"
+                                    android:layout_marginEnd="@dimen/edit_text_horizontal_margin"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                        android:background="@color/white"
-                        android:paddingStart="@dimen/layout_name_padding_vertical"
-                        android:paddingEnd="@dimen/layout_name_padding_vertical"
-                        android:text="@string/creating_equipment"
-                        android:textAllCaps="true"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@id/layoutEquipment"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/layoutEquipment" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/area"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/h2"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="fill_horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:background="@drawable/background_input"
+                                android:layout_weight="1">
+
+                                <EditText
+                                    android:id="@+id/minSize"
+                                    android:layout_width="0dp"
+                                    android:layout_height="@dimen/edit_text_height"
+                                    android:hint="@string/min_size"
+                                    android:background="@null"
+                                    android:imeOptions="actionNext"
+                                    android:importantForAutofill="no"
+                                    android:inputType="numberDecimal"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:layout_weight="1"
+                                    android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                                    android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                                    tools:ignore="NestedWeights,VisualLintTextFieldSize" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/unit"
+                                    android:textStyle="bold"
+                                    android:textSize="@dimen/edit_text_size"
+                                    android:layout_marginEnd="@dimen/edit_text_horizontal_margin"/>
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/edit_text_height"
+                                android:gravity="center_vertical"
+                                android:text="-"
+                                android:textSize="@dimen/edit_text_size"
+                                android:textStyle="bold"
+                                android:layout_marginStart="@dimen/text_view_horizontal_margin"
+                                android:layout_marginEnd="@dimen/text_view_horizontal_margin"
+                                tools:ignore="HardcodedText" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:background="@drawable/background_input"
+                                android:layout_weight="1">
+
+                                <EditText
+                                    android:id="@+id/maxSize"
+                                    android:layout_width="0dp"
+                                    android:layout_height="@dimen/edit_text_height"
+                                    android:hint="@string/max_size"
+                                    android:background="@null"
+                                    android:imeOptions="actionNext"
+                                    android:importantForAutofill="no"
+                                    android:inputType="numberDecimal"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:layout_weight="1"
+                                    android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                                    android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                                    tools:ignore="NestedWeights,VisualLintTextFieldSize" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/unit"
+                                    android:textStyle="bold"
+                                    android:textSize="@dimen/edit_text_size"
+                                    android:layout_marginEnd="@dimen/edit_text_horizontal_margin"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/construction_year"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/h2"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="fill_horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:background="@drawable/background_input"
+                                android:layout_weight="1">
+
+                                <EditText
+                                    android:id="@+id/minYear"
+                                    android:layout_width="0dp"
+                                    android:layout_height="@dimen/edit_text_height"
+                                    android:hint="@string/min_year"
+                                    android:background="@null"
+                                    android:imeOptions="actionNext"
+                                    android:importantForAutofill="no"
+                                    android:inputType="numberDecimal"
+                                    android:maxLength="4"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:layout_weight="1"
+                                    android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                                    android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                                    tools:ignore="NestedWeights,VisualLintTextFieldSize" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/edit_text_height"
+                                android:gravity="center_vertical"
+                                android:text="-"
+                                android:textSize="@dimen/edit_text_size"
+                                android:textStyle="bold"
+                                android:layout_marginStart="@dimen/text_view_horizontal_margin"
+                                android:layout_marginEnd="@dimen/text_view_horizontal_margin"
+                                tools:ignore="HardcodedText" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:background="@drawable/background_input"
+                                android:layout_weight="1">
+
+                                <EditText
+                                    android:id="@+id/maxYear"
+                                    android:layout_width="0dp"
+                                    android:layout_height="@dimen/edit_text_height"
+                                    android:hint="@string/max_year"
+                                    android:background="@null"
+                                    android:imeOptions="actionNext"
+                                    android:importantForAutofill="no"
+                                    android:inputType="numberDecimal"
+                                    android:ellipsize="end"
+                                    android:maxLength="4"
+                                    android:maxLines="1"
+                                    android:layout_weight="1"
+                                    android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                                    android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                                    tools:ignore="NestedWeights,VisualLintTextFieldSize" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/layoutRooms"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/layout_edit_text_margin_top"
+                            android:background="@drawable/background_input"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <EditText
+                                android:id="@+id/rooms"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/edit_text_height"
+                                android:hint="@string/rooms_hint"
+                                android:background="@null"
+                                android:imeOptions="actionNext"
+                                android:importantForAutofill="no"
+                                android:inputType="number"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:layout_weight="1"
+                                android:paddingHorizontal="@dimen/edit_text_padding_horizontal"
+                                android:textSize="@dimen/edit_text_size"
+                                android:textStyle="bold"
+                                tools:ignore="NestedWeights,VisualLintTextFieldSize" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                            android:background="@null"
+                            android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
+                            android:text="@string/rooms"
+                            android:textAllCaps="true"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@id/layoutRooms"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/layoutRooms" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/layoutFloor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/layout_edit_text_margin_top"
+                            android:background="@drawable/background_input"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <EditText
+                                android:id="@+id/floor"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/edit_text_height"
+                                android:hint="2"
+                                android:background="@null"
+                                android:imeOptions="actionNext"
+                                android:importantForAutofill="no"
+                                android:inputType="number"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:layout_weight="1"
+                                android:paddingHorizontal="@dimen/edit_text_padding_horizontal"
+                                android:textSize="@dimen/edit_text_size"
+                                android:textStyle="bold"
+                                tools:ignore="HardcodedText,NestedWeights,VisualLintTextFieldSize" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                            android:background="@null"
+                            android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
+                            android:text="@string/floor"
+                            android:textAllCaps="true"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@id/layoutFloor"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/layoutFloor" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/layoutEquipment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/layout_edit_text_margin_top"
+                            android:background="@drawable/background_input"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="@dimen/icon_width"
+                                android:layout_height="@dimen/icon_height"
+                                android:layout_marginStart="@dimen/icon_margin"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/baseline_weekend_24"
+                                app:tint="@color/black" />
+
+                            <TextView
+                                android:id="@+id/equipment"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/edit_text_height"
+                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                                android:background="@null"
+                                android:drawablePadding="@dimen/drawable_padding"
+                                android:gravity="center_vertical"
+                                android:hint="@string/equipment"
+                                android:textSize="@dimen/regular_text_size"
+                                android:textStyle="bold"
+                                app:drawableEndCompat="@drawable/baseline_arrow_drop_down_24" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                            android:background="@null"
+                            android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
+                            android:text="@string/creating_equipment"
+                            android:textAllCaps="true"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@id/layoutEquipment"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/layoutEquipment" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
+
         </ScrollView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -696,7 +794,8 @@
                 android:text="@string/clear"
                 android:textSize="@dimen/regular_text_size"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="TextContrastCheck" />
 
             <Button
                 android:id="@+id/filterButton"
@@ -706,13 +805,15 @@
                 android:text="@string/filter"
                 android:textSize="@dimen/regular_text_size"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="TextContrastCheck,TooManyViews" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ProgressBar
             android:id="@+id/progressBar"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/progress_bar_size"
+            android:layout_height="@dimen/progress_bar_size"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

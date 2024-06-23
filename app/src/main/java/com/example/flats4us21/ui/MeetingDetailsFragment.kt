@@ -39,11 +39,6 @@ class MeetingDetailsFragment : Fragment() {
 
         bindMeetingData(meeting)
 
-        meetingViewModel.resultMessage.observe(viewLifecycleOwner) { resultMessage ->
-            if(resultMessage != null) {
-                Toast.makeText(requireContext(), resultMessage, Toast.LENGTH_LONG).show()
-            }
-        }
         meetingViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
             if(errorMessage != null) {
                 Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
@@ -87,7 +82,7 @@ class MeetingDetailsFragment : Fragment() {
         meetingViewModel.acceptMeeting(meeting.meetingId, decision){
             if (it) {
                 binding.bottomNavigationView.visibility = View.GONE
-
+                Toast.makeText(requireContext(), getString(R.string.sent_decision), Toast.LENGTH_LONG).show()
             }
         }
     }

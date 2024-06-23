@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="@dimen/layout_recycler_view_item_padding">
 
     <TextView
         android:id="@+id/questionName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Question"
+        android:text="@string/question"
         android:textSize="16sp" />
 
     <SeekBar

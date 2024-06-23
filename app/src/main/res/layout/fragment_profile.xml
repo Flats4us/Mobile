@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -29,13 +28,12 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginVertical="10dp">
+                    android:layout_margin="@dimen/image_view_profile_picture_margin">
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/profile_picture"
-                        android:layout_width="200dp"
-                        android:layout_height="200dp"
+                        android:layout_width="@dimen/image_view_profile_picture_size"
+                        android:layout_height="@dimen/image_view_profile_picture_size"
                         android:layout_centerHorizontal="true"
                         android:background="@color/white"
                         android:scaleType="centerCrop"
@@ -62,15 +60,14 @@
                     android:id="@+id/name_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="24sp"
+                    android:textSize="@dimen/h2"
                     tools:text="John" />
 
                 <TextView
                     android:id="@+id/age_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:textSize="24sp"
+                    android:textSize="@dimen/h2"
                     tools:text="23" />
 
             </LinearLayout>
@@ -79,35 +76,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <RatingBar
+                    android:id="@+id/ratingBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:progressBackgroundTint="@color/design_default_color_secondary_variant"
+                    android:progressTint="@color/orange"
+                    android:secondaryProgressTint="@color/design_default_color_secondary_variant"
+                    android:stepSize="0.1"
+                    tools:rating="3.2" />
 
-                    <RatingBar
-                        android:id="@+id/ratingBar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:isIndicator="true"
-                        android:numStars="5"
-                        android:progressBackgroundTint="@color/design_default_color_secondary_variant"
-                        android:progressTint="@color/orange"
-                        android:secondaryProgressTint="@color/design_default_color_secondary_variant"
-                        android:stepSize="0.1"
-                        tools:rating="3.2" />
-
-
-                    <ImageButton
-                        android:id="@+id/reviewsButton"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/list"
-                        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
-                </LinearLayout>
+                <ImageButton
+                    android:id="@+id/reviewsButton"
+                    android:layout_width="@dimen/image_button_reviews_size"
+                    android:layout_height="@dimen/image_button_reviews_size"
+                    android:src="@drawable/list"
+                    tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -122,21 +110,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/facebook"
-                    tools:ignore="SpeakableTextPresentCheck" />
+                    android:padding="@dimen/image_button_social_media_padding"
+                    android:background="@null"
+                    tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
                 <ImageButton
                     android:id="@+id/twitter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/twitter"
-                    tools:ignore="SpeakableTextPresentCheck" />
+                    android:padding="@dimen/image_button_social_media_padding"
+                    android:background="@null"
+                    tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
                 <ImageButton
                     android:id="@+id/instagram"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/instagram"
-                    tools:ignore="SpeakableTextPresentCheck" />
+                    android:padding="@dimen/image_button_social_media_padding"
+                    android:background="@null"
+                    tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
             </LinearLayout>
 
@@ -152,36 +146,24 @@
                     android:id="@+id/studyLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginHorizontal="@dimen/layout_profile_margin_horizontal">
 
-                    <LinearLayout
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="4dp"
+                        android:text="@string/university"
+                        android:textSize="@dimen/h2"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/school" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/university"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/h2"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
+                        app:drawableStartCompat="@drawable/school" />
 
                     <TextView
                         android:id="@+id/university"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:text="Collegium Civitas w Warszawie" />
+                        tools:text="@string/university_example" />
 
                 </LinearLayout>
 
@@ -189,30 +171,18 @@
                     android:id="@+id/interestsLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginHorizontal="@dimen/layout_profile_margin_horizontal">
 
-                    <LinearLayout
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="4dp"
+                        android:text="@string/interests"
+                        android:textSize="@dimen/h2"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/hobby" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/interests"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/h2"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
+                        app:drawableStartCompat="@drawable/hobby" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/interestsRecyclerView"
@@ -232,30 +202,18 @@
                     android:id="@+id/opinionLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginHorizontal="@dimen/layout_profile_margin_horizontal">
 
-                    <LinearLayout
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="4dp"
+                        android:text="@string/reviews"
+                        android:textSize="@dimen/h2"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/baseline_edit_24" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/reviews"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/h2"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
+                        app:drawableStartCompat="@drawable/baseline_edit_48" />
 
                     <com.google.android.flexbox.FlexboxLayout
                         android:id="@+id/reviewsFlexboxLayout"
@@ -276,11 +234,10 @@
                             android:id="@+id/layoutHelpful"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
+                            android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
                             android:background="@drawable/oval_white_background"
                             android:backgroundTint="#44C3FA"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="8dp">
+                            android:padding="@dimen/layout_opinion_padding">
 
                             <TextView
                                 android:id="@+id/helpful"
@@ -296,24 +253,25 @@
                                 android:id="@+id/sumHelpful"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingLeft="4dp"
+                                android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
                                 android:singleLine="true"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/helpful"
                                 app:layout_constraintTop_toTopOf="parent"
-                                tools:text="0" />
+                                tools:text="0"
+                                tools:ignore="RtlSymmetry" />
+
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/layoutCooperative"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
+                            android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
                             android:background="@drawable/oval_white_background"
                             android:backgroundTint="#44C3FA"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="8dp">
+                            android:padding="@dimen/layout_opinion_padding">
 
                             <TextView
                                 android:id="@+id/cooperative"
@@ -329,25 +287,25 @@
                                 android:id="@+id/sumCooperative"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingLeft="4dp"
+                                android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
                                 android:singleLine="true"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/cooperative"
                                 app:layout_constraintTop_toTopOf="parent"
-                                tools:text="0" />
+                                tools:text="0"
+                                tools:ignore="RtlSymmetry" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/layoutTidy"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
-                            android:layout_marginTop="4dp"
+                            android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                            android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                             android:background="@drawable/oval_white_background"
                             android:backgroundTint="#44C3FA"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="8dp">
+                            android:padding="@dimen/layout_opinion_padding">
 
                             <TextView
                                 android:id="@+id/tidy"
@@ -363,25 +321,26 @@
                                 android:id="@+id/sumTidy"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingLeft="4dp"
+                                android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
                                 android:singleLine="true"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/tidy"
                                 app:layout_constraintTop_toTopOf="parent"
-                                tools:text="0" />
+                                tools:text="0"
+                                tools:ignore="RtlSymmetry" />
+
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/layoutFriendly"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
-                            android:layout_marginTop="4dp"
+                            android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                            android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                             android:background="@drawable/oval_white_background"
                             android:backgroundTint="#44C3FA"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="8dp">
+                            android:padding="@dimen/layout_opinion_padding">
 
                             <TextView
                                 android:id="@+id/friendly"
@@ -397,25 +356,26 @@
                                 android:id="@+id/sumFriendly"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingLeft="4dp"
+                                android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
                                 android:singleLine="true"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/friendly"
                                 app:layout_constraintTop_toTopOf="parent"
-                                tools:text="0" />
+                                tools:text="0"
+                                tools:ignore="RtlSymmetry" />
+
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/layoutRespectingPrivacy"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
-                            android:layout_marginTop="4dp"
+                            android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                            android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                             android:background="@drawable/oval_white_background"
                             android:backgroundTint="#44C3FA"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="8dp">
+                            android:padding="@dimen/layout_opinion_padding">
 
                             <TextView
                                 android:id="@+id/respectingPrivacy"
@@ -431,25 +391,26 @@
                                 android:id="@+id/sumRespectingPrivacy"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingLeft="4dp"
+                                android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
                                 android:singleLine="true"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/respectingPrivacy"
                                 app:layout_constraintTop_toTopOf="parent"
-                                tools:text="0" />
+                                tools:text="0"
+                                tools:ignore="RtlSymmetry" />
+
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/layoutCommunicative"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
-                            android:layout_marginTop="4dp"
+                            android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                            android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                             android:background="@drawable/oval_white_background"
                             android:backgroundTint="#44C3FA"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="8dp">
+                            android:padding="@dimen/layout_opinion_padding">
 
                             <TextView
                                 android:id="@+id/communicative"
@@ -462,28 +423,29 @@
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <TextView
+                                tools:ignore="RtlSymmetry"
                                 android:id="@+id/sumCommunicative"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingLeft="4dp"
+                                android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
                                 android:singleLine="true"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/communicative"
                                 app:layout_constraintTop_toTopOf="parent"
                                 tools:text="0" />
+
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/layoutUnfair"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
-                            android:layout_marginTop="4dp"
+                            android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                            android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                             android:background="@drawable/oval_white_background"
                             android:backgroundTint="#44C3FA"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="8dp">
+                            android:padding="@dimen/layout_opinion_padding">
 
                             <TextView
                                 android:id="@+id/unfair"
@@ -499,25 +461,26 @@
                                 android:id="@+id/sumUnfair"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingLeft="4dp"
+                                android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
                                 android:singleLine="true"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/unfair"
                                 app:layout_constraintTop_toTopOf="parent"
-                                tools:text="0" />
+                                tools:text="0"
+                                tools:ignore="RtlSymmetry" />
+
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/layoutLackOfHygiene"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
-                            android:layout_marginTop="4dp"
+                            android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                            android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                             android:background="@drawable/oval_white_background"
                             android:backgroundTint="#44C3FA"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="8dp">
+                            android:padding="@dimen/layout_opinion_padding">
 
                             <TextView
                                 android:id="@+id/lackOfHygiene"
@@ -533,25 +496,25 @@
                                 android:id="@+id/sumLackOfHygiene"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingLeft="4dp"
+                                android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
                                 android:singleLine="true"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/lackOfHygiene"
                                 app:layout_constraintTop_toTopOf="parent"
-                                tools:text="0" />
+                                tools:text="0"
+                                tools:ignore="RtlSymmetry" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/layoutUntidy"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
-                            android:layout_marginTop="4dp"
+                            android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                            android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                             android:background="@drawable/oval_white_background"
                             android:backgroundTint="#44C3FA"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="8dp">
+                            android:padding="@dimen/layout_opinion_padding">
 
                             <TextView
                                 android:id="@+id/untidy"
@@ -567,25 +530,25 @@
                                 android:id="@+id/sumUntidy"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingLeft="4dp"
+                                android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
                                 android:singleLine="true"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/untidy"
                                 app:layout_constraintTop_toTopOf="parent"
-                                tools:text="0" />
+                                tools:text="0"
+                                tools:ignore="RtlSymmetry" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/layoutConflicting"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
-                            android:layout_marginTop="4dp"
+                            android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                            android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                             android:background="@drawable/oval_white_background"
                             android:backgroundTint="#44C3FA"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="8dp">
+                            android:padding="@dimen/layout_opinion_padding">
 
                             <TextView
                                 android:id="@+id/conflicting"
@@ -601,25 +564,25 @@
                                 android:id="@+id/sumConflicting"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingLeft="4dp"
+                                android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
                                 android:singleLine="true"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/conflicting"
                                 app:layout_constraintTop_toTopOf="parent"
-                                tools:text="0" />
+                                tools:text="0"
+                                tools:ignore="RtlSymmetry" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/layoutNoisy"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
-                            android:layout_marginTop="4dp"
+                            android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                            android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                             android:background="@drawable/oval_white_background"
                             android:backgroundTint="#44C3FA"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="8dp">
+                            android:padding="@dimen/layout_opinion_padding">
 
                             <TextView
                                 android:id="@+id/noisy"
@@ -635,25 +598,25 @@
                                 android:id="@+id/sumNoisy"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingLeft="4dp"
+                                android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
                                 android:singleLine="true"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/noisy"
                                 app:layout_constraintTop_toTopOf="parent"
-                                tools:text="0" />
+                                tools:text="0"
+                                tools:ignore="RtlSymmetry" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/layoutNotFollowingTheArrangements"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
-                            android:layout_marginTop="4dp"
+                            android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                            android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                             android:background="@drawable/oval_white_background"
                             android:backgroundTint="#44C3FA"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="8dp">
+                            android:padding="@dimen/layout_opinion_padding">
 
                             <TextView
                                 android:id="@+id/notFollowingTheArrangements"
@@ -669,17 +632,17 @@
                                 android:id="@+id/sumNotFollowingTheArrangements"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingLeft="4dp"
+                                android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
                                 android:singleLine="true"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/notFollowingTheArrangements"
                                 app:layout_constraintTop_toTopOf="parent"
-                                tools:text="0" />
+                                tools:text="0"
+                                tools:ignore="RtlSymmetry" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </com.google.android.flexbox.FlexboxLayout>
-
 
                 </LinearLayout>
 
@@ -691,8 +654,8 @@
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/progress_bar_size"
+        android:layout_height="@dimen/progress_bar_size"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

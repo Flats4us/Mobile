@@ -50,6 +50,12 @@ class ProfileFragment : Fragment() {
             binding.mainLayout.visibility = if (isLoading) View.GONE else View.VISIBLE
         }
 
+        viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
+            if (error != null) {
+                Log.e(TAG, "$error")
+            }
+        }
+
         binding.reviewsButton.setOnClickListener {
             val bundle = Bundle()
             bundle.putInt(USER_ID, userId)

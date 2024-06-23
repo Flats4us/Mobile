@@ -97,6 +97,7 @@ class OwnerOfferDetailFragment : Fragment() {
         })
         binding.startDate.text = offer.dateIssue
         binding.endDate.text = offer.dateIssue
+        binding.deposit.text = offer.deposit
         binding.price.text = offer.price
         binding.city.text = offer.property.city
         binding.district.text = offer.property.district
@@ -155,16 +156,16 @@ class OwnerOfferDetailFragment : Fragment() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.bottom_sheet_menu_owner_offer_layout)
 
-        val layoutPromote = dialog.findViewById<View>(R.id.layoutPromote)
-        val layoutRelatedProperty = dialog.findViewById<View>(R.id.layoutRelatedProperty)
-        val layoutEndOffer = dialog.findViewById<View>(R.id.layoutEndOffer)
-        val layoutRentProposition = dialog.findViewById<View>(R.id.layoutRentProposition)
+        val promoteButton = dialog.findViewById<View>(R.id.promoteButton)
+        val relatedPropertyButton = dialog.findViewById<View>(R.id.relatedPropertyButton)
+        val endOfferButton = dialog.findViewById<View>(R.id.endOfferButton)
+        val rentPropositionButton = dialog.findViewById<View>(R.id.rentPropositionButton)
 
-        layoutPromote.setOnClickListener {
+        promoteButton.setOnClickListener {
            viewModel.promoteOffer(currentOffer.offerId)
             dialog.dismiss()
         }
-        layoutRelatedProperty.setOnClickListener {
+        relatedPropertyButton.setOnClickListener {
             val bundle = Bundle()
             bundle.putInt(PROPERTY_ID, currentOffer.property.propertyId)
             val fragment = OwnerPropertyDetailFragment()
@@ -172,11 +173,11 @@ class OwnerOfferDetailFragment : Fragment() {
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
             dialog.dismiss()
         }
-        layoutEndOffer.setOnClickListener {
+        endOfferButton.setOnClickListener {
             viewModel.cancelOffer(currentOffer.offerId)
             dialog.dismiss()
         }
-        layoutRentProposition.setOnClickListener {
+        rentPropositionButton.setOnClickListener {
             val fragment = RentPropositionDialogFragment()
             val bundle = Bundle()
             bundle.putInt(RENT_PROPOSITION_ID, currentOffer.rentPropositionToShow!!)
@@ -186,9 +187,9 @@ class OwnerOfferDetailFragment : Fragment() {
         }
 
         if(currentOffer.isPromoted) {
-            layoutPromote.visibility = View.GONE
+            promoteButton.visibility = View.GONE
         } else {
-            layoutPromote.visibility = View.VISIBLE
+            promoteButton.visibility = View.VISIBLE
         }
         if(currentOffer.rentPropositionToShow != null){
             binding.fab.visibility = View.VISIBLE

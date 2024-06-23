@@ -166,29 +166,29 @@ class RentDetailFragment : Fragment() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.bottom_sheet_menu_rent_layout)
 
-        val layoutArgument = dialog.findViewById<View>(R.id.layoutArgument)
-        val layoutAddOpinion = dialog.findViewById<View>(R.id.layoutAddOpinion)
+        val addArgumentButton = dialog.findViewById<View>(R.id.addArgumentButton)
+        val addOpinionButton = dialog.findViewById<View>(R.id.addOpinionButton)
 
         checkIfOpinionAboutRentExists(rentId) { exists ->
             if (!exists) {
-                layoutAddOpinion.visibility = View.VISIBLE
+                addOpinionButton.visibility = View.VISIBLE
             } else {
-                layoutAddOpinion.visibility = View.GONE
+                addOpinionButton.visibility = View.GONE
             }
         }
 
         if(rent.isFinished && DataStoreManager.userRole.value == "Student" && userViewModel.myProfile.value!!.userId == rent.mainTenantId) {
-            layoutAddOpinion.visibility = View.VISIBLE
+            addOpinionButton.visibility = View.VISIBLE
         } else {
-            layoutAddOpinion.visibility = View.GONE
+            addOpinionButton.visibility = View.GONE
         }
         if(rent.isFinished) {
-            layoutArgument.visibility = View.GONE
+            addArgumentButton.visibility = View.GONE
         } else {
-            layoutArgument.visibility = View.VISIBLE
+            addArgumentButton.visibility = View.VISIBLE
         }
 
-        layoutArgument.setOnClickListener {
+        addArgumentButton.setOnClickListener {
             val bundle = Bundle()
             bundle.putInt(RENT_ID, rentId)
             val fragment = AddArgumentFragment()
@@ -196,7 +196,7 @@ class RentDetailFragment : Fragment() {
             (activity as? DrawerActivity)?.replaceFragment(fragment)
             dialog.dismiss()
         }
-        layoutAddOpinion.setOnClickListener {
+        addOpinionButton.setOnClickListener {
             val bundle = Bundle()
             bundle.putInt(RENT_ID, rentId)
             val fragment = AddPropertyOpinionFragment()

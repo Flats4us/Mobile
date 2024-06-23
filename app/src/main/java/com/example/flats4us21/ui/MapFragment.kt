@@ -24,7 +24,7 @@ import com.example.flats4us21.R
 import com.example.flats4us21.URL
 import com.example.flats4us21.adapters.ImageSliderAdapter
 import com.example.flats4us21.data.MapOffer
-import com.example.flats4us21.databinding.ActivityMapBinding
+import com.example.flats4us21.databinding.FragmentMapBinding
 import com.example.flats4us21.viewmodels.OfferViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,14 +41,15 @@ private const val TAG = "MapFragment"
 
 class MapFragment : Fragment() {
 
-    private lateinit var binding: ActivityMapBinding
+    private var _binding: FragmentMapBinding? = null
+    private val binding get() = _binding!!
     private lateinit var viewModel: OfferViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = ActivityMapBinding.inflate(inflater, container, false)
+        _binding = FragmentMapBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[OfferViewModel::class.java]
 
         Configuration.getInstance().load(

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="none"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/rectangle_white_background"
     tools:context=".ui.AddRealEstateSecondStepFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,14 +24,13 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+                android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
 
                 <LinearLayout
                     android:id="@+id/layoutArea"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                     android:background="@drawable/background_input"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
@@ -41,8 +41,7 @@
                         android:layout_height="@dimen/icon_height"
                         android:layout_marginStart="@dimen/icon_margin"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_straighten_24"
-                        app:tint="@color/black" />
+                        android:src="@drawable/baseline_straighten_24" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -57,12 +56,13 @@
                             android:imeOptions="actionNext"
                             android:importantForAutofill="no"
                             android:inputType="number"
-                            android:textSize="@dimen/regular_text_size"
+                            android:textSize="@dimen/edit_text_size"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/mesure"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="VisualLintTextFieldSize" />
 
                         <TextView
                             android:id="@+id/mesure"
@@ -74,17 +74,18 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/areaHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                    android:background="@color/white"
-                    android:paddingStart="@dimen/layout_name_padding_vertical"
-                    android:paddingEnd="@dimen/layout_name_padding_vertical"
+                    android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                    android:background="@null"
+                    android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
                     android:text="@string/required_creating_area"
                     android:textAllCaps="true"
                     android:textStyle="bold"
@@ -98,14 +99,13 @@
                 android:id="@+id/layoutLandAreaWithHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+                android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
 
                 <LinearLayout
                     android:id="@+id/layoutLandArea"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                     android:background="@drawable/background_input"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
@@ -116,8 +116,7 @@
                         android:layout_height="@dimen/icon_height"
                         android:layout_marginStart="@dimen/icon_margin"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_straighten_24"
-                        app:tint="@color/black" />
+                        android:src="@drawable/baseline_straighten_24" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -132,12 +131,13 @@
                             android:imeOptions="actionNext"
                             android:importantForAutofill="no"
                             android:inputType="number"
-                            android:textSize="@dimen/regular_text_size"
+                            android:textSize="@dimen/edit_text_size"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/landMesure"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="VisualLintTextFieldSize" />
 
                         <TextView
                             android:id="@+id/landMesure"
@@ -149,17 +149,18 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/landAreaHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                    android:background="@color/white"
-                    android:paddingStart="@dimen/layout_name_padding_vertical"
-                    android:paddingEnd="@dimen/layout_name_padding_vertical"
+                    android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                    android:background="@null"
+                    android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
                     android:text="@string/land_area"
                     android:textAllCaps="true"
                     android:textStyle="bold"
@@ -172,14 +173,13 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+                android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
 
                 <LinearLayout
                     android:id="@+id/layoutMaxResidents"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                     android:background="@drawable/background_input"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
@@ -190,8 +190,7 @@
                         android:layout_height="@dimen/icon_height"
                         android:layout_marginStart="@dimen/icon_margin"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_people_24"
-                        app:tint="@color/black" />
+                        android:src="@drawable/baseline_people_24"/>
 
                     <EditText
                         android:id="@+id/maxResidents"
@@ -204,18 +203,19 @@
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
                         android:inputType="number"
-                        android:textSize="@dimen/regular_text_size"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/edit_text_size"
+                        android:textStyle="bold"
+                        tools:ignore="VisualLintTextFieldSize" />
+
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/maxResidentsHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                    android:background="@color/white"
-                    android:paddingStart="@dimen/layout_name_padding_vertical"
-                    android:paddingEnd="@dimen/layout_name_padding_vertical"
+                    android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                    android:background="@null"
+                    android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
                     android:text="@string/required_creating_max_residents"
                     android:textAllCaps="true"
                     android:textStyle="bold"
@@ -228,14 +228,13 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+                android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
 
                 <LinearLayout
                     android:id="@+id/layoutConstructionYear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                     android:background="@drawable/background_input"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
@@ -246,24 +245,23 @@
                         android:layout_height="@dimen/icon_height"
                         android:layout_marginStart="@dimen/icon_margin"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_time_24"
-                        app:tint="@color/black" />
+                        android:src="@drawable/baseline_time_24" />
 
                     <Spinner
                         android:id="@+id/constructionYearSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/spinner_height"
                         android:contentDescription="@string/real_estate_type" />
+
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/constructionYearHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                    android:background="@color/white"
-                    android:paddingStart="@dimen/layout_name_padding_vertical"
-                    android:paddingEnd="@dimen/layout_name_padding_vertical"
+                    android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                    android:background="@null"
+                    android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
                     android:text="@string/required_construction_year"
                     android:textAllCaps="true"
                     android:textStyle="bold"
@@ -277,14 +275,13 @@
                 android:id="@+id/layoutNumberOfRoomsWithHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+                android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
 
                 <LinearLayout
                     android:id="@+id/layoutNumberOfRooms"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                     android:background="@drawable/background_input"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
@@ -295,8 +292,7 @@
                         android:layout_height="@dimen/icon_height"
                         android:layout_marginStart="@dimen/icon_margin"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_door_24"
-                        app:tint="@color/black" />
+                        android:src="@drawable/baseline_door_24" />
 
                     <EditText
                         android:id="@+id/numberOfRooms"
@@ -309,18 +305,19 @@
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
                         android:inputType="number"
-                        android:textSize="@dimen/regular_text_size"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/edit_text_size"
+                        android:textStyle="bold"
+                        tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
+
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/numberOfRoomsHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                    android:background="@color/white"
-                    android:paddingStart="@dimen/layout_name_padding_vertical"
-                    android:paddingEnd="@dimen/layout_name_padding_vertical"
+                    android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                    android:background="@null"
+                    android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
                     android:text="@string/required_number_of_rooms"
                     android:textAllCaps="true"
                     android:textStyle="bold"
@@ -334,14 +331,13 @@
                 android:id="@+id/layoutNumberOfFloorsWithHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+                android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
 
                 <LinearLayout
                     android:id="@+id/layoutNumberOfFloors"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                     android:background="@drawable/background_input"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
@@ -352,8 +348,7 @@
                         android:layout_height="@dimen/icon_height"
                         android:layout_marginStart="@dimen/icon_margin"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_home_work_24"
-                        app:tint="@color/black" />
+                        android:src="@drawable/baseline_home_work_24"/>
 
                     <EditText
                         android:id="@+id/numberOfFloors"
@@ -366,18 +361,19 @@
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
                         android:inputType="number"
-                        android:textSize="@dimen/regular_text_size"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/edit_text_size"
+                        android:textStyle="bold"
+                        tools:ignore="VisualLintTextFieldSize" />
+
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/numberOfFloorsHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                    android:background="@color/white"
-                    android:paddingStart="@dimen/layout_name_padding_vertical"
-                    android:paddingEnd="@dimen/layout_name_padding_vertical"
+                    android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                    android:background="@null"
+                    android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
                     android:text="@string/number_of_floors"
                     android:textAllCaps="true"
                     android:textStyle="bold"
@@ -390,14 +386,13 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+                android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
 
                 <LinearLayout
                     android:id="@+id/layoutEquipment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                     android:background="@drawable/background_input"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
@@ -408,8 +403,7 @@
                         android:layout_height="@dimen/icon_height"
                         android:layout_marginStart="@dimen/icon_margin"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_weekend_24"
-                        app:tint="@color/black" />
+                        android:src="@drawable/baseline_weekend_24"/>
 
                     <TextView
                         android:id="@+id/equipment"
@@ -424,15 +418,15 @@
                         android:textSize="@dimen/regular_text_size"
                         android:textStyle="bold"
                         app:drawableEndCompat="@drawable/baseline_arrow_drop_down_24" />
+
                 </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                    android:background="@color/white"
-                    android:paddingStart="@dimen/layout_name_padding_vertical"
-                    android:paddingEnd="@dimen/layout_name_padding_vertical"
+                    android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                    android:background="@null"
+                    android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
                     android:text="@string/creating_equipment"
                     android:textAllCaps="true"
                     android:textStyle="bold"
@@ -447,7 +441,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/layout_register_margin_top"
+                android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                 android:text="@string/rules_title_deed"
                 android:textColor="@color/red"
                 android:textSize="@dimen/regular_text_size"
@@ -458,7 +452,7 @@
                 android:id="@+id/fileNameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/layout_register_margin_top"
+                android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:visibility="gone">
@@ -481,6 +475,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="SpeakableTextPresentCheck" />
+
             </LinearLayout>
 
             <Button
@@ -488,18 +483,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/image_button_min_height"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/layout_register_margin_top"
+                android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                 android:drawableStart="@drawable/baseline_attach_file_24"
                 android:text="@string/add_title_deed"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="TextContrastCheck" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-                android:layout_marginTop="@dimen/layout_register_margin_top"
+                android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                 android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
 
                 <Button
@@ -507,27 +503,33 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:drawableRight="@drawable/baseline_navigate_before_24"
-                    android:drawablePadding="10dp"
+                    android:drawableLeft="@drawable/baseline_navigate_before_24"
+                    android:drawablePadding="@dimen/button_drawable_padding"
+                    android:drawableTint="@color/white"
                     android:gravity="center"
                     android:text="@string/prev_button"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="RtlHardcoded,TextContrastCheck" />
 
                 <Button
                     android:id="@+id/nextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:drawableLeft="@drawable/baseline_navigate_next_24"
-                    android:drawablePadding="10dp"
+                    android:drawableEnd="@drawable/baseline_navigate_next_24"
+                    android:drawablePadding="@dimen/button_drawable_padding"
+                    android:drawableTint="@color/white"
                     android:gravity="center"
                     android:text="@string/next_button"
                     android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="TextContrastCheck" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
 
         <ProgressBar

@@ -187,7 +187,6 @@ class OfferDetailFragment : Fragment() {
         binding.sumLocation.text = offer.property.avgLocationRating.toString()
         binding.sumEquipment.text = offer.property.avgEquipmentRating.toString()
         binding.sumQualityForMoney.text = offer.property.avgQualityForMoneyRating.toString()
-        binding.interestedPeople.text = offer.interestedPeople.toString()
 
         when(offer.property){
             is House -> {
@@ -211,10 +210,10 @@ class OfferDetailFragment : Fragment() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.bottom_sheet_menu_offer_layout)
 
-        val layoutRent = dialog.findViewById<View>(R.id.layoutRent)
-        val layoutMeet = dialog.findViewById<View>(R.id.layoutMeet)
+        val rentButton = dialog.findViewById<View>(R.id.rentButton)
+        val meetButton = dialog.findViewById<View>(R.id.meetButton)
 
-        layoutRent.setOnClickListener {
+        rentButton.setOnClickListener {
             val bundle = Bundle()
             bundle.putInt(OFFER_ID, offerId)
             val realEstateRentalDialogFragment = RealEstateRentalDialogFragment(detailOfferViewModel)
@@ -228,7 +227,7 @@ class OfferDetailFragment : Fragment() {
             }
             dialog.dismiss()
         }
-        layoutMeet.setOnClickListener {
+        meetButton.setOnClickListener {
             val bundle = Bundle()
             bundle.putInt(OFFER_ID, offerId)
             val fragment = AddMeetingFragment()

@@ -47,12 +47,18 @@ class WatchedOffersListFragment : Fragment() {
         viewModel.getWatchedOffers()
 
         viewModel.watchedOffers.observe(viewLifecycleOwner) { offers ->
-            Log.i(TAG, "Number of offers: ${offers.size}")
-            fetchedOffers = offers as MutableList<Offer>
-            adapter.setOfferList(fetchedOffers)
-            adapter.notifyDataSetChanged()
-            val totalPages = viewModel.offersNumber / Constants.QUERY_PAGE_SIZE + 2
-            isLastPage = viewModel.pageNumber == totalPages
+            if(offers.isNotEmpty()) {
+                binding.noReviewsText.visibility = View.GONE
+                Log.i(TAG, "Number of offers: ${offers.size}")
+                fetchedOffers = offers as MutableList<Offer>
+                adapter.setOfferList(fetchedOffers)
+                adapter.notifyDataSetChanged()
+                val totalPages = viewModel.offersNumber / Constants.QUERY_PAGE_SIZE + 2
+                isLastPage = viewModel.pageNumber == totalPages
+            } else {
+                binding.noReviewsText.visibility = View.VISIBLE
+                recyclerview.visibility = View.GONE
+            }
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading: Boolean ->

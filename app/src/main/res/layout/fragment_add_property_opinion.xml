@@ -1,180 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="@dimen/app_padding"
+    android:background="@drawable/app_background"
     tools:context=".ui.AddPropertyOpinionFragment">
+
+    <TextView
+        android:id="@+id/reviewHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/add_opinion_about_property"
+        android:textSize="@dimen/h1"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/reviewHeader"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:gravity="center_horizontal"
-            android:text="Nowa opinia o nieruchomości"
-            android:textColor="@android:color/black"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/header_vertical_margin"
+        android:background="@drawable/rectangle_white_background"
+        app:layout_constraintTop_toBottomOf="@+id/reviewHeader"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/reviewHeader"
+            app:layout_constraintBottom_toTopOf="@+id/addButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/addButton">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
+            app:layout_constraintTop_toTopOf="parent">
 
                 <RatingBar
                     android:id="@+id/starRating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:numStars="5"
-                    android:scaleX="0.7"
-                    android:scaleY="0.7"
-                    android:stepSize="1"
                     android:progressBackgroundTint="@color/design_default_color_secondary_variant"
                     android:progressTint="@color/orange"
                     android:secondaryProgressTint="@color/design_default_color_secondary_variant"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:stepSize="1"
+                    android:layout_marginTop="@dimen/layout_edit_text_margin_top"
+                    android:layout_gravity="center_horizontal"/>
 
-                <EditText
-                    android:id="@+id/reviewEditText"
-                    android:layout_width="372dp"
-                    android:layout_height="95dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:hint="Dodaj opinię"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
+
+                <LinearLayout
+                    android:id="@+id/layoutDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_edit_text_margin_top"
+                    android:background="@drawable/background_input"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <EditText
+                        android:id="@+id/reviewEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_description_height"
+                        android:background="@null"
+                        android:gravity="start|top"
+                        android:hint="@string/description"
+                        android:imeOptions="actionNext"
+                        android:importantForAutofill="no"
+                        android:inputType="textMultiLine"
+                        android:lines="4"
+                        android:maxLength="512"
+                        android:minLines="9"
+                        android:paddingHorizontal="@dimen/edit_text_padding_horizontal"
+                        android:paddingTop="@dimen/edit_text_description_padding_top"
+                        android:textSize="@dimen/edit_text_size"
+                        android:textStyle="bold"
+                        tools:ignore="VisualLintTextFieldSize,TextContrastCheck" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                    android:background="@null"
+                    android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
+                    android:text="@string/description"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/layoutDescription"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/starRating" />
+                    app:layout_constraintTop_toTopOf="@id/layoutDescription" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ScrollView
+            <LinearLayout
+                android:id="@+id/tagsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxHeight="300dp">
+                android:gravity="start|center_vertical"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/layout_sliders_padding_top">
 
                 <LinearLayout
-                    android:id="@+id/tagsLayout"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingTop="8dp"
-                    android:gravity="start|center_vertical">
+                    android:gravity="start|center_vertical"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/service"
+                        android:layout_width="@dimen/slider_width"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/slider_padding"
+                        android:progressBackgroundTint="@color/design_default_color_secondary_variant"
+                        android:progressTint="@color/orange"
+                        android:secondaryProgressTint="@color/design_default_color_secondary_variant"
+                        android:valueFrom="0"
+                        android:valueTo="10"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="start|center_vertical">
-                        <com.google.android.material.slider.Slider
-                            android:id="@+id/service"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:valueFrom="0"
-                            android:valueTo="10"
-                            android:padding="8dp"
-                            android:progressBackgroundTint="@color/design_default_color_secondary_variant"
-                            android:progressTint="@color/orange"
-                            android:secondaryProgressTint="@color/design_default_color_secondary_variant" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/service"
-                            android:paddingStart="8dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="start|center_vertical">
-                        <com.google.android.material.slider.Slider
-                            android:id="@+id/location"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:valueFrom="0"
-                            android:valueTo="10"
-                            android:padding="8dp"
-                            android:progressBackgroundTint="@color/design_default_color_secondary_variant"
-                            android:progressTint="@color/orange"
-                            android:secondaryProgressTint="@color/design_default_color_secondary_variant"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/location"
-                            android:paddingStart="8dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="start|center_vertical">
-                        <com.google.android.material.slider.Slider
-                            android:id="@+id/equipment"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:valueFrom="0"
-                            android:valueTo="10"
-                            android:padding="8dp"
-                            android:progressBackgroundTint="@color/design_default_color_secondary_variant"
-                            android:progressTint="@color/orange"
-                            android:secondaryProgressTint="@color/design_default_color_secondary_variant"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/equipment"
-                            android:paddingStart="8dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="start|center_vertical">
-                        <com.google.android.material.slider.Slider
-                            android:id="@+id/qualityForMoney"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:valueFrom="0"
-                            android:valueTo="10"
-                            android:padding="8dp"
-                            android:progressBackgroundTint="@color/design_default_color_secondary_variant"
-                            android:progressTint="@color/orange"
-                            android:secondaryProgressTint="@color/design_default_color_secondary_variant"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/quality_for_money"
-                            android:paddingStart="8dp" />
-                    </LinearLayout>
+                        android:layout_marginHorizontal="@dimen/text_view_horizontal_margin"
+                        android:text="@string/service" />
 
                 </LinearLayout>
-            </ScrollView>
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start|center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/location"
+                        android:layout_width="@dimen/slider_width"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/slider_padding"
+                        android:progressBackgroundTint="@color/design_default_color_secondary_variant"
+                        android:progressTint="@color/orange"
+                        android:secondaryProgressTint="@color/design_default_color_secondary_variant"
+                        android:valueFrom="0"
+                        android:valueTo="10"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/text_view_horizontal_margin"
+                        android:text="@string/location" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start|center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/equipment"
+                        android:layout_width="@dimen/slider_width"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/slider_padding"
+                        android:progressBackgroundTint="@color/design_default_color_secondary_variant"
+                        android:progressTint="@color/orange"
+                        android:secondaryProgressTint="@color/design_default_color_secondary_variant"
+                        android:valueFrom="0"
+                        android:valueTo="10"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/text_view_horizontal_margin"
+                        android:text="@string/equipment" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start|center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/qualityForMoney"
+                        android:layout_width="@dimen/slider_width"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/slider_padding"
+                        android:progressBackgroundTint="@color/design_default_color_secondary_variant"
+                        android:progressTint="@color/orange"
+                        android:secondaryProgressTint="@color/design_default_color_secondary_variant"
+                        android:valueFrom="0"
+                        android:valueTo="10"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/text_view_horizontal_margin"
+                        android:text="@string/quality_for_money" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -182,30 +223,30 @@
             android:id="@+id/cancelButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/baseline_cancel_24"
-            android:drawablePadding="10dp"
             android:gravity="center"
             android:text="@string/cancel"
+            android:layout_margin="@dimen/button_margin"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="TextContrastCheck" />
 
         <Button
             android:id="@+id/addButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/baseline_add_24"
-            android:drawablePadding="10dp"
             android:gravity="center"
             android:text="@string/add"
+            android:layout_margin="@dimen/button_margin"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="TextContrastCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/progress_bar_size"
+        android:layout_height="@dimen/progress_bar_size"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

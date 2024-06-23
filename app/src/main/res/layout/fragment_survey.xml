@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     android:background="@drawable/app_background"
     tools:context=".ui.SurveyFragment">
 
@@ -25,7 +24,7 @@
                 android:id="@+id/header"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/header_vertical_space"
+                android:layout_marginTop="@dimen/header_vertical_margin"
                 android:gravity="center_horizontal"
                 android:text="@string/student_survey"
                 android:textColor="@color/black"
@@ -60,32 +59,36 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:drawableRight="@drawable/baseline_navigate_before_24"
-                android:drawablePadding="10dp"
+                android:drawableLeft="@drawable/baseline_navigate_before_24"
+                android:drawablePadding="@dimen/button_drawable_padding"
+                android:drawableTint="@color/white"
                 android:gravity="center"
                 android:text="@string/prev_button"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="RtlHardcoded" />
 
             <Button
                 android:id="@+id/nextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:drawableLeft="@drawable/baseline_navigate_next_24"
-                android:drawablePadding="10dp"
+                android:drawableEnd="@drawable/baseline_navigate_next_24"
+                android:drawablePadding="@dimen/button_drawable_padding"
+                android:drawableTint="@color/white"
                 android:gravity="center"
                 android:text="@string/next_button"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ProgressBar
             android:id="@+id/progressBar"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/progress_bar_size"
+            android:layout_height="@dimen/progress_bar_size"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

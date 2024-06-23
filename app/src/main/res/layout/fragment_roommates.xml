@@ -4,18 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.RoommatesFragment"
-    android:background="@drawable/app_background">
+    android:background="@drawable/app_background"
+    tools:context=".ui.RoommatesFragment">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="Współlokatorzy"
-        android:textColor="@color/black"
-        android:textSize="@dimen/h2"
+        android:text="@string/roommates"
         android:textStyle="bold"
+        android:textSize="@dimen/h1"
+        android:layout_marginTop="@dimen/header_vertical_margin"
+        android:layout_marginBottom="@dimen/header_vertical_margin"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -32,17 +33,16 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Propozycje"
+            android:text="@string/proposed"
             android:background="@null"/>
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dopasowani"
+            android:text="@string/matched"
             android:background="@null"/>
 
     </com.google.android.material.tabs.TabLayout>
-
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/matches"
@@ -53,4 +53,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,11 +9,6 @@
         android:title="@string/start"/>
 
     <item
-        android:id="@+id/nav_observed"
-        android:icon="@drawable/heart"
-        android:title="@string/observed"/>
-
-    <item
         android:id="@+id/nav_map"
         android:icon="@drawable/baseline_location_on_24"
         android:title="@string/map"/>

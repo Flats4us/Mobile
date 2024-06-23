@@ -7,27 +7,27 @@
     <TableRow>
         <TextView
             android:id="@+id/type"
-            android:textSize="16sp"
+            android:textSize="@dimen/subtext_text_size"
             android:gravity="center_horizontal"
-            android:padding="8dp"
+            android:padding="@dimen/text_view_table_row_padding"
             android:layout_weight="1" />
         <TextView
             android:id="@+id/amount"
-            android:textSize="16sp"
+            android:textSize="@dimen/subtext_text_size"
             android:gravity="center_horizontal"
-            android:padding="8dp"
+            android:padding="@dimen/text_view_table_row_padding"
             android:layout_weight="1"/>
         <TextView
             android:id="@+id/isPaid"
-            android:textSize="16sp"
+            android:textSize="@dimen/subtext_text_size"
             android:gravity="center_horizontal"
-            android:padding="8dp"
+            android:padding="@dimen/text_view_table_row_padding"
             android:layout_weight="1"/>
         <TextView
             android:id="@+id/paidAtDate"
-            android:textSize="16sp"
+            android:textSize="@dimen/subtext_text_size"
             android:gravity="center_horizontal"
-            android:padding="8dp"
+            android:padding="@dimen/text_view_table_row_padding"
             android:layout_weight="1"/>
     </TableRow>
 

@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/app_background"
-    android:padding="16dp"
+    android:padding="@dimen/app_padding"
     tools:context=".ui.AddMeetingFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/header_vertical_space"
-        android:layout_marginBottom="@dimen/header_vertical_space"
+        android:layout_marginBottom="@dimen/header_vertical_margin"
         android:text="@string/create_meeting"
-        android:textColor="@color/black"
-        android:textSize="30sp"
+        android:textSize="@dimen/h1"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"/>
 
@@ -27,31 +29,28 @@
         android:orientation="vertical"
         android:background="@drawable/rectangle_white_background">
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutBirthDateWithHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp">
+            android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
 
             <LinearLayout
                 android:id="@+id/layoutDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                 android:background="@drawable/background_input"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_marginStart="10dp"
-                    android:contentDescription="@string/app_name"
+                    android:layout_width="@dimen/icon_width"
+                    android:layout_height="@dimen/icon_height"
+                    android:layout_marginStart="@dimen/icon_margin"
                     android:src="@drawable/baseline_calendar_month_24"
-                    app:tint="@color/black" />
+                    tools:ignore="ContentDescription" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -59,31 +58,29 @@
 
                     <TextView
                         android:id="@+id/textDate"
-                        android:layout_width="319dp"
-                        android:layout_height="57dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
                         android:background="@null"
                         android:gravity="center_vertical"
-                        android:hint="Dotknij, aby wybrać datę"
-                        android:text="01/01/2023"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:textSize="18sp"
+                        android:hint="@string/example_date"
+                        android:paddingHorizontal="@dimen/edit_text_padding_horizontal"
+                        android:textSize="@dimen/edit_text_size"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="41dp"
+                android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
                 android:background="@color/white"
-                android:paddingStart="6dp"
-                android:paddingEnd="6dp"
-                android:text="Data"
+                android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
+                android:text="@string/date"
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/layoutDate"
@@ -92,51 +89,37 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Time Picker Section -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutTimePickerWithHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp">
+            android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
 
             <LinearLayout
                 android:id="@+id/layoutTimePicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                 android:background="@drawable/background_input"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
 
                     <TimePicker
                         android:id="@+id/timePicker"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="10dp"
-                        android:timePickerMode="spinner"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:timePickerMode="spinner" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="41dp"
+                android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
                 android:background="@color/white"
-                android:paddingStart="6dp"
-                android:paddingEnd="6dp"
-                android:text="Godzina"
+                android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
+                android:text="@string/time"
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/layoutTimePicker"
@@ -149,26 +132,24 @@
             android:id="@+id/layoutResidentialAddressWithHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp">
+            android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
 
             <LinearLayout
                 android:id="@+id/layoutResidentialAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                 android:background="@drawable/background_input"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_marginStart="10dp"
+                    android:layout_width="@dimen/icon_width"
+                    android:layout_height="@dimen/icon_height"
+                    android:layout_marginStart="@dimen/icon_margin"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/baseline_home_24"
-                    app:tint="@color/black" />
+                    android:src="@drawable/baseline_home_24"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -177,21 +158,20 @@
                     <EditText
                         android:id="@+id/place"
                         android:layout_width="0dp"
-                        android:layout_height="55dp"
+                        android:layout_height="@dimen/edit_text_height"
                         android:background="@null"
-                        android:hint="Adres zamieszkania"
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
                         android:inputType="textPostalAddress"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:text="ul. Polowa"
-                        android:textSize="18sp"
+                        android:paddingHorizontal="@dimen/edit_text_padding_horizontal"
+                        android:hint="@string/address_example"
+                        android:textSize="@dimen/edit_text_size"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="VisualLintTextFieldSize" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
@@ -199,11 +179,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="41dp"
+                android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
                 android:background="@color/white"
-                android:paddingStart="6dp"
-                android:paddingEnd="6dp"
-                android:text="Miejsce"
+                android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
+                android:text="@string/place"
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/layoutResidentialAddress"
@@ -215,14 +194,13 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp">
+            android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
 
             <LinearLayout
                 android:id="@+id/layoutDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/layout_register_margin_top"
+                android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                 android:background="@drawable/background_input"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -232,8 +210,8 @@
                     android:id="@+id/description"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edit_text_description_height"
-                    android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                    android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                    android:paddingHorizontal="@dimen/edit_text_padding_horizontal"
+                    android:paddingTop="@dimen/edit_text_description_padding_top"
                     android:background="@null"
                     android:hint="@string/description"
                     android:imeOptions="actionNext"
@@ -243,16 +221,17 @@
                     android:maxLength="512"
                     android:minLines="9"
                     android:textSize="@dimen/edit_text_size"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:gravity="start|top"
+                    tools:ignore="VisualLintTextFieldSize" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                android:background="@color/white"
-                android:paddingStart="@dimen/layout_name_padding_vertical"
-                android:paddingEnd="@dimen/layout_name_padding_vertical"
+                android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                android:background="@null"
+                android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
                 android:text="@string/description"
                 android:textAllCaps="true"
                 android:textStyle="bold"
@@ -267,13 +246,14 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/image_button_min_height"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/layout_register_margin_top"
-            android:drawableStart="@drawable/baseline_attach_file_24"
+            android:layout_marginTop="@dimen/button_margin_top"
             android:text="@string/create_meeting"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TextContrastCheck" />
 
     </LinearLayout>
 
 </LinearLayout>
+</ScrollView>

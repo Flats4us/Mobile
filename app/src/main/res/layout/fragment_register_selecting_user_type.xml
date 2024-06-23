@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/app_background"
-    android:padding="16dp"
     tools:context=".ui.RegisterSelectingUserTypeFragment">
 
     <LinearLayout
@@ -23,8 +22,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/header_vertical_space"
-            android:text="Wybierz typ użytkownika:"
+            android:layout_marginTop="@dimen/header_vertical_margin"
+            android:text="@string/choose_user_type"
             android:textColor="@color/black"
             android:textSize="@dimen/h1"
             android:textStyle="bold"
@@ -51,8 +50,7 @@
                 android:id="@+id/studentRadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/radio_button_horizontal_margin"
-                android:layout_marginTop="@dimen/radio_button_vertical_margin"
+                android:layout_marginHorizontal="@dimen/radio_button_horizontal_margin"
                 android:text="@string/student_type"
                 android:textSize="@dimen/regular_text_size"
                 android:tag="STUDENT"/>
@@ -61,8 +59,7 @@
                 android:id="@+id/ownerRadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/radio_button_horizontal_margin"
-                android:layout_marginTop="@dimen/radio_button_vertical_margin"
+                android:layout_marginHorizontal="@dimen/radio_button_horizontal_margin"
                 android:layout_weight="1"
                 android:text="@string/owner_type"
                 android:textSize="@dimen/regular_text_size"
@@ -76,8 +73,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:drawableLeft="@drawable/baseline_navigate_next_24"
-        android:drawablePadding="10dp"
+        android:drawableEnd="@drawable/baseline_navigate_next_24"
+        android:drawablePadding="@dimen/button_drawable_padding"
+        android:drawableTint="@color/white"
         android:gravity="center"
         android:text="@string/next_button"
         android:textColor="@color/white"

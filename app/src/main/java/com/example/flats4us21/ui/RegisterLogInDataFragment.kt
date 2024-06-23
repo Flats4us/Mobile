@@ -106,7 +106,7 @@ class RegisterLogInDataFragment : Fragment() {
 
         userViewModel.checkEmail(email) { exists ->
             if(exists)
-            Toast.makeText(requireContext(), getString(R.string.email_already_exist), Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), getString(R.string.email_already_exist), Toast.LENGTH_LONG).show()
             val allConditionsMet = isValid && exists
             Log.i(TAG, "isEmail: $isValid, exists: $exists, all: $allConditionsMet")
             editTextLayout.setBackgroundResource(if (allConditionsMet) R.drawable.background_input else R.drawable.background_wrong_input)

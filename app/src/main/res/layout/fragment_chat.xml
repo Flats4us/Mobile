@@ -5,7 +5,7 @@
     android:id="@+id/fragment_chat"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:padding="@dimen/app_padding"
     android:background="@drawable/app_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,7 +41,8 @@
                 tools:text="text"
                 android:textSize="@dimen/h2"
                 android:textStyle="bold"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                tools:ignore="RtlSymmetry" />
 
         </LinearLayout>
 
@@ -67,30 +68,34 @@
             <EditText
                 android:id="@+id/messageEditText"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:hint="Wpisz wiadomość..."
+                android:layout_height="@dimen/edit_text_height"
+                android:hint="@string/enter_message"
+                android:inputType="text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/sendButton"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="VisualLintTextFieldSize" />
 
             <ImageButton
                 android:id="@+id/sendButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/send"
+                android:layout_width="@dimen/image_button_min_width"
+                android:layout_height="@dimen/image_button_min_height"
                 android:background="@null"
+                android:src="@drawable/send"
                 app:layout_constraintBottom_toBottomOf="@id/messageEditText"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/messageEditText" />
+                app:layout_constraintTop_toTopOf="@id/messageEditText"
+                tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/progress_bar_size"
+        android:layout_height="@dimen/progress_bar_size"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

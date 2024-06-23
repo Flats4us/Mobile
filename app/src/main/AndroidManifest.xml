@@ -30,19 +30,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ProfileActivity"
-            android:exported="true" />
-
-        <activity
-            android:name=".ProfileInsightActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ReviewSubmissionScreen"
-            android:exported="true" />
-        <activity
-            android:name=".MapActivity"
-            android:exported="true" />
         <provider
             android:name="com.example.flats4us21.MyFileProvider"
             android:authorities="com.example.fileprovider"

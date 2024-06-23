@@ -1,56 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="@drawable/background_bottom_sheet">
 
-    <LinearLayout
-        android:id="@+id/layoutRent"
+    <TextView
+        android:id="@+id/rentButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
+        android:text="@string/rent"
+        android:drawablePadding="@dimen/text_view_menu_margin_start"
+        android:padding="@dimen/layout_menu_item_padding"
+        android:textSize="@dimen/text_view_menu_text_size"
+        app:drawableStartCompat="@drawable/baseline_edit_24" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_edit_24"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/rent"
-            android:layout_marginStart="30dp"
-            android:textSize="16sp"/>
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/layoutMeet"
+    <TextView
+        android:id="@+id/meetButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_calendar_month_24"
-            app:tint="@color/black"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/meet"
-            android:layout_marginStart="30dp"
-            android:textSize="16sp"/>
-
-    </LinearLayout>
+        android:text="@string/meet"
+        android:drawablePadding="@dimen/text_view_menu_margin_start"
+        android:padding="@dimen/layout_menu_item_padding"
+        android:textSize="@dimen/text_view_menu_text_size"
+        app:drawableLeftCompat="@drawable/baseline_calendar_month_24" />
 
 </LinearLayout>

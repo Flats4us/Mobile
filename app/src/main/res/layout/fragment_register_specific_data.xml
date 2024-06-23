@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/app_background"
-    android:padding="16dp"
     tools:context=".ui.RegisterSpecificDataFragment">
 
     <ScrollView
@@ -22,13 +21,14 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical"
+            android:paddingBottom="@dimen/layout_edit_text_margin_top"
             android:background="@drawable/rectangle_white_background">
 
             <TextView
                 android:id="@+id/header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/header_vertical_space"
+                android:layout_marginTop="@dimen/header_vertical_margin"
                 android:text="@string/personal_data"
                 android:textColor="@color/black"
                 android:textSize="@dimen/h2"
@@ -38,14 +38,14 @@
                 android:id="@+id/layoutBirthDateWithHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp">
+
+                android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
 
                 <LinearLayout
                     android:id="@+id/layoutBirthDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                     android:background="@drawable/background_input"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
@@ -56,8 +56,7 @@
                         android:layout_height="@dimen/icon_height"
                         android:layout_marginStart="@dimen/icon_margin"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_person_24"
-                        app:tint="@color/black" />
+                        android:src="@drawable/baseline_person_24"/>
 
                     <TextView
                         android:id="@+id/birthDate"
@@ -69,7 +68,7 @@
                         android:background="@null"
                         android:hint="@string/birth_date"
                         android:importantForAutofill="no"
-                        android:textSize="@dimen/regular_text_size"
+                        android:textSize="@dimen/edit_text_size"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -77,10 +76,9 @@
                     android:id="@+id/layoutBirthDateHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                    android:background="@color/white"
-                    android:paddingStart="@dimen/layout_name_padding_vertical"
-                    android:paddingEnd="@dimen/layout_name_padding_vertical"
+                    android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                    android:background="@null"
+                    android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
                     android:text="@string/required_birth_date"
                     android:textAllCaps="true"
                     android:textStyle="bold"
@@ -94,14 +92,14 @@
                 android:id="@+id/layoutUniversityWithHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp">
+
+                android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
 
                 <LinearLayout
                     android:id="@+id/layoutUniversity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                     android:background="@drawable/background_input"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
@@ -112,8 +110,7 @@
                         android:layout_height="@dimen/icon_height"
                         android:layout_marginStart="@dimen/icon_margin"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_person_24"
-                        app:tint="@color/black" />
+                        android:src="@drawable/baseline_person_24"/>
 
                     <EditText
                         android:id="@+id/university"
@@ -126,7 +123,7 @@
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
                         android:inputType="text"
-                        android:textSize="@dimen/regular_text_size"
+                        android:textSize="@dimen/edit_text_size"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -134,10 +131,9 @@
                     android:id="@+id/layoutUniversityHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                    android:background="@color/white"
-                    android:paddingStart="@dimen/layout_name_padding_vertical"
-                    android:paddingEnd="@dimen/layout_name_padding_vertical"
+                    android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                    android:background="@null"
+                    android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
                     android:text="@string/required_university"
                     android:textAllCaps="true"
                     android:textStyle="bold"
@@ -151,14 +147,14 @@
                 android:id="@+id/layoutStudentNumberWithHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp">
+
+                android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
 
                 <LinearLayout
                     android:id="@+id/layoutStudentNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                     android:background="@drawable/background_input"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
@@ -169,8 +165,7 @@
                         android:layout_height="@dimen/icon_height"
                         android:layout_marginStart="@dimen/icon_margin"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_person_24"
-                        app:tint="@color/black" />
+                        android:src="@drawable/baseline_person_24"/>
 
                     <EditText
                         android:id="@+id/studentNumber"
@@ -183,7 +178,7 @@
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
                         android:inputType="text"
-                        android:textSize="@dimen/regular_text_size"
+                        android:textSize="@dimen/edit_text_size"
                         android:textStyle="bold"
                         tools:ignore="TextFields" />
                 </LinearLayout>
@@ -192,10 +187,9 @@
                     android:id="@+id/layoutStudentNumberHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                    android:background="@color/white"
-                    android:paddingStart="@dimen/layout_name_padding_vertical"
-                    android:paddingEnd="@dimen/layout_name_padding_vertical"
+                    android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                    android:background="@null"
+                    android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
                     android:text="@string/required_student_number"
                     android:textAllCaps="true"
                     android:textStyle="bold"
@@ -209,14 +203,14 @@
                 android:id="@+id/layoutBankAccountWithHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp">
+
+                android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
 
                 <LinearLayout
                     android:id="@+id/layoutBankAccount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                     android:background="@drawable/background_input"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
@@ -227,8 +221,7 @@
                         android:layout_height="@dimen/icon_height"
                         android:layout_marginStart="@dimen/icon_margin"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_person_24"
-                        app:tint="@color/black" />
+                        android:src="@drawable/baseline_person_24" />
 
                     <EditText
                         android:id="@+id/bankAccount"
@@ -241,7 +234,7 @@
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
                         android:inputType="date"
-                        android:textSize="@dimen/regular_text_size"
+                        android:textSize="@dimen/edit_text_size"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -249,10 +242,9 @@
                     android:id="@+id/layoutBankAccountHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                    android:background="@color/white"
-                    android:paddingStart="@dimen/layout_name_padding_vertical"
-                    android:paddingEnd="@dimen/layout_name_padding_vertical"
+                    android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                    android:background="@null"
+                    android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
                     android:text="@string/required_bank_account"
                     android:textAllCaps="true"
                     android:textStyle="bold"
@@ -266,14 +258,14 @@
                 android:id="@+id/layoutDocumentNumberWithHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp">
+
+                android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
 
                 <LinearLayout
                     android:id="@+id/layoutDocumentNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                     android:background="@drawable/background_input"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
@@ -284,8 +276,7 @@
                         android:layout_height="@dimen/icon_height"
                         android:layout_marginStart="@dimen/icon_margin"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_person_24"
-                        app:tint="@color/black" />
+                        android:src="@drawable/baseline_person_24"/>
 
                     <EditText
                         android:id="@+id/documentNumber"
@@ -298,7 +289,7 @@
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
                         android:inputType="text"
-                        android:textSize="@dimen/regular_text_size"
+                        android:textSize="@dimen/edit_text_size"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -306,10 +297,9 @@
                     android:id="@+id/layoutDocumentNumberHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                    android:background="@color/white"
-                    android:paddingStart="@dimen/layout_name_padding_vertical"
-                    android:paddingEnd="@dimen/layout_name_padding_vertical"
+                    android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                    android:background="@null"
+                    android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
                     android:text="@string/required_document_number"
                     android:textAllCaps="true"
                     android:textStyle="bold"
@@ -323,14 +313,14 @@
                 android:id="@+id/layoutDocumentExpireDateWithHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp">
+
+                android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
 
                 <LinearLayout
                     android:id="@+id/layoutDocumentExpireDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_register_margin_top"
+                    android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                     android:background="@drawable/background_input"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
@@ -341,8 +331,7 @@
                         android:layout_height="@dimen/icon_height"
                         android:layout_marginStart="@dimen/icon_margin"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_person_24"
-                        app:tint="@color/black" />
+                        android:src="@drawable/baseline_person_24"/>
 
                     <TextView
                         android:id="@+id/documentExpireDate"
@@ -354,7 +343,7 @@
                         android:background="@null"
                         android:hint="@string/document_expire_date"
                         android:importantForAutofill="no"
-                        android:textSize="@dimen/regular_text_size"
+                        android:textSize="@dimen/edit_text_size"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -362,10 +351,9 @@
                     android:id="@+id/layoutDocumentExpireDateHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_name_margin_vertical"
-                    android:background="@color/white"
-                    android:paddingStart="@dimen/layout_name_padding_vertical"
-                    android:paddingEnd="@dimen/layout_name_padding_vertical"
+                    android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                    android:background="@null"
+                    android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
                     android:text="@string/required_document_expired_date"
                     android:textAllCaps="true"
                     android:textStyle="bold"
@@ -379,7 +367,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="@dimen/layout_register_margin_top"
+                android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                 app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -391,7 +379,8 @@
                     android:layout_height="@dimen/image_button_min_height"
                     android:layout_gravity="center"
                     android:drawableLeft="@drawable/baseline_attach_file_24"
-                    android:text="Wczytaj skan dokumentu"
+                    android:drawableTint="@color/white"
+                    android:text="@string/read_document"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -415,11 +404,13 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/addPhotoButton"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"/>
+                    android:layout_marginStart="@dimen/recycler_view_margin_horizontal"
+                    android:layout_marginEnd="@dimen/recycler_view_margin_horizontal"/>
 
             </LinearLayout>
+
         </LinearLayout>
+
     </ScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -434,25 +425,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:drawableRight="@drawable/baseline_navigate_before_24"
-            android:drawablePadding="10dp"
+            android:drawableLeft="@drawable/baseline_navigate_before_24"
+            android:drawablePadding="@dimen/button_drawable_padding"
+            android:drawableTint="@color/white"
             android:gravity="center"
             android:text="@string/prev_button"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlHardcoded" />
 
         <Button
             android:id="@+id/nextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:drawableLeft="@drawable/baseline_navigate_next_24"
-            android:drawablePadding="10dp"
+            android:drawableEnd="@drawable/baseline_navigate_next_24"
+            android:drawablePadding="@dimen/button_drawable_padding"
+            android:drawableTint="@color/white"
             android:gravity="center"
             android:text="@string/next_button"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

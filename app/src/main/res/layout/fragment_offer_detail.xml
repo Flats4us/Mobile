@@ -8,11 +8,11 @@
     android:background="@drawable/app_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/detailLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ScrollView
+            android:id="@+id/detailLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scrollbars="none"
@@ -25,30 +25,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="@dimen/app_padding">
 
                 <TextView
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/edit_profile"
+                    android:layout_marginBottom="@dimen/header_vertical_margin"
                     android:textColor="@color/black"
                     android:layout_gravity="center_horizontal"
-                    android:textSize="30sp"
+                    android:textSize="@dimen/h1"
                     android:textStyle="bold"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:layout_marginBottom="8dp">
+                    android:layout_marginBottom="@dimen/layout_view_pager_margin_vertical">
 
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/image"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/image_view_image_height"
-                        android:contentDescription="zdjęcie nieruchomości"
+                        android:contentDescription="@string/property_image"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -56,15 +55,15 @@
 
                     <ImageButton
                         android:id="@+id/addButton"
-                        android:layout_width="52dp"
-                        android:layout_height="52dp"
+                        android:layout_width="@dimen/image_button_observe_size"
+                        android:layout_height="@dimen/image_button_observe_size"
                         android:background="@drawable/rounded_button"
                         android:src="@drawable/unobserve"
-                        android:layout_marginEnd="5dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginEnd="@dimen/image_button_observe_margin"
+                        android:layout_marginBottom="@dimen/image_button_observe_margin"
                         app:layout_constraintTop_toTopOf="@id/image"
                         app:layout_constraintEnd_toEndOf="@id/image"
-                        tools:ignore="SpeakableTextPresentCheck" />
+                        tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
                     <TextView
                         android:id="@+id/imageCount"
@@ -73,8 +72,7 @@
                         android:gravity="center_horizontal"
                         android:background="@color/transparent_black"
                         android:textColor="@color/white"
-                        android:paddingHorizontal="10dp"
-                        android:paddingVertical="10dp"
+                        android:padding="@dimen/text_view_image_count_padding"
                         app:drawableLeftCompat="@drawable/baseline_camera_alt_24"
                         app:drawableTint="@color/white"
                         app:layout_constraintBottom_toBottomOf="@id/image"
@@ -82,55 +80,60 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
                     android:background="@drawable/rectangle_white_background"
-                    android:padding="8dp"
-                    android:layout_marginBottom="@dimen/regular_vertical_space">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/date"
-                        android:textStyle="italic"
-                        android:textSize="@dimen/subtext_text_size"
-                        android:layout_marginEnd="@dimen/text_view_horizontal_margin"
-                        android:layout_weight="1"
-                        android:gravity="end"/>
-                    <TextView
-                        android:id="@+id/startDate"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:textStyle="italic"
-                        android:textSize="@dimen/subtext_text_size"
-                        android:layout_weight="1"/>
-                </LinearLayout>
+                    android:padding="16dp"
+                    android:layout_marginBottom="8dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:background="@drawable/rectangle_white_background"
-                    android:padding="8dp"
-                    android:layout_marginBottom="@dimen/regular_vertical_space">
-                    <TextView
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/end_date"
-                        android:textStyle="italic"
-                        android:textSize="@dimen/subtext_text_size"
-                        android:layout_marginEnd="@dimen/text_view_horizontal_margin"
-                        android:layout_weight="1"
-                        android:gravity="end"/>
-                    <TextView
-                        android:id="@+id/endDate"
-                        android:layout_width="0dp"
+                        android:gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/regular_vertical_space">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/issue_date"
+                            android:textStyle="italic"
+                            android:textSize="@dimen/subtext_text_size"
+                            android:layout_marginEnd="@dimen/text_view_horizontal_margin"
+                            android:layout_weight="1"
+                            android:gravity="end"/>
+                        <TextView
+                            android:id="@+id/startDate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textStyle="italic"
+                            android:textSize="@dimen/subtext_text_size"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textStyle="italic"
-                        android:textSize="@dimen/subtext_text_size"
-                        android:layout_weight="1"/>
+                        android:gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/regular_vertical_space">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/end_date"
+                            android:textStyle="italic"
+                            android:textSize="@dimen/subtext_text_size"
+                            android:layout_marginEnd="@dimen/text_view_horizontal_margin"
+                            android:layout_weight="1"
+                            android:gravity="end"/>
+                        <TextView
+                            android:id="@+id/endDate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textStyle="italic"
+                            android:textSize="@dimen/subtext_text_size"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -139,18 +142,18 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/header_vertical_space"
-                    android:layout_marginBottom="@dimen/header_vertical_space"
+                    android:layout_marginBottom="@dimen/header_vertical_margin"
                     android:background="@drawable/rectangle_white_background"
-                    android:padding="16dp">
+                    android:padding="@dimen/app_padding">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/text_view_horizontal_margin"
                         android:text="@string/owner"
                         android:textSize="@dimen/regular_text_size"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="@dimen/text_view_horizontal_margin" />
+                        tools:ignore="TextContrastCheck" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/ownerPhoto"
@@ -169,6 +172,7 @@
                         android:textSize="@dimen/regular_text_size"
                         android:textStyle="bold"
                         android:layout_gravity="center"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -176,21 +180,25 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:background="@drawable/rectangle_white_background"
-                    android:layout_marginBottom="@dimen/header_vertical_space"
-                    android:padding="16dp">
+                    android:layout_marginBottom="@dimen/header_vertical_margin"
+                    android:padding="@dimen/app_padding">
+
                     <TextView
                         android:id="@+id/price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/h1"
                         android:textStyle="bold"/>
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/monthly_price"
                         android:textSize="@dimen/h1"
                         android:textStyle="bold"
-                        android:paddingStart="@dimen/table_cell_padding"/>
+                        android:paddingStart="@dimen/table_cell_padding"
+                        tools:ignore="RtlSymmetry" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -198,22 +206,23 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:background="@drawable/rectangle_white_background"
-                    android:padding="16dp"
-                    android:layout_marginBottom="16dp">
+                    android:padding="@dimen/text_view_padding"
+                    android:layout_marginBottom="8dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/offer_details"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/regular_text_size"
                         android:textStyle="bold"
                         android:gravity="center_horizontal"
-                        android:layout_marginBottom="16dp"/>
+                        android:layout_marginBottom="@dimen/text_view_inside_header_margin_top"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
 
                         <TextView
                             android:layout_width="0dp"
@@ -221,7 +230,7 @@
                             android:layout_weight="1"
                             android:text="@string/deposit"
                             android:textStyle="italic"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_view_table_cell_text_size"
                             android:gravity="end"/>
 
                         <TextView
@@ -229,8 +238,9 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textSize="14sp"
-                            android:paddingStart="@dimen/table_cell_padding"/>
+                            android:textSize="@dimen/text_view_table_cell_text_size"
+                            android:paddingStart="@dimen/text_view_padding"
+                            tools:ignore="RtlSymmetry" />
 
                     </LinearLayout>
 
@@ -246,7 +256,7 @@
                             android:layout_weight="1"
                             android:text="@string/city"
                             android:textStyle="italic"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_view_table_cell_text_size"
                             android:gravity="end"
                             android:layout_marginEnd="8dp"/>
 
@@ -255,8 +265,9 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textSize="14sp"
-                            android:paddingStart="8dp"/>
+                            android:textSize="@dimen/text_view_table_cell_text_size"
+                            android:paddingStart="@dimen/text_view_padding"
+                            tools:ignore="RtlSymmetry" />
 
                     </LinearLayout>
 
@@ -272,7 +283,7 @@
                             android:layout_weight="1"
                             android:text="@string/district"
                             android:textStyle="italic"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_view_table_cell_text_size"
                             android:gravity="end"
                             android:layout_marginEnd="8dp"/>
 
@@ -281,8 +292,9 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textSize="14sp"
-                            android:paddingStart="8dp"/>
+                            android:textSize="@dimen/text_view_table_cell_text_size"
+                            android:paddingStart="@dimen/text_view_padding"
+                            tools:ignore="RtlSymmetry" />
 
                     </LinearLayout>
 
@@ -298,7 +310,7 @@
                             android:layout_weight="1"
                             android:text="@string/street"
                             android:textStyle="italic"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_view_table_cell_text_size"
                             android:gravity="end"
                             android:layout_marginEnd="8dp"/>
 
@@ -307,8 +319,9 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textSize="14sp"
-                            android:paddingStart="8dp"/>
+                            android:textSize="@dimen/text_view_table_cell_text_size"
+                            android:paddingStart="@dimen/text_view_padding"
+                            tools:ignore="RtlSymmetry" />
 
                     </LinearLayout>
 
@@ -324,7 +337,7 @@
                             android:layout_weight="1"
                             android:text="@string/area"
                             android:textStyle="italic"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_view_table_cell_text_size"
                             android:gravity="end"
                             android:layout_marginEnd="8dp"/>
 
@@ -333,19 +346,20 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:layout_weight="1"
-                            android:paddingStart="8dp">
+                            android:paddingStart="@dimen/text_view_padding"
+                            tools:ignore="RtlSymmetry">
 
                             <TextView
                                 android:id="@+id/area"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="14sp"/>
+                                android:textSize="@dimen/text_view_table_cell_text_size"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/unit"
-                                android:textSize="14sp"/>
+                                android:textSize="@dimen/text_view_table_cell_text_size"/>
 
                         </LinearLayout>
 
@@ -365,7 +379,7 @@
                             android:layout_weight="1"
                             android:text="@string/land_area"
                             android:textStyle="italic"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_view_table_cell_text_size"
                             android:gravity="end"
                             android:layout_marginEnd="8dp"/>
 
@@ -374,19 +388,20 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:layout_weight="1"
-                            android:paddingStart="8dp">
+                            android:paddingStart="8dp"
+                            tools:ignore="RtlSymmetry">
 
                             <TextView
                                 android:id="@+id/landArea"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="14sp"/>
+                                android:textSize="@dimen/text_view_table_cell_text_size"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/unit"
-                                android:textSize="14sp"/>
+                                android:textSize="@dimen/text_view_table_cell_text_size"/>
 
                         </LinearLayout>
 
@@ -404,7 +419,7 @@
                             android:layout_weight="1"
                             android:text="@string/number_of_rooms"
                             android:textStyle="italic"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_view_table_cell_text_size"
                             android:gravity="end"
                             android:layout_marginEnd="8dp"/>
 
@@ -413,8 +428,9 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textSize="14sp"
-                            android:paddingStart="8dp"/>
+                            android:textSize="@dimen/text_view_table_cell_text_size"
+                            android:paddingStart="@dimen/text_view_padding"
+                            tools:ignore="RtlSymmetry" />
 
                     </LinearLayout>
 
@@ -430,7 +446,7 @@
                             android:layout_weight="1"
                             android:text="@string/period"
                             android:textStyle="italic"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_view_table_cell_text_size"
                             android:gravity="end"
                             android:layout_marginEnd="8dp"/>
 
@@ -440,20 +456,22 @@
                             android:orientation="horizontal"
                             android:gravity="center_vertical"
                             android:layout_weight="1"
-                            android:paddingStart="8dp">
+                            android:paddingStart="8dp"
+                            tools:ignore="RtlSymmetry">
 
                             <TextView
                                 android:id="@+id/period"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="14sp"/>
+                                android:textSize="@dimen/text_view_table_cell_text_size"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/month"
-                                android:textSize="14sp"
-                                android:paddingStart="1dp"/>
+                                android:textSize="@dimen/text_view_table_cell_text_size"
+                                android:paddingStart="1dp"
+                                tools:ignore="RtlSymmetry" />
 
                         </LinearLayout>
 
@@ -471,7 +489,7 @@
                             android:layout_weight="1"
                             android:text="@string/max_residents"
                             android:textStyle="italic"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_view_table_cell_text_size"
                             android:gravity="end"
                             android:layout_marginEnd="8dp"/>
 
@@ -481,8 +499,9 @@
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
                             android:layout_weight="1"
-                            android:textSize="14sp"
-                            android:paddingStart="8dp"/>
+                            android:textSize="@dimen/text_view_table_cell_text_size"
+                            android:paddingStart="@dimen/text_view_padding"
+                            tools:ignore="RtlSymmetry" />
 
                     </LinearLayout>
 
@@ -498,7 +517,7 @@
                             android:layout_weight="1"
                             android:text="@string/construction_year"
                             android:textStyle="italic"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_view_table_cell_text_size"
                             android:gravity="end"
                             android:layout_marginEnd="8dp"/>
 
@@ -507,8 +526,9 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textSize="14sp"
-                            android:paddingStart="8dp"/>
+                            android:textSize="@dimen/text_view_table_cell_text_size"
+                            android:paddingStart="@dimen/text_view_padding"
+                            tools:ignore="RtlSymmetry" />
 
                     </LinearLayout>
 
@@ -524,7 +544,7 @@
                             android:layout_weight="1"
                             android:text="@string/equipment"
                             android:textStyle="italic"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/text_view_table_cell_text_size"
                             android:gravity="end"
                             android:layout_marginEnd="8dp"/>
 
@@ -533,8 +553,9 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textSize="14sp"
-                            android:paddingStart="8dp"/>
+                            android:textSize="@dimen/text_view_table_cell_text_size"
+                            android:paddingStart="@dimen/text_view_padding"
+                            tools:ignore="RtlSymmetry" />
 
                     </LinearLayout>
 
@@ -543,30 +564,30 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_marginBottom="16dp"
                     android:background="@drawable/rectangle_white_background"
-                    android:padding="16dp"
-                    android:layout_marginBottom="16dp">
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/description"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
+                        android:layout_marginBottom="@dimen/text_view_inside_header_margin_top"
                         android:gravity="center_horizontal"
-                        android:layout_marginBottom="16dp"/>
+                        android:text="@string/description"
+                        android:textSize="@dimen/regular_text_size"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
                         android:ellipsize="none"
                         android:maxLines="100"
                         android:scrollHorizontally="false"
-                        android:textSize="14sp"
                         android:text="@string/lorem_ipsum"
-                        android:layout_marginBottom="16dp"/>
+                        android:textSize="@dimen/subtext_text_size" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -574,17 +595,17 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:background="@drawable/rectangle_white_background"
-                    android:padding="16dp"
-                    android:layout_marginBottom="16dp">
+                    android:padding="@dimen/text_view_padding"
+                    android:layout_marginBottom="8dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/reviews"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/regular_text_size"
                         android:textStyle="bold"
                         android:gravity="center_horizontal"
-                        android:layout_marginBottom="16dp"/>
+                        android:layout_marginBottom="@dimen/text_view_inside_header_margin_top"/>
 
                     <TextView
                         android:id="@+id/emptyView"
@@ -601,38 +622,29 @@
                         android:orientation="vertical">
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
-                            android:orientation="vertical">
+                            android:orientation="horizontal">
 
-                            <LinearLayout
+                            <RatingBar
+                                android:id="@+id/ratingBar"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:orientation="horizontal">
+                                android:isIndicator="true"
+                                android:numStars="5"
+                                android:progressBackgroundTint="@color/design_default_color_secondary_variant"
+                                android:progressTint="@color/orange"
+                                android:secondaryProgressTint="@color/design_default_color_secondary_variant"
+                                android:stepSize="0.1"
+                                tools:rating="3.2" />
 
-                                <RatingBar
-                                    android:id="@+id/ratingBar"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:isIndicator="true"
-                                    android:numStars="5"
-                                    android:progressBackgroundTint="@color/design_default_color_secondary_variant"
-                                    android:progressTint="@color/orange"
-                                    android:secondaryProgressTint="@color/design_default_color_secondary_variant"
-                                    android:stepSize="0.1"
-                                    tools:rating="3.2" />
-
-
-                                <ImageButton
-                                    android:id="@+id/reviewsButton"
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
-                                    android:src="@drawable/list"
-                                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
-                            </LinearLayout>
+                            <ImageButton
+                                android:id="@+id/reviewsButton"
+                                android:layout_width="@dimen/image_button_reviews_size"
+                                android:layout_height="@dimen/image_button_reviews_size"
+                                android:src="@drawable/list"
+                                tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                         </LinearLayout>
 
@@ -655,11 +667,10 @@
                                 android:id="@+id/layoutService"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginHorizontal="8dp"
+                                android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
                                 android:background="@drawable/oval_white_background"
                                 android:backgroundTint="#44C3FA"
-                                android:paddingHorizontal="8dp"
-                                android:paddingVertical="8dp">
+                                android:padding="@dimen/layout_opinion_padding">
 
                                 <TextView
                                     android:id="@+id/service"
@@ -675,24 +686,24 @@
                                     android:id="@+id/sumService"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:paddingLeft="4dp"
+                                    android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
                                     android:singleLine="true"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toEndOf="@+id/service"
                                     app:layout_constraintTop_toTopOf="parent"
-                                    tools:text="7" />
+                                    tools:text="7"
+                                    tools:ignore="RtlSymmetry" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:id="@+id/layoutLocation"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginHorizontal="8dp"
+                                android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
                                 android:background="@drawable/oval_white_background"
                                 android:backgroundTint="#44C3FA"
-                                android:paddingHorizontal="8dp"
-                                android:paddingVertical="8dp">
+                                android:padding="@dimen/layout_opinion_padding">
 
                                 <TextView
                                     android:id="@+id/location"
@@ -702,30 +713,31 @@
                                     android:text="@string/location_with_colon"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent" />
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:ignore="TooManyViews" />
 
                                 <TextView
                                     android:id="@+id/sumLocation"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:paddingLeft="4dp"
+                                    android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
                                     android:singleLine="true"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toEndOf="@+id/location"
                                     app:layout_constraintTop_toTopOf="parent"
-                                    tools:text="7" />
+                                    tools:text="7"
+                                    tools:ignore="RtlSymmetry" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:id="@+id/layoutEquipment"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginHorizontal="8dp"
+                                android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
                                 android:background="@drawable/oval_white_background"
                                 android:backgroundTint="#44C3FA"
-                                android:paddingHorizontal="8dp"
-                                android:paddingVertical="8dp">
+                                android:padding="@dimen/layout_opinion_padding">
 
                                 <TextView
                                     android:id="@+id/equipmentOpinion"
@@ -741,25 +753,25 @@
                                     android:id="@+id/sumEquipment"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:paddingLeft="4dp"
+                                    android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
                                     android:singleLine="true"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toEndOf="@+id/equipmentOpinion"
                                     app:layout_constraintTop_toTopOf="parent"
-                                    tools:text="7" />
+                                    tools:text="7"
+                                    tools:ignore="RtlSymmetry" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:id="@+id/layoutQualityForMoney"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginHorizontal="8dp"
-                                android:layout_marginTop="4dp"
+                                android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                                android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                                 android:background="@drawable/oval_white_background"
                                 android:backgroundTint="#44C3FA"
-                                android:paddingHorizontal="8dp"
-                                android:paddingVertical="8dp">
+                                android:padding="@dimen/layout_opinion_padding">
 
                                 <TextView
                                     android:id="@+id/qualityForMoney"
@@ -775,13 +787,14 @@
                                     android:id="@+id/sumQualityForMoney"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:paddingLeft="4dp"
+                                    android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
                                     android:singleLine="true"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toEndOf="@+id/qualityForMoney"
                                     app:layout_constraintTop_toTopOf="parent"
-                                    tools:text="7" />
+                                    tools:text="7"
+                                    tools:ignore="RtlSymmetry" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                         </com.google.android.flexbox.FlexboxLayout>
@@ -790,39 +803,14 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@drawable/rectangle_white_background"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/interested_people"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:gravity="center_horizontal"
-                        android:layout_marginBottom="16dp"/>
-
-                    <TextView
-                        android:id="@+id/interestedPeople"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:gravity="center_horizontal"/>
-                </LinearLayout>
-
             </LinearLayout>
 
         </ScrollView>
 
         <ProgressBar
             android:id="@+id/progressBar"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/progress_bar_size"
+            android:layout_height="@dimen/progress_bar_size"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -835,12 +823,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/fab_margin"
             android:src="@drawable/menu"
-            app:elevation="6dp"
+            app:elevation="@dimen/fab_elevation"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+            tools:ignore="ContentDescription,RtlHardcoded,SpeakableTextPresentCheck,ImageContrastCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

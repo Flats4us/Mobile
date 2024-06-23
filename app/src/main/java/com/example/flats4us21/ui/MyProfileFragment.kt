@@ -46,6 +46,17 @@ class MyProfileFragment : Fragment() {
                 bindData(userProfile)
         }
 
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.mainLayout.visibility = if (isLoading) View.GONE else View.VISIBLE
+        }
+
+        viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
+            if (error != null) {
+                Log.e(TAG, "$error")
+            }
+        }
+
         binding.buttonsLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 when (tab.position) {

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="4dp"
+    android:paddingHorizontal="@dimen/recycler_view_item_padding_horizontal"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingRight="4dp"
     android:paddingBottom="@dimen/activity_vertical_margin"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -20,11 +18,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/Circular"
         app:srcCompat="@drawable/baseline_person_24" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:paddingStart="8dp"
+        android:paddingStart="@dimen/layout_text_view_padding_horizontal"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/profilePicture"
@@ -35,9 +34,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
-            android:text="text"
+            android:text="@string/text"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
 
     </LinearLayout>
 
@@ -50,21 +48,22 @@
 
     <ImageButton
         android:id="@+id/addOpinion"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/image_button_min_width"
+        android:layout_height="@dimen/image_button_min_height"
         android:background="@color/orange"
-        android:text="Dodaj opinię"
+        android:text="@string/add_opinion"
         android:src="@drawable/list"
-        android:layout_marginRight="1dp"/>
-
+        android:contentDescription="@drawable/baseline_broken_image_24"
+        android:layout_marginEnd="@dimen/image_button_toggle_margin"/>
 
     <ImageButton
         android:id="@+id/profileButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:text="Profil"
+        android:layout_width="@dimen/image_button_min_width"
+        android:layout_height="@dimen/image_button_min_width"
+        android:text="@string/profile"
         android:src="@drawable/baseline_person_24"
         android:background="@color/orange"
+        android:contentDescription="@drawable/baseline_broken_image_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

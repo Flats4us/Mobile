@@ -149,10 +149,10 @@ class OwnerPropertyDetailFragment : Fragment() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.bottom_sheet_menu_property_layout)
 
-        val layoutEdit = dialog.findViewById<View>(R.id.layoutEdit)
-        val layoutDelete = dialog.findViewById<View>(R.id.layoutDelete)
+        val editPropertyButton = dialog.findViewById<View>(R.id.editPropertyButton)
+        val deletePropertyButton = dialog.findViewById<View>(R.id.deletePropertyButton)
 
-        layoutEdit.setOnClickListener {
+        editPropertyButton.setOnClickListener {
             val bundle = Bundle()
             bundle.putBoolean(IS_CREATING, false)
             bundle.putInt(PROPERTY_ID, property.propertyId)
@@ -160,7 +160,7 @@ class OwnerPropertyDetailFragment : Fragment() {
             fragment.arguments = bundle
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
-        layoutDelete.setOnClickListener {
+        deletePropertyButton.setOnClickListener {
             Log.d(TAG, "offers: ${property.offers} isNullOrEmpty ${!property.offers.isNullOrEmpty()}")
             if(property!!.offers.isNullOrEmpty()) {
                 realEstateViewModel.deleteProperty(property.propertyId) { result ->

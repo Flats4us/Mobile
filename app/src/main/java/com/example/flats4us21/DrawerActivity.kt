@@ -40,8 +40,8 @@ import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.launch
 import java.time.Instant
 
-const val URL = "http://172.21.40.120:5166"
-//const val URL = "http://172.27.80.1:5166"
+//const val URL = "http://172.21.40.120:5166"
+const val URL = "http://172.27.80.1:5166"
 private const val TAG = "DrawerActivity"
 class DrawerActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout

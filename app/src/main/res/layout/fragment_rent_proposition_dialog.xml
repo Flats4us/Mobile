@@ -4,20 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="@dimen/horizontal_space">
-
-    <LinearLayout
-        android:id="@+id/mainLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    android:padding="@dimen/app_padding"
+    android:background="@drawable/app_background">
 
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/header_vertical_space"
-            android:layout_marginBottom="@dimen/header_vertical_space"
             android:gravity="center_horizontal"
             android:text="@string/rent_proposition"
             android:textSize="@dimen/h1"
@@ -27,10 +20,22 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="TextContrastCheck" />
 
+    <LinearLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/header_vertical_margin"
+        android:padding="@dimen/app_padding"
+        android:background="@drawable/rectangle_white_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/header_vertical_space"
+            android:layout_marginTop="@dimen/header_vertical_margin"
             android:text="@string/rent_proposition"
             android:textSize="@dimen/h3"
             android:textStyle="bold"
@@ -43,8 +48,8 @@
             android:id="@+id/startDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/header_vertical_space"
-            android:text="22-03-2024"
+            android:layout_marginBottom="@dimen/header_vertical_margin"
+            android:text="@string/date_example"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -53,7 +58,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/header_vertical_space"
+            android:layout_marginTop="@dimen/header_vertical_margin"
             android:text="@string/period"
             android:textSize="@dimen/h3"
             android:textStyle="bold"
@@ -66,8 +71,8 @@
             android:id="@+id/duration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/header_vertical_space"
-            android:text="24 miesiące"
+            android:layout_marginBottom="@dimen/header_vertical_margin"
+            android:text="@string/duration_example"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -77,8 +82,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/header_vertical_space"
-            android:text="Najemcy"
+            android:layout_marginTop="@dimen/header_vertical_margin"
+            android:text="@string/tentors"
             android:textSize="@dimen/h3"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -89,16 +94,16 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/usersRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/header_vertical_space"
-            android:text="Czy akceptujesz propozycję najmu?"
+            android:layout_marginTop="@dimen/header_vertical_margin"
+            android:gravity="center_horizontal"
+            android:text="@string/do_you_accept_rent_proposition"
             android:textSize="@dimen/h3"
             android:textStyle="bold"
-            android:gravity="center_horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -114,10 +119,11 @@
                 android:layout_height="wrap_content"
                 android:drawablePadding="10dp"
                 android:gravity="center"
-                android:text="Nie"
+                android:text="@string/no"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="TextContrastCheck" />
 
             <Button
                 android:id="@+id/yes"
@@ -125,18 +131,19 @@
                 android:layout_height="wrap_content"
                 android:drawablePadding="10dp"
                 android:gravity="center"
-                android:text="Tak"
+                android:text="@string/yes"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="TextContrastCheck" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/progress_bar_size"
+        android:layout_height="@dimen/progress_bar_size"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

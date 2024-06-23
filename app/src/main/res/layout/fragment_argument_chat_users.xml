@@ -12,7 +12,7 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/header_vertical_space"
+        android:layout_marginBottom="@dimen/header_vertical_margin"
         android:gravity="center_horizontal"
         android:text="@string/users"
         android:textSize="@dimen/h1"
@@ -23,15 +23,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/rectangle_white_background"
-        android:layout_marginBottom="@dimen/regular_vertical_space"
-        android:padding="16dp">
+        android:background="@drawable/rectangle_white_background">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/userRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rectangle_white_background" />
+            android:background="@drawable/rectangle_white_background"
+            android:padding="@dimen/recyclerview_padding"
+            android:layout_marginBottom="@dimen/regular_vertical_space"/>
 
     </LinearLayout>
 

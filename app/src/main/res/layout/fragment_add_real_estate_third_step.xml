@@ -2,9 +2,9 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".ui.AddRealEstateThirdStepFragment">
 
@@ -12,12 +12,14 @@
         android:id="@+id/addPhotoButton"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/image_button_min_height"
-        android:drawableLeft="@drawable/baseline_attach_file_24"
-        android:text="@string/add_photos"
         android:layout_gravity="center"
+        android:drawableLeft="@drawable/baseline_attach_file_24"
+        android:drawableTint="@color/white"
+        android:text="@string/add_photos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="RtlHardcoded,TextContrastCheck" />
 
     <TextView
         android:id="@+id/warning"
@@ -43,7 +45,9 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/layout_register_margin_top"
+        android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
+        android:layout_marginTop="@dimen/layout_edit_text_margin_top"
+        android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -51,28 +55,32 @@
         <Button
             android:id="@+id/prevButton"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/image_button_min_height"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:drawableEnd="@drawable/baseline_navigate_before_24"
-            android:drawablePadding="10dp"
+            android:drawableLeft="@drawable/baseline_navigate_before_24"
+            android:drawablePadding="@dimen/button_drawable_padding"
+            android:drawableTint="@color/white"
             android:gravity="center"
             android:text="@string/prev_button"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlHardcoded,TextContrastCheck" />
 
         <Button
             android:id="@+id/nextButton"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/image_button_min_height"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:drawableLeft="@drawable/baseline_navigate_next_24"
-            android:drawablePadding="10dp"
+            android:drawableEnd="@drawable/baseline_navigate_next_24"
+            android:drawablePadding="@dimen/button_drawable_padding"
+            android:drawableTint="@color/white"
             android:gravity="center"
             android:text="@string/next_button"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TextContrastCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

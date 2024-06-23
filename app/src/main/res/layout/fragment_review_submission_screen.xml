@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="@dimen/app_padding"
+    android:background="@drawable/app_background"
     tools:context=".ui.ReviewSubmissionFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,23 +17,19 @@
             android:id="@+id/reviewHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
+            android:background="@null"
             android:gravity="center_horizontal"
-            android:text="Nowa opinia o użytkowniku"
-            android:textColor="@android:color/black"
-            android:textSize="24sp"
+            android:text="@string/new_opinion_about_user"
+            android:textSize="@dimen/h1"
             android:textStyle="bold"
-            android:layout_marginTop="16dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
+            android:padding="@dimen/app_padding"
+            android:background="@drawable/rectangle_white_background"
             app:layout_constraintTop_toBottomOf="@+id/reviewHeader"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,13 +39,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/profilePicture"
-                    android:layout_width="130dp"
-                    android:layout_height="130dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_width="@dimen/image_view_add_opinion_profile_picture_size"
+                    android:layout_height="@dimen/image_view_add_opinion_profile_picture_size"
                     android:src="@drawable/baseline_person_24"
+                    app:shapeAppearanceOverlay="@style/Circular"
+                    android:background="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,8 +54,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:text="Imię Nazwisko"
-                    android:textSize="24sp"
+                    android:text="@string/name_surname"
+                    android:textSize="@dimen/h2"
                     app:layout_constraintBottom_toTopOf="@+id/starRating"
                     app:layout_constraintStart_toEndOf="@+id/profilePicture"
                     app:layout_constraintTop_toTopOf="@+id/profilePicture" />
@@ -66,8 +64,6 @@
                     android:id="@+id/starRating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginTop="8dp"
                     tools:rating="3"
                     android:numStars="5"
                     android:stepSize="1"
@@ -79,25 +75,68 @@
                     app:layout_constraintStart_toEndOf="@+id/profilePicture"
                     app:layout_constraintTop_toBottomOf="@+id/userNameText" />
 
-                <EditText
-                    android:id="@+id/reviewEditText"
-                    android:layout_width="372dp"
-                    android:layout_height="95dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginEnd="16dp"
-                    android:hint="Dodaj opinię"
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/profilePicture" />
+                    app:layout_constraintTop_toBottomOf="@+id/profilePicture" >
+
+                    <LinearLayout
+                        android:id="@+id/layoutDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/layout_edit_text_margin_top"
+                        android:background="@drawable/background_input"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <EditText
+                            android:id="@+id/reviewEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/edit_text_description_height"
+                            android:background="@null"
+                            android:gravity="start|top"
+                            android:hint="@string/description"
+                            android:imeOptions="actionNext"
+                            android:importantForAutofill="no"
+                            android:inputType="textMultiLine"
+                            android:lines="4"
+                            android:maxLength="512"
+                            android:minLines="9"
+                            android:paddingHorizontal="@dimen/edit_text_padding_horizontal"
+                            android:paddingTop="@dimen/edit_text_description_padding_top"
+                            android:textSize="@dimen/edit_text_size"
+                            android:textStyle="bold"
+                            tools:ignore="VisualLintTextFieldSize,TextContrastCheck" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                        android:background="@null"
+                        android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
+                        android:text="@string/description"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/layoutDescription"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/layoutDescription" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxHeight="300dp">
+                android:maxHeight="@dimen/check_box_opinion_height">
 
                 <LinearLayout
                     android:id="@+id/tagsLayout"
@@ -118,15 +157,15 @@
                             android:text="" />
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/helpful" />
+                            android:layout_height="match_parent"
+                            android:text="@string/helpful"
+                            android:gravity="center_vertical" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="start|center_vertical">
+                        android:orientation="horizontal">
 
                         <CheckBox
                             android:id="@+id/cooperative"
@@ -135,7 +174,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/cooperative" />
+                            android:text="@string/cooperative"
+                            android:gravity="center_vertical"/>
                     </LinearLayout>
 
 
@@ -151,22 +191,23 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/tidy" />
+                            android:text="@string/tidy"
+                            android:layout_gravity="center_vertical" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="start|center_vertical">
+                        android:orientation="horizontal">
                         <CheckBox
                             android:id="@+id/friendly"
                             style="@style/TagStyle"
-                            android:text="" />
+                            android:text=""/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/friendly" />
+                            android:text="@string/friendly"
+                            android:gravity="center_vertical" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -187,8 +228,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="start|center_vertical">
+                        android:orientation="horizontal">
                         <CheckBox
                             android:id="@+id/communicative"
                             style="@style/TagStyleNegative"
@@ -196,7 +236,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/communicative" />
+                            android:text="@string/communicative"
+                            android:gravity="center_vertical"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -247,8 +288,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="start|center_vertical">
+                        android:orientation="horizontal">
                         <CheckBox
                             android:id="@+id/conflicting"
                             style="@style/TagStyleNegative"
@@ -256,7 +296,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/conflicting" />
+                            android:text="@string/conflicting"
+                            android:gravity="center_vertical"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -299,7 +340,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/baseline_cancel_24"
-            android:drawablePadding="10dp"
+            android:drawablePadding="@dimen/button_drawable_padding"
+            android:drawableTint="@color/white"
             android:gravity="center"
             android:text="@string/cancel"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -310,7 +352,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/baseline_add_24"
-            android:drawablePadding="10dp"
+            android:drawablePadding="@dimen/button_drawable_padding"
+            android:drawableTint="@color/white"
             android:gravity="center"
             android:text="@string/add"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -320,8 +363,8 @@
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/progress_bar_size"
+        android:layout_height="@dimen/progress_bar_size"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
