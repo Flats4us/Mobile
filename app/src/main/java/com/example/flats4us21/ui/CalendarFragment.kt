@@ -19,7 +19,7 @@ import java.time.LocalDateTime
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
-class CalendarFragment : Fragment(), CalendarAdapter.OnCellClickListener {
+class CalendarFragment : Fragment(), CalendarAdapter.OnCellClick {
     private var _binding: FragmentCalendarBinding? = null
     private val binding get() = _binding!!
     private lateinit var calendarRecyclerView: RecyclerView

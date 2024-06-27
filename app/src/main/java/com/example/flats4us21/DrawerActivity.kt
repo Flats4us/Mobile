@@ -21,8 +21,6 @@ import coil.load
 import com.example.flats4us21.ui.ArgumentsFragment
 import com.example.flats4us21.ui.CalendarFragment
 import com.example.flats4us21.ui.ChatsFragment
-import com.example.flats4us21.ui.ITIssueReportFragment
-import com.example.flats4us21.ui.MapFragment
 import com.example.flats4us21.ui.MyProfileFragment
 import com.example.flats4us21.ui.MyRentsFragment
 import com.example.flats4us21.ui.NotificationsFragment
@@ -40,8 +38,8 @@ import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.launch
 import java.time.Instant
 
-//const val URL = "http://172.21.40.120:5166"
-const val URL = "http://172.27.80.1:5166"
+const val URL = "http://172.21.40.120:5166"
+//const val URL = "http://172.27.80.1:5166"
 private const val TAG = "DrawerActivity"
 class DrawerActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
@@ -102,14 +100,12 @@ class DrawerActivity : AppCompatActivity() {
                 mail.isVisible = true
                 mail.text = profile.email
                 nameAndSurname.text = getString(R.string.name_and_surname, profile.name, profile.surname)
-                val url = "$URL/${profile.profilePicture.path}"
-
+                val url = "$URL/${profile.profilePicture?.path ?: ""}"
                 profilePicture.load(url) {
                     error(R.drawable.baseline_person_24)
                 }
                 profilePicture.isVisible = true
             }
-
         }
     }
 
@@ -131,7 +127,6 @@ class DrawerActivity : AppCompatActivity() {
     private fun selectDrawerItem(menuItem: MenuItem) {
         when(menuItem.itemId){
             R.id.nav_start -> replaceFragment(SearchFragment())
-            R.id.nav_map -> replaceFragment(MapFragment())
         }
         when (userRole) {
             "Student" -> {
@@ -170,7 +165,6 @@ class DrawerActivity : AppCompatActivity() {
             R.id.nav_messages -> replaceFragment(ChatsFragment())
             R.id.nav_profile -> replaceFragment(MyProfileFragment())
             R.id.nav_settings -> replaceFragment(SettingsFragment())
-            R.id.nav_report_issue -> replaceFragment(ITIssueReportFragment())
             R.id.nav_my_rentals -> replaceFragment(MyRentsFragment())
             R.id.nav_conflicts -> replaceFragment(ArgumentsFragment())
             R.id.nav_calendar -> replaceFragment(CalendarFragment())

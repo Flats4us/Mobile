@@ -57,9 +57,6 @@ class RegisterLogInDataFragment : Fragment() {
             }
         }
 
-
-
-
         binding.prevButton.setOnClickListener {
             collectData()
             var fragment: Fragment = SurveyFragment()
@@ -69,35 +66,37 @@ class RegisterLogInDataFragment : Fragment() {
             (requireParentFragment() as RegisterParentFragment).decreaseProgressBar()
         }
         binding.buttonRegister.setOnClickListener {
-            if(validateData()){
-                collectData()
-                userViewModel.createUser() {
-                    if(it) {
-                        val fragment = LoginFragment()
-                        (activity as? DrawerActivity)!!.replaceFragment(fragment)
-                        (requireParentFragment() as RegisterParentFragment).decreaseProgressBar(100)
-                        userViewModel.clearData()
+            validateData { valid ->
+                if (valid) {
+                    collectData()
+                    userViewModel.createUser {
+                        if (it) {
+                            val fragment = LoginFragment()
+                            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+                            (requireParentFragment() as RegisterParentFragment).decreaseProgressBar(
+                                100
+                            )
+                            userViewModel.clearData()
+                        }
                     }
-                }
-
-            } else {
-                warnings.forEach { warning ->
-                    Toast.makeText(requireContext(), warning, Toast.LENGTH_LONG).show()
+                } else {
+                    warnings.forEach { warning ->
+                        Toast.makeText(requireContext(), warning, Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }
     }
 
-    private fun validateData(): Boolean {
-        var isEmailValid = false
+    private fun validateData(callback: (Boolean) -> Unit) {
         isEmailValid(binding.email, binding.layoutEmail) {
-            isEmailValid = it
-        }
-        val isPasswordValid = isPasswordValid(binding.textPassword, binding.layoutPassword)
-        val isRepeatPasswordValid = isPasswordValid(binding.textRepeatPassword, binding.layoutRepeatPassword)
-        val arePasswordsTheSame = arePasswordsTheSame(binding.textPassword, binding.textRepeatPassword)
+            val isEmailValid = it
+            val isPasswordValid = isPasswordValid(binding.textPassword, binding.layoutPassword)
+            val isRepeatPasswordValid = isPasswordValid(binding.textRepeatPassword, binding.layoutRepeatPassword)
+            val arePasswordsTheSame = arePasswordsTheSame(binding.textPassword, binding.textRepeatPassword)
 
-        return isEmailValid && isPasswordValid && isRepeatPasswordValid && arePasswordsTheSame
+            callback(isEmailValid && isPasswordValid && isRepeatPasswordValid && arePasswordsTheSame)
+        }
     }
 
     private fun isEmailValid(editText: EditText, editTextLayout: ViewGroup, callback: (Boolean) -> Unit) {
@@ -107,7 +106,7 @@ class RegisterLogInDataFragment : Fragment() {
         userViewModel.checkEmail(email) { exists ->
             if(exists)
                 Toast.makeText(requireContext(), getString(R.string.email_already_exist), Toast.LENGTH_LONG).show()
-            val allConditionsMet = isValid && exists
+            val allConditionsMet = isValid && !exists
             Log.i(TAG, "isEmail: $isValid, exists: $exists, all: $allConditionsMet")
             editTextLayout.setBackgroundResource(if (allConditionsMet) R.drawable.background_input else R.drawable.background_wrong_input)
             callback(allConditionsMet)

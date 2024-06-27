@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.flats4us21.data.Argument
 import com.example.flats4us21.databinding.ItemArgumentBinding
 
+private const val TAG = "ArgumentAdapter"
 class ArgumentAdapter(
     private var arguments: MutableList<Argument>,
     private val onUserClick: (Argument) -> Unit
@@ -46,6 +47,6 @@ class ArgumentAdapter(
     fun updateArguments(newArguments: List<Argument>) {
         arguments = newArguments as MutableList<Argument>
         notifyDataSetChanged()
-        Log.d("ArgumentAdapter", "Updating arguments with: $arguments")
+        Log.d(TAG, "Updating arguments with: $arguments")
     }
 }

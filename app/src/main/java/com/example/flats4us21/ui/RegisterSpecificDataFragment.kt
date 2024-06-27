@@ -8,13 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import com.example.flats4us21.R
 import com.example.flats4us21.adapters.PhotoAdapter
 import com.example.flats4us21.data.DocumentType
@@ -47,7 +43,6 @@ class RegisterSpecificDataFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setDocumentImages()
         setVisibility()
         setValues()
 
@@ -77,39 +72,6 @@ class RegisterSpecificDataFragment : Fragment() {
                 (requireParentFragment() as RegisterParentFragment).replaceFragment(fragment)
                 (requireParentFragment() as RegisterParentFragment).increaseProgressBar()
             }
-        }
-    }
-
-    private fun setDocumentImages() {
-        val multiplePhotoPickerLauncher =
-            registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(15)) { uris ->
-                val remainingSpace = 2 - selectedImageUris.size
-                if (remainingSpace > 0) {
-                    val urisToAdd = uris.take(remainingSpace)
-                    selectedImageUris.addAll(urisToAdd)
-
-                    val startIndex = lastIndexBeforeUpdate
-                    val endIndex = lastIndexBeforeUpdate + urisToAdd.size
-                    photoAdapter.updateData(selectedImageUris)
-                    lastIndexBeforeUpdate = endIndex
-                } else {
-                    Toast.makeText(requireContext(), "Możesz dodać maksymalnie 2 zdjęć!", Toast.LENGTH_SHORT).show()
-                }
-                if(selectedImageUris.size > 0){
-                    binding.warning.isVisible = false
-                    binding.photoRecyclerView.isVisible = true
-                }
-            }
-
-        val recyclerView = binding.photoRecyclerView
-        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
-        photoAdapter = PhotoAdapter(selectedImageUris)
-        recyclerView.adapter = photoAdapter
-
-        binding.addPhotoButton.setOnClickListener {
-            multiplePhotoPickerLauncher.launch(
-                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-            )
         }
     }
 
@@ -151,7 +113,6 @@ class RegisterSpecificDataFragment : Fragment() {
             month,
             day
         )
-        // Ustawienie minimalnej daty na jutro
         myCalendar.add(Calendar.DAY_OF_MONTH, 1)
         datePickerDialog.datePicker.minDate = myCalendar.timeInMillis
         datePickerDialog.show()
@@ -233,9 +194,8 @@ class RegisterSpecificDataFragment : Fragment() {
         val isBankAccountValid = validateOptionalEditText(binding.bankAccount, binding.layoutBankAccount, binding.layoutBankAccountHeader, binding.layoutBankAccountWithHeader)
         val isDocumentNumberValid = validateOptionalEditText(binding.documentNumber, binding.layoutDocumentNumber, binding.layoutDocumentNumberHeader, binding.layoutDocumentNumberWithHeader)
         val isDocumentExpireDateValid = validateOptionalTextView(binding.documentExpireDate, binding.layoutDocumentExpireDate, binding.layoutDocumentExpireDateHeader, binding.layoutDocumentExpireDateWithHeader)
-        val isDocumentPhotosValid = validateImages()
 
-        return isBirthDateValid && isUniversityValid && isStudentNumberValid && isBankAccountValid && isDocumentNumberValid && isDocumentExpireDateValid && isDocumentPhotosValid
+        return isBirthDateValid && isUniversityValid && isStudentNumberValid && isBankAccountValid && isDocumentNumberValid && isDocumentExpireDateValid
     }
 
     private fun validateOptionalEditText(editText: EditText, editTextLayout : ViewGroup, header : TextView, layoutWithHeader : ViewGroup): Boolean {
@@ -258,14 +218,4 @@ class RegisterSpecificDataFragment : Fragment() {
         return isValid || !isRequired || !isVisible
     }
 
-    private fun validateImages(): Boolean {
-        if(selectedImageUris.size > 0){
-            binding.warning.isVisible = false
-            binding.photoRecyclerView.isVisible = true
-        } else {
-            binding.warning.isVisible = true
-            binding.photoRecyclerView.isVisible = false
-        }
-        return selectedImageUris.size > 0
-    }
 }

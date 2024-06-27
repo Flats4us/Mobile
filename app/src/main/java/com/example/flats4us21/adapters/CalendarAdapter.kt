@@ -11,11 +11,11 @@ import java.time.format.DateTimeFormatter
 
 class CalendarAdapter(
     private val daysOfMonth: List<String>,
-    private val onCellClickListener: OnCellClickListener,
+    private val onCellClick: OnCellClick,
     private val meetings: List<Meeting>
 ) : RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>() {
 
-    interface OnCellClickListener {
+    interface OnCellClick {
         fun onCellClick(date: String)
     }
     inner class CalendarViewHolder(val binding: CalendarCellBinding) :
@@ -25,7 +25,7 @@ class CalendarAdapter(
         init {
             binding.root.setOnClickListener {
                 val date = daysOfMonth[bindingAdapterPosition]
-                onCellClickListener.onCellClick(date)
+                onCellClick.onCellClick(date)
             }
         }
     }
@@ -38,26 +38,22 @@ class CalendarAdapter(
         return CalendarViewHolder(binding)
     }
 
-
     override fun getItemCount(): Int {
         return daysOfMonth.size
     }
 
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
         val day = daysOfMonth[position]
-
         holder.dayOfMonth.text = day
-
         val hasMeeting = hasMeetingOnDay(day, meetings)
         if (hasMeeting) {
             holder.binding.root.setBackgroundResource(R.drawable.background_meeting)
         } else {
             holder.binding.root.setBackgroundResource(R.drawable.background_cell)
         }
-
         holder.binding.root.setOnClickListener {
             val date = daysOfMonth[holder.adapterPosition]
-            onCellClickListener.onCellClick(date)
+            onCellClick.onCellClick(date)
         }
     }
 

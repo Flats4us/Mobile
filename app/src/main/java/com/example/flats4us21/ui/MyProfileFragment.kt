@@ -14,12 +14,16 @@ import com.example.flats4us21.R
 import com.example.flats4us21.URL
 import com.example.flats4us21.adapters.InterestAdapter
 import com.example.flats4us21.data.MyProfile
+import com.example.flats4us21.data.utils.QuestionTranslator
 import com.example.flats4us21.databinding.FragmentMyProfileBinding
 import com.example.flats4us21.viewmodels.UserViewModel
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.tabs.TabLayout
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 private const val TAG = "MyProfileFragment"
 class MyProfileFragment : Fragment() {
@@ -49,6 +53,8 @@ class MyProfileFragment : Fragment() {
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             binding.mainLayout.visibility = if (isLoading) View.GONE else View.VISIBLE
+            binding.profileLayout.visibility = if (isLoading) View.GONE else View.VISIBLE
+            binding.personalDataLayout.visibility = View.GONE
         }
 
         viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
@@ -91,17 +97,46 @@ class MyProfileFragment : Fragment() {
 
     private fun bindData(userProfile: MyProfile) {
         Log.i(TAG, "bindData: $userProfile")
-        val url = "$URL/${userProfile.profilePicture.path}"
+        val url = "$URL/${userProfile.profilePicture?.path ?: ""}"
         binding.profilePicture.load(url) {
             error(R.drawable.baseline_person_24)
         }
         binding.verified.visibility = if (userProfile.verificationStatus == 0) View.VISIBLE else View.INVISIBLE
 
         binding.nameTextview.text = userProfile.name
+        if(userProfile.userType == 0) {
+            binding.ratingLayout.visibility = View.GONE
+            binding.interestsLayout.visibility = View.GONE
+            binding.opinionLayout.visibility = View.GONE
+            binding.emailLayout.visibility = View.VISIBLE
+            binding.phoneNumberLayout.visibility = View.VISIBLE
+            binding.surveyFlexboxLayout.visibility = View.GONE
+        } else {
+            binding.ratingLayout.visibility = View.VISIBLE
+            binding.interestsLayout.visibility = View.VISIBLE
+            binding.opinionLayout.visibility = View.VISIBLE
+            binding.emailLayout.visibility = View.GONE
+            binding.phoneNumberLayout.visibility = View.GONE
+            binding.surveyFlexboxLayout.visibility = View.VISIBLE
+        }
         binding.ratingBar.rating = userProfile.avgRating
+
+        Log.i(TAG, "surveyStudent: ${userProfile.surveyStudent}")
+        if(userProfile.surveyStudent != null) {
+            val survey = userProfile.surveyStudent
+            binding.smokingLayout.visibility = if(survey.smoking) View.VISIBLE else View.GONE
+            Log.i(TAG, "smoking: ${survey.smoking}")
+            binding.sociabilityLayout.visibility = if(survey.sociability) View.VISIBLE else View.GONE
+            Log.i(TAG, "sociability: ${survey.sociability}")
+            binding.animalsLayout.visibility = if(survey.animals) View.VISIBLE else View.GONE
+            Log.i(TAG, "animals: ${survey.animals}")
+            binding.veganLayout.visibility = if(survey.vegan) View.VISIBLE else View.GONE
+            Log.i(TAG, "vegan: ${survey.vegan}")
+        }
 
         if (userProfile.links != null) {
             binding.facebook.isVisible = userProfile.links.any { it.contains("facebook") }
+            Log.i(TAG, "bindData: ${userProfile.links.any { it.contains("facebook") }}")
             binding.twitter.isVisible = userProfile.links.any { it.contains("twitter") }
             binding.instagram.isVisible = userProfile.links.any { it.contains("instagram") }
         } else {
@@ -124,7 +159,8 @@ class MyProfileFragment : Fragment() {
             val recyclerView = binding.interestsRecyclerView
             binding.interestsRecyclerView.visibility = View.VISIBLE
             binding.emptyView.visibility = View.GONE
-            val adapter = InterestAdapter(userProfile.interests)
+            val interests = userProfile.interests.map { QuestionTranslator.translateInterestName(it.interestName.lowercase(Locale.getDefault()), requireContext()) }
+            val adapter = InterestAdapter(interests)
             recyclerView.adapter = adapter
             val flexboxLayoutManager = FlexboxLayoutManager(context)
             flexboxLayoutManager.flexDirection = FlexDirection.ROW
@@ -259,6 +295,14 @@ class MyProfileFragment : Fragment() {
             binding.documentNumberLayout.visibility = View.GONE
         }
         binding.documentExpireDate.text = userProfile.documentExpireDate.split("T")[0]
+
+        val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+
+        val dateTime = LocalDateTime.parse(userProfile.accountCreationDate, inputFormatter)
+
+        val outputFormatter = DateTimeFormatter.ofPattern("d MMM yyyy", Locale("pl"))
+
+        binding.accountCreationDate.text = dateTime.format(outputFormatter)
     }
 
     override fun onDestroyView() {

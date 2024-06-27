@@ -18,10 +18,14 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
 import java.net.URLEncoder
 
 private const val TAG = "ApiUserDataSource"
@@ -206,6 +210,33 @@ object ApiUserDataSource : UserDataSource {
             }
         } catch (e: Exception) {
             ApiResult.Error("An internal error occurred in updating profile: ${e.message}")
+        }
+    }
+
+    override suspend fun addUserFiles(
+        profilePicture: File?,
+        document: File?
+    ): ApiResult<String> {
+        return try{
+            val profilePicturePart : MultipartBody.Part? = if ( profilePicture != null) {
+                 MultipartBody.Part.createFormData("profilePicture", profilePicture.name, profilePicture.asRequestBody("image/jpeg".toMediaTypeOrNull()))
+            } else {
+                null
+            }
+            val documentPart : MultipartBody.Part? = if( document != null) {
+                 MultipartBody.Part.createFormData("document", document.name, document.asRequestBody("image/jpeg".toMediaTypeOrNull()))
+            } else {
+                null
+            }
+            val response = api.addUserFiles(profilePicturePart, documentPart)
+            if (response.isSuccessful) {
+                val data = response.body()!!.result
+                ApiResult.Success(data)
+            } else {
+                ApiResult.Error("Failed to add user files: ${response.errorBody()?.string()}")
+            }
+        } catch(e: Exception){
+        ApiResult.Error("An internal error occurred: ${e.message}")
         }
     }
 

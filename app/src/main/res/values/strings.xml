@@ -205,7 +205,7 @@
     <string name="document_type">Typ dokumentu</string>
     <string name="required_email">Email*</string>
     <string name="required_password">Hasło*</string>
-    <string name="required_repeat_password">Powtórz hasło</string>
+    <string name="required_repeat_password">Powtórz hasło*</string>
     <string name="required_rental_date">Data wynajmu*</string>
     <string name="link">Link</string>
     <string name="required_rental_period">Okres wynajmu*</string>
@@ -342,7 +342,7 @@
     <string name="property_image">zdjęcie nieruchomości</string>
     <string name="profile_picture">Zdjęcie profilowe</string>
     <string name="date">Data</string>
-    <string name="example_date">01/01/2023</string>
+    <string name="example_date">2023-01-01</string>
     <string name="time">Godzina</string>
     <string name="address_example">ul. Polowa</string>
     <string name="add_opinion_about_property">Nowa opinia o nieruchomości</string>
@@ -390,6 +390,14 @@
     <string name="question">Pytanie</string>
     <string name="title_example">Tytuł</string>
     <string name="d_days_ago">3 dni temu</string>
+    <string name="repeat_email">Powtórz email</string>
+    <string name="house_address_required">Adres zamieszkania*</string>
+    <string name="related_offer">Powiązana oferta</string>
+    <string name="main_tenant">Główny lokator:</string>
+    <string name="student_acceptance">Student zaakceptował:</string>
+    <string name="owner_acceptance">Właściciel zaakceptował:</string>
+    <string name="sucessfully_changed_data">Poprawnie zmienionon dane</string>
+    <string name="user_from">Użytkownik od</string>
 
 
     <string-array name="sorting_options">
@@ -401,6 +409,30 @@
         <item>@string/sorting_option_5</item>
         <item>@string/sorting_option_6</item>
     </string-array>
+
+    <string name="interest_photography">Fotografia</string>
+    <string name="interest_hiking">Wędrówki</string>
+    <string name="interest_cooking">Gotowanie</string>
+    <string name="interest_traveling">Podróżowanie</string>
+    <string name="interest_reading">Czytanie</string>
+    <string name="interest_gardening">Ogrodnictwo</string>
+    <string name="interest_music">Muzyka</string>
+    <string name="interest_volunteering">Wolontariat</string>
+    <string name="interest_sport">Sport</string>
+    <string name="interest_painting">Malarstwo</string>
+    <string name="interest_cycling">Jazda na rowerze</string>
+    <string name="interest_yoga">Joga</string>
+    <string name="interest_games">Gry</string>
+    <string name="interest_writing">Pisanie</string>
+    <string name="interest_movies">Filmy</string>
+    <string name="interest_technology">Technologia</string>
+    <string name="interest_astronomy">Astronomia</string>
+    <string name="interest_diy">Majsterkowanie</string>
+    <string name="interest_modeling">Modelarstwo</string>
+    <string name="smoking">Pali</string>
+    <string name="sociability">Lubi towarzystwo</string>
+    <string name="animals">Ma zwierzęta</string>
+    <string name="vegan">Vegan</string>
 
     <!-- TODO: meeting_row -->
 </resources>

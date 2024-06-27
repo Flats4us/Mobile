@@ -54,6 +54,15 @@ class SearchFragment : Fragment() {
             val totalPages = ceil(viewModel.offersNumber.toDouble() / QUERY_PAGE_SIZE).toInt()
             Log.i(TAG, "Number of total pages: $totalPages")
             isLastPage = viewModel.pageNumber == totalPages
+
+
+            if (fetchedOffers.isEmpty()) {
+                binding.noDataText.visibility = View.VISIBLE
+                binding.propertyRecyclerView.visibility = View.GONE
+            } else {
+                binding.noDataText.visibility = View.GONE
+                binding.propertyRecyclerView.visibility = View.VISIBLE
+            }
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading: Boolean ->

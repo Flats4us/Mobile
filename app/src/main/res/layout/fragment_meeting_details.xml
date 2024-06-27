@@ -13,6 +13,7 @@
         android:orientation="vertical"
         android:background="@drawable/rectangle_white_background"
         android:layout_margin="@dimen/app_padding"
+        android:padding="@dimen/app_padding"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -100,6 +101,58 @@
                 android:paddingStart="@dimen/table_cell_padding"
                 android:paddingEnd="@dimen/table_cell_padding"
                 android:textSize="@dimen/regular_text_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="@string/student_acceptance"
+                android:textSize="@dimen/regular_text_size"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/studentAcceptanceDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:paddingStart="@dimen/table_cell_padding"
+                android:paddingEnd="@dimen/table_cell_padding"
+                android:textSize="@dimen/regular_text_size"
+                android:layout_gravity="center_vertical"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="@string/owner_acceptance"
+                android:textSize="@dimen/regular_text_size"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/ownerAcceptanceDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:paddingStart="@dimen/table_cell_padding"
+                android:paddingEnd="@dimen/table_cell_padding"
+                android:textSize="@dimen/regular_text_size"
+                android:layout_gravity="center_vertical"/>
 
         </LinearLayout>
 

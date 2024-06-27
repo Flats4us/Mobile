@@ -11,6 +11,10 @@ data class Profile(
     val userId: Int,
     @SerializedName("name")
     val name: String,
+    @SerializedName("email")
+    val email: String?,
+    @SerializedName("phoneNumber")
+    val phoneNumber: String?,
     @SerializedName("accountCreationDate")
     val accountCreationDate: String,
     @SerializedName("verificationStatus")

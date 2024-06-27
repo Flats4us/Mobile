@@ -33,6 +33,7 @@ class ArgumentsChatFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ArgumentMessageAdapter
     private var fetchedMessages: MutableList<ChatMessage> = mutableListOf()
+    private var chatInfo: GroupChatInfo? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,8 +54,10 @@ class ArgumentsChatFragment : Fragment() {
         val chatId = arguments?.getInt(CHAT_ID)
 
         if(chatId != null) {
-            viewModel.getGroupChatInfo(chatId)
-            viewModel.getGroupChatHistory(chatId)
+            viewModel.getGroupChatInfo(chatId) {
+                if (it)
+                    viewModel.getGroupChatHistory(chatId)
+            }
         }
         argumentViewModel.getArgument()
 
@@ -64,15 +67,17 @@ class ArgumentsChatFragment : Fragment() {
             bindArgumentData(argument)
         }
 
+
         recyclerView = binding.chatRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         Log.d(TAG, "Fetched User id: ${userViewModel.myProfile.value!!.userId}")
-        adapter = ArgumentMessageAdapter(requireContext(), fetchedMessages, userViewModel.myProfile.value!!.userId)
+        adapter = ArgumentMessageAdapter(fetchedMessages, userViewModel.myProfile.value!!.userId, chatInfo?.users)
         recyclerView.adapter = adapter
 
         viewModel.groupChatInfo.observe(viewLifecycleOwner) { chatInfo ->
             Log.d(TAG, "Observed chat info: $chatInfo")
             bindChatInfoData(chatInfo)
+            adapter.updateChatUsers(chatInfo.users)
         }
 
         viewModel.chatHistory.observe(viewLifecycleOwner) { chatHistory ->

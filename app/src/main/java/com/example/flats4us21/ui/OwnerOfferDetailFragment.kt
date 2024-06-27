@@ -130,7 +130,7 @@ class OwnerOfferDetailFragment : Fragment() {
 
         binding.equipment.text = stringBuilder.toString()
         binding.description.text = offer.description
-        binding.ratingBar.rating = offer.property.avgRating.toFloat()
+        binding.ratingBar.rating = (offer.property.avgRating.toFloat() / 2)
         binding.sumService.text = offer.property.avgServiceRating.toString()
         binding.sumLocation.text = offer.property.avgLocationRating.toString()
         binding.sumEquipment.text = offer.property.avgEquipmentRating.toString()

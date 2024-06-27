@@ -12,11 +12,13 @@ import com.example.flats4us21.R
 import com.example.flats4us21.URL
 import com.example.flats4us21.adapters.InterestAdapter
 import com.example.flats4us21.data.StudentForMatcher
+import com.example.flats4us21.data.utils.QuestionTranslator
 import com.example.flats4us21.databinding.FragmentStudentForMatcherBinding
 import com.example.flats4us21.viewmodels.MatcherViewModel
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import java.util.Locale
 
 private const val TAG = "StudentForMatcherFragment"
 
@@ -68,9 +70,11 @@ class StudentForMatcherFragment : Fragment() {
             if (student.interest.isNullOrEmpty()) {
                 interestsRecyclerView.visibility = View.GONE
             } else {
+                val interests = student.interest.map { QuestionTranslator.translateInterestName(it.interestName.lowercase(
+                    Locale.getDefault()), requireContext()) }
                 interestsRecyclerView.apply {
                     visibility = View.VISIBLE
-                    adapter = InterestAdapter(student.interest)
+                    adapter = InterestAdapter(interests)
                     layoutManager = FlexboxLayoutManager(context).apply {
                         flexDirection = FlexDirection.ROW
                         justifyContent = JustifyContent.FLEX_START

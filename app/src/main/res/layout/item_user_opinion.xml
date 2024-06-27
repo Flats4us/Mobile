@@ -66,8 +66,8 @@
             android:progressBackgroundTint="@color/design_default_color_secondary_variant"
             android:progressTint="@color/orange"
             android:secondaryProgressTint="@color/design_default_color_secondary_variant"
-            android:stepSize="1"
-            tools:rating="2" />
+            android:stepSize="0.5"
+            tools:rating="2.5" />
 
         <TextView
             android:id="@+id/numberRating"

@@ -58,15 +58,14 @@ class FilterFragment : Fragment() {
         realEstateViewModel.fetchVoivodeships()
 
         setupSortingSpinner()
-        setupVoivodeshipSpinner()
         setupPropertyTypeSpinner()
         setupEquipment()
+        setupVoivodeshipSpinner()
         setValues()
 
         val clearButton = binding.clearButton
         clearButton.setOnClickListener {
-            offerViewModel.clearNullableVariables()
-            setValues()
+            clearData()
         }
         val filterButton = binding.filterButton
         filterButton.setOnClickListener {
@@ -89,7 +88,7 @@ class FilterFragment : Fragment() {
         sortingSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val sortingOption = sortingOptions[position]
-                selectedSorting = if (sortingOption != DEFAULT_PROPERTY_TYPE) {
+                selectedSorting = if (sortingOption != DEFAULT_PROPERTY_TYPE && position != 0) {
                     sortingOption
                 } else {
                     ""
@@ -103,9 +102,11 @@ class FilterFragment : Fragment() {
     private fun setupVoivodeshipSpinner() {
         val voivodeshipSpinner = binding.voivodeship
         val voivodeships = realEstateViewModel.voivodeshipSuggestions
+
         if (voivodeships.isNotEmpty() && voivodeships[0] != DEFAULT_PROPERTY_TYPE) {
             voivodeships.add(0, DEFAULT_PROPERTY_TYPE)
         }
+
         Log.d(TAG, "setupVoivodeshipSpinner: $voivodeships")
         voivodeshipAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, voivodeships)
         voivodeshipAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -113,15 +114,21 @@ class FilterFragment : Fragment() {
 
         voivodeshipSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                Log.d(TAG, "onItemSelected: $position")
                 val newSelectedVoivodeship = parent.getItemAtPosition(position) as String
-                if (newSelectedVoivodeship != selectedVoivodeship) {
-                    selectedVoivodeship = newSelectedVoivodeship
-                    Log.d(TAG, "onItemSelected: $selectedVoivodeship")
-                    setupCitySpinner(selectedVoivodeship)
-                }
+                selectedVoivodeship = if(position != 0) newSelectedVoivodeship else ""
+                setupCitySpinner(selectedVoivodeship)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+        Log.d(TAG, "selectedVoivodeship: ${offerViewModel.province}")
+        Log.d(TAG, "voivodeshipAdapter.getPosition(selectedVoivodeship): ${voivodeshipAdapter.getPosition(offerViewModel.province)}")
+        if (!offerViewModel.province.isNullOrEmpty()) {
+            Log.d(TAG, "setupVoivodeshipSpinner: ${!offerViewModel.province.isNullOrEmpty()}")
+            voivodeshipSpinner.setSelection(voivodeshipAdapter.getPosition(offerViewModel.province), true)
+        } else {
+            selectedCity = ""
         }
     }
 
@@ -131,30 +138,33 @@ class FilterFragment : Fragment() {
         val cities = ArrayList(realEstateViewModel.getCitiesByVoivodeship(voivodeship))
         if (cities.isNotEmpty() && cities[0] != DEFAULT_PROPERTY_TYPE) {
             cities.add(0, DEFAULT_PROPERTY_TYPE)
+        } else {
+            setupDistrictSpinner("")
         }
         Log.d(TAG, "setupCitySpinner: $cities")
         cityAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, cities)
         cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         citySpinner.adapter = cityAdapter
+
         citySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val newSelectedCity = cities[position]
-                if (newSelectedCity != selectedCity) {
-                    selectedCity = if (newSelectedCity != DEFAULT_PROPERTY_TYPE) {
-                        newSelectedCity
-                    } else {
-                        ""
-                    }
-                    if (newSelectedCity != DEFAULT_PROPERTY_TYPE)
-                        setupDistrictSpinner(selectedCity)
+                selectedCity = if (newSelectedCity != DEFAULT_PROPERTY_TYPE && position != 0) {
+                    newSelectedCity
+                } else {
+                    ""
                 }
+                setupDistrictSpinner(selectedCity)
+
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
-        Log.d(TAG, "fetchedCity != \"\": ${fetchedCity != ""}")
-        if (fetchedCity != "")
-            citySpinner.setSelection(cityAdapter.getPosition(fetchedCity))
+        Log.d(TAG, "selectedVoivodeship: ${offerViewModel.city}")
+        Log.d(TAG, "voivodeshipAdapter.getPosition(selectedVoivodeship): ${voivodeshipAdapter.getPosition(offerViewModel.city)}")
+        if (!offerViewModel.city.isNullOrEmpty()) {
+            citySpinner.setSelection(cityAdapter.getPosition(offerViewModel.city), true)
+        }
     }
 
     private fun setupDistrictSpinner(city: String, fetchedDistrict: String = "") {
@@ -163,27 +173,32 @@ class FilterFragment : Fragment() {
         val districts = realEstateViewModel.getDistricts(city)
         if (districts.isNotEmpty() && districts[0] != DEFAULT_PROPERTY_TYPE) {
             districts.add(0, DEFAULT_PROPERTY_TYPE)
+        } else {
+            selectedDistrict = ""
         }
         districtAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, districts)
         districtAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         districtSpinner.adapter = districtAdapter
+
         districtSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val newSelectedDistrict = districts[position]
                 if (newSelectedDistrict != selectedDistrict) {
-                    selectedDistrict = if (newSelectedDistrict != DEFAULT_PROPERTY_TYPE) {
+                    selectedDistrict = if (newSelectedDistrict != DEFAULT_PROPERTY_TYPE && position != 0) {
                         newSelectedDistrict
                     } else {
                         ""
+
                     }
                 }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
-        Log.d(TAG, "fetchedDistrict != \"\": ${fetchedDistrict != ""}")
-        if (fetchedDistrict != "") {
-            districtSpinner.setSelection(districtAdapter.getPosition(fetchedDistrict))
+        Log.d(TAG, "selectedVoivodeship: ${offerViewModel.district}")
+        Log.d(TAG, "voivodeshipAdapter.getPosition(selectedVoivodeship): ${voivodeshipAdapter.getPosition(offerViewModel.district)}")
+        if (!offerViewModel.district.isNullOrEmpty()) {
+            districtSpinner.setSelection(districtAdapter.getPosition(offerViewModel.district), true)
         }
     }
 
@@ -225,12 +240,12 @@ class FilterFragment : Fragment() {
         val equipmentList: MutableList<Int> = mutableListOf()
         realEstateViewModel.getEquipmentList()
         realEstateViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.progressBar.visibility = if(isLoading) View.VISIBLE else View.GONE
         }
         realEstateViewModel.equipments.observe(viewLifecycleOwner) { equipments ->
             val equipmentArray = equipments.map { it.equipmentName }.toTypedArray()
             val selectedEquipment = BooleanArray(equipmentArray.size) { index ->
-                realEstateViewModel.equipment.contains(index + 1)
+                pickedEquipment.contains(index+1)
             }
 
             equipment.setOnClickListener {
@@ -265,7 +280,7 @@ class FilterFragment : Fragment() {
                         selectedEquipment[j] = false
                         equipmentList.clear()
                         equipment.text = ""
-                        pickedEquipment.remove(j + 1)
+                        pickedEquipment.remove(j+1)
                     }
                 }
                 val alertDialog = builder.create()
@@ -287,20 +302,15 @@ class FilterFragment : Fragment() {
             floor.setText(offerViewModel.floor?.toString() ?: "")
             if (!offerViewModel.sorting.isNullOrEmpty())
                 sorting.setSelection(sortingAdapter.getPosition(QuestionTranslator.convertToSort(offerViewModel.sorting!!, requireContext())))
+            else
+                sorting.setSelection(sortingAdapter.getPosition(DEFAULT_PROPERTY_TYPE))
             if (offerViewModel.propertyType != null)
                 propertyTypeSpinner.setSelection(propertyTypeAdapter.getPosition(PropertyType.fromValue(offerViewModel.propertyType!!).name))
-            if (!offerViewModel.province.isNullOrEmpty()) {
-                voivodeship.setSelection(voivodeshipAdapter.getPosition(offerViewModel.province), true)
-                Log.d(TAG, "setValues: ${offerViewModel.province}")
-                if (offerViewModel.city != null) {
-                    setupCitySpinner(offerViewModel.province!!, offerViewModel.city!!)
-                    Log.d(TAG, "setValues: ${offerViewModel.province}, ${offerViewModel.city}")
-                    if (offerViewModel.district != null) {
-                        setupDistrictSpinner(offerViewModel.city!!, offerViewModel.district!!)
-                        Log.d(TAG, "setValues: ${offerViewModel.city}, ${offerViewModel.district!!}")
-                    }
-                }
-            }
+            else
+                propertyTypeSpinner.setSelection(sortingAdapter.getPosition(DEFAULT_PROPERTY_TYPE))
+            pickedEquipment.clear()
+            pickedEquipment.addAll(offerViewModel.equipment)
+
         }
     }
 
@@ -366,7 +376,25 @@ class FilterFragment : Fragment() {
         if (pickedEquipment != null && pickedEquipment.isNotEmpty())
             offerViewModel.equipment = pickedEquipment
         else
-            offerViewModel.equipment = null
+            offerViewModel.equipment.clear()
+    }
+
+    private fun clearData() {
+        binding.sorting.setSelection(0, true)
+        binding.voivodeship.setSelection(0, true)
+        binding.distance.setText("")
+        binding.propertyTypeSpinner.setSelection(0, true)
+        binding.minPrice.setText("")
+        binding.maxPrice.setText("")
+        binding.minSize.setText("")
+        binding.maxSize.setText("")
+        binding.minYear.setText("")
+        binding.maxYear.setText("")
+        binding.rooms.setText("")
+        binding.floor.setText("")
+        pickedEquipment.clear()
+        setupEquipment()
+        Log.d(TAG, "clearData: $pickedEquipment")
     }
 
     private fun isNotEmpty(editText: EditText): Boolean {

@@ -8,7 +8,6 @@ import com.example.flats4us21.R
 import com.example.flats4us21.data.Notification
 import com.example.flats4us21.databinding.NotificationRowBinding
 
-//TODO: Correct changing fragment
 class NotificationAdapter(
     private val notifications: MutableList<Notification>,
     private val onUserClick : (Notification) -> Unit
@@ -42,5 +41,11 @@ class NotificationAdapter(
         val notification : Notification = notifications[position]
         holder.titleTextView.text = notification.title
         holder.descriptionTextView.text = notification.body
+    }
+
+    fun updateNotifications(newChats: List<Notification>) {
+        notifications.clear()
+        notifications.addAll(newChats)
+        notifyDataSetChanged()
     }
 }

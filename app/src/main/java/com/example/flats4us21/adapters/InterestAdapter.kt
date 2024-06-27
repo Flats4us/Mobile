@@ -6,9 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flats4us21.R
-import com.example.flats4us21.data.Interest
 
-class InterestAdapter(private val interests: List<Interest>) :
+class InterestAdapter(private val interests: List<String>) :
     RecyclerView.Adapter<InterestAdapter.InterestViewHolder>()  {
     inner class InterestViewHolder(itemView: View) :RecyclerView.ViewHolder(itemView)  {
         val interestTextView: TextView = itemView.findViewById(R.id.interest)
@@ -22,7 +21,7 @@ class InterestAdapter(private val interests: List<Interest>) :
 
     override fun onBindViewHolder(holder: InterestViewHolder, position: Int) {
         val interest = interests[position]
-        holder.interestTextView.text = interest.interestName
+        holder.interestTextView.text = interest
     }
 
     override fun getItemCount(): Int {

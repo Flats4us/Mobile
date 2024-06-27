@@ -45,7 +45,7 @@ class UserOpinionAdapter (
         }
         holder.nameAndSurname.text = opinions[position].sourceUserName
         holder.date.text = opinions[position].date.split("T")[0]
-        holder.rating.rating = opinions[position].rating.toFloat()
+        holder.rating.rating = (opinions[position].rating.toFloat() / 2)
         holder.numberRating.text = opinions[position].rating.toFloat().toString()
 
         holder.description.text = opinions[position].description

@@ -1,7 +1,6 @@
 package com.example.flats4us21.services
 
 import com.example.flats4us21.data.ApiResult
-import com.example.flats4us21.data.MapOffersResult
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.OffersResult
 import com.example.flats4us21.data.Rent
@@ -13,7 +12,6 @@ import com.example.flats4us21.data.utils.RentResult
 
 interface OfferDataSource {
     suspend fun getOffers(offerFilter: OfferFilter) : ApiResult<OffersResult>
-    suspend fun getOffersForMap(offerFilter: OfferFilter) : ApiResult<MapOffersResult>
     suspend fun getMineOffers() : ApiResult<List<Offer>>
     suspend fun getWatchedOffers(pageNumber: Int, pageSize: Int): ApiResult<OffersResult>
     suspend fun createOffer(offer: NewOfferDto) : ApiResult<String>

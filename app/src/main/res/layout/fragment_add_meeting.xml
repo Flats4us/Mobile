@@ -29,6 +29,92 @@
         android:orientation="vertical"
         android:background="@drawable/rectangle_white_background">
 
+        <LinearLayout
+            android:id="@+id/layoutOwner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/layout_edit_text_margin_top"
+            android:gravity="start|center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                android:background="@color/white"
+                android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
+                android:text="@string/owner"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ownerPhoto"
+                    android:layout_width="@dimen/image_view_small_profile_picture_width"
+                    android:layout_height="@dimen/image_view_small_profile_picture_height"
+                    android:layout_gravity="center"
+                    android:src="@drawable/baseline_person_24"
+                    app:shapeAppearanceOverlay="@style/Circular"
+                    android:background="@color/white"
+                    android:layout_marginEnd="@dimen/text_view_horizontal_margin"/>
+
+                <TextView
+                    android:id="@+id/user_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/regular_text_size"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutMainTenant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/layout_edit_text_margin_top"
+            android:gravity="start|center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                android:background="@color/white"
+                android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
+                android:text="@string/main_tenant"/>
+
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="start|center_vertical">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/mainTenantPhoto"
+                    android:layout_width="@dimen/image_view_small_profile_picture_width"
+                    android:layout_height="@dimen/image_view_small_profile_picture_height"
+                    android:layout_gravity="center"
+                    android:src="@drawable/baseline_person_24"
+                    app:shapeAppearanceOverlay="@style/Circular"
+                    android:background="@color/white"
+                    android:layout_marginEnd="@dimen/text_view_horizontal_margin"/>
+
+                <TextView
+                    android:id="@+id/tenantInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/regular_text_size"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutBirthDateWithHeader"
             android:layout_width="match_parent"
@@ -230,7 +316,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
-                android:background="@null"
+                android:background="@color/white"
                 android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
                 android:text="@string/description"
                 android:textAllCaps="true"

@@ -37,6 +37,7 @@ class RentDetailFragment : Fragment() {
     private lateinit var viewModel : RentViewModel
     private lateinit var propertyViewModel : RealEstateViewModel
     private lateinit var userViewModel : UserViewModel
+    private var fetchedRent : Rent? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,11 +69,14 @@ class RentDetailFragment : Fragment() {
         }
 
         viewModel.rent.observe(viewLifecycleOwner) { rent ->
+            fetchedRent = rent
             bindOfferData(rent)
         }
 
         binding.fab.setOnClickListener {
-            showDialog(rentId)
+            if (fetchedRent != null) {
+                showDialog(fetchedRent!!)
+            }
         }
 
     }
@@ -160,16 +164,17 @@ class RentDetailFragment : Fragment() {
         binding.paymentRecyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    private fun showDialog(rentId: Int) {
-        val rent = viewModel.rent.value ?: return
+    private fun showDialog(rent: Rent) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.bottom_sheet_menu_rent_layout)
 
         val addArgumentButton = dialog.findViewById<View>(R.id.addArgumentButton)
         val addOpinionButton = dialog.findViewById<View>(R.id.addOpinionButton)
+        val relatedOfferButton = dialog.findViewById<View>(R.id.relatedOfferButton)
+        val addMeetingButton = dialog.findViewById<View>(R.id.meetButton)
 
-        checkIfOpinionAboutRentExists(rentId) { exists ->
+        checkIfOpinionAboutRentExists(rent.rentId) { exists ->
             if (!exists) {
                 addOpinionButton.visibility = View.VISIBLE
             } else {
@@ -184,13 +189,15 @@ class RentDetailFragment : Fragment() {
         }
         if(rent.isFinished) {
             addArgumentButton.visibility = View.GONE
+            addMeetingButton.visibility = View.GONE
         } else {
             addArgumentButton.visibility = View.VISIBLE
+            addMeetingButton.visibility = View.VISIBLE
         }
 
         addArgumentButton.setOnClickListener {
             val bundle = Bundle()
-            bundle.putInt(RENT_ID, rentId)
+            bundle.putInt(RENT_ID, rent.rentId)
             val fragment = AddArgumentFragment()
             fragment.arguments = bundle
             (activity as? DrawerActivity)?.replaceFragment(fragment)
@@ -198,8 +205,25 @@ class RentDetailFragment : Fragment() {
         }
         addOpinionButton.setOnClickListener {
             val bundle = Bundle()
-            bundle.putInt(RENT_ID, rentId)
+            bundle.putInt(RENT_ID, rent.rentId)
             val fragment = AddPropertyOpinionFragment()
+            fragment.arguments = bundle
+            (activity as? DrawerActivity)?.replaceFragment(fragment)
+            dialog.dismiss()
+        }
+        relatedOfferButton.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(OFFER_ID, rent.offerId)
+            val fragment = OfferDetailFragment()
+            fragment.arguments = bundle
+            (activity as? DrawerActivity)?.replaceFragment(fragment)
+            dialog.dismiss()
+        }
+        addMeetingButton.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt(RENT_ID, rent.rentId)
+            bundle.putInt(RENT_ID, rent.rentId)
+            val fragment = AddMeetingFragment()
             fragment.arguments = bundle
             (activity as? DrawerActivity)?.replaceFragment(fragment)
             dialog.dismiss()
@@ -242,7 +266,6 @@ class RentDetailFragment : Fragment() {
             }
         })
     }
-
 
     private fun checkIfOpinionAboutRentExists(propertyId: Int, callback: (Boolean) -> Unit) {
         propertyViewModel.getProperty(propertyId)

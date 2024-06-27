@@ -52,7 +52,7 @@ class NotificationsFragment : Fragment() {
             Log.i(TAG, "Number of notifications: ${notifications.size}")
             fetchedNotifications.clear()
             fetchedNotifications.addAll(notifications)
-            adapter.notifyDataSetChanged()
+            adapter.updateNotifications(fetchedNotifications)
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading: Boolean ->

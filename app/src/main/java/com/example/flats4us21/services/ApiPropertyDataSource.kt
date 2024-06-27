@@ -105,11 +105,11 @@ object ApiPropertyDataSource : PropertyDataSource {
     ): ApiResult<String> {
         return try{
             val titleDeedRequestBody = titleDeedFile.asRequestBody("text/plain".toMediaTypeOrNull())
-            val titleDeedPart = MultipartBody.Part.createFormData("TitleDeed", titleDeedFile.name, titleDeedRequestBody)
+            val titleDeedPart = MultipartBody.Part.createFormData("titleDeed", titleDeedFile.name, titleDeedRequestBody)
 
             val imageParts = imageFiles.mapIndexed { _, file ->
                 val requestBody = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-                val image = MultipartBody.Part.createFormData("Images", file.name, requestBody)
+                val image = MultipartBody.Part.createFormData("images", file.name, requestBody)
                 image
             }
             val response = api.addFilesToProperty(propertyId, titleDeedPart, imageParts)

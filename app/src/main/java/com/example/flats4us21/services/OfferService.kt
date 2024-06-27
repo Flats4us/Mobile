@@ -1,6 +1,5 @@
 package com.example.flats4us21.services
 
-import com.example.flats4us21.data.MapOffersResult
 import com.example.flats4us21.data.NewPropertyApiResponse
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.OffersResult
@@ -44,23 +43,6 @@ interface OfferService {
         @Query("Floor") floor: Int?,
         @Query("Equipment") equipment: List<Int>?
     ): Response<OffersResult>
-
-    @GET("/api/offers/map")
-    suspend fun getOffersForMap(
-        @Query("City") city: String?,
-        @Query("Distance") distance: Int?,
-        @Query("PropertyType") propertyType: Int?,
-        @Query("MinPrice") minPrice: Int?,
-        @Query("MaxPrice") maxPrice: Int?,
-        @Query("District") district: String?,
-        @Query("MinArea") minArea: Int?,
-        @Query("MaxArea") maxArea: Int?,
-        @Query("MinYear") minYear: Int?,
-        @Query("MaxYear") maxYear: Int?,
-        @Query("MinNumberOfRooms") minNumberOfRooms: Int?,
-        @Query("Floor") floor: Int?,
-        @Query("Equipment") equipment: List<Int>?
-    ): Response<MapOffersResult>
 
     @GET("/api/offers/mine")
     suspend fun getMineOffers(): Response<OffersResult>

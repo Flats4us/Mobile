@@ -238,7 +238,7 @@ class ChatViewModel : ViewModel() {
         }
     }
 
-    fun getGroupChatInfo(chatId: Int) {
+    fun getGroupChatInfo(chatId: Int, callback: (Boolean) -> Unit) {
         viewModelScope.launch {
             _errorMessage.value = null
             _isLoading.value = true
@@ -248,16 +248,19 @@ class ChatViewModel : ViewModel() {
                     is ApiResult.Success -> {
                         Log.d(TAG, "Received group chat info for chatId: $chatId : ${result.data}")
                         _groupChatInfo.postValue(result.data)
+                        callback(true)
                     }
                     is ApiResult.Error -> {
                         Log.i(TAG, "ERROR: ${result.message}")
                         _errorMessage.postValue(result.message)
                         Log.e(TAG, "error: ${errorMessage.value}")
+                        callback(false)
                     }
                 }
             } catch (e: Exception) {
                 _errorMessage.postValue(e.message)
                 Log.e(TAG, "Exception $e")
+                callback(false)
             } finally {
                 _isLoading.postValue(false)
             }

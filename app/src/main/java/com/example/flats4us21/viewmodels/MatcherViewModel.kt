@@ -74,6 +74,7 @@ class MatcherViewModel : ViewModel() {
                     is ApiResult.Success -> {
                         val data = fetchedRents.data as MutableList<StudentForMatcher>
                         _existingMatches.value = data
+                        Log.i(TAG, "Existing matches: ${_existingMatches.value}")
                     }
                     is ApiResult.Error -> {
                         val errorMessage = fetchedRents.message

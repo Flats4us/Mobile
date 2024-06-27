@@ -34,7 +34,7 @@ data class MyProfile(
     @SerializedName("verificationStatus")
     val verificationStatus: Int,
     @SerializedName("profilePicture")
-    val profilePicture: Image,
+    val profilePicture: Image?,
     @SerializedName("avgRating")
     val avgRating: Float,
     @SerializedName("sumHelpful")

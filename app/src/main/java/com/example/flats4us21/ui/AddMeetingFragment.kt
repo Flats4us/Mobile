@@ -10,21 +10,29 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import coil.load
 import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.R
+import com.example.flats4us21.URL
+import com.example.flats4us21.data.Offer
+import com.example.flats4us21.data.Rent
 import com.example.flats4us21.data.dto.NewMeetingDto
 import com.example.flats4us21.databinding.FragmentAddMeetingBinding
 import com.example.flats4us21.viewmodels.MeetingViewModel
+import com.example.flats4us21.viewmodels.OfferViewModel
+import com.example.flats4us21.viewmodels.RentViewModel
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.util.Calendar
 
-
+private const val TAG = "AddMeetingFragment"
 class AddMeetingFragment : Fragment() {
     private var _binding: FragmentAddMeetingBinding? = null
     private val binding get() = _binding!!
     private lateinit var meetingViewModel: MeetingViewModel
+    private lateinit var offerViewModel: OfferViewModel
+    private lateinit var rentViewModel: RentViewModel
     private var selectedMeetingDate : LocalDate? = null
 
     override fun onCreateView(
@@ -38,8 +46,29 @@ class AddMeetingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val offerId = arguments?.getInt(OFFER_ID, -1)
+        val rentId = arguments?.getInt(RENT_ID)
 
         meetingViewModel = ViewModelProvider(requireActivity())[MeetingViewModel::class.java]
+        offerViewModel = ViewModelProvider(requireActivity())[OfferViewModel::class.java]
+        rentViewModel = ViewModelProvider(requireActivity())[RentViewModel::class.java]
+
+        if(rentId != null) {
+            rentViewModel.getRent(rentId)
+        } else {
+            offerViewModel.getOffer(offerId!!)
+        }
+
+        rentViewModel.rent.observe(viewLifecycleOwner) { rent ->
+            if (rent != null) {
+                bindRentData(rent)
+            }
+        }
+
+        offerViewModel.offer.observe(viewLifecycleOwner) { offer ->
+            if(offer != null) {
+                bindOfferData(offer)
+            }
+        }
 
         meetingViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
             if(errorMessage != null) {
@@ -60,6 +89,37 @@ class AddMeetingFragment : Fragment() {
                 }
             }
         }
+
+    }
+
+    private fun bindOfferData(offer: Offer) {
+        binding.layoutOwner.visibility = View.VISIBLE
+        binding.layoutMainTenant.visibility = View.GONE
+        val ownerUrl = "$URL/${offer.owner.profilePicture?.path}"
+        Log.i(TAG, ownerUrl)
+        binding.ownerPhoto.load(ownerUrl) {
+            error(R.drawable.baseline_person_24)
+        }
+        binding.userInfo.text = getString(R.string.name_and_surname, offer.owner.name, offer.owner.surname)
+    }
+
+    private fun bindRentData(rent: Rent) {
+        binding.layoutOwner.visibility = View.VISIBLE
+        binding.layoutMainTenant.visibility = View.VISIBLE
+        val ownerUrl = "$URL/${rent.owner.profilePicture?.path}"
+        Log.i(TAG, ownerUrl)
+        binding.ownerPhoto.load(ownerUrl) {
+            error(R.drawable.baseline_person_24)
+        }
+        binding.userInfo.text = getString(R.string.name_and_surname, rent.owner.name, rent.owner.surname)
+        val mainTenant = rent.tenants.firstOrNull{ it.userId == rent.mainTenantId }
+        val mainTenantUrl = "$URL/${mainTenant?.profilePicture?.path ?: ""}"
+        Log.i(TAG, mainTenantUrl)
+        binding.ownerPhoto.load(mainTenantUrl) {
+            error(R.drawable.baseline_person_24)
+        }
+        binding.tenantInfo.text = mainTenant?.fullName ?: ""
+
 
     }
 

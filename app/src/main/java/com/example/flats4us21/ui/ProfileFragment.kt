@@ -14,11 +14,15 @@ import com.example.flats4us21.R
 import com.example.flats4us21.URL
 import com.example.flats4us21.adapters.InterestAdapter
 import com.example.flats4us21.data.Profile
+import com.example.flats4us21.data.utils.QuestionTranslator
 import com.example.flats4us21.databinding.FragmentProfileBinding
 import com.example.flats4us21.viewmodels.UserViewModel
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 private const val TAG = "ProfileFragment"
 class ProfileFragment : Fragment() {
@@ -75,6 +79,21 @@ class ProfileFragment : Fragment() {
         binding.verified.visibility = if (userProfile.verificationStatus == 0) View.VISIBLE else View.INVISIBLE
 
         binding.nameTextview.text = userProfile.name
+        if(userProfile.userType == 0) {
+            binding.ratingLayout.visibility = View.GONE
+            binding.interestsLayout.visibility = View.GONE
+            binding.opinionLayout.visibility = View.GONE
+            binding.emailLayout.visibility = View.VISIBLE
+            binding.phoneNumberLayout.visibility = View.VISIBLE
+            binding.surveyFlexboxLayout.visibility = View.GONE
+        } else {
+            binding.ratingLayout.visibility = View.VISIBLE
+            binding.interestsLayout.visibility = View.VISIBLE
+            binding.opinionLayout.visibility = View.VISIBLE
+            binding.emailLayout.visibility = View.GONE
+            binding.phoneNumberLayout.visibility = View.GONE
+            binding.surveyFlexboxLayout.visibility = View.VISIBLE
+        }
         if(userProfile.age != null){
             binding.ageTextview.visibility = View.VISIBLE
             binding.ageTextview.text = userProfile.age.toString()
@@ -82,6 +101,18 @@ class ProfileFragment : Fragment() {
             binding.ageTextview.visibility = View.GONE
         }
         binding.ratingBar.rating = userProfile.avgRating
+        Log.i(TAG, "surveyStudent: ${userProfile.surveyStudent}")
+        if(userProfile.surveyStudent != null) {
+            val survey = userProfile.surveyStudent
+            binding.smokingLayout.visibility = if(survey.smoking) View.VISIBLE else View.GONE
+            Log.i(TAG, "smoking: ${survey.smoking}")
+            binding.sociabilityLayout.visibility = if(survey.sociability) View.VISIBLE else View.GONE
+            Log.i(TAG, "sociability: ${survey.sociability}")
+            binding.animalsLayout.visibility = if(survey.animals) View.VISIBLE else View.GONE
+            Log.i(TAG, "animals: ${survey.animals}")
+            binding.veganLayout.visibility = if(survey.vegan) View.VISIBLE else View.GONE
+            Log.i(TAG, "vegan: ${survey.vegan}")
+        }
         if(userProfile.links != null){
             binding.facebook.isVisible = userProfile.links.any {it.contains("facebook")}
             binding.twitter.isVisible = userProfile.links.any {it.contains("twitter")}
@@ -106,7 +137,8 @@ class ProfileFragment : Fragment() {
             val recyclerView = binding.interestsRecyclerView
             binding.interestsRecyclerView.visibility = View.VISIBLE
             binding.emptyView.visibility = View.GONE
-            val adapter = InterestAdapter(userProfile.interests)
+            val interests = userProfile.interests.map { QuestionTranslator.translateInterestName(it.interestName.lowercase(Locale.getDefault()), requireContext()) }
+            val adapter = InterestAdapter(interests)
             recyclerView.adapter = adapter
             val flexboxLayoutManager = FlexboxLayoutManager(context)
             flexboxLayoutManager.flexDirection = FlexDirection.ROW
@@ -213,6 +245,21 @@ class ProfileFragment : Fragment() {
         binding.sumNotFollowingTheArrangements.text = userProfile.sumNotFollowingTheArrangements.toString()
 
         binding.noReviewsText.visibility = if (hasReviews) View.GONE else View.VISIBLE
+
+        if(userProfile.email != null) {
+            binding.email.text = userProfile.email
+        }
+        if(userProfile.phoneNumber != null) {
+            binding.phoneNumber.text = userProfile.phoneNumber
+        }
+
+        val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+
+        val dateTime = LocalDateTime.parse(userProfile.accountCreationDate, inputFormatter)
+
+        val outputFormatter = DateTimeFormatter.ofPattern("d MMM yyyy", Locale("pl"))
+
+        binding.accountCreationDate.text = dateTime.format(outputFormatter)
 
 
     }

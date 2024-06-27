@@ -9,16 +9,6 @@
         android:title="@string/start"/>
 
     <item
-        android:id="@+id/nav_map"
-        android:icon="@drawable/baseline_location_on_24"
-        android:title="@string/map"/>
-
-    <item
-        android:id="@+id/nav_contact"
-        android:icon="@drawable/baseline_phone_24"
-        android:title="@string/contact"/>
-
-    <item
         android:id="@+id/nav_login"
         android:icon="@drawable/baseline_login_24"
         android:title="@string/login"/>

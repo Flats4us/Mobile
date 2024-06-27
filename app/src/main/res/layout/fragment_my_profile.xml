@@ -98,6 +98,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ratingLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -123,6 +124,118 @@
                         tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                 </LinearLayout>
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/surveyFlexboxLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:alignContent="center"
+                    app:alignItems="stretch"
+                    app:justifyContent="center"
+                    android:layout_gravity="center_vertical"
+                    app:flexWrap="wrap">
+
+                    <LinearLayout
+                        android:id="@+id/smokingLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="@drawable/oval_white_background"
+                        android:backgroundTint="#44C3FA"
+                        android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                        android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
+                        android:padding="@dimen/layout_opinion_padding">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/smoking"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/smoking"
+                            android:textSize="@dimen/regular_text_size"
+                            android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/sociabilityLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="@drawable/oval_white_background"
+                        android:backgroundTint="#44C3FA"
+                        android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                        android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
+                        android:padding="@dimen/layout_opinion_padding">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/baseline_people_24"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/sociability"
+                            android:textSize="@dimen/regular_text_size"
+                            android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/veganLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="@drawable/oval_white_background"
+                        android:backgroundTint="#44C3FA"
+                        android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                        android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
+                        android:padding="@dimen/layout_opinion_padding">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/vegan"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/vegan"
+                            android:textSize="@dimen/regular_text_size"
+                            android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/animalsLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="@drawable/oval_white_background"
+                        android:backgroundTint="#44C3FA"
+                        android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                        android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
+                        android:padding="@dimen/layout_opinion_padding">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/pets" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/animals"
+                            android:textSize="@dimen/regular_text_size"
+                            android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"/>
+
+                    </LinearLayout>
+
+                </com.google.android.flexbox.FlexboxLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -664,6 +777,44 @@
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                         </com.google.android.flexbox.FlexboxLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/accountCreationDateLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginHorizontal="@dimen/layout_profile_margin_horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginVertical="@dimen/header_vertical_margin">
+
+                            <ImageView
+                                android:layout_width="@dimen/image_view_header_icon_size"
+                                android:layout_height="@dimen/image_view_header_icon_size"
+                                android:src="@drawable/baseline_calendar_month_24"
+                                tools:ignore="ContentDescription" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/user_from"
+                                android:textSize="@dimen/h2"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"/>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/accountCreationDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:text="@string/example"/>
 
                     </LinearLayout>
 

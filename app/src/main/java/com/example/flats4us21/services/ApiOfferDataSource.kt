@@ -111,40 +111,6 @@ object ApiOfferDataSource : OfferDataSource {
         }
     }
 
-    override suspend fun getOffersForMap(offerFilter: OfferFilter): ApiResult<MapOffersResult> {
-        return try {
-            val response = apiWithoutInterceptor.getOffersForMap(
-                offerFilter.city,
-                offerFilter.distnace,
-                offerFilter.propertyType,
-                offerFilter.minPrice,
-                offerFilter.maxPrice,
-                offerFilter.district,
-                offerFilter.minArea,
-                offerFilter.maxArea,
-                offerFilter.minYear,
-                offerFilter.maxYear,
-                offerFilter.minNumberOfRooms,
-                offerFilter.floor,
-                offerFilter.equipment
-            )
-            Log.d(TAG, "Response status: ${response.isSuccessful}")
-            if(response.isSuccessful) {
-                Log.d(TAG, "Response body: ${response.body()}")
-                val data = response.body()
-                if (data != null) {
-                    ApiResult.Success(data)
-                } else {
-                    ApiResult.Error("Response body is null")
-                }
-            } else {
-                ApiResult.Error("Failed to fetch data: ${response.message()}")
-            }
-        } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
-        }
-    }
-
     override suspend fun getMineOffers(): ApiResult<List<Offer>> {
         return try {
             val response = api.getMineOffers()

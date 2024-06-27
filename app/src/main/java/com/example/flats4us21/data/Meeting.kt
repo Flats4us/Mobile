@@ -11,5 +11,6 @@ data class Meeting(
     val reason: String,
     val offerId: Int,
     val studentAcceptDate: String?,
-    val ownerAcceptDate: String?
+    val ownerAcceptDate: String?,
+    val needsAction: Boolean
 ): Parcelable

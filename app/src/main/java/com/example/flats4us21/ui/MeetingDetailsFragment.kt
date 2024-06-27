@@ -76,6 +76,8 @@ class MeetingDetailsFragment : Fragment() {
         binding.time.text = meetingTime.format(ofPattern("HH:mm")).toString()
         binding.reason.text = meeting.reason
         binding.place.text = meeting.place
+        binding.studentAcceptanceDate.text = if(meeting.studentAcceptDate == null) "-" else meeting.studentAcceptDate.toString().split("T")[0]
+        binding.ownerAcceptanceDate.text = if(meeting.ownerAcceptDate == null) "-" else meeting.ownerAcceptDate.toString().split("T")[0]
     }
 
     private fun sendDecision(decision: Boolean) {

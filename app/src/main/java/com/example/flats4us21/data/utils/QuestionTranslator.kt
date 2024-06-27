@@ -44,5 +44,15 @@ object QuestionTranslator {
         val (_, reverseSortMapping) = getSortMapping(context)
         return reverseSortMapping[sortingOptionUrl] ?: throw IllegalArgumentException("Invalid sorting option URL")
     }
+
+    fun translateInterestName(resourceName: String, context: Context): String {
+        val resourceId =
+            context.resources.getIdentifier("interest_$resourceName", "string", context.packageName)
+        return if (resourceId != 0) {
+            context.getString(resourceId)
+        } else {
+            resourceName
+        }
+    }
 }
 

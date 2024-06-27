@@ -81,7 +81,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
-                        android:background="@null"
+                        android:background="@color/white"
                         android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
                         android:text="@string/required_email"
                         android:textAllCaps="true"
@@ -157,7 +157,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
-                        android:background="@null"
+                        android:background="@color/white"
                         android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
                         android:text="@string/required_password"
                         android:textAllCaps="true"
@@ -236,7 +236,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
-                        android:background="@null"
+                        android:background="@color/white"
                         android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
                         android:text="@string/required_repeat_password"
                         android:textAllCaps="true"
@@ -244,7 +244,6 @@
                         app:layout_constraintBottom_toTopOf="@id/layoutRepeatPassword"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/layoutRepeatPassword" />
-
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

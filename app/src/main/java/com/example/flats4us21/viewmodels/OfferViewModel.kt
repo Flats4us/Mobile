@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.flats4us21.data.ApiResult
-import com.example.flats4us21.data.MapOffer
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.Property
 import com.example.flats4us21.data.dto.NewOfferDto
@@ -26,12 +25,6 @@ class OfferViewModel: ViewModel() {
     private val _offers: MutableLiveData<MutableList<Offer>> = MutableLiveData()
     val offers: LiveData<MutableList<Offer>>
     get() = _offers
-
-    private val _mapOffers: MutableLiveData<MutableList<MapOffer>> = MutableLiveData()
-    val mapOffers: LiveData<MutableList<MapOffer>>
-    get() = _mapOffers
-
-
 
     private val _newOffers: MutableLiveData<MutableList<Offer>> = MutableLiveData()
     val newOffers: LiveData<MutableList<Offer>>
@@ -278,12 +271,12 @@ class OfferViewModel: ViewModel() {
     set(value) {
         _floor = value
     }
-    private var _equipment : List<Int>? = null
-    var equipment : List<Int>?
-    get() = _equipment
-    set(value) {
-        _equipment = value
-    }
+    private var _equipment: MutableList<Int> = mutableListOf()
+    var equipment: MutableList<Int>
+        get() = _equipment
+        set(value) {
+            _equipment = value
+        }
 
     fun getOffer(offerId : Int){
         viewModelScope.launch {
@@ -394,59 +387,6 @@ class OfferViewModel: ViewModel() {
                             _offers.value = data
                         } else {
                             _offers.value!!.addAll(data)
-                        }
-                    }
-                    is ApiResult.Error -> {
-                        val errorMessage = fetchedOffers.message
-                        Log.e(TAG, "Error: $errorMessage")
-                        _errorMessage.value = errorMessage
-                    }
-                }
-            } catch (e: Exception) {
-                _errorMessage.value = e.message
-                Log.e(TAG, "Exception $e")
-            } finally {
-                _isLoading.value = false
-            }
-        }
-    }
-
-    fun getOffersForMap() {
-        viewModelScope.launch {
-            _errorMessage.value = null
-            _isLoading.value = true
-            try{
-                val filter = OfferFilter(
-                    null,
-                    pageNumber,
-                    pageSize,
-                    province,
-                    city,
-                    distance,
-                    propertyType,
-                    minPrice,
-                    maxPrice,
-                    district,
-                    minArea,
-                    maxArea,
-                    minYear,
-                    maxYear,
-                    minNumberOfRooms,
-                    floor,
-                    equipment
-                )
-                if(pageNumber == 1 && _offers.value != null) {
-                    _offers.value!!.clear()
-                }
-                Log.i(TAG, "Filter: $filter")
-                val fetchedOffers = apiOfferRepository.getOffersForMap(filter)
-                Log.i(TAG, "Fetched offers: $fetchedOffers")
-                when (fetchedOffers) {
-                    is ApiResult.Success -> {
-                        val data = fetchedOffers.data.result as MutableList<MapOffer>
-
-                        if(_offers.value == null) {
-                            _mapOffers.value = data
                         }
                     }
                     is ApiResult.Error -> {
@@ -595,22 +535,4 @@ class OfferViewModel: ViewModel() {
         }
     }
 
-    fun clearNullableVariables() {
-        _sorting = null
-        _province = null
-        _city = null
-        _distance = null
-        _pageNumber = 1
-        _propertyType = null
-        _minPrice = null
-        _maxPrice = null
-        _district = null
-        _minArea = null
-        _maxArea = null
-        _minYear = null
-        _maxYear = null
-        _minNumberOfRooms = null
-        _floor = null
-        _equipment = null
-    }
 }

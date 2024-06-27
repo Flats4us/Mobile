@@ -9,6 +9,7 @@ import com.example.flats4us21.data.dto.NewPasswordDto
 import com.example.flats4us21.data.dto.NewStudentDto
 import com.example.flats4us21.data.dto.NewUserOpinionDto
 import com.example.flats4us21.data.dto.UpdateMyProfileDto
+import java.io.File
 
 interface UserDataSource {
 
@@ -27,6 +28,9 @@ interface UserDataSource {
     suspend fun sendPasswordResetLink(email: String): ApiResult<String>
 
     suspend fun updateMyProfile(updateMyProfileDto: UpdateMyProfileDto): ApiResult<String>
+
+    suspend fun addUserFiles(profilePicture: File?, document: File?): ApiResult<String>
+
 
     suspend fun addOpinion(targetUserId: Int,  newUserOpinionDto : NewUserOpinionDto): ApiResult<String>
 

@@ -85,11 +85,12 @@ class OwnerPropertyDetailFragment : Fragment() {
         })
         binding.voivodeship.text = property.voivodeship
         binding.city.text = property.city
+        Log.d(TAG, "onViewCreated: ${property.district}")
         if(property.district != null) {
-            binding.district.text = realEstateViewModel.district
-            binding.layoutDistrict.isVisible = true
+            binding.district.text = property.district
+            binding.layoutDistrict.visibility = View.VISIBLE
         } else {
-            binding.layoutDistrict.isVisible = false
+            binding.layoutDistrict.visibility = View.GONE
         }
         binding.street.text = property.street
         binding.buildingNumber.text = property.buildingNumber
@@ -137,7 +138,7 @@ class OwnerPropertyDetailFragment : Fragment() {
             binding.opinionLayout.visibility = View.VISIBLE
         }
 
-        binding.ratingBar.rating = property.avgRating.toFloat()
+        binding.ratingBar.rating = (property.avgRating.toFloat() / 2)
         binding.sumService.text = property.avgServiceRating.toString()
         binding.sumLocation.text = property.avgLocationRating.toString()
         binding.sumEquipment.text = property.avgEquipmentRating.toString()
@@ -151,7 +152,6 @@ class OwnerPropertyDetailFragment : Fragment() {
 
         val editPropertyButton = dialog.findViewById<View>(R.id.editPropertyButton)
         val deletePropertyButton = dialog.findViewById<View>(R.id.deletePropertyButton)
-
         editPropertyButton.setOnClickListener {
             val bundle = Bundle()
             bundle.putBoolean(IS_CREATING, false)
@@ -162,7 +162,7 @@ class OwnerPropertyDetailFragment : Fragment() {
         }
         deletePropertyButton.setOnClickListener {
             Log.d(TAG, "offers: ${property.offers} isNullOrEmpty ${!property.offers.isNullOrEmpty()}")
-            if(property!!.offers.isNullOrEmpty()) {
+            if(property.offers.isNullOrEmpty()) {
                 realEstateViewModel.deleteProperty(property.propertyId) { result ->
                     if (result) {
                         Toast.makeText(requireContext(), getString(R.string.deleted_property), Toast.LENGTH_LONG).show()

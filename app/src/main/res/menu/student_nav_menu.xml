@@ -18,11 +18,6 @@
         android:title="@string/observed"/>
 
     <item
-        android:id="@+id/nav_map"
-        android:icon="@drawable/baseline_location_on_24"
-        android:title="@string/map"/>
-
-    <item
         android:id="@+id/nav_messages"
         android:icon="@drawable/baseline_message_24"
         android:title="@string/messages"/>
@@ -36,10 +31,6 @@
         android:id="@+id/reviews"
         android:icon="@drawable/baseline_edit_24"
         android:title="@string/reviews"/>
-    <item
-    android:id="@+id/nav_report_issue"
-    android:icon="@drawable/baseline_report_problem_24"
-    android:title="@string/report_issue"/>
 
     <item
         android:id="@+id/nav_settings"

@@ -13,7 +13,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flats4us21.DataStoreManager
-import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.R
 import com.example.flats4us21.data.MyProfile
 import com.example.flats4us21.data.dto.NewPasswordDto
@@ -30,7 +29,6 @@ class EditProfileFragment : Fragment() {
     private val binding get() = _binding!!
     private val socialMediaLinks = mutableListOf<String>()
     private lateinit var userViewModel: UserViewModel
-    private var selectedBirthDate : LocalDate? = null
     private var selectedExpireDate : LocalDate? = null
 
     override fun onCreateView(
@@ -69,12 +67,6 @@ class EditProfileFragment : Fragment() {
             linksDialogFragment.show(parentFragmentManager , "LinksDialogFragment")
         }
 
-        binding.profilePicture.setOnClickListener {  }
-
-        binding.layoutDate.setOnClickListener{
-            selectedBirthDate = clickDatePicker(binding.textDate)
-        }
-
         binding.layoutDocumentExpireDate.setOnClickListener{
             selectedExpireDate = clickDatePicker(binding.documentExpireDate)
         }
@@ -84,9 +76,8 @@ class EditProfileFragment : Fragment() {
                 collectData()
                 userViewModel.updateMyProfile {
                     if(it){
-                        Toast.makeText(requireContext(), getString(R.string.profile_updated), Toast.LENGTH_LONG).show()
-                        val fragment = MyProfileFragment()
-                        (activity as? DrawerActivity)!!.replaceFragment(fragment)
+                        Toast.makeText(requireContext(),
+                            getString(R.string.sucessfully_changed_data), Toast.LENGTH_LONG).show()
                     }
                 }
             }
@@ -131,14 +122,12 @@ class EditProfileFragment : Fragment() {
             binding.layoutDocumentNumberWithHeader.visibility = View.GONE
             binding.layoutDocumentExpireDateWithHeader.visibility = View.GONE
             binding.layoutBankAccountWithHeader.visibility = View.GONE
-            binding.layoutBirthDateWithHeader.visibility = View.VISIBLE
             binding.layoutStudentNumberWithHeader.visibility = View.VISIBLE
             binding.layoutUniversityNameWithHeader.visibility = View.VISIBLE
         } else {
             binding.layoutDocumentNumberWithHeader.visibility = View.VISIBLE
             binding.layoutDocumentExpireDateWithHeader.visibility = View.VISIBLE
             binding.layoutBankAccountWithHeader.visibility = View.VISIBLE
-            binding.layoutBirthDateWithHeader.visibility = View.GONE
             binding.layoutStudentNumberWithHeader.visibility = View.GONE
             binding.layoutUniversityNameWithHeader.visibility = View.GONE
         }
@@ -158,23 +147,17 @@ class EditProfileFragment : Fragment() {
     private fun bindData(userProfile: MyProfile) {
         val datePattern = "yyyy-MM-dd"
         binding.textResidentialAddress.setText(userProfile.address)
-        binding.email.setText(userProfile.email)
         binding.phoneNumber.setText(userProfile.phoneNumber)
         if(userProfile.links != null){
             socialMediaLinks.addAll(userProfile.links)
         }
-        binding.name.setText(userProfile.name)
-        binding.surname.setText(userProfile.surname)
         if(DataStoreManager.userRole.value == "Student") {
-            binding.textDate.text = userProfile.birthDate!!.split("T")[0]
-            selectedBirthDate = stringToLocalDate(userProfile.birthDate.split("T")[0], datePattern)
             binding.textStudentNumber.setText(userProfile.studentNumber)
             binding.textUniversityName.setText(userProfile.university)
         } else {
             binding.documentNumber.setText(userProfile.documentNumber)
             binding.documentExpireDate.text = userProfile.documentExpireDate.split("T")[0]
-            selectedExpireDate =
-                stringToLocalDate(userProfile.documentExpireDate.split("T")[0], datePattern)
+            selectedExpireDate = stringToLocalDate(userProfile.documentExpireDate.split("T")[0], datePattern)
             binding.bankAccount.setText(userProfile.bankAccount)
         }
     }
@@ -209,22 +192,10 @@ class EditProfileFragment : Fragment() {
         if(!binding.textResidentialAddress.text.isNullOrEmpty()) {
             userViewModel.address = binding.textResidentialAddress.text.toString()
         }
-        if(!binding.email.text.isNullOrEmpty()) {
-            userViewModel.email = binding.email.text.toString()
-        }
         if(!binding.phoneNumber.text.isNullOrEmpty()) {
             userViewModel.phoneNumber = binding.phoneNumber.text.toString()
         }
         userViewModel.links = socialMediaLinks
-        if(!binding.name.text.isNullOrEmpty()) {
-            userViewModel.name = binding.name.text.toString()
-        }
-        if(!binding.surname.text.isNullOrEmpty()){
-            userViewModel.surname = binding.surname.text.toString()
-        }
-        if(!binding.textDate.text.isNullOrEmpty()){
-            userViewModel.birthDate = selectedBirthDate
-        }
         if(!binding.textStudentNumber.text.isNullOrEmpty()){
             userViewModel.studentNumber = binding.textStudentNumber.text.toString()
         }
@@ -244,18 +215,14 @@ class EditProfileFragment : Fragment() {
 
     fun validateData() : Boolean {
         val isAddressValid = validateOptionalEditText(binding.textResidentialAddress, binding.layoutResidentialAddress, binding.layoutResidentialAddressWithHeader)
-        val isEmailValid = validateOptionalEditText(binding.email, binding.layoutEmail, binding.layoutEmailWithHeader)
         val isPhoneNumberValid = validateOptionalEditText(binding.phoneNumber, binding.layoutPhoneNumber, binding.layoutPhoneNumberWithHeader)
-        val isNameValid = validateOptionalEditText(binding.name, binding.layoutName, binding.layoutNameWithHeader)
-        val isSurnameValid = validateOptionalEditText(binding.surname, binding.layoutSurname, binding.layoutSurnameWithHeader)
-        val isDateValid = validateOptionalTextView(binding.textDate, binding.layoutDate, binding.layoutBirthDateWithHeader)
         val isStudentNumberValid = validateOptionalEditText(binding.textStudentNumber, binding.layoutStudentNumber, binding.layoutStudentNumberWithHeader)
         val isUniversityNameValid = validateOptionalEditText(binding.textUniversityName, binding.layoutUniversityName, binding.layoutUniversityNameWithHeader)
         val isDocumentNumberValid = validateOptionalEditText(binding.documentNumber, binding.layoutDocumentNumber, binding.layoutDocumentNumberWithHeader)
         val isDocumentExpireDateValid = validateOptionalTextView(binding.documentExpireDate, binding.layoutDocumentExpireDate, binding.layoutDocumentExpireDateWithHeader)
         val isBankAccountValid = validateOptionalEditText(binding.bankAccount, binding.layoutBankAccount, binding.layoutBankAccountWithHeader)
 
-        return isAddressValid && isEmailValid && isPhoneNumberValid && isNameValid && isSurnameValid && isDateValid && isStudentNumberValid && isUniversityNameValid && isDocumentNumberValid && isDocumentExpireDateValid && isBankAccountValid
+        return isAddressValid && isPhoneNumberValid && isStudentNumberValid && isUniversityNameValid && isDocumentNumberValid && isDocumentExpireDateValid && isBankAccountValid
     }
 
     private fun validateDataForPassword() : Boolean {
@@ -292,7 +259,6 @@ class EditProfileFragment : Fragment() {
         }
         return arePasswordsValid
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

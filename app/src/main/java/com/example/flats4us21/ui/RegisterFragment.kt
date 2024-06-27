@@ -12,8 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flats4us21.R
 import com.example.flats4us21.data.UserType
+import com.example.flats4us21.data.utils.QuestionTranslator
 import com.example.flats4us21.databinding.FragmentRegisterBinding
 import com.example.flats4us21.viewmodels.UserViewModel
+import java.util.Locale
 
 private const val TAG = "RegisterFragment"
 class RegisterFragment : Fragment() {
@@ -86,7 +88,7 @@ class RegisterFragment : Fragment() {
         }
 
         userViewModel.interests.observe(viewLifecycleOwner) { interests ->
-            val interestArray = interests.map { it.interestName }.toTypedArray()
+            val interestArray = interests.map { QuestionTranslator.translateInterestName(it.interestName.lowercase(Locale.getDefault()), requireContext()) }.toTypedArray()
             val selectedInterestArray = BooleanArray(interestArray.size) { index ->
                 userViewModel.interest.contains(index + 1)
             }
