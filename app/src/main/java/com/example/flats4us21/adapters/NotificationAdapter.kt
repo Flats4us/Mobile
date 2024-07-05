@@ -1,15 +1,19 @@
 package com.example.flats4us21.adapters
 
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flats4us21.R
 import com.example.flats4us21.data.Notification
+import com.example.flats4us21.data.utils.QuestionTranslator
 import com.example.flats4us21.databinding.NotificationRowBinding
 
 class NotificationAdapter(
-    private val notifications: MutableList<Notification>,
+    private var notifications: MutableList<Notification>,
+    private val context: Context,
     private val onUserClick : (Notification) -> Unit
 ) : RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder>() {
 
@@ -39,13 +43,14 @@ class NotificationAdapter(
 
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
         val notification : Notification = notifications[position]
-        holder.titleTextView.text = notification.title
-        holder.descriptionTextView.text = notification.body
+        holder.titleTextView.text = QuestionTranslator.translateNotification(notification.title, context)
+        holder.descriptionTextView.text = QuestionTranslator.translateNotification(notification.body, context)
     }
 
-    fun updateNotifications(newChats: List<Notification>) {
-        notifications.clear()
-        notifications.addAll(newChats)
+    fun updateNotifications(newNotifications: List<Notification>) {
+        Log.d("NotificationAdapter", newNotifications.toString())
+        notifications = newNotifications as MutableList<Notification>
+        Log.d("NotificationAdapter", notifications.toString())
         notifyDataSetChanged()
     }
 }

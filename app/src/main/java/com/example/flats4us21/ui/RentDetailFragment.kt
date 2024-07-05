@@ -222,7 +222,7 @@ class RentDetailFragment : Fragment() {
         addMeetingButton.setOnClickListener {
             val bundle = Bundle()
             bundle.putInt(RENT_ID, rent.rentId)
-            bundle.putInt(RENT_ID, rent.rentId)
+            bundle.putInt(OFFER_ID, rent.offerId)
             val fragment = AddMeetingFragment()
             fragment.arguments = bundle
             (activity as? DrawerActivity)?.replaceFragment(fragment)

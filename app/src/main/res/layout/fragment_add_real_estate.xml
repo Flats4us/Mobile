@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.AddRealEstateFragment"
     android:background="@drawable/app_background">
@@ -34,6 +34,6 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/horizontal_space"
         android:background="@drawable/rectangle_white_background"
-        tools:layout="@layout/fragment_add_real_estate_first_step"/>
+        tools:layout="@layout/fragment_add_real_estate_fourth_step"/>
 
 </LinearLayout>

@@ -434,5 +434,37 @@
     <string name="animals">Ma zwierzęta</string>
     <string name="vegan">Vegan</string>
 
+    <string name="equipment_dishwasher">Zmywarka</string>
+    <string name="equipment_washingmachine">Pralka</string>
+    <string name="equipment_iron">Żelazko</string>
+    <string name="equipment_kettle">Czajnik</string>
+    <string name="equipment_coffeemachine">Ekspres do kawy</string>
+    <string name="equipment_airconditioning">Klimatyzacja</string>
+    <string name="equipment_balcony">Balkon</string>
+    <string name="equipment_tv">Telewizor</string>
+    <string name="equipment_bath">Wanna</string>
+    <string name="equipment_oven">Piekarnik</string>
+    <string name="equipment_microwave">Mikrofalówka</string>
+    <string name="equipment_elevator">Winda</string>
+
+    <string name="new_meeting_proposition_title">Nowa propozycja spotkania</string>
+    <string name="new_meeting_proposition_body">Sprawdź ją w kalendarzu.</string>
+    <string name="meeting_proposition_accepted_title">Spotkanie zaakceptowane!</string>
+    <string name="meeting_proposition_accepted_body">Twoja propozycja spotkania została zaakceptowana.</string>
+    <string name="meeting_proposition_rejected_title">Spotkanie odrzucone</string>
+    <string name="meeting_proposition_rejected_body">Twoja propozycja spotkania została odrzucona.</string>
+    <string name="new_match_title">Nowe dopasowanie!</string>
+    <string name="new_match_body">Masz nowego potencjalnego współlokatora!</string>
+    <string name="new_payment_title">Nowa płatność</string>
+    <string name="new_payment_body">Wygenerowaliśmy nową płatność za Twój czynsz.</string>
+    <string name="new_rent_proposition_title">Nowa propozycja wynajmu!</string>
+    <string name="new_rent_proposition_body">Ktoś chce wynająć Twoją nieruchomość!</string>
+    <string name="rent_proposition_accepted_title">Wynajem zaakceptowany!</string>
+    <string name="rent_proposition_accepted_body">Twoja propozycja wynajmu została zaakceptowana.</string>
+    <string name="rent_proposition_rejected_title">Wynajem odrzucony</string>
+    <string name="rent_proposition_rejected_body">Twoja propozycja wynajmu została odrzucona.</string>
+    <string name="default_notification_channel_id">my_default_channel</string>
+
+
     <!-- TODO: meeting_row -->
 </resources>

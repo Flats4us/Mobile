@@ -235,7 +235,7 @@ class RealEstateViewModel : ViewModel() {
         }
     }
 
-    fun createProperty(callback: (String?) -> Unit) {
+    fun createProperty(callback: (Boolean) -> Unit) {
         val newProperty = NewPropertyDto(
             propertyType.toString().toInt(),
             voivodeship,
@@ -262,34 +262,19 @@ class RealEstateViewModel : ViewModel() {
                 when (val response = propertyRepository.addProperty(newProperty)) {
                     is ApiResult.Success -> {
                         val propertyId = response.data
-                        Log.i(TAG, "BEFORE add files to property")
-                        val filesResponse = propertyRepository.addFilesToProperty(propertyId, titleDeedFile!!, imageFiles)
-                        when (filesResponse) {
-                            is ApiResult.Success -> {
-                                val message = filesResponse.data
-                                _isLoading.value = false
-                                Log.d(TAG, "New Property to create: $newProperty")
-                                callback(message)
-                            }
-                            is ApiResult.Error -> {
-                                val fileErrorMessage = filesResponse.message
-                                Log.e(TAG, "Error adding files to property: $fileErrorMessage")
-                                _errorMessage.value = fileErrorMessage
-                                callback(null)
-                            }
-                        }
+                       callback(true)
                     }
                     is ApiResult.Error -> {
                         val errorMessage = response.message
                         Log.e(TAG, "Error adding property: $errorMessage")
                         _errorMessage.value = errorMessage
-                        callback(null)
+                        callback(false)
                     }
                 }
             } catch (e: Exception) {
                 _errorMessage.value = e.message
                 Log.e(TAG, "Exception $e")
-                callback(null)
+                callback(false)
             } finally {
                 _isLoading.value = false
             }

@@ -692,6 +692,33 @@ class UserViewModel: ViewModel() {
         }
     }
 
+    fun changeEmail(email: String, callback: (Boolean) -> Unit){
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try {
+                when (val response = userRepository.changeEmail(email)) {
+                    is ApiResult.Success -> {
+                        Log.d(TAG, "Email was changed")
+                        callback(true)
+                    }
+                    is ApiResult.Error -> {
+                        val errorMessage = response.message
+                        Log.e(TAG, "Error: $errorMessage")
+                        _errorMessage.value = errorMessage
+                        callback(false)
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+                callback(false)
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
     fun logout() {
         _loginResponse.value = null
         _myProfile.value = null

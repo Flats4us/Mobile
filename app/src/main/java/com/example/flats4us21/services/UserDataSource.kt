@@ -36,4 +36,6 @@ interface UserDataSource {
 
     suspend fun changePassword(newPasswordDto: NewPasswordDto): ApiResult<String>
 
+    suspend fun changeEmail(email: String): ApiResult<String>
+
 }

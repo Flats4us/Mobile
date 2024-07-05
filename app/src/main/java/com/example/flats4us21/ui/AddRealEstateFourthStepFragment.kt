@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,12 +12,12 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.viewpager2.widget.ViewPager2
 import com.example.flats4us21.DrawerActivity
-import com.example.flats4us21.adapters.NewImageSliderAdapter
 import com.example.flats4us21.data.PropertyType
+import com.example.flats4us21.data.utils.QuestionTranslator
 import com.example.flats4us21.databinding.FragmentAddRealEstateFourthStepBinding
 import com.example.flats4us21.viewmodels.RealEstateViewModel
+import java.util.Locale
 
 private const val TAG = "AddRealEstateFourthStepFragment"
 class AddRealEstateFourthStepFragment : Fragment() {
@@ -63,18 +62,16 @@ class AddRealEstateFourthStepFragment : Fragment() {
 
     private fun setListeners() {
         binding.prevButton.setOnClickListener {
-            (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateThirdStepFragment())
+            (requireParentFragment() as AddRealEstateFragment).goBack()
             (requireParentFragment() as AddRealEstateFragment).decreaseProgressBar()
         }
         binding.addPropertyButton.setOnClickListener {
             realEstateViewModel.createProperty { result ->
-                if (result != null) {
-                    Log.e(TAG, result)
-                    Toast.makeText(requireContext(), result, Toast.LENGTH_LONG).show()
+                if (result) {
+                    performAction()
                 }
 
             }
-            performAction()
         }
         binding.updatePropertyButton.setOnClickListener {
             realEstateViewModel.updateProperty()
@@ -98,17 +95,17 @@ class AddRealEstateFourthStepFragment : Fragment() {
     }
 
     private fun bindData() {
-        val imageSlider = binding.image
-        imageSlider.adapter = NewImageSliderAdapter(urisToBitmaps(requireContext(), realEstateViewModel.imagesURI))
-        imageSlider.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                val imageCount = imageSlider.adapter?.itemCount ?: 0
-                val currentImage = position + 1
-                val imageText = "$currentImage/$imageCount"
-                binding.imageCount.text = imageText
-            }
-        })
+//        val imageSlider = binding.image
+//        imageSlider.adapter = NewImageSliderAdapter(urisToBitmaps(requireContext(), realEstateViewModel.imagesURI))
+//        imageSlider.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+//            override fun onPageSelected(position: Int) {
+//                super.onPageSelected(position)
+//                val imageCount = imageSlider.adapter?.itemCount ?: 0
+//                val currentImage = position + 1
+//                val imageText = "$currentImage/$imageCount"
+//                binding.imageCount.text = imageText
+//            }
+//        })
         if(realEstateViewModel.isCreating){
             binding.addPropertyButton.visibility = View.VISIBLE
             binding.updatePropertyButton.visibility = View.GONE
@@ -162,7 +159,7 @@ class AddRealEstateFourthStepFragment : Fragment() {
         }
         val stringBuilder: StringBuilder = StringBuilder()
         for(j in realEstateViewModel.equipment.indices){
-            stringBuilder.append(realEstateViewModel.equipment[j])
+            stringBuilder.append(QuestionTranslator.translateEquipmentName(realEstateViewModel.equipments.value!![j].equipmentName.lowercase(Locale.getDefault()), requireContext()))
 
             if(j != realEstateViewModel.equipment.size-1){
                 stringBuilder.append(", ")

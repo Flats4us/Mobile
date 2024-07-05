@@ -21,8 +21,11 @@ import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
+import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
@@ -83,8 +86,12 @@ object ApiUserDataSource : UserDataSource {
             if (response.isSuccessful) {
                 val data = response.body()
                 if (data != null) {
-                    DataStoreManager.saveUserData(data)
-                    ApiResult.Success(data)
+                    if (data.role != "Moderator") {
+                        DataStoreManager.saveUserData(data)
+                        ApiResult.Success(data)
+                    } else {
+                        ApiResult.Error("moderator_login")
+                    }
                 } else {
                     ApiResult.Error("Response body is null")
                 }
@@ -267,6 +274,30 @@ object ApiUserDataSource : UserDataSource {
             }
         } catch (e: Exception) {
             ApiResult.Error("An internal error occurred in changing password: ${e.message}")
+        }
+    }
+
+    override suspend fun changeEmail(email: String): ApiResult<String> {
+        return try {
+            val service = getUserService()
+            val encodedEmail = withContext(Dispatchers.IO) {
+                URLEncoder.encode(email, "UTF-8")
+            }
+            Log.i(TAG, "Encoded email: $encodedEmail")
+            val jsonObject = JSONObject()
+            jsonObject.put("email", email)
+
+            val requestBody: RequestBody = jsonObject.toString().toRequestBody("application/json".toMediaTypeOrNull())
+
+            val response = service.changeEmail(requestBody)
+            if (response.isSuccessful) {
+                val data = response.body()!!.string()
+                ApiResult.Success(data)
+            } else {
+                ApiResult.Error("Failed to fetch data: ${response.errorBody()?.string()}")
+            }
+        } catch (e: Exception) {
+            ApiResult.Error("An error occurred: ${e.message}")
         }
     }
 }

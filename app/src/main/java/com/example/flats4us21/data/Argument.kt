@@ -25,7 +25,7 @@ data class Argument(
     @SerializedName("groupChatId")
     val groupChatId: Int,
     @SerializedName("student")
-    val student: StudentForArgument,
+    val student: UserShortData,
     @SerializedName("owner")
     val owner: OwnerForArgument,
     @SerializedName("argumentInterventions")

@@ -63,57 +63,97 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:background="@drawable/rectangle_white_background"
-                    android:padding="@dimen/text_view_padding"
+                    android:gravity="center"
                     android:layout_marginBottom="@dimen/regular_vertical_space">
 
-                    <TextView
-                        android:layout_width="0dp"
+                    <ImageButton
+                        android:id="@+id/smoking"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/issue_date"
-                        android:textStyle="italic"
-                        android:textSize="@dimen/subtext_text_size"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:layout_marginEnd="@dimen/text_view_horizontal_margin"/>
+                        android:src="@drawable/smoking"
+                        android:background="@drawable/rectangle_white_background"
+                        android:backgroundTint="@color/orange"
+                        android:layout_marginHorizontal="@dimen/icon_margin"
+                        android:padding="@dimen/image_button_survey_padding"/>
 
-                    <TextView
-                        android:id="@+id/startDate"
-                        android:layout_width="0dp"
+                    <ImageButton
+                        android:id="@+id/pets"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textStyle="italic"
-                        android:textSize="@dimen/subtext_text_size"
-                        android:layout_weight="1"/>
+                        android:src="@drawable/pets"
+                        android:background="@drawable/rectangle_white_background"
+                        android:backgroundTint="@color/orange"
+                        android:layout_marginHorizontal="@dimen/icon_margin"
+                        android:padding="@dimen/image_button_survey_padding"/>
+
+                    <ImageButton
+                        android:id="@+id/parties"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/celebration"
+                        android:background="@drawable/rectangle_white_background"
+                        android:backgroundTint="@color/orange"
+                        android:layout_marginHorizontal="@dimen/icon_margin"
+                        android:padding="@dimen/image_button_survey_padding"/>
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:background="@drawable/rectangle_white_background"
-                    android:padding="8dp"
+                    android:padding="16dp"
                     android:layout_marginBottom="@dimen/regular_vertical_space">
 
-                    <TextView
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/end_date"
-                        android:textStyle="italic"
-                        android:textSize="@dimen/subtext_text_size"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:layout_marginEnd="8dp"/>
+                        android:gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/regular_vertical_space">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/issue_date"
+                            android:textStyle="italic"
+                            android:textSize="@dimen/subtext_text_size"
+                            android:layout_marginEnd="@dimen/text_view_horizontal_margin"
+                            android:layout_weight="1"
+                            android:gravity="end"/>
+                        <TextView
+                            android:id="@+id/startDate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textStyle="italic"
+                            android:textSize="@dimen/subtext_text_size"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/endDate"
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textStyle="italic"
-                        android:textSize="@dimen/subtext_text_size"
-                        android:layout_weight="1"/>
+                        android:gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/regular_vertical_space">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/end_date"
+                            android:textStyle="italic"
+                            android:textSize="@dimen/subtext_text_size"
+                            android:layout_marginEnd="@dimen/text_view_horizontal_margin"
+                            android:layout_weight="1"
+                            android:gravity="end"/>
+                        <TextView
+                            android:id="@+id/endDate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textStyle="italic"
+                            android:textSize="@dimen/subtext_text_size"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
 
                 </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"

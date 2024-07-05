@@ -20,8 +20,10 @@ import com.example.flats4us21.data.Flat
 import com.example.flats4us21.data.House
 import com.example.flats4us21.data.Property
 import com.example.flats4us21.data.Room
+import com.example.flats4us21.data.utils.QuestionTranslator
 import com.example.flats4us21.databinding.FragmentOwnerPropertyDetailBinding
 import com.example.flats4us21.viewmodels.RealEstateViewModel
+import java.util.Locale
 
 const val IS_CREATING = "IS_CREATING"
 const val PROPERTY_ID = "PROPERTY_ID"
@@ -100,7 +102,7 @@ class OwnerPropertyDetailFragment : Fragment() {
         binding.numberOfRooms.text = property.numberOfRooms.toString()
         val stringBuilder: StringBuilder = StringBuilder()
         for(j in property.equipment.indices){
-            stringBuilder.append(property.equipment[j].equipmentName)
+            stringBuilder.append(QuestionTranslator.translateEquipmentName(property.equipment[j].equipmentName.lowercase(Locale.getDefault()), requireContext()))
             if(j != property.equipment.size-1){
                 stringBuilder.append(", ")
             }

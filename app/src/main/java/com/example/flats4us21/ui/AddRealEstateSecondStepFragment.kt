@@ -7,17 +7,23 @@ import android.provider.OpenableColumns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.Spinner
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flats4us21.R
 import com.example.flats4us21.data.PropertyType
+import com.example.flats4us21.data.utils.QuestionTranslator
 import com.example.flats4us21.databinding.FragmentAddRealEstateSecondStepBinding
 import com.example.flats4us21.viewmodels.RealEstateViewModel
 import java.io.File
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 
 class AddRealEstateSecondStepFragment : Fragment() {
     private var _binding : FragmentAddRealEstateSecondStepBinding? = null
@@ -67,12 +73,8 @@ class AddRealEstateSecondStepFragment : Fragment() {
 
                 binding.fileName.text = fileName.toString()
                 binding.fileNameLayout.isVisible = true
-                binding.addRulesButton.isVisible = false
                 binding.warning.isVisible = false
             }
-        }
-        binding.addRulesButton.setOnClickListener {
-            getContent.launch(arrayOf("application/pdf", "text/plain"))
         }
 
         binding.prevButton.setOnClickListener {
@@ -84,7 +86,7 @@ class AddRealEstateSecondStepFragment : Fragment() {
             validateData()
             if(test){
                 collectData()
-                (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateThirdStepFragment())
+                (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateFourthStepFragment())
                 (requireParentFragment() as AddRealEstateFragment).increaseProgressBar()
             }
         }
@@ -111,7 +113,7 @@ class AddRealEstateSecondStepFragment : Fragment() {
             binding.progressBar.visibility = if(isLoading) View.VISIBLE else View.GONE
         }
         realEstateViewModel.equipments.observe(viewLifecycleOwner) { equipments ->
-            val equipmentArray = equipments.map { it.equipmentName }.toTypedArray()
+            val equipmentArray = equipments.map { QuestionTranslator.translateEquipmentName(it.equipmentName.lowercase(Locale.getDefault()), requireContext() ) }.toTypedArray()
             val selectedEquipment = BooleanArray(equipmentArray.size) { index ->
                 realEstateViewModel.equipment.contains(index+1)
             }
@@ -204,9 +206,6 @@ class AddRealEstateSecondStepFragment : Fragment() {
             }
             pickedEquipment.clear()
             pickedEquipment.addAll(realEstateViewModel.equipment)
-            if(!realEstateViewModel.isCreating){
-                addRulesButton.visibility = View.GONE
-            }
 
         }
 
@@ -256,20 +255,11 @@ class AddRealEstateSecondStepFragment : Fragment() {
         val isConstructionYearValid = validateSpinner(binding.constructionYearSpinner, binding.layoutConstructionYear, selectedConstructionYear)
         val isNumberOfRoomsValid = validateOptionalText(binding.numberOfRooms, binding.layoutNumberOfRooms, binding.numberOfRoomsHeader)
         val isNumberOfFloorsValid = validateOptionalText(binding.numberOfFloors, binding.layoutNumberOfFloors, binding.numberOfFloorsHeader)
-        val isFileValid = validateFile(file)
-        test = isAreaValid && isLandAreaValid && isMaxResidentsValid && isConstructionYearValid && isNumberOfRoomsValid && isNumberOfFloorsValid && isFileValid
+
+        test = isAreaValid && isLandAreaValid && isMaxResidentsValid && isConstructionYearValid && isNumberOfRoomsValid && isNumberOfFloorsValid
 
     }
 
-    private fun validateFile(file: File?): Boolean {
-        return if (binding.addRulesButton.isVisible && file == null) {
-            binding.warning.isVisible = true
-            false
-        } else {
-            binding.warning.isVisible = false
-            true
-        }
-    }
 
     private fun validateInteger(editText: EditText, editTextLayout : ViewGroup): Boolean {
         val text = editText.text.toString().toIntOrNull()

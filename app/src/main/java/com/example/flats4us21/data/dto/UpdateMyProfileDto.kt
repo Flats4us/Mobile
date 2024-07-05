@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class UpdateMyProfileDto(
     @SerializedName("address")
-    val address: String,
+    val address: String?,
     @SerializedName("bankAccount")
     val bankAccount: String?,
     @SerializedName("birthDate")
@@ -15,17 +15,17 @@ data class UpdateMyProfileDto(
     @SerializedName("documentNumber")
     val documentNumber: String?,
     @SerializedName("email")
-    val email: String,
+    val email: String?,
     @SerializedName("links")
-    val links: List<String>,
+    val links: List<String>?,
     @SerializedName("name")
-    val name: String,
+    val name: String?,
     @SerializedName("phoneNumber")
-    val phoneNumber: String,
+    val phoneNumber: String?,
     @SerializedName("studentNumber")
     val studentNumber: String?,
     @SerializedName("surname")
-    val surname: String,
+    val surname: String?,
     @SerializedName("university")
     val university: String?
 )

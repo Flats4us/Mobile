@@ -7,8 +7,12 @@ import com.example.flats4us21.data.Notification
 import com.example.flats4us21.interceptors.AuthInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
+import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -87,7 +91,10 @@ class ApiNotificationDataSource : NotificationDataSource {
 
     override suspend fun markNotificationsAsRead(notificationIds: List<Int>): ApiResult<String> {
         return try {
-            val response = api.markNotificationsAsRead(notificationIds)
+            val jsonObject = JSONObject()
+            jsonObject.put("notificationIds", notificationIds)
+            val requestBody : RequestBody = jsonObject.toString().toRequestBody("application/json".toMediaTypeOrNull())
+            val response = api.markNotificationsAsRead(requestBody)
             if(response.isSuccessful) {
                 val data = response.body()
                 if (data != null) {

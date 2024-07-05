@@ -39,11 +39,22 @@ class NotificationsFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[NotificationViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[NotificationViewModel::class.java]
 
         viewModel.startConnection()
 
         recyclerview = binding.notificationRecyclerView
+
+        adapter = NotificationAdapter(fetchedNotifications, requireContext()) { selectedNotification ->
+            val bundle = Bundle()
+            bundle.putInt(NOTIFICATION_ID, selectedNotification.notificationId)
+            val fragment = NotificationDetailsFragment()
+            fragment.arguments = bundle
+            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+        }
+
+        recyclerview.adapter = adapter
+        recyclerview.layoutManager = LinearLayoutManager(requireContext())
 
         viewModel.getUnreadNotifications()
         viewModel.getAllNotifications()
@@ -62,27 +73,18 @@ class NotificationsFragment : Fragment() {
         }
 
         viewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
-            if(errorMessage != null) {
+            if (errorMessage != null) {
                 Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
             }
         }
-
-        adapter = NotificationAdapter(fetchedNotifications) { selectedNotification ->
-            val bundle = Bundle()
-            bundle.putInt(NOTIFICATION_ID, selectedNotification.notificationId)
-            val fragment = NotificationDetailsFragment()
-            fragment.arguments = bundle
-            (activity as? DrawerActivity)!!.replaceFragment(fragment)
-        }
-
-        recyclerview.adapter = adapter
-        recyclerview.layoutManager = LinearLayoutManager(requireContext())
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
 
         viewModel.stopConnection()
         _binding = null
+        viewModel.markNotificationsAsRead(viewModel.notificationIds)
     }
 }

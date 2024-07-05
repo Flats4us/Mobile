@@ -23,7 +23,7 @@ class SettingsChangeEmailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
+        userViewModel = ViewModelProvider(requireActivity())[UserViewModel::class.java]
         _binding = FragmentSettingsChangeEmailBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -33,7 +33,14 @@ class SettingsChangeEmailFragment : Fragment() {
 
         binding.editPasswordButton.setOnClickListener {
             if(validateData()){
-                TODO("Edit email")
+                userViewModel.changeEmail(binding.email.text.toString()) {
+                    if (it) {
+                        Toast.makeText(requireContext(), "Email został zmieniony", Toast.LENGTH_LONG).show()
+                        userViewModel.getMyProfile()
+                    } else {
+                        Toast.makeText(requireContext(), "Nie udało się zmienić emailu", Toast.LENGTH_LONG).show()
+                    }
+                }
             } else {
                 Toast.makeText(requireContext(), "Nie wypełniono poprawnie wszystkich pól", Toast.LENGTH_LONG).show()
             }

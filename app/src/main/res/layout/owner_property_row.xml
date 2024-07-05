@@ -44,7 +44,7 @@
         android:layout_width="@dimen/image_view_property_row_image_width"
         android:layout_height="@dimen/image_view_property_row_image_height"
         android:layout_marginTop="@dimen/image_view_vertical_margin"
-        android:src="@drawable/property"
+        android:src="@drawable/baseline_broken_image_24"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

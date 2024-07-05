@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flats4us21.data.Notification
+import com.example.flats4us21.data.utils.QuestionTranslator
 import com.example.flats4us21.databinding.FragmentNotificationDetailsBinding
 import com.example.flats4us21.viewmodels.NotificationViewModel
 
@@ -31,9 +32,11 @@ class NotificationDetailsFragment : Fragment() {
         val notificationId = arguments?.getInt(NOTIFICATION_ID, -1)
         notificationViewModel = ViewModelProvider(requireActivity())[NotificationViewModel::class.java]
         if (notificationId != null) {
-            val notification =
-                notificationViewModel.notifications.value!!.firstOrNull { it.notificationId == notificationId }
+            val notification = notificationViewModel.notifications.value!!.firstOrNull { it.notificationId == notificationId }
             bindNotificationData(notification)
+            val listId = notificationViewModel.notifications.value!!.indexOf(notification)
+            notificationViewModel.notifications.value!![listId].read = true
+            notificationViewModel.notificationIds.add(notificationId)
         }
 
 
@@ -53,9 +56,15 @@ class NotificationDetailsFragment : Fragment() {
     private fun bindNotificationData(notification: Notification?) {
         notification ?: return
 
-        binding.title.text = notification.title
-        binding.description.text = notification.body
-        binding.time.text = notification.dateTime
+        binding.title.text = QuestionTranslator.translateNotification(notification.title, requireContext())
+        binding.description.text = QuestionTranslator.translateNotification(notification.body, requireContext())
+        binding.time.text = notification.dateTime.split("T")[0]
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 
 }

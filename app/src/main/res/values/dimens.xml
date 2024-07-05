@@ -144,6 +144,7 @@
     <dimen name="layout_text_view_padding_horizontal">8dp</dimen>
     <dimen name="image_view_dropdown_item_property_size">100dp</dimen>
     <dimen name="image_view_min_size">48dp</dimen>
+    <dimen name="image_button_survey_padding">4dp</dimen>
 
 
 </resources>

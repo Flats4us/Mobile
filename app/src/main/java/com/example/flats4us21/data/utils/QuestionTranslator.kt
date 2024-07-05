@@ -54,5 +54,25 @@ object QuestionTranslator {
             resourceName
         }
     }
+
+    fun translateEquipmentName(resourceName: String, context: Context): String {
+        val resourceId =
+            context.resources.getIdentifier("equipment_$resourceName", "string", context.packageName)
+        return if (resourceId != 0) {
+            context.getString(resourceId)
+        } else {
+            resourceName
+        }
+    }
+
+    fun translateNotification(resourceName: String, context: Context): String {
+        val resourceId =
+            context.resources.getIdentifier(resourceName.replace('-', '_'), "string", context.packageName)
+        return if (resourceId != 0) {
+            context.getString(resourceId)
+        } else {
+            resourceName
+        }
+    }
 }
 

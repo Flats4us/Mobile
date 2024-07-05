@@ -18,6 +18,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+const val MEETING_ID = "MEETING_ID"
 class MeetingListFragment : Fragment() {
     private var _binding: FragmentMeetingListBinding? = null
     private val binding get() = _binding!!
@@ -47,8 +48,10 @@ class MeetingListFragment : Fragment() {
 
         dateTextView.text = selectedDate.toString()
         meetingAdapter = MeetingAdapter {
-            val meeting = it
-            val fragment = MeetingDetailsFragment.newInstance(meeting)
+            val bundle = Bundle()
+            bundle.putInt(MEETING_ID, it.meetingId)
+            val fragment = MeetingDetailsFragment()
+            fragment.arguments = bundle
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
         recyclerView.apply {

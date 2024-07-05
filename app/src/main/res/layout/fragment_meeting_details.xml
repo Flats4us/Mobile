@@ -30,6 +30,40 @@
             android:textStyle="bold" />
 
         <LinearLayout
+            android:id="@+id/layoutMainTenant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="start|center_horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="start|center_vertical">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/userPhoto"
+                    android:layout_width="@dimen/image_view_small_profile_picture_width"
+                    android:layout_height="@dimen/image_view_small_profile_picture_height"
+                    android:layout_gravity="center"
+                    android:src="@drawable/baseline_person_24"
+                    app:shapeAppearanceOverlay="@style/Circular"
+                    android:background="@color/white"
+                    android:layout_marginEnd="@dimen/text_view_horizontal_margin"/>
+
+                <TextView
+                    android:id="@+id/userInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/regular_text_size"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">

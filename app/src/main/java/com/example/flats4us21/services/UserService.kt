@@ -11,6 +11,7 @@ import com.example.flats4us21.data.dto.NewStudentDto
 import com.example.flats4us21.data.dto.NewUserOpinionDto
 import com.example.flats4us21.data.dto.UpdateMyProfileDto
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -55,4 +56,7 @@ interface UserService {
 
     @PUT("api/auth/change-password")
     suspend fun changePassword(@Body newPasswordDto: NewPasswordDto): Response<NewPropertyApiResponse<String>>
+
+    @PUT("api/users/current")
+    suspend fun changeEmail(@Body email: RequestBody): Response<ResponseBody>
 }

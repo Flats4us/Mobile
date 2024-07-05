@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/detailLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -248,7 +248,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rentRecyclerView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
@@ -318,7 +318,7 @@
 
             </LinearLayout>
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
         <ProgressBar
             android:id="@+id/progressBar"

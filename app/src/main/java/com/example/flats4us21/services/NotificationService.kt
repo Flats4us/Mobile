@@ -1,6 +1,7 @@
 package com.example.flats4us21.services
 
 import com.example.flats4us21.data.Notification
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -14,6 +15,6 @@ interface NotificationService {
     suspend fun getAllNotifications() : Response<List<Notification>>
 
     @POST("api/notifications/read")
-    suspend fun markNotificationsAsRead(@Body notificationIds: List<Int>) : Response<String>
+    suspend fun markNotificationsAsRead(@Body notificationIds: RequestBody) : Response<String>
 
 }

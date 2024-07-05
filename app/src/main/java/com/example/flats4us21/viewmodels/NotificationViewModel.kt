@@ -27,6 +27,13 @@ class NotificationViewModel : ViewModel() {
     val errorMessage: LiveData<String?>
         get() = _errorMessage
 
+    private var _notificationIds : MutableList<Int> = mutableListOf()
+    var notificationIds: MutableList<Int>
+        get() = _notificationIds
+    set(value) {
+        _notificationIds = value
+    }
+
     init {
         apiNotificationRepository.setOnReceiveNotificationCallback { title, body ->
             Log.d(TAG, "Otrzymano powiadomienie  $title: $body")
@@ -36,7 +43,8 @@ class NotificationViewModel : ViewModel() {
                 title = title,
                 body = body,
                 dateTime = System.currentTimeMillis().toString(),
-                read = true,
+                read = false,
+                isChat = false
             )
             currentNotifications.add(newNotification)
             _notifications.postValue(currentNotifications)
@@ -94,7 +102,7 @@ class NotificationViewModel : ViewModel() {
         }
     }
 
-    fun getAllNotifications(notificationIds: List<Int>) {
+    fun markNotificationsAsRead(notificationIds: List<Int>) {
         viewModelScope.launch {
             _errorMessage.value = null
             _isLoading.value = true

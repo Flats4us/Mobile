@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
@@ -19,10 +20,12 @@ import com.example.flats4us21.data.Flat
 import com.example.flats4us21.data.House
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.Room
+import com.example.flats4us21.data.utils.QuestionTranslator
 import com.example.flats4us21.databinding.FragmentOwnerOfferDetailBinding
 import com.example.flats4us21.viewmodels.DetailOfferViewModel
 import com.example.flats4us21.viewmodels.OfferViewModel
 import java.time.Period
+import java.util.Locale
 
 const val RENT_PROPOSITION_ID = "RENT_PROPOSITION_ID"
 private const val TAG = "OwnerOfferDetailFragment"
@@ -95,6 +98,42 @@ class OwnerOfferDetailFragment : Fragment() {
                 binding.imageCount.text = imageText
             }
         })
+        if(offer.surveyOwnerOffer.smokingAllowed){
+            binding.smoking.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.orange)
+        } else {
+            binding.smoking.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.red)
+        }
+        binding.smoking.setOnClickListener {
+            if(offer.surveyOwnerOffer.smokingAllowed) {
+                Toast.makeText(requireContext(), "Palenie dozwolone", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "Palenie niedozwolone", Toast.LENGTH_SHORT).show()
+            }
+        }
+        if(offer.surveyOwnerOffer.animalsAllowed) {
+            binding.pets.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.orange)
+        } else {
+            binding.pets.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.red)
+        }
+        binding.pets.setOnClickListener {
+            if(offer.surveyOwnerOffer.animalsAllowed) {
+                Toast.makeText(requireContext(), "Zwierzęta dozwolone", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "Zwierzęta niedozwolone", Toast.LENGTH_SHORT).show()
+            }
+        }
+        if(offer.surveyOwnerOffer.partiesAllowed){
+            binding.parties.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.orange)
+        } else {
+            binding.parties.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.red)
+        }
+        binding.parties.setOnClickListener {
+            if(offer.surveyOwnerOffer.partiesAllowed){
+                Toast.makeText(requireContext(), "Imprezy dozwolone", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "Imprezy niedozwolone", Toast.LENGTH_SHORT).show()
+            }
+        }
         binding.startDate.text = offer.dateIssue
         binding.endDate.text = offer.dateIssue
         binding.deposit.text = offer.deposit
@@ -111,7 +150,7 @@ class OwnerOfferDetailFragment : Fragment() {
         binding.constructionYear.text = offer.property.constructionYear.toString()
         val stringBuilder: StringBuilder = StringBuilder()
         for(j in offer.property.equipment.indices){
-            stringBuilder.append(offer.property.equipment[j].equipmentName)
+            stringBuilder.append(QuestionTranslator.translateEquipmentName(offer.property.equipment[j].equipmentName.lowercase(Locale.getDefault()), requireContext()))
 
             if(j != offer.property.equipment.size-1){
                 stringBuilder.append(", ")

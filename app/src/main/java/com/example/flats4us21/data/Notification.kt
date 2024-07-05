@@ -13,5 +13,7 @@ data class Notification(
     @SerializedName("dateTime")
     val dateTime: String,
     @SerializedName("read")
-    val read: Boolean
+    var read: Boolean,
+    @SerializedName("isChat")
+    val isChat: Boolean
 )

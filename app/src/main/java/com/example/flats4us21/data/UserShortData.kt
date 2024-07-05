@@ -3,7 +3,7 @@ package com.example.flats4us21.data
 
 import com.google.gson.annotations.SerializedName
 
-data class StudentForArgument(
+data class UserShortData(
     @SerializedName("userId")
     val userId: Int,
     @SerializedName("email")

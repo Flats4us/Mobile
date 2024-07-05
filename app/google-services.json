@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "704570520382",
+    "project_id": "flats4us-930e8",
+    "storage_bucket": "flats4us-930e8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:704570520382:android:50c01fe53bbcdc8356726f",
+        "android_client_info": {
+          "package_name": "com.example.flats4us21"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_UWkOPl_XshxgQLgjgsIlbIlFJD1YKsg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
