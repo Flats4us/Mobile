@@ -78,15 +78,16 @@ object ApiUserDataSource : UserDataSource {
         }
     }
 
-    override suspend fun login(email: String, password: String): ApiResult<LoginResponse?> {
+    override suspend fun login(email: String, password: String, token: String): ApiResult<LoginResponse?> {
         return try {
-            val loginRequest = LoginRequest(email, password)
+            val loginRequest = LoginRequest(email, password, token)
             val service = getUserService()
             val response = service.login(loginRequest)
             if (response.isSuccessful) {
                 val data = response.body()
                 if (data != null) {
                     if (data.role != "Moderator") {
+                        Log.i(TAG, "data: $data")
                         DataStoreManager.saveUserData(data)
                         ApiResult.Success(data)
                     } else {

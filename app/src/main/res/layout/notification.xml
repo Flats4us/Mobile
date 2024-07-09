@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/appLogo"
+            android:layout_width="@dimen/image_view_notification_logo_size"
+            android:layout_height="@dimen/image_view_notification_logo_size"
+            android:src="@drawable/logo"
+            android:layout_marginLeft="@dimen/text_view_notification_title_margin"
+            android:layout_marginTop="@dimen/text_view_notification_title_margin" />
+        
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:textSize="@dimen/h3"
+            android:textStyle="bold"
+            android:layout_toRightOf="@id/appLogo"
+            android:layout_marginLeft="@dimen/text_view_notification_title_margin"
+            android:layout_marginTop="@dimen/text_view_notification_title_margin"/>
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="To jest opis powiadomienia"
+            android:textSize="@dimen/h3"
+            android:layout_below="@id/title"
+            android:layout_toRightOf="@id/appLogo"
+            android:layout_marginLeft="@dimen/text_view_notification_title_margin"/>
+    </RelativeLayout>
+
+</RelativeLayout>

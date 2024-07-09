@@ -464,6 +464,10 @@
     <string name="rent_proposition_rejected_title">Wynajem odrzucony</string>
     <string name="rent_proposition_rejected_body">Twoja propozycja wynajmu została odrzucona.</string>
     <string name="default_notification_channel_id">my_default_channel</string>
+    <string name="no_internet_connection">Brak połączenia z internetem</string>
+    <string name="retry">Odśwież</string>
+    <string name="social_media">Social Media</string>
+    <string name="moderator_login">Nie można zalogować się jako moderator w aplikacji mobilnej</string>
 
 
     <!-- TODO: meeting_row -->

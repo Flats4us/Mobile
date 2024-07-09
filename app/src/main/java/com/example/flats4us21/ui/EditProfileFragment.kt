@@ -43,7 +43,7 @@ class EditProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        userViewModel.getMyProfile()
+        userViewModel.getMyProfile(){}
         setVisibility()
 
         userViewModel.myProfile.observe(viewLifecycleOwner) { userProfile ->

@@ -15,15 +15,40 @@
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-        <ImageButton
-            android:id="@+id/notification_button"
-            android:layout_width="@dimen/image_button_min_width"
-            android:layout_height="@dimen/image_button_min_height"
-            android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/notification_button_margin"
-            android:background="?attr/colorPrimary"
-            android:src="@drawable/baseline_notifications_24"
-            tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/notificationLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end">
+
+            <ImageButton
+                android:id="@+id/notification_button"
+                android:layout_width="@dimen/image_button_min_width"
+                android:layout_height="@dimen/image_button_min_height"
+                android:background="?attr/colorPrimary"
+                android:src="@drawable/baseline_notifications_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/unreadNotificationCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/rectangle_white_background"
+                android:backgroundTint="@color/red"
+                android:padding="1dp"
+                android:text="1"
+                android:visibility="invisible"
+                android:textColor="@color/white"
+                android:textSize="@dimen/regular_text_size"
+                app:layout_constraintBottom_toBottomOf="@+id/notification_button"
+                app:layout_constraintEnd_toEndOf="@+id/notification_button" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.appcompat.widget.Toolbar>
     <androidx.drawerlayout.widget.DrawerLayout

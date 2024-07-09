@@ -4,8 +4,8 @@ import android.util.Log
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.OffersResult
 import com.example.flats4us21.data.Owner
-import com.example.flats4us21.data.SurveyOwnerOffer
 import com.example.flats4us21.data.Property
+import com.example.flats4us21.data.SurveyOwnerOffer
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
@@ -55,7 +55,7 @@ class OffersDeserializer : JsonDeserializer<OffersResult> {
                     context
                 )
                 val ownerElement = jsonObject.get("owner").asJsonObject
-                Log.d(TAG, "ownerElement: $ownerElement")
+                //Log.d(TAG, "ownerElement: $ownerElement")
                 if (ownerElement.isJsonNull) {
                     throw JsonParseException("owner is missing or null")
                 }
@@ -88,7 +88,7 @@ class OffersDeserializer : JsonDeserializer<OffersResult> {
                     surveyOwnerOffer
                 )
                 offers.add(offer)
-                Log.d(TAG, "[deserialize] Offer: $offer")
+//                Log.d(TAG, "[deserialize] Offer: $offer")
             } catch (e: Exception) {
                 Log.e(TAG, "Error deserializing offer: ${e.message}")
             }

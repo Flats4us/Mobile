@@ -35,8 +35,19 @@ class NotificationDetailsFragment : Fragment() {
             val notification = notificationViewModel.notifications.value!!.firstOrNull { it.notificationId == notificationId }
             bindNotificationData(notification)
             val listId = notificationViewModel.notifications.value!!.indexOf(notification)
-            notificationViewModel.notifications.value!![listId].read = true
-            notificationViewModel.notificationIds.add(notificationId)
+            val unreadListId = notificationViewModel.unreadNotifications.value!!.indexOf(notification)
+            notificationViewModel.removeNotification(notification!!)
+            Log.i(TAG, "notification $notification")
+            Log.i(TAG, "read ${!notification.read}")
+            Log.i(TAG, "contains ${!notificationViewModel.notificationIds.contains(notificationId)}")
+            Log.i(TAG,
+                (!notification.read && !notificationViewModel.notificationIds.contains(notificationId)).toString()
+            )
+            if(!notification.read && !notificationViewModel.notificationIds.contains(notificationId)) {
+                notificationViewModel.notificationIds.add(notificationId)
+                notificationViewModel.markNotificationsAsRead()
+                notificationViewModel.notifications.value!![listId].read = true
+            }
         }
 
 

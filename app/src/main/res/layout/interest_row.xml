@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/oval_white_background"
-        android:backgroundTint="#44C3FA"
+        android:backgroundTint="@color/orange"
         android:padding="@dimen/text_view_padding"
         android:singleLine="true"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -145,6 +145,8 @@
     <dimen name="image_view_dropdown_item_property_size">100dp</dimen>
     <dimen name="image_view_min_size">48dp</dimen>
     <dimen name="image_button_survey_padding">4dp</dimen>
+    <dimen name="image_view_notification_logo_size">70dp</dimen>
+    <dimen name="text_view_notification_title_margin">10dp</dimen>
 
 
 </resources>

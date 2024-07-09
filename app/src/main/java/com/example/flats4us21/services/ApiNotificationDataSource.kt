@@ -12,6 +12,7 @@ import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
+import org.json.JSONArray
 import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -21,6 +22,7 @@ class ApiNotificationDataSource : NotificationDataSource {
 
 
     val gson: Gson = GsonBuilder()
+        .setLenient()
         .create()
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
@@ -91,17 +93,13 @@ class ApiNotificationDataSource : NotificationDataSource {
 
     override suspend fun markNotificationsAsRead(notificationIds: List<Int>): ApiResult<String> {
         return try {
+            val jsonArray = JSONArray(notificationIds)
             val jsonObject = JSONObject()
-            jsonObject.put("notificationIds", notificationIds)
+            jsonObject.put("notificationIds", jsonArray)
             val requestBody : RequestBody = jsonObject.toString().toRequestBody("application/json".toMediaTypeOrNull())
             val response = api.markNotificationsAsRead(requestBody)
             if(response.isSuccessful) {
-                val data = response.body()
-                if (data != null) {
-                    ApiResult.Success(data)
-                } else {
-                    ApiResult.Error("Response body is null")
-                }
+                ApiResult.Success("Marked as read successfully")
             } else {
                 ApiResult.Error("Failed to fetch data: ${response.message()}")
             }
@@ -110,7 +108,7 @@ class ApiNotificationDataSource : NotificationDataSource {
         }
     }
 
-    fun setOnReceiveNotificationCallback(callback: (String, String) -> Unit) {
+    fun setOnReceiveNotificationCallback(callback: (String, String, String, Boolean, Int) -> Unit) {
         signalRNotificationService.setOnReceiveNotificationCallback(callback)
         Log.d(TAG, "Set receive private message callback")
     }

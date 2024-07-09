@@ -2,6 +2,7 @@ package com.example.flats4us21.ui
 
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,8 @@ import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.R
 import com.example.flats4us21.databinding.FragmentLoginBinding
 import com.example.flats4us21.viewmodels.UserViewModel
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 
 private const val TAG = "LoginFragment"
 
@@ -47,11 +50,17 @@ class LoginFragment : Fragment() {
 
         binding.buttonLogin.setOnClickListener {
             if (validateData()) {
-                userViewModel.login(binding.email.text.toString(), binding.textPassword.text.toString()){ success ->
-                    if (success) {
-
+                FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                        return@OnCompleteListener
                     }
-                }
+
+                    val token = task.result
+                    Log.d(TAG, "FCM Token: $token")
+                    userViewModel.login(binding.email.text.toString(), binding.textPassword.text.toString(), token)
+                })
+
             }
         }
 
@@ -63,12 +72,22 @@ class LoginFragment : Fragment() {
     private fun observeViewModel() {
         userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
             errorMessage?.let {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+                val resourceId = requireContext().resources.getIdentifier("$errorMessage", "string", requireContext().packageName)
+                val stringToDisplay = if (resourceId != 0) {
+                    requireContext().getString(resourceId)
+                } else {
+                    errorMessage
+                }
+                Toast.makeText(requireContext(), stringToDisplay, Toast.LENGTH_LONG).show()
             }
         }
         DataStoreManager.userRole.observe(viewLifecycleOwner) { userRole ->
             if (userRole != null) {
-                userViewModel.getMyProfile()
+                userViewModel.getMyProfile {
+                    if(it) {
+                        (activity as? DrawerActivity)?.setMyProfile(userViewModel.myProfile.value!!)
+                    }
+                }
                 (activity as? DrawerActivity)?.replaceFragment(SearchFragment())
             }
         }

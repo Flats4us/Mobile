@@ -13,7 +13,7 @@ import java.io.File
 
 interface UserDataSource {
 
-    suspend fun login(email: String, password: String): ApiResult<LoginResponse?>
+    suspend fun login(email: String, password: String, token: String): ApiResult<LoginResponse?>
 
     suspend fun registerStudent(user: NewStudentDto): ApiResult<LoginResponse?>
 

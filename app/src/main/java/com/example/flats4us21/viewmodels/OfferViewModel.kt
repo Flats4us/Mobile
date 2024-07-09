@@ -377,16 +377,18 @@ class OfferViewModel: ViewModel() {
                 Log.i(TAG, "Fetched offers: $fetchedOffers")
                 when (fetchedOffers) {
                     is ApiResult.Success -> {
-                        val data = fetchedOffers.data.result as MutableList<Offer>
+                        val data = fetchedOffers.data.result
                         val totalCount = fetchedOffers.data.totalCount
-                        _newOffers.value = data
+                        _newOffers.value = data as MutableList<Offer>
                         _offersNumber = totalCount
                         pageNumber++
 
                         if(_offers.value == null) {
                             _offers.value = data
                         } else {
-                            _offers.value!!.addAll(data)
+                            val uniqueOffers = _offers.value!!
+                            uniqueOffers.addAll(data)
+                            _offers.value = uniqueOffers.distinctBy { it.offerId } as MutableList<Offer>
                         }
                     }
                     is ApiResult.Error -> {

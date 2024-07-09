@@ -15,6 +15,6 @@ interface NotificationService {
     suspend fun getAllNotifications() : Response<List<Notification>>
 
     @POST("api/notifications/read")
-    suspend fun markNotificationsAsRead(@Body notificationIds: RequestBody) : Response<String>
+    suspend fun markNotificationsAsRead(@Body notificationIds: RequestBody) : Response<Void>
 
 }

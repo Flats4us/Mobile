@@ -13,7 +13,7 @@ private const val TAG = "SignalRService"
 class SignalRNotificationService {
 
     private lateinit var hubConnection: HubConnection
-    private val onReceiveNotificationCallbacks: MutableList<(String, String) -> Unit> = mutableListOf()
+    private val onReceiveNotificationCallbacks: MutableList<(String, String, String, Boolean, Int) -> Unit> = mutableListOf()
 
     fun startConnection() {
         if (::hubConnection.isInitialized && hubConnection.connectionState == HubConnectionState.CONNECTED) {
@@ -21,38 +21,37 @@ class SignalRNotificationService {
             return
         }
 
-        hubConnection = HubConnectionBuilder.create("$URL/chatHub")
+        hubConnection = HubConnectionBuilder.create("$URL/notificationHub")
             .withAccessTokenProvider(getTokenFromDataStore())
             .build()
-
+        registerEventHandlers()
         hubConnection.start()
-            .doOnComplete {
-                Log.d("SignalR", "Hub connection started: ${hubConnection.connectionState}")
-                registerEventHandlers()
-            }
-            .doOnError { error ->
-                Log.e("SignalR", "Error starting connection: ${error.message}")
-            }
             .blockingAwait()
     }
 
     private fun registerEventHandlers() {
-        hubConnection.on("ReceiveGroupMessage", { title: String, body: String ->
+        hubConnection.on("ReceiveNotification", { title: String, body: String, date: String, isChat: Boolean, id: Int ->
             Log.d("SignalR", "Received message from group chat $title: $body")
-            onReceiveNotification(title, body)
-        }, String::class.java, String::class.java)
+            onReceiveNotification(title, body, date, isChat, id)
+        }, String::class.java, String::class.java, String::class.java, Boolean::class.java, Int::class.java)
     }
 
-    private var onReceiveNotificationCallback: ((String, String) -> Unit)? = null
+    private var onReceiveNotificationCallback: ((String, String, String, Boolean, Int) -> Unit)? = null
 
-    fun setOnReceiveNotificationCallback(callback: (String, String) -> Unit) {
+    fun setOnReceiveNotificationCallback(callback: (String, String, String, Boolean, Int) -> Unit) {
         onReceiveNotificationCallback = callback
         Log.d(TAG, "Set receive private message callback")
     }
 
-    private fun onReceiveNotification(title: String, body: String) {
-        onReceiveNotificationCallback?.invoke(title, body)
-        onReceiveNotificationCallbacks.forEach { it.invoke(title, body) }
+    private fun onReceiveNotification(
+        title: String,
+        body: String,
+        date: String,
+        isChat: Boolean,
+        id: Int
+    ) {
+        onReceiveNotificationCallback?.invoke(title, body, date, isChat, id)
+        onReceiveNotificationCallbacks.forEach { it.invoke(title, body, date, isChat, id) }
     }
 
     private fun isConnected(): Boolean {
@@ -61,11 +60,10 @@ class SignalRNotificationService {
         return isConnected
     }
 
-
     fun stopConnection() {
         if (isConnected()) {
-            hubConnection.stop()
-            Log.d("SignalR", "Hub connection stopped")
+            hubConnection.stop().blockingAwait()
+            Log.d("SignalR", "Hub connection stopped: ${hubConnection.connectionState}")
         }
     }
 

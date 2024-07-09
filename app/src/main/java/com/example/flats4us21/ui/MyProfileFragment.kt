@@ -43,7 +43,7 @@ class MyProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getMyProfile()
+        viewModel.getMyProfile(){}
 
         viewModel.myProfile.observe(viewLifecycleOwner) { userProfile ->
             if (userProfile != null)

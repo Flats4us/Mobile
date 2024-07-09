@@ -19,6 +19,10 @@ class NotificationViewModel : ViewModel() {
     val notifications: LiveData<List<Notification>>
         get() = _notifications
 
+    private val _unreadNotifications: MutableLiveData<List<Notification>> = MutableLiveData()
+    val unreadNotifications: LiveData<List<Notification>>
+        get() = _unreadNotifications
+
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean>
         get() = _isLoading
@@ -35,21 +39,32 @@ class NotificationViewModel : ViewModel() {
     }
 
     init {
-        apiNotificationRepository.setOnReceiveNotificationCallback { title, body ->
+        apiNotificationRepository.setOnReceiveNotificationCallback { title, body, date, isChat, notificationId ->
             Log.d(TAG, "Otrzymano powiadomienie  $title: $body")
             val currentNotifications = _notifications.value?.toMutableList() ?: mutableListOf()
+            val currentUnreadNotifications = _unreadNotifications.value?.toMutableList() ?: mutableListOf()
             val newNotification = Notification(
-                notificationId = _notifications.value!!.size + 1,
+                notificationId = notificationId,
                 title = title,
                 body = body,
-                dateTime = System.currentTimeMillis().toString(),
+                dateTime = date,
                 read = false,
-                isChat = false
+                isChat = isChat
             )
             currentNotifications.add(newNotification)
+            currentUnreadNotifications.add(newNotification)
             _notifications.postValue(currentNotifications)
+            _unreadNotifications.postValue(currentUnreadNotifications)
             Log.d(TAG, "Zaktualizowano powiadomienia: $currentNotifications")
         }
+    }
+
+    fun removeNotification(notification: Notification) {
+        val currentList = _unreadNotifications.value ?: emptyList()
+        val updatedList = currentList.toMutableList().apply {
+            remove(notification)
+        }
+        _unreadNotifications.value = updatedList
     }
 
     fun getUnreadNotifications() {
@@ -60,7 +75,7 @@ class NotificationViewModel : ViewModel() {
                 when(val fetchedNotifications = apiNotificationRepository.getUnreadNotifications()) {
                     is ApiResult.Success -> {
                         val notificationData = fetchedNotifications.data
-                        _notifications.postValue(notificationData)
+                        _unreadNotifications.value = notificationData
                     }
                     is ApiResult.Error -> {
                         Log.i(TAG, "ERROR: ${fetchedNotifications.message}")
@@ -102,7 +117,7 @@ class NotificationViewModel : ViewModel() {
         }
     }
 
-    fun markNotificationsAsRead(notificationIds: List<Int>) {
+    fun markNotificationsAsRead() {
         viewModelScope.launch {
             _errorMessage.value = null
             _isLoading.value = true
@@ -110,6 +125,9 @@ class NotificationViewModel : ViewModel() {
                 when(val fetchedNotifications = apiNotificationRepository.markNotificationsAsRead(notificationIds)) {
                     is ApiResult.Success -> {
                         val notificationData = fetchedNotifications.data
+                        val currentNotification = _unreadNotifications.value!!.filter { !_notificationIds.contains(it.notificationId) }
+                        _unreadNotifications.value = currentNotification
+                        _notificationIds.clear()
                     }
                     is ApiResult.Error -> {
                         Log.i(TAG, "ERROR: ${fetchedNotifications.message}")

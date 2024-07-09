@@ -41,8 +41,6 @@ class NotificationsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity())[NotificationViewModel::class.java]
 
-        viewModel.startConnection()
-
         recyclerview = binding.notificationRecyclerView
 
         adapter = NotificationAdapter(fetchedNotifications, requireContext()) { selectedNotification ->
@@ -54,9 +52,10 @@ class NotificationsFragment : Fragment() {
         }
 
         recyclerview.adapter = adapter
-        recyclerview.layoutManager = LinearLayoutManager(requireContext())
-
-        viewModel.getUnreadNotifications()
+        val layoutManager = LinearLayoutManager(requireContext())
+        layoutManager.setReverseLayout(true)
+        layoutManager.stackFromEnd = true
+        recyclerview.layoutManager = layoutManager
         viewModel.getAllNotifications()
 
         viewModel.notifications.observe(viewLifecycleOwner) { notifications ->
@@ -82,9 +81,6 @@ class NotificationsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-
-        viewModel.stopConnection()
         _binding = null
-        viewModel.markNotificationsAsRead(viewModel.notificationIds)
     }
 }

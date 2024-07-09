@@ -445,34 +445,30 @@ class UserViewModel: ViewModel() {
         repeatPassword = ""
     }
 
-    fun login(email: String, password: String, callback: (Boolean) -> Unit) {
+    fun login(email: String, password: String, token: String) {
         viewModelScope.launch {
             _errorMessage.value = null
             _isLoading.value = true
             try {
-                when (val fetchedLoginResponse = userRepository.login(email, password)) {
+                when (val fetchedLoginResponse = userRepository.login(email, password, token)) {
                     is ApiResult.Success -> {
                         if (fetchedLoginResponse.data != null) {
                             _loginResponse.value = fetchedLoginResponse.data
                         }
-                       // fetchUserProfile()
-                        callback(true)
                     }
                     is ApiResult.Error -> {
                         _errorMessage.value = fetchedLoginResponse.message
-                        callback(false)
                     }
                 }
             } catch (e: Exception) {
                 _errorMessage.value = e.message
-                callback(false)
             } finally {
                 _isLoading.value = false
             }
         }
     }
 
-    fun getMyProfile(){
+    fun getMyProfile(callback: (Boolean) -> Unit){
         viewModelScope.launch {
             _errorMessage.value = null
             _isLoading.value = true
@@ -483,16 +479,19 @@ class UserViewModel: ViewModel() {
                         _myProfile.value = profileData
                         Log.i(TAG, profileData.toString())
                         Log.i(TAG, _myProfile.value.toString())
+                        callback(true)
                     }
                     is ApiResult.Error -> {
                         Log.i(TAG, "ERROR: ${fetchedProfile.message}")
                         _errorMessage.value = fetchedProfile.message
                         Log.e(TAG, "error: ${errorMessage.value}")
+                        callback(false)
                     }
                 }
             } catch (e: Exception) {
                 _errorMessage.value = e.message
                 Log.e(TAG, "Exception $e")
+                callback(false)
             } finally {
                 _isLoading.value = false
             }

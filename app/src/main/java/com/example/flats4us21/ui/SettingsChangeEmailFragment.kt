@@ -36,7 +36,7 @@ class SettingsChangeEmailFragment : Fragment() {
                 userViewModel.changeEmail(binding.email.text.toString()) {
                     if (it) {
                         Toast.makeText(requireContext(), "Email został zmieniony", Toast.LENGTH_LONG).show()
-                        userViewModel.getMyProfile()
+                        userViewModel.getMyProfile(){}
                     } else {
                         Toast.makeText(requireContext(), "Nie udało się zmienić emailu", Toast.LENGTH_LONG).show()
                     }

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.MyProfileFragment"
+    android:padding="@dimen/app_padding"
     android:background="@drawable/app_background">
 
     <ScrollView
@@ -16,7 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@drawable/rectangle_white_background">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -116,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:background="@drawable/oval_white_background"
-                    android:backgroundTint="#44C3FA"
+                    android:backgroundTint="@color/orange"
                     android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
                     android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                     android:padding="@dimen/layout_opinion_padding">
@@ -141,7 +143,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:background="@drawable/oval_white_background"
-                    android:backgroundTint="#44C3FA"
+                    android:backgroundTint="@color/orange"
                     android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
                     android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                     android:padding="@dimen/layout_opinion_padding">
@@ -166,7 +168,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:background="@drawable/oval_white_background"
-                    android:backgroundTint="#44C3FA"
+                    android:backgroundTint="@color/orange"
                     android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
                     android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                     android:padding="@dimen/layout_opinion_padding">
@@ -191,7 +193,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:background="@drawable/oval_white_background"
-                    android:backgroundTint="#44C3FA"
+                    android:backgroundTint="@color/orange"
                     android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
                     android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                     android:padding="@dimen/layout_opinion_padding">
@@ -213,45 +215,8 @@
             </com.google.android.flexbox.FlexboxLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/facebook"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/facebook"
-                    android:padding="@dimen/image_button_social_media_padding"
-                    android:background="@null"
-                    tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
-
-                <ImageButton
-                    android:id="@+id/twitter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/twitter"
-                    android:padding="@dimen/image_button_social_media_padding"
-                    android:background="@null"
-                    tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
-
-                <ImageButton
-                    android:id="@+id/instagram"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/instagram"
-                    android:padding="@dimen/image_button_social_media_padding"
-                    android:background="@null"
-                    tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
-
-            </LinearLayout>
-
-            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                android:background="@drawable/rectangle_white_background"
                 android:orientation="vertical"
                 android:paddingVertical="10dp">
 
@@ -312,6 +277,58 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/social_media"
+                        android:textSize="@dimen/h2"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:gravity="center_vertical"
+                        app:drawableStartCompat="@drawable/school" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/facebook"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/facebook"
+                            android:padding="@dimen/image_button_social_media_padding"
+                            android:background="@null"
+                            tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+
+                        <ImageButton
+                            android:id="@+id/twitter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/twitter"
+                            android:padding="@dimen/image_button_social_media_padding"
+                            android:background="@null"
+                            tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+
+                        <ImageButton
+                            android:id="@+id/instagram"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/instagram"
+                            android:padding="@dimen/image_button_social_media_padding"
+                            android:background="@null"
+                            tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/opinionLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -350,7 +367,7 @@
                             android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
                             android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                             android:background="@drawable/oval_white_background"
-                            android:backgroundTint="#44C3FA"
+                            android:backgroundTint="@color/orange"
                             android:padding="@dimen/layout_opinion_padding">
 
                             <TextView
@@ -385,7 +402,7 @@
                             android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
                             android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                             android:background="@drawable/oval_white_background"
-                            android:backgroundTint="#44C3FA"
+                            android:backgroundTint="@color/orange"
                             android:padding="@dimen/layout_opinion_padding">
 
                             <TextView
@@ -419,7 +436,7 @@
                             android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
                             android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                             android:background="@drawable/oval_white_background"
-                            android:backgroundTint="#44C3FA"
+                            android:backgroundTint="@color/orange"
                             android:padding="@dimen/layout_opinion_padding">
 
                             <TextView
@@ -454,7 +471,7 @@
                             android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
                             android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                             android:background="@drawable/oval_white_background"
-                            android:backgroundTint="#44C3FA"
+                            android:backgroundTint="@color/orange"
                             android:padding="@dimen/layout_opinion_padding">
 
                             <TextView
@@ -489,7 +506,7 @@
                             android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
                             android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                             android:background="@drawable/oval_white_background"
-                            android:backgroundTint="#44C3FA"
+                            android:backgroundTint="@color/orange"
                             android:padding="@dimen/layout_opinion_padding">
 
                             <TextView
@@ -524,7 +541,7 @@
                             android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
                             android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                             android:background="@drawable/oval_white_background"
-                            android:backgroundTint="#44C3FA"
+                            android:backgroundTint="@color/orange"
                             android:padding="@dimen/layout_opinion_padding">
 
                             <TextView
@@ -559,7 +576,7 @@
                             android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
                             android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                             android:background="@drawable/oval_white_background"
-                            android:backgroundTint="#44C3FA"
+                            android:backgroundTint="@color/orange"
                             android:padding="@dimen/layout_opinion_padding">
 
                             <TextView
@@ -594,7 +611,7 @@
                             android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
                             android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                             android:background="@drawable/oval_white_background"
-                            android:backgroundTint="#44C3FA"
+                            android:backgroundTint="@color/orange"
                             android:padding="@dimen/layout_opinion_padding">
 
                             <TextView
@@ -628,7 +645,7 @@
                             android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
                             android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                             android:background="@drawable/oval_white_background"
-                            android:backgroundTint="#44C3FA"
+                            android:backgroundTint="@color/orange"
                             android:padding="@dimen/layout_opinion_padding">
 
                             <TextView
@@ -662,7 +679,7 @@
                             android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
                             android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                             android:background="@drawable/oval_white_background"
-                            android:backgroundTint="#44C3FA"
+                            android:backgroundTint="@color/orange"
                             android:padding="@dimen/layout_opinion_padding">
 
                             <TextView
@@ -696,7 +713,7 @@
                             android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
                             android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                             android:background="@drawable/oval_white_background"
-                            android:backgroundTint="#44C3FA"
+                            android:backgroundTint="@color/orange"
                             android:padding="@dimen/layout_opinion_padding">
 
                             <TextView
@@ -730,7 +747,7 @@
                             android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
                             android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
                             android:background="@drawable/oval_white_background"
-                            android:backgroundTint="#44C3FA"
+                            android:backgroundTint="@color/orange"
                             android:padding="@dimen/layout_opinion_padding">
 
                             <TextView

@@ -35,7 +35,7 @@ class UserOpinionsFragment : Fragment() {
         if (userId != null && userId != -1) {
             viewModel.getProfile(userId)
         } else {
-            viewModel.getMyProfile()
+            viewModel.getMyProfile(){}
         }
     }
 

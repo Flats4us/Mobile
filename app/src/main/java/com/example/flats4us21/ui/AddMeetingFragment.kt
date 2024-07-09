@@ -115,7 +115,7 @@ class AddMeetingFragment : Fragment() {
         val mainTenant = rent.tenants.firstOrNull{ it.userId == rent.mainTenantId }
         val mainTenantUrl = "$URL/${mainTenant?.profilePicture?.path ?: ""}"
         Log.i(TAG, mainTenantUrl)
-        binding.ownerPhoto.load(mainTenantUrl) {
+        binding.mainTenantPhoto.load(mainTenantUrl) {
             error(R.drawable.baseline_person_24)
         }
         binding.tenantInfo.text = mainTenant?.fullName ?: ""
