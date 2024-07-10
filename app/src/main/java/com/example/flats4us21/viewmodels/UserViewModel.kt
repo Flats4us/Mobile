@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.flats4us21.DataStoreManager
 import com.example.flats4us21.data.ApiResult
 import com.example.flats4us21.data.DocumentType
 import com.example.flats4us21.data.Interest
@@ -717,6 +718,22 @@ class UserViewModel: ViewModel() {
             }
         }
     }
+
+    fun checkIfDataStoreIsNotEmpty(callback: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            val loginResponse = DataStoreManager.readUserData()
+            Log.i(TAG, "Login response from DataStore: $loginResponse")
+            Log.i(TAG, "Login response is not null: ${loginResponse != null}")
+            if (loginResponse != null) {
+                _loginResponse.value = loginResponse
+                Log.i(TAG, loginResponse.token)
+                callback(true)
+            } else {
+                callback(false)
+            }
+        }
+    }
+
 
     fun logout() {
         _loginResponse.value = null

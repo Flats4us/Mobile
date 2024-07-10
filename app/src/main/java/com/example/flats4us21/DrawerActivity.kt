@@ -43,6 +43,7 @@ import com.example.flats4us21.viewmodels.NotificationViewModel
 import com.example.flats4us21.viewmodels.UserViewModel
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.time.Instant
 
 const val URL = "http://172.21.40.120:5166"
@@ -69,7 +70,6 @@ class DrawerActivity : AppCompatActivity(), NetworkChangeReceiver.NetworkChangeL
         viewModel = ViewModelProvider(this)[UserViewModel::class.java]
         notificationViewModel = ViewModelProvider(this)[NotificationViewModel::class.java]
         DataStoreManager.initialize(applicationContext)
-
         DataStoreManager.tokenExpiresAt.observe(this) { expiresAt ->
             if (expiresAt != null && isTokenExpired(expiresAt)) {
                 logout()
@@ -82,7 +82,6 @@ class DrawerActivity : AppCompatActivity(), NetworkChangeReceiver.NetworkChangeL
         navView = findViewById(R.id.nav_view)
         headerView = navView.getHeaderView(0)
         val notificationButton : ImageButton = findViewById(R.id.notification_button)
-        val notificationLayout : ConstraintLayout = findViewById(R.id.notificationLayout)
         notificationButton.setOnClickListener {
             replaceFragment(NotificationsFragment())
             drawerLayout.closeDrawers()
@@ -92,53 +91,38 @@ class DrawerActivity : AppCompatActivity(), NetworkChangeReceiver.NetworkChangeL
         toggle.syncState()
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        getDataFromDataStore()
         setupDrawerContent()
 
         DataStoreManager.userRole.observe(this) { user ->
             navView.menu.clear()
             userRole = user ?: ""
-            when (userRole) {
-                "Student" -> {
-                    navView.inflateMenu(R.menu.student_nav_menu)
-                    notificationLayout.isVisible = true
-                }
-                "Owner" -> {
-                    navView.inflateMenu(R.menu.owner_nav_menu)
-                    notificationLayout.isVisible = true
-                }
-                else -> {
-                    navView.inflateMenu(R.menu.guest_nav_menu)
-                    notificationLayout.isVisible = false
-                }
-            }
+            setUserMenu(userRole)
         }
 
-//        viewModel.myProfile.observe(this) { profile ->
-//            Log.i(TAG, "profil: ${profile.toString()}")
-//            if(profile != null){
-//
-//                val profilePicture = headerView.findViewById<ImageView>(R.id.profilePicture)
-//                val mail : TextView = headerView.findViewById(R.id.mail)
-//                val nameAndSurname : TextView = headerView.findViewById(R.id.nameAndSurname)
-//
-//                Log.i(TAG, "Is not null $profile")
-//                mail.isVisible = true
-//                mail.text = profile.email
-//                nameAndSurname.text = getString(R.string.name_and_surname, profile.name, profile.surname)
-//                val url = "$URL/${profile.profilePicture?.path ?: ""}"
-//                profilePicture.load(url) {
-//                    error(R.drawable.baseline_person_24)
-//                }
-//                profilePicture.isVisible = true
-//                notificationViewModel.getUnreadNotifications()
-//                notificationViewModel.startConnection()
-//            }
-//        }
         notificationViewModel.unreadNotifications.observe(this) { notifications ->
             if (notifications != null) {
                 val unreadNotificationsCount = findViewById<TextView>(R.id.unreadNotificationCount)
                 unreadNotificationsCount.text = notifications.size.toString()
                 unreadNotificationsCount.isVisible = notifications.isNotEmpty()
+            }
+        }
+    }
+
+    private fun setUserMenu(userRole: String) {
+        val notificationLayout : ConstraintLayout = findViewById(R.id.notificationLayout)
+        when (userRole) {
+            "Student" -> {
+                navView.inflateMenu(R.menu.student_nav_menu)
+                notificationLayout.isVisible = true
+            }
+            "Owner" -> {
+                navView.inflateMenu(R.menu.owner_nav_menu)
+                notificationLayout.isVisible = true
+            }
+            else -> {
+                navView.inflateMenu(R.menu.guest_nav_menu)
+                notificationLayout.isVisible = false
             }
         }
     }
@@ -300,4 +284,32 @@ class DrawerActivity : AppCompatActivity(), NetworkChangeReceiver.NetworkChangeL
             replaceFragment(NoInternetFragment())
         }
     }
+
+    private fun getDataFromDataStore() {
+        viewModel.checkIfDataStoreIsNotEmpty { loginResponseExists ->
+            if (loginResponseExists) {
+                viewModel.getMyProfile {
+                    if(it) {
+                        val profile = viewModel.myProfile.value
+                        if (profile != null) {
+                            setMyProfile(profile)
+                            runBlocking {
+                                DataStoreManager.saveUserData(viewModel.loginResponse.value!!)
+//                                val userRole = DataStoreManager.readUserData()?.role ?: ""
+//                                Log.i(TAG, "userRole: $userRole")
+//                                navView.menu.clear()
+//                                setUserMenu(userRole)
+//                                setupDrawerContent()
+                                replaceFragment(SearchFragment())
+                            }
+                        }
+                    }
+                }
+            } else {
+                replaceFragment(StartScreenFragment())
+            }
+        }
+    }
+
+
 }

@@ -71,20 +71,25 @@ object DataStoreManager {
     suspend fun readUserData(): LoginResponse? {
         val preferences = dataStore.data.firstOrNull()
         return preferences?.let {
-            val token = it[USER_TOKEN_KEY].toString()
-            val expiresAt = it[USER_EXPIRES_AT_KEY]?.toLongOrDefault(0)
+            val token = it[USER_TOKEN_KEY]
+            val expiresAt = it[USER_EXPIRES_AT_KEY]?.toLongOrDefault(0) ?: 0
             val role = it[USER_ROLE_KEY].toString()
             val verificationStatus = it[USER_VERIFICATION_STATUS_KEY] ?: 0
-            LoginResponse(token, expiresAt!!, role, verificationStatus)
+            if(token != null) {
+                LoginResponse(token, expiresAt, role, verificationStatus)
+            } else {
+                null
+            }
         }
+    }
+
+    fun getToken() = dataStore.data.map {
+        it[USER_TOKEN_KEY]
     }
 
     suspend fun clearUserData() {
         dataStore.edit { preferences ->
-            preferences.remove(USER_TOKEN_KEY)
-            preferences.remove(USER_EXPIRES_AT_KEY)
-            preferences.remove(USER_ROLE_KEY)
-            preferences.remove(USER_VERIFICATION_STATUS_KEY)
+            preferences.clear()
         }
         _userRole.postValue(null)
         _tokenExpiresAt.postValue(null)

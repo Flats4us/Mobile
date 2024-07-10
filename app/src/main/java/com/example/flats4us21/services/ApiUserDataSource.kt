@@ -72,8 +72,10 @@ object ApiUserDataSource : UserDataSource {
 
     private suspend fun getUserService(): UserService {
         return if (!isDataStoreInitialized() || DataStoreManager.isUserTokenEmpty() || DataStoreManager.isTokenExpired()) {
+            Log.i(TAG, "api")
             api
         } else {
+            Log.i(TAG, "apiWithAuthInterceptor")
             apiWithAuthInterceptor
         }
     }
@@ -163,8 +165,7 @@ object ApiUserDataSource : UserDataSource {
 
     override suspend fun getProfile(): ApiResult<MyProfile> {
         return try {
-            val service = getUserService()
-            val response = service.getProfile()
+            val response = apiWithAuthInterceptor.getProfile()
             if (response.isSuccessful) {
                 val data = response.body()!!
                 ApiResult.Success(data)
