@@ -38,7 +38,7 @@ class OffersDeserializer : JsonDeserializer<OffersResult> {
                 val rentId = if (jsonObject.get("rentId").isJsonNull) null else jsonObject.get("rentId").asInt
                 val isInterested = jsonObject.get("isInterest").asBoolean
                 val dateIssue = jsonObject.get("date").asString
-                val status = jsonObject.get("offerStatus").asString
+                val status = jsonObject.get("offerStatus").asInt
                 val price = jsonObject.get("price").asString
                 val deposit = jsonObject.get("deposit").asDouble.toString()
                 val description = jsonObject.get("description").asString

@@ -28,6 +28,7 @@ import com.example.flats4us21.services.InterestDataSource
 import com.example.flats4us21.services.StudentSurveyService
 import com.example.flats4us21.services.UserDataSource
 import kotlinx.coroutines.launch
+import java.io.File
 import java.time.LocalDate
 
 private const val TAG = "UserViewModel"
@@ -86,6 +87,13 @@ class UserViewModel: ViewModel() {
         get() = _profilePicture
         set(value) {
             _profilePicture = value
+        }
+
+    private var _profilePictureFile: File? = null
+    var profilePictureFile: File?
+        get() = _profilePictureFile
+        set(value) {
+            _profilePictureFile = value
         }
 
     private var _name: String = ""
@@ -196,11 +204,18 @@ class UserViewModel: ViewModel() {
             _questionResponseList = value
         }
 
-    private var _images: MutableList<Uri> = mutableListOf()
-    var images: MutableList<Uri>
+    private var _images: Uri? = null
+    var images: Uri?
         get() = _images
         set(value) {
             _images = value
+        }
+
+    private var _imageFile: File? = null
+    var imageFile: File?
+        get() = _imageFile
+        set(value) {
+            _imageFile = value
         }
 
     private var _email: String = ""
@@ -354,7 +369,7 @@ class UserViewModel: ViewModel() {
             _city = value
         }
 
-    fun createUser(callback: (Boolean) -> Unit) {
+    fun createUser(token: String, callback: (Boolean) -> Unit) {
         viewModelScope.launch {
             _errorMessage.value = null
             _isLoading.value = true
@@ -367,6 +382,7 @@ class UserViewModel: ViewModel() {
                         password,
                         email,
                         phoneNumber,
+                        token,
                         0,
                         documentExpireDate.toString(),
                         bankAccount ?: "",
@@ -381,7 +397,8 @@ class UserViewModel: ViewModel() {
                         password,
                         email,
                         phoneNumber,
-                        1,
+                        token,
+                        documentType.toString().toInt(),
                         documentExpireDate.toString(),
                         birthDate.toString(),
                         studentNumber ?: "",
@@ -406,9 +423,21 @@ class UserViewModel: ViewModel() {
                 when(fetched) {
                     is ApiResult.Success -> {
                         val fetchedData = fetched.data
-                        Log.i(TAG, "Fetched Data: $fetchedData")
-                        _resultMessage.value = "Poprawnie zarejestrowano użytkownika"
-                        callback(true)
+                        _loginResponse.value = fetchedData
+                        val filesResponse = userRepository.addUserFiles(profilePictureFile, imageFile)
+                        when (filesResponse) {
+                            is ApiResult.Success -> {
+                                val message = filesResponse.data
+                                _isLoading.value = false
+                                callback(true)
+                            }
+                            is ApiResult.Error -> {
+                                val fileErrorMessage = filesResponse.message
+                                Log.e(TAG, "Error adding files to property: $fileErrorMessage")
+                                _errorMessage.value = fileErrorMessage
+                                callback(false)
+                            }
+                        }
                     }
                     is ApiResult.Error -> {
                         Log.i(TAG, "ERROR: ${fetched.message}")
@@ -440,7 +469,7 @@ class UserViewModel: ViewModel() {
         documentNumber = null
         documentExpireDate = null
         _questionResponseList = listOf()
-        _images = mutableListOf()
+        _images = null
         email = ""
         password = ""
         repeatPassword = ""
@@ -463,6 +492,33 @@ class UserViewModel: ViewModel() {
                 }
             } catch (e: Exception) {
                 _errorMessage.value = e.message
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun addUserFiles(profilePicture: File?, document: File?, callback: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try{
+                when(val fetchedProfile = userRepository.addUserFiles(profilePicture, document)) {
+                    is ApiResult.Success -> {
+                        Log.i(TAG, fetchedProfile.data)
+                        callback(true)
+                    }
+                    is ApiResult.Error -> {
+                        Log.i(TAG, "ERROR: ${fetchedProfile.message}")
+                        _errorMessage.value = fetchedProfile.message
+                        Log.e(TAG, "error: ${errorMessage.value}")
+                        callback(false)
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+                callback(false)
             } finally {
                 _isLoading.value = false
             }
@@ -566,12 +622,12 @@ class UserViewModel: ViewModel() {
                     if (birthDate == null) null else birthDate.toString(),
                     if (documentExpireDate == null) null else documentExpireDate.toString(),
                     documentNumber,
-                    email,
+                    myProfile.value!!.email,
                     links,
-                    name,
+                    myProfile.value!!.name,
                     phoneNumber,
                     studentNumber,
-                    surname,
+                    myProfile.value!!.surname,
                     university
                 )
                 when(val fetched = userRepository.updateMyProfile(updatedMyProfileDto)) {
@@ -579,6 +635,22 @@ class UserViewModel: ViewModel() {
                         val fetchedData = fetched.data
                         Log.i(TAG, "Fetched Data: $fetchedData")
                         _resultMessage.value = fetchedData
+
+                        if(imageFile != null) {
+                            when(val fetchedUpdateDocument = userRepository.addUserFiles(null, imageFile)){
+                                is ApiResult.Success -> {
+                                    val fetchedUpdateDocumentData = fetchedUpdateDocument.data
+                                    Log.i(TAG, "Fetched Data: $fetchedUpdateDocumentData")
+                                    _resultMessage.value = fetchedUpdateDocumentData
+                                }
+                                is ApiResult.Error -> {
+                                    Log.i(TAG, "ERROR: ${fetchedUpdateDocument.message}")
+                                    _errorMessage.value = fetchedUpdateDocument.message
+                                    Log.e(TAG, "error: ${errorMessage.value}")
+                                    callback(false)
+                                }
+                            }
+                        }
                         callback(true)
                     }
                     is ApiResult.Error -> {

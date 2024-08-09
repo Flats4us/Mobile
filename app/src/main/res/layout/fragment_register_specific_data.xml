@@ -255,6 +255,53 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
+
+                <LinearLayout
+                    android:id="@+id/layoutDocumentType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_edit_text_margin_top"
+                    android:background="@drawable/background_input"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_width"
+                        android:layout_height="@dimen/icon_height"
+                        android:layout_marginStart="@dimen/icon_margin"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/baseline_person_24"/>
+
+                    <Spinner
+                        android:id="@+id/documentSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/spinner_height"
+                        android:contentDescription="@string/required_document_type"
+                        tools:ignore="DuplicateSpeakableTextCheck" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/documentTypeHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                    android:background="@color/white"
+                    android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
+                    android:text="@string/required_document_type"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/layoutDocumentType"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/layoutDocumentType"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutDocumentNumberWithHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -362,6 +409,35 @@
                     app:layout_constraintTop_toTopOf="@id/layoutDocumentExpireDate" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="@dimen/layout_edit_text_margin_top"
+                app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <Button
+                    android:id="@+id/addPhotoButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/image_button_min_height"
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/baseline_attach_file_24"
+                    android:drawableTint="@color/white"
+                    android:text="@string/read_document"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/document"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
 
         </LinearLayout>
 

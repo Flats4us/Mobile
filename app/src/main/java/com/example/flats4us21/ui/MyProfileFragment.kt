@@ -21,8 +21,6 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.tabs.TabLayout
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 private const val TAG = "MyProfileFragment"
@@ -36,14 +34,14 @@ class MyProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMyProfileBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this)[UserViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[UserViewModel::class.java]
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getMyProfile(){}
+        viewModel.getMyProfile {}
 
         viewModel.myProfile.observe(viewLifecycleOwner) { userProfile ->
             if (userProfile != null)
@@ -98,6 +96,7 @@ class MyProfileFragment : Fragment() {
     private fun bindData(userProfile: MyProfile) {
         Log.i(TAG, "bindData: $userProfile")
         val url = "$URL/${userProfile.profilePicture?.path ?: ""}"
+        Log.i(TAG, url)
         binding.profilePicture.load(url) {
             error(R.drawable.baseline_person_24)
         }
@@ -108,6 +107,7 @@ class MyProfileFragment : Fragment() {
             binding.ratingLayout.visibility = View.GONE
             binding.interestsLayout.visibility = View.GONE
             binding.opinionLayout.visibility = View.GONE
+            binding.socialMediaLayout.visibility = View.GONE
             binding.emailLayout.visibility = View.VISIBLE
             binding.phoneNumberLayout.visibility = View.VISIBLE
             binding.surveyFlexboxLayout.visibility = View.GONE
@@ -115,6 +115,7 @@ class MyProfileFragment : Fragment() {
             binding.ratingLayout.visibility = View.VISIBLE
             binding.interestsLayout.visibility = View.VISIBLE
             binding.opinionLayout.visibility = View.VISIBLE
+            binding.socialMediaLayout.visibility = View.VISIBLE
             binding.emailLayout.visibility = View.GONE
             binding.phoneNumberLayout.visibility = View.GONE
             binding.surveyFlexboxLayout.visibility = View.VISIBLE
@@ -140,6 +141,7 @@ class MyProfileFragment : Fragment() {
             binding.twitter.isVisible = userProfile.links.any { it.contains("twitter") }
             binding.instagram.isVisible = userProfile.links.any { it.contains("instagram") }
         } else {
+            binding.socialMediaLayout.visibility = View.GONE
             binding.facebook.isVisible = false
             binding.twitter.isVisible = false
             binding.instagram.isVisible = false
@@ -296,13 +298,13 @@ class MyProfileFragment : Fragment() {
         }
         binding.documentExpireDate.text = userProfile.documentExpireDate.split("T")[0]
 
-        val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+//        val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+//
+//        val dateTime = LocalDateTime.parse(userProfile.accountCreationDate, inputFormatter)
+//
+//        val outputFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy", Locale("pl"))
 
-        val dateTime = LocalDateTime.parse(userProfile.accountCreationDate, inputFormatter)
-
-        val outputFormatter = DateTimeFormatter.ofPattern("d MMM yyyy", Locale("pl"))
-
-        binding.accountCreationDate.text = dateTime.format(outputFormatter)
+        binding.accountCreationDate.text = userProfile.accountCreationDate.split("T")[0]
     }
 
     override fun onDestroyView() {

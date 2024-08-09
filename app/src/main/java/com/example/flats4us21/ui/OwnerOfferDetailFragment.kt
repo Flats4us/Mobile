@@ -59,8 +59,14 @@ class OwnerOfferDetailFragment : Fragment() {
         }
 
         detailOfferViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
-            if(errorMessage != null) {
-                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+            errorMessage?.let {
+                val resourceId = requireContext().resources.getIdentifier(errorMessage, "string", requireContext().packageName)
+                val message = if (resourceId != 0) {
+                    requireContext().getString(resourceId)
+                } else {
+                    errorMessage
+                }
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
             }
         }
 
@@ -105,9 +111,11 @@ class OwnerOfferDetailFragment : Fragment() {
         }
         binding.smoking.setOnClickListener {
             if(offer.surveyOwnerOffer.smokingAllowed) {
-                Toast.makeText(requireContext(), "Palenie dozwolone", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),
+                    getString(R.string.smoking_allowed), Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(requireContext(), "Palenie niedozwolone", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),
+                    getString(R.string.smoking_not_allowed), Toast.LENGTH_SHORT).show()
             }
         }
         if(offer.surveyOwnerOffer.animalsAllowed) {
@@ -117,9 +125,11 @@ class OwnerOfferDetailFragment : Fragment() {
         }
         binding.pets.setOnClickListener {
             if(offer.surveyOwnerOffer.animalsAllowed) {
-                Toast.makeText(requireContext(), "Zwierzęta dozwolone", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),
+                    getString(R.string.animals_allowed), Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(requireContext(), "Zwierzęta niedozwolone", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),
+                    getString(R.string.animals_not_allowed), Toast.LENGTH_SHORT).show()
             }
         }
         if(offer.surveyOwnerOffer.partiesAllowed){
@@ -129,13 +139,22 @@ class OwnerOfferDetailFragment : Fragment() {
         }
         binding.parties.setOnClickListener {
             if(offer.surveyOwnerOffer.partiesAllowed){
-                Toast.makeText(requireContext(), "Imprezy dozwolone", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),
+                    getString(R.string.parties_allowed), Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(requireContext(), "Imprezy niedozwolone", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),
+                    getString(R.string.parties_not_allowed), Toast.LENGTH_SHORT).show()
             }
         }
-        binding.startDate.text = offer.dateIssue
-        binding.endDate.text = offer.dateIssue
+        binding.offerStatus.text = when(offer.status) {
+            0 -> getString(R.string.current)
+            1 -> getString(R.string.waiting)
+            2 -> getString(R.string.rented)
+            else -> {
+                getString(R.string.old)}
+        }
+        binding.startDate.text = offer.dateIssue.split('T')[0]
+        binding.endDate.text = offer.dateIssue.split('T')[0]
         binding.deposit.text = offer.deposit
         binding.price.text = offer.price
         binding.city.text = offer.property.city
@@ -168,6 +187,7 @@ class OwnerOfferDetailFragment : Fragment() {
         }
 
         binding.equipment.text = stringBuilder.toString()
+        binding.rules.text = offer.userRegulation
         binding.description.text = offer.description
         binding.ratingBar.rating = (offer.property.avgRating.toFloat() / 2)
         binding.sumService.text = offer.property.avgServiceRating.toString()
@@ -215,6 +235,8 @@ class OwnerOfferDetailFragment : Fragment() {
         endOfferButton.setOnClickListener {
             viewModel.cancelOffer(currentOffer.offerId)
             dialog.dismiss()
+            val fragment = OwnerOffersFragment()
+            (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
         rentPropositionButton.setOnClickListener {
             val fragment = RentPropositionDialogFragment()
@@ -231,9 +253,9 @@ class OwnerOfferDetailFragment : Fragment() {
             promoteButton.visibility = View.VISIBLE
         }
         if(currentOffer.rentPropositionToShow != null){
-            binding.fab.visibility = View.VISIBLE
+            rentPropositionButton.visibility = View.VISIBLE
         } else {
-            binding.fab.visibility = View.INVISIBLE
+            rentPropositionButton.visibility = View.INVISIBLE
         }
 
         dialog.show()

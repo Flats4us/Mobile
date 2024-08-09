@@ -38,7 +38,7 @@ class ArgumentAdapter(
     }
 
     override fun onBindViewHolder(holder: ArgumentViewHolder, position: Int) {
-        holder.descriptionTextView.text = arguments[position].description
+        holder.descriptionTextView.text = arguments[position].title
         holder.itemView.setOnClickListener {
             onUserClick(arguments[position])
         }

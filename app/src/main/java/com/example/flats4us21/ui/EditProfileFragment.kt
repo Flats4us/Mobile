@@ -1,8 +1,12 @@
 package com.example.flats4us21.ui
 
 import android.app.DatePickerDialog
+import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
 import android.text.InputType
+import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,41 +14,74 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import coil.load
 import com.example.flats4us21.DataStoreManager
+import com.example.flats4us21.DrawerActivity
 import com.example.flats4us21.R
+import com.example.flats4us21.URL
 import com.example.flats4us21.data.MyProfile
 import com.example.flats4us21.data.dto.NewPasswordDto
 import com.example.flats4us21.databinding.FragmentEditProfileBinding
 import com.example.flats4us21.viewmodels.UserViewModel
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.util.Calendar
 
-
+private const val TAG = "EditProfileFragment"
 class EditProfileFragment : Fragment() {
     private var _binding: FragmentEditProfileBinding? = null
     private val binding get() = _binding!!
     private val socialMediaLinks = mutableListOf<String>()
     private lateinit var userViewModel: UserViewModel
     private var selectedExpireDate : LocalDate? = null
+    private var uri: Uri? = null
+    private var documentUri: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
+        userViewModel = ViewModelProvider(requireActivity())[UserViewModel::class.java]
         _binding = FragmentEditProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
+            val galleryUri = it
+            try{
+                binding.profilePicture.setImageURI(galleryUri)
+                uri = galleryUri
+            }catch(e:Exception){
+                e.printStackTrace()
+            }
+        }
 
-        userViewModel.getMyProfile(){}
+        val galleryDocumentLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
+            val galleryUri = it
+            try{
+                binding.document.setImageURI(galleryUri)
+                documentUri = galleryUri
+            }catch(e:Exception){
+                e.printStackTrace()
+            }
+        }
+
+        userViewModel.getMyProfile{}
         setVisibility()
+
+        binding.addPhotoButton.setOnClickListener {
+            getImageFromGallery(galleryDocumentLauncher)
+        }
 
         userViewModel.myProfile.observe(viewLifecycleOwner) { userProfile ->
             if(userProfile != null)
@@ -62,6 +99,47 @@ class EditProfileFragment : Fragment() {
             }
         }
 
+        binding.editProfilePicture.setOnClickListener {
+            getImageFromGallery(galleryLauncher)
+        }
+
+        binding.acceptEditProfilePictureButton.setOnClickListener {
+            if(uri != null) {
+                val inputStream: InputStream? =
+                    requireContext().contentResolver.openInputStream(uri!!)
+                val mimeType = requireContext().contentResolver.getType(uri!!)
+                val fileExtension = when (mimeType) {
+                    "image/jpeg" -> ".jpg"
+                    "image/png" -> ".png"
+                    else -> ".jpg"
+                }
+                val file = File.createTempFile("temp_image", fileExtension, requireContext().cacheDir)
+                val outputStream = FileOutputStream(file)
+
+                inputStream?.use { input ->
+                    outputStream.use { output ->
+                        input.copyTo(output)
+                    }
+                }
+                userViewModel.addUserFiles(file, null) {
+                    if (it) {
+                        Toast.makeText(requireContext(), "Zaktualizowano zdjęcie", Toast.LENGTH_LONG).show()
+                        userViewModel.getMyProfile{}
+                        if(userViewModel.myProfile.value != null) {
+                            (activity as? DrawerActivity)!!.setMyProfile(userViewModel.myProfile.value!!)
+                        }
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Nie zaktualizowano zdjęcia",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+            }
+
+        }
+
         binding.layoutSocialMediaLinks.setOnClickListener{
             val linksDialogFragment = LinksDialogFragment(socialMediaLinks)
             linksDialogFragment.show(parentFragmentManager , "LinksDialogFragment")
@@ -70,6 +148,38 @@ class EditProfileFragment : Fragment() {
         binding.layoutDocumentExpireDate.setOnClickListener{
             selectedExpireDate = clickDatePicker(binding.documentExpireDate)
         }
+
+        binding.documentNumber.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if(DataStoreManager.userRole.value == "Owner" && binding.documentNumber.text.toString() != userViewModel.myProfile.value!!.documentNumber) {
+                    binding.documentLayout.visibility = View.VISIBLE
+                } else {
+                    binding.documentLayout.visibility = View.GONE
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+        })
+
+        binding.textStudentNumber.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if(DataStoreManager.userRole.value == "Student" && binding.textStudentNumber.text.toString() != userViewModel.myProfile.value!!.studentNumber) {
+                    binding.documentLayout.visibility = View.VISIBLE
+                } else {
+                    binding.documentLayout.visibility = View.GONE
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+        })
 
         binding.editProfileButton.setOnClickListener {
             if(validateData()){
@@ -109,6 +219,10 @@ class EditProfileFragment : Fragment() {
         }
     }
 
+    private fun getImageFromGallery(galleryLauncher: ActivityResultLauncher<String>) {
+        galleryLauncher.launch("image/*")
+    }
+
     private fun collectDataForPassword() {
         val newPasswordDto = NewPasswordDto(
             binding.oldPassword.text.toString(),
@@ -131,6 +245,7 @@ class EditProfileFragment : Fragment() {
             binding.layoutStudentNumberWithHeader.visibility = View.GONE
             binding.layoutUniversityNameWithHeader.visibility = View.GONE
         }
+        binding.documentLayout.visibility = View.GONE
 
     }
 
@@ -145,6 +260,11 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun bindData(userProfile: MyProfile) {
+        Log.i(TAG, "bindData: $userProfile")
+        val url = "$URL/${userProfile.profilePicture?.path ?: ""}"
+        binding.profilePicture.load(url) {
+            error(R.drawable.baseline_person_24)
+        }
         val datePattern = "yyyy-MM-dd"
         binding.textResidentialAddress.setText(userProfile.address)
         binding.phoneNumber.setText(userProfile.phoneNumber)
@@ -210,6 +330,26 @@ class EditProfileFragment : Fragment() {
         }
         if(!binding.documentExpireDate.text.isNullOrEmpty()){
             userViewModel.documentExpireDate = selectedExpireDate
+        }
+        if(documentUri != null) {
+            userViewModel.images = documentUri
+            val inputStream: InputStream? =
+                requireContext().contentResolver.openInputStream(documentUri!!)
+            val mimeType = requireContext().contentResolver.getType(documentUri!!)
+            val fileExtension = when (mimeType) {
+                "image/jpeg" -> ".jpg"
+                "image/png" -> ".png"
+                else -> ".jpg"
+            }
+            val file = File.createTempFile("temp_image", fileExtension, requireContext().cacheDir)
+            val outputStream = FileOutputStream(file)
+
+            inputStream?.use { input ->
+                outputStream.use { output ->
+                    input.copyTo(output)
+                }
+            }
+            userViewModel.imageFile = file
         }
     }
 

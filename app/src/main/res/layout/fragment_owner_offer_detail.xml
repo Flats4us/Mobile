@@ -101,6 +101,32 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:background="@drawable/rectangle_white_background"
+                    android:layout_marginBottom="@dimen/header_vertical_margin"
+                    android:padding="@dimen/app_padding">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/h2"
+                        android:text="@string/offer_status"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/offerStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/h2"
+                        android:textStyle="bold"
+                        android:paddingStart="@dimen/table_cell_padding"
+                        tools:ignore="RtlSymmetry" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:background="@drawable/rectangle_white_background"
                     android:padding="16dp"
@@ -543,10 +569,39 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/rectangle_white_background"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/text_view_inside_header_margin_top"
+                        android:gravity="center_horizontal"
+                        android:text="@string/rules"
+                        android:textSize="@dimen/regular_text_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/rules"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:ellipsize="none"
+                        android:maxLines="100"
+                        android:scrollHorizontally="false"
+                        android:text="@string/lorem_ipsum"
+                        android:textSize="@dimen/subtext_text_size" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:background="@drawable/rectangle_white_background"
                     android:padding="8dp"
-                    android:layout_marginBottom="16dp">
+                    android:layout_marginBottom="8dp">
 
                     <TextView
                         android:layout_width="match_parent"

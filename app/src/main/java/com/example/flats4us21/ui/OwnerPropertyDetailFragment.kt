@@ -161,6 +161,7 @@ class OwnerPropertyDetailFragment : Fragment() {
             val fragment = AddRealEstateFragment()
             fragment.arguments = bundle
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
+            dialog.dismiss()
         }
         deletePropertyButton.setOnClickListener {
             Log.d(TAG, "offers: ${property.offers} isNullOrEmpty ${!property.offers.isNullOrEmpty()}")
@@ -169,6 +170,7 @@ class OwnerPropertyDetailFragment : Fragment() {
                     if (result) {
                         Toast.makeText(requireContext(), getString(R.string.deleted_property), Toast.LENGTH_LONG).show()
                         (activity as? DrawerActivity)!!.goBack()
+                        dialog.dismiss()
                     }
                 }
             } else {

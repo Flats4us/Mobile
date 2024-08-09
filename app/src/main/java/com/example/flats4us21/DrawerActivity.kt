@@ -26,6 +26,7 @@ import com.example.flats4us21.data.MyProfile
 import com.example.flats4us21.ui.ArgumentsFragment
 import com.example.flats4us21.ui.CalendarFragment
 import com.example.flats4us21.ui.ChatsFragment
+import com.example.flats4us21.ui.MapFragment
 import com.example.flats4us21.ui.MyProfileFragment
 import com.example.flats4us21.ui.MyRentsFragment
 import com.example.flats4us21.ui.NoInternetFragment
@@ -36,6 +37,7 @@ import com.example.flats4us21.ui.RoommatesFragment
 import com.example.flats4us21.ui.SearchFragment
 import com.example.flats4us21.ui.SettingsFragment
 import com.example.flats4us21.ui.StartScreenFragment
+import com.example.flats4us21.ui.TechnicalProblemFragment
 import com.example.flats4us21.ui.USER_ID
 import com.example.flats4us21.ui.UserOpinionsFragment
 import com.example.flats4us21.ui.WatchedOffersListFragment
@@ -46,8 +48,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.time.Instant
 
-const val URL = "http://172.21.40.120:5166"
-//const val URL = "http://172.27.80.1:5166"
+//const val URL = "http://172.21.40.120:5166"
+const val URL = "http://172.27.80.1:5166"
 private const val TAG = "DrawerActivity"
 class DrawerActivity : AppCompatActivity(), NetworkChangeReceiver.NetworkChangeListener {
     private lateinit var drawerLayout: DrawerLayout
@@ -100,7 +102,19 @@ class DrawerActivity : AppCompatActivity(), NetworkChangeReceiver.NetworkChangeL
             setUserMenu(userRole)
         }
 
+        viewModel.myProfile.observe(this) { myProfile ->
+            Log.i(TAG, "myProfile: $myProfile")
+            if(myProfile != null) {
+                setMyProfile(myProfile)
+            }
+        }
+        observeUnreadNotifications()
+
+    }
+
+    private fun observeUnreadNotifications() {
         notificationViewModel.unreadNotifications.observe(this) { notifications ->
+            Log.d(TAG, "Notification observer: $notifications")
             if (notifications != null) {
                 val unreadNotificationsCount = findViewById<TextView>(R.id.unreadNotificationCount)
                 unreadNotificationsCount.text = notifications.size.toString()
@@ -133,6 +147,8 @@ class DrawerActivity : AppCompatActivity(), NetworkChangeReceiver.NetworkChangeL
     }
 
     fun setMyProfile(profile: MyProfile) {
+        notificationViewModel = ViewModelProvider(this)[NotificationViewModel::class.java]
+        observeUnreadNotifications()
         val profilePicture = headerView.findViewById<ImageView>(R.id.profilePicture)
         val mail : TextView = headerView.findViewById(R.id.mail)
         val nameAndSurname : TextView = headerView.findViewById(R.id.nameAndSurname)
@@ -163,6 +179,7 @@ class DrawerActivity : AppCompatActivity(), NetworkChangeReceiver.NetworkChangeL
     private fun selectDrawerItem(menuItem: MenuItem) {
         when(menuItem.itemId){
             R.id.nav_start -> replaceFragment(SearchFragment())
+            R.id.nav_map -> replaceFragment(MapFragment())
         }
         when (userRole) {
             "Student" -> {
@@ -204,6 +221,7 @@ class DrawerActivity : AppCompatActivity(), NetworkChangeReceiver.NetworkChangeL
             R.id.nav_my_rentals -> replaceFragment(MyRentsFragment())
             R.id.nav_conflicts -> replaceFragment(ArgumentsFragment())
             R.id.nav_calendar -> replaceFragment(CalendarFragment())
+            R.id.nav_report_issue -> replaceFragment(TechnicalProblemFragment())
             R.id.nav_logout -> logout()
         }
     }

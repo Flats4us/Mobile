@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.flats4us21.data.ApiResult
+import com.example.flats4us21.data.MapOffer
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.Property
 import com.example.flats4us21.data.dto.NewOfferDto
@@ -33,6 +34,10 @@ class OfferViewModel: ViewModel() {
     private val _offer: MutableLiveData<Offer?> = MutableLiveData()
     val offer: LiveData<Offer?>
     get() = _offer
+
+    private val _mapOffers: MutableLiveData<MutableList<MapOffer>> = MutableLiveData()
+    val mapOffers: LiveData<MutableList<MapOffer>>
+        get() = _mapOffers
 
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean>
@@ -289,6 +294,59 @@ class OfferViewModel: ViewModel() {
                     }
                     is ApiResult.Error -> {
                         val errorMessage = response.message
+                        Log.e(TAG, "Error: $errorMessage")
+                        _errorMessage.value = errorMessage
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun getOffersForMap() {
+        viewModelScope.launch {
+            _errorMessage.value = null
+            _isLoading.value = true
+            try{
+                val filter = OfferFilter(
+                    null,
+                    pageNumber,
+                    pageSize,
+                    province,
+                    city,
+                    distance,
+                    propertyType,
+                    minPrice,
+                    maxPrice,
+                    district,
+                    minArea,
+                    maxArea,
+                    minYear,
+                    maxYear,
+                    minNumberOfRooms,
+                    floor,
+                    equipment
+                )
+                if(pageNumber == 1 && _offers.value != null) {
+                    _offers.value!!.clear()
+                }
+                Log.i(TAG, "Filter: $filter")
+                val fetchedOffers = apiOfferRepository.getOffersForMap(filter)
+                Log.i(TAG, "Fetched offers: $fetchedOffers")
+                when (fetchedOffers) {
+                    is ApiResult.Success -> {
+                        val data = fetchedOffers.data.result as MutableList<MapOffer>
+
+                        if(_offers.value == null) {
+                            _mapOffers.value = data
+                        }
+                    }
+                    is ApiResult.Error -> {
+                        val errorMessage = fetchedOffers.message
                         Log.e(TAG, "Error: $errorMessage")
                         _errorMessage.value = errorMessage
                     }

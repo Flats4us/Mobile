@@ -1,15 +1,22 @@
 package com.example.flats4us21.adapters
 
 import android.graphics.Bitmap
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.flats4us21.R
+import com.example.flats4us21.URL
+import com.example.flats4us21.data.Image
 
-class NewImageSliderAdapter(private val images: List<Bitmap>) :
-    RecyclerView.Adapter<NewImageSliderAdapter.ViewHolder>() {
+private const val TAG = "NewImageSliderAdapter"
+class NewImageSliderAdapter(
+    private val imageObjects: List<Image>,
+    private val bitmaps: List<Bitmap>
+) : RecyclerView.Adapter<NewImageSliderAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -18,12 +25,22 @@ class NewImageSliderAdapter(private val images: List<Bitmap>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val imageResId = images[position]
-        holder.imageView.setImageBitmap(imageResId)
+        if (position < imageObjects.size) {
+            val photo = imageObjects[position]
+            val url = URL + "/" + photo.path
+            Log.i(TAG, url)
+            holder.imageView.load(url) {
+                error(R.drawable.baseline_broken_image_24)
+            }
+        } else {
+            val bitmapPosition = position - imageObjects.size
+            val bitmap = bitmaps[bitmapPosition]
+            holder.imageView.setImageBitmap(bitmap)
+        }
     }
 
     override fun getItemCount(): Int {
-        return images.size
+        return imageObjects.size + bitmaps.size
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

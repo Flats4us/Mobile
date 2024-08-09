@@ -14,6 +14,7 @@ interface PropertyDataSource {
     suspend fun deleteProperty(propertyId: Int) : ApiResult<String>
     suspend fun updateProperty(propertyId: Int, property: NewPropertyDto) : ApiResult<NewPropertyApiResponse<String>>
     suspend fun addProperty(property: NewPropertyDto): ApiResult<Int>
-    suspend fun addFilesToProperty(propertyId: Int, titleDeedFile: File, imageFiles: List<File>) : ApiResult<String>
+    suspend fun addFilesToProperty(propertyId: Int, titleDeedFile: File?, imageFiles: List<File>) : ApiResult<String>
+    suspend fun deleteFileFromProperty(propertyId: Int, fileId: String) : ApiResult<String>
     suspend fun addRentOpinion(rentId: Int, opinion: NewRentOpinionDto) : ApiResult<String>
 }

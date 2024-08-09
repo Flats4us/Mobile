@@ -31,6 +31,49 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="@dimen/header_vertical_margin"/>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/header_vertical_margin"
+                android:layout_marginVertical="@dimen/layout_profile_picture_margin_vertical">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/profilePicture"
+                    android:layout_width="@dimen/image_view_profile_picture_size"
+                    android:layout_height="@dimen/image_view_profile_picture_size"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/white"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/Circular" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/editProfilePicture"
+                    android:layout_width="@dimen/image_button_min_width"
+                    android:layout_height="@dimen/image_button_min_height"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/baseline_edit_24"
+                    android:background="@color/orange"
+                    app:shapeAppearanceOverlay="@style/Circular"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+            android:id="@+id/acceptEditProfilePictureButton"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/image_button_min_height"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:text="@string/accept"
+            android:textStyle="bold"
+            tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -478,6 +521,36 @@
                         app:layout_constraintTop_toTopOf="@id/layoutDocumentExpireDate" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:id="@+id/documentLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/layout_edit_text_margin_top"
+                    app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <Button
+                        android:id="@+id/addPhotoButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/image_button_min_height"
+                        android:layout_gravity="center"
+                        android:drawableLeft="@drawable/baseline_attach_file_24"
+                        android:drawableTint="@color/white"
+                        android:text="@string/read_document"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/document"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layoutBankAccountWithHeader"

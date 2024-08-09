@@ -36,6 +36,39 @@
                 android:textStyle="bold" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/header_vertical_margin"
+                android:layout_marginVertical="@dimen/layout_profile_picture_margin_vertical">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/profilePicture"
+                    android:layout_width="@dimen/image_view_profile_picture_size"
+                    android:layout_height="@dimen/image_view_profile_picture_size"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/white"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/baseline_person_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/Circular" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/editProfilePicture"
+                    android:layout_width="@dimen/image_button_min_width"
+                    android:layout_height="@dimen/image_button_min_height"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/baseline_edit_24"
+                    android:background="@color/orange"
+                    app:shapeAppearanceOverlay="@style/Circular"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
@@ -370,37 +403,73 @@
                 android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal"
                 android:layout_marginBottom="@dimen/layout_edit_text_margin_top">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layoutInterests"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                     android:background="@drawable/background_input"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
+                        android:id="@+id/imageView2"
                         android:layout_width="@dimen/icon_width"
                         android:layout_height="@dimen/icon_height"
-                        android:layout_marginStart="@dimen/icon_margin"
                         android:contentDescription="@string/app_name"
+                        android:layout_marginStart="@dimen/icon_margin"
                         android:src="@drawable/baseline_person_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:tint="@color/black" />
 
                     <TextView
                         android:id="@+id/interests"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="@dimen/edit_text_height"
                         android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                        android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
                         android:background="@null"
-                        android:drawablePadding="@dimen/drawable_padding"
                         android:gravity="center_vertical"
+                        android:visibility="gone"
                         android:hint="@string/interests"
                         android:textSize="@dimen/regular_text_size"
-                        android:textStyle="bold" />
-                </LinearLayout>
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/add_interest"
+                        app:layout_constraintStart_toEndOf="@+id/imageView2"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:orientation="horizontal"
+                        android:scrollbars="horizontal"
+                        android:visibility="visible"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                        android:foregroundGravity="center_vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/add_interest"
+                        app:layout_constraintStart_toEndOf="@+id/imageView2"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/add_interest"
+                        android:layout_width="@dimen/image_button_min_width"
+                        android:layout_height="@dimen/image_button_min_height"
+                        android:layout_marginEnd="@dimen/image_button_inside_edit_text_margin"
+                        android:background="@null"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/baseline_add_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/black" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
                     android:id="@+id/layoutInterestsHeader"

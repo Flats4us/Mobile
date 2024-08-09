@@ -12,7 +12,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.flats4us21.adapters.CoilImagesAdapter
 import com.example.flats4us21.adapters.PhotoAdapter
+import com.example.flats4us21.data.Image
 import com.example.flats4us21.databinding.FragmentAddRealEstateThirdStepBinding
 import com.example.flats4us21.viewmodels.RealEstateViewModel
 import java.io.File
@@ -23,7 +25,9 @@ class AddRealEstateThirdStepFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var realEstateViewModel: RealEstateViewModel
     private lateinit var photoAdapter: PhotoAdapter
+    private lateinit var coilImageAdapter: CoilImagesAdapter
     private var selectedImageUris : MutableList<Uri> = mutableListOf()
+    private var fetchedImages : MutableList<Image> = mutableListOf()
     private var lastIndexBeforeUpdate : Int = 0
 
     override fun onCreateView(
@@ -59,6 +63,16 @@ class AddRealEstateThirdStepFragment : Fragment() {
                 }
             }
 
+        if(!realEstateViewModel.isCreating) {
+            val oldIMagesRecyclerView = binding.oldPhotoRecyclerView
+            oldIMagesRecyclerView.layoutManager = GridLayoutManager(requireContext(), 4)
+            coilImageAdapter = CoilImagesAdapter(fetchedImages) {position ->
+                val fileId = fetchedImages[position].name
+                realEstateViewModel.imagesToDelete.add(fileId)
+            }
+            oldIMagesRecyclerView.adapter = coilImageAdapter
+        }
+
         val recyclerView = binding.photoRecyclerView
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 4)
         photoAdapter = PhotoAdapter(selectedImageUris)
@@ -85,6 +99,11 @@ class AddRealEstateThirdStepFragment : Fragment() {
 
     private fun setImages() {
         selectedImageUris = realEstateViewModel.imagesURI
+        if (!realEstateViewModel.isCreating) {
+            fetchedImages = realEstateViewModel.images
+        } else {
+            binding.oldPhotoLayout.visibility = View.GONE
+        }
 
         lastIndexBeforeUpdate = if (selectedImageUris.size > 0) {
             selectedImageUris.size - 1
@@ -105,21 +124,27 @@ class AddRealEstateThirdStepFragment : Fragment() {
     }
 
     private fun validateImages(): Boolean {
-        if(selectedImageUris.size > 0){
+        if(selectedImageUris.size > 0 || fetchedImages.size > 0){
             binding.warning.isVisible = false
             binding.photoRecyclerView.isVisible = true
         } else {
             binding.warning.isVisible = true
             binding.photoRecyclerView.isVisible = false
         }
-        return selectedImageUris.size > 0
+        return selectedImageUris.size > 0 || fetchedImages.size > 0
     }
 
     private fun getFileFromUri(uri: Uri): File? {
         return try {
             val inputStream = requireContext().contentResolver.openInputStream(uri)
             val fileName = "temp_file_${System.currentTimeMillis()}"
-            val tempFile = File(requireContext().cacheDir, fileName)
+            val mimeType = requireContext().contentResolver.getType(uri)
+            val fileExtension = when (mimeType) {
+                "image/jpeg" -> ".jpg"
+                "image/png" -> ".png"
+                else -> ".jpg"
+            }
+            val tempFile = File.createTempFile(fileName, fileExtension, requireContext().cacheDir)
             tempFile.outputStream().use { outputStream ->
                 inputStream?.use { inputStream ->
                     inputStream.copyTo(outputStream)
@@ -127,7 +152,6 @@ class AddRealEstateThirdStepFragment : Fragment() {
             }
             tempFile
         } catch (e: Exception) {
-            // Handle any exceptions, such as security exceptions or file not found
             e.printStackTrace()
             null
         }

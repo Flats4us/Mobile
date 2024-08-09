@@ -12,7 +12,9 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager2.widget.ViewPager2
 import com.example.flats4us21.DrawerActivity
+import com.example.flats4us21.adapters.NewImageSliderAdapter
 import com.example.flats4us21.data.PropertyType
 import com.example.flats4us21.data.utils.QuestionTranslator
 import com.example.flats4us21.databinding.FragmentAddRealEstateFourthStepBinding
@@ -46,7 +48,13 @@ class AddRealEstateFourthStepFragment : Fragment() {
 
         realEstateViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
             errorMessage?.let {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+                val resourceId = requireContext().resources.getIdentifier(errorMessage, "string", requireContext().packageName)
+                val message = if (resourceId != 0) {
+                    requireContext().getString(resourceId)
+                } else {
+                    errorMessage
+                }
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -62,7 +70,7 @@ class AddRealEstateFourthStepFragment : Fragment() {
 
     private fun setListeners() {
         binding.prevButton.setOnClickListener {
-            (requireParentFragment() as AddRealEstateFragment).goBack()
+            (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateThirdStepFragment())
             (requireParentFragment() as AddRealEstateFragment).decreaseProgressBar()
         }
         binding.addPropertyButton.setOnClickListener {
@@ -74,8 +82,11 @@ class AddRealEstateFourthStepFragment : Fragment() {
             }
         }
         binding.updatePropertyButton.setOnClickListener {
-            realEstateViewModel.updateProperty()
-            performAction()
+            realEstateViewModel.updateProperty() {
+                if (it) {
+                    performAction()
+                }
+            }
         }
         binding.resetButton.setOnClickListener {
             reset()
@@ -95,17 +106,17 @@ class AddRealEstateFourthStepFragment : Fragment() {
     }
 
     private fun bindData() {
-//        val imageSlider = binding.image
-//        imageSlider.adapter = NewImageSliderAdapter(urisToBitmaps(requireContext(), realEstateViewModel.imagesURI))
-//        imageSlider.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-//            override fun onPageSelected(position: Int) {
-//                super.onPageSelected(position)
-//                val imageCount = imageSlider.adapter?.itemCount ?: 0
-//                val currentImage = position + 1
-//                val imageText = "$currentImage/$imageCount"
-//                binding.imageCount.text = imageText
-//            }
-//        })
+        val imageSlider = binding.image
+        imageSlider.adapter = NewImageSliderAdapter(realEstateViewModel.images, urisToBitmaps(requireContext(), realEstateViewModel.imagesURI))
+        imageSlider.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                val imageCount = imageSlider.adapter?.itemCount ?: 0
+                val currentImage = position + 1
+                val imageText = "$currentImage/$imageCount"
+                binding.imageCount.text = imageText
+            }
+        })
         if(realEstateViewModel.isCreating){
             binding.addPropertyButton.visibility = View.VISIBLE
             binding.updatePropertyButton.visibility = View.GONE
@@ -175,6 +186,7 @@ class AddRealEstateFourthStepFragment : Fragment() {
         realEstateViewModel.district = ""
         realEstateViewModel.street = ""
         realEstateViewModel.buildingNumber = ""
+        realEstateViewModel.postalCode = ""
         realEstateViewModel.area = 0
         realEstateViewModel.maxResidents = 0
         realEstateViewModel.constructionYear = 0
@@ -182,6 +194,7 @@ class AddRealEstateFourthStepFragment : Fragment() {
         realEstateViewModel.numberOfFloors = 0
         realEstateViewModel.equipment = mutableListOf()
         realEstateViewModel.imagesURI.clear()
+        realEstateViewModel.images.clear()
     }
 
     private fun urisToBitmaps(context: Context, uriList: List<Uri>): List<Bitmap> {

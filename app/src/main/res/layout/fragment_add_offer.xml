@@ -357,58 +357,55 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/warning"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/layout_edit_text_margin_top"
-                android:text="@string/rules_warning"
-                android:textColor="@color/red"
-                android:textSize="@dimen/regular_text_size"
-                android:textStyle="bold"
-                android:visibility="gone" />
-
-            <LinearLayout
-                android:id="@+id/fileNameLayout"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/layout_edit_text_margin_top"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:visibility="gone">
+                android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
+
+                <LinearLayout
+                    android:id="@+id/layoutRules"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_edit_text_margin_top"
+                    android:background="@drawable/background_input"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <EditText
+                        android:id="@+id/rules"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_description_height"
+                        android:layout_marginStart="@dimen/edit_text_horizontal_margin"
+                        android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                        android:background="@null"
+                        android:gravity="start|top"
+                        android:hint="@string/rules"
+                        android:imeOptions="actionNext"
+                        android:importantForAutofill="no"
+                        android:inputType="textMultiLine"
+                        android:lines="4"
+                        android:maxLength="512"
+                        android:minLines="9"
+                        android:textSize="@dimen/edit_text_size"
+                        android:textStyle="bold"
+                        tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/fileName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/example"
-                    android:textSize="@dimen/regular_text_size" />
+                    android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
+                    android:background="@color/white"
+                    android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
+                    android:text="@string/rules"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/layoutRules"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/layoutRules" />
 
-                <ImageButton
-                    android:id="@+id/deleteButton"
-                    android:layout_width="@dimen/image_button_min_width"
-                    android:layout_height="@dimen/image_button_min_height"
-                    android:background="@android:color/transparent"
-                    android:contentDescription="@drawable/baseline_broken_image_24"
-                    android:src="@drawable/baseline_delete_24"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="SpeakableTextPresentCheck" />
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/addRulesButton"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/image_button_min_height"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/layout_edit_text_margin_top"
-                android:text="@string/add_rules"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="TextContrastCheck" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:layout_width="match_parent"

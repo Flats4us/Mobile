@@ -193,7 +193,7 @@
     <string name="university">Uczelnia</string>
     <string name="required_student_number">Numer studemta*</string>
     <string name="student_number">Numer studenta</string>
-    <string name="required_bank_account">Numer konta*</string>
+    <string name="required_bank_account">Numer konta bankowego*</string>
     <string name="bank_account">Numer konta</string>
     <string name="owner_data">Dane właściciela</string>
     <string name="student_data">Dane studenta</string>
@@ -468,6 +468,29 @@
     <string name="retry">Odśwież</string>
     <string name="social_media">Social Media</string>
     <string name="moderator_login">Nie można zalogować się jako moderator w aplikacji mobilnej</string>
+    <string name="required_document_type">Typ dokumentu*</string>
+    <string name="new_photos">Nowe zdjęcia</string>
+    <string name="already_added">Już dodane</string>
+    <string name="error_invalid_data">Podano błędne dane</string>
+    <string name="rules">Regulamin</string>
+    <string name="error_cannot_cancel">Nie można usunąć oferty ze względu na jej status</string>
+    <string name="offer_status">Status oferty: </string>
+    <string name="current">aktualna</string>
+    <string name="waiting">zawieszona</string>
+    <string name="rented">wynajęta</string>
+    <string name="old">nieaktualna</string>
+    <string name="smoking_allowed">Palenie dozwolone</string>
+    <string name="smoking_not_allowed">Palenie niedozwolone</string>
+    <string name="animals_allowed">Zwierzęta dozwolone</string>
+    <string name="animals_not_allowed">Zwierzęta niedozwolone</string>
+    <string name="parties_allowed">Imprezy dozwolone</string>
+    <string name="parties_not_allowed">Imprezy niedozwolone</string>
+    <string name="offer_added_successfully">Dodano ofertę</string>
+    <string name="accepted_rent">Zaakceptowano najem</string>
+    <string name="denied_rent">Odrzucono najem</string>
+    <string name="document_id">Dowód</string>
+    <string name="document_student_card">Legitymacja</string>
+    <string name="document_passport">Paszport</string>
 
 
     <!-- TODO: meeting_row -->

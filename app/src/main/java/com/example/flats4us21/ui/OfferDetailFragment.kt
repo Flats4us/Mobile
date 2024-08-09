@@ -221,6 +221,7 @@ class OfferDetailFragment : Fragment() {
         }
 
         binding.equipment.text = stringBuilder.toString()
+        binding.rules.text = offer.userRegulation
         binding.description.text = offer.description
         binding.ratingBar.rating = (offer.property.avgRating.toFloat() / 2)
         binding.sumService.text = offer.property.avgServiceRating.toString()

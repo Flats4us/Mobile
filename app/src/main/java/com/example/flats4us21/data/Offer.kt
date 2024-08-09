@@ -15,7 +15,7 @@ data class Offer(
     @SerializedName("date")
     val dateIssue: String,
     @SerializedName("offerStatus")
-    val status: String,
+    val status: Int,
     @SerializedName("price")
     val price: String,
     @SerializedName("deposit")

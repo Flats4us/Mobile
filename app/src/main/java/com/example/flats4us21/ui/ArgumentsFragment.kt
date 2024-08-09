@@ -17,6 +17,7 @@ import com.example.flats4us21.viewmodels.ArgumentViewModel
 import com.google.android.material.tabs.TabLayout
 
 private const val TAG = "ArgumentsFragment"
+const val CHAT_NAME = "CHAT_NAME"
 class ArgumentsFragment : Fragment() {
     private var _binding : FragmentArgumentsBinding? = null
     private val binding get() = _binding!!
@@ -83,6 +84,7 @@ class ArgumentsFragment : Fragment() {
         adapter = ArgumentAdapter(fetchedArguments) { selectedChat ->
             val bundle = Bundle()
             bundle.putInt(CHAT_ID, selectedChat.groupChatId)
+            bundle.putString(CHAT_NAME, selectedChat.title)
             val fragment = ArgumentsChatFragment()
             fragment.arguments = bundle
             (activity as? DrawerActivity)!!.replaceFragment(fragment)

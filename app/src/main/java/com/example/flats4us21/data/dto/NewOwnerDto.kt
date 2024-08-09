@@ -16,6 +16,8 @@ data class NewOwnerDto(
     val email: String,
     @SerializedName("phoneNumber")
     val phoneNumber: String,
+    @SerializedName("fcmToken")
+    val fcmToken: String,
     @SerializedName("documentType")
     val documentType: Int,
     @SerializedName("documentExpireDate")

@@ -16,7 +16,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flats4us21.R
+import com.example.flats4us21.adapters.InterestAdapter
 import com.example.flats4us21.data.PropertyType
 import com.example.flats4us21.data.utils.QuestionTranslator
 import com.example.flats4us21.databinding.FragmentAddRealEstateSecondStepBinding
@@ -73,20 +75,32 @@ class AddRealEstateSecondStepFragment : Fragment() {
 
                 binding.fileName.text = fileName.toString()
                 binding.fileNameLayout.isVisible = true
+                binding.addRulesButton.isVisible = false
                 binding.warning.isVisible = false
             }
         }
 
+        binding.addRulesButton.setOnClickListener {
+            getContent.launch(arrayOf("application/pdf", "text/plain"))
+        }
+
+        binding.deleteButton.setOnClickListener {
+            binding.fileName.text = ""
+            binding.fileNameLayout.isVisible = false
+            binding.addRulesButton.isVisible = true
+            file = null
+        }
+
         binding.prevButton.setOnClickListener {
             collectData()
-            (requireParentFragment() as AddRealEstateFragment).goBack()
+            (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateFirstStepFragment())
             (requireParentFragment() as AddRealEstateFragment).decreaseProgressBar()
         }
         binding.nextButton.setOnClickListener {
             validateData()
             if(test){
                 collectData()
-                (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateFourthStepFragment())
+                (requireParentFragment() as AddRealEstateFragment).replaceFragment(AddRealEstateThirdStepFragment())
                 (requireParentFragment() as AddRealEstateFragment).increaseProgressBar()
             }
         }
@@ -106,7 +120,7 @@ class AddRealEstateSecondStepFragment : Fragment() {
     }
 
     private fun setupEquipment() {
-        val equipment = binding.equipment
+        val equipment = binding.addEquipment
         val equipmentList: MutableList<Int> = mutableListOf()
         realEstateViewModel.getEquipmentList()
         realEstateViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
@@ -141,6 +155,7 @@ class AddRealEstateSecondStepFragment : Fragment() {
                             pickedEquipment.remove(j + 1)
                         }
                     }
+                    updateEquipmentRecyclerView()
                 }
                 builder.setNegativeButton("Anuluj") { dialog, _ ->
                     dialog.dismiss()
@@ -149,9 +164,9 @@ class AddRealEstateSecondStepFragment : Fragment() {
                     for (j in selectedEquipment.indices) {
                         selectedEquipment[j] = false
                         equipmentList.clear()
-                        equipment.text = ""
                         pickedEquipment.remove(j+1)
                     }
+                    updateEquipmentRecyclerView()
                 }
                 val alertDialog = builder.create()
                 alertDialog.show()
@@ -174,6 +189,22 @@ class AddRealEstateSecondStepFragment : Fragment() {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
+        }
+    }
+
+    private fun updateEquipmentRecyclerView() {
+        if(pickedEquipment.size == 0) {
+            binding.recyclerView.visibility = View.GONE
+            binding.equipment.visibility = View.VISIBLE
+        } else {
+            binding.recyclerView.visibility = View.VISIBLE
+            binding.equipment.visibility = View.GONE
+            val equipment = realEstateViewModel.equipments.value!!
+                .filter{ pickedEquipment.contains(it.equipmentId)}
+                .map { QuestionTranslator.translateEquipmentName(it.equipmentName.lowercase(Locale.getDefault()), requireContext() ) }
+            val adapter = InterestAdapter(equipment)
+            binding.recyclerView.adapter = adapter
+            binding.recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
     }
 
@@ -206,7 +237,17 @@ class AddRealEstateSecondStepFragment : Fragment() {
             }
             pickedEquipment.clear()
             pickedEquipment.addAll(realEstateViewModel.equipment)
+            updateEquipmentRecyclerView()
+            if(!realEstateViewModel.isCreating){
+                addRulesButton.visibility = View.GONE
+            }
 
+            if(realEstateViewModel.titleDeedFile != null) {
+                binding.fileName.text = realEstateViewModel.titleDeedFileName.toString()
+                binding.fileNameLayout.isVisible = true
+                binding.addRulesButton.isVisible = false
+                file = realEstateViewModel.titleDeedFile
+            }
         }
 
     }
@@ -246,6 +287,9 @@ class AddRealEstateSecondStepFragment : Fragment() {
         }
         realEstateViewModel.equipment = pickedEquipment
         realEstateViewModel.titleDeedFile = file
+        if(file != null) {
+            realEstateViewModel.titleDeedFileName = binding.fileName.text.toString()
+        }
  }
 
     private fun validateData() {
@@ -255,9 +299,18 @@ class AddRealEstateSecondStepFragment : Fragment() {
         val isConstructionYearValid = validateSpinner(binding.constructionYearSpinner, binding.layoutConstructionYear, selectedConstructionYear)
         val isNumberOfRoomsValid = validateOptionalText(binding.numberOfRooms, binding.layoutNumberOfRooms, binding.numberOfRoomsHeader)
         val isNumberOfFloorsValid = validateOptionalText(binding.numberOfFloors, binding.layoutNumberOfFloors, binding.numberOfFloorsHeader)
+        val isFileValid = validateFile(file)
+        test = isAreaValid && isLandAreaValid && isMaxResidentsValid && isConstructionYearValid && isNumberOfRoomsValid && isNumberOfFloorsValid && isFileValid
+    }
 
-        test = isAreaValid && isLandAreaValid && isMaxResidentsValid && isConstructionYearValid && isNumberOfRoomsValid && isNumberOfFloorsValid
-
+    private fun validateFile(file: File?): Boolean {
+        return if (binding.addRulesButton.isVisible && file == null) {
+            binding.warning.isVisible = true
+            false
+        } else {
+            binding.warning.isVisible = false
+            true
+        }
     }
 
 

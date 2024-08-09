@@ -1,9 +1,7 @@
 package com.example.flats4us21.ui
 
 import android.app.DatePickerDialog
-import android.net.Uri
 import android.os.Bundle
-import android.provider.OpenableColumns
 import android.text.InputFilter
 import android.text.Spanned
 import android.util.Log
@@ -13,9 +11,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -75,13 +71,25 @@ class AddOfferFragment : Fragment() {
             binding.progressBar.visibility = if(isLoading) View.VISIBLE else View.GONE
         }
         offerViewModel.resultMessage.observe(viewLifecycleOwner) { resultMessage ->
-            if(resultMessage != null) {
-                Toast.makeText(requireContext(), resultMessage, Toast.LENGTH_LONG).show()
+            resultMessage?.let {
+                val resourceId = requireContext().resources.getIdentifier(resultMessage, "string", requireContext().packageName)
+                val message = if (resourceId != 0) {
+                    requireContext().getString(resourceId)
+                } else {
+                    resultMessage
+                }
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
             }
         }
         offerViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
-            if(errorMessage != null) {
-                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+            errorMessage?.let {
+                val resourceId = requireContext().resources.getIdentifier(errorMessage, "string", requireContext().packageName)
+                val message = if (resourceId != 0) {
+                    requireContext().getString(resourceId)
+                } else {
+                    errorMessage
+                }
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
             }
         }
         adapter = PropertySpinnerAdapter(requireContext(), fetchedProperties)
@@ -109,35 +117,12 @@ class AddOfferFragment : Fragment() {
         }
 
 
-
-        val getContent = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-            if (uri != null) {
-                val fileName = getFileNameFromUri(uri)
-                val inputStream = requireContext().contentResolver.openInputStream(uri)
-                fileContent = inputStream?.bufferedReader().use { it?.readText() }
-                binding.fileName.text = fileName.toString()
-                binding.fileNameLayout.isVisible = true
-                binding.addRulesButton.isVisible = false
-                binding.warning.isVisible = false
-            }
-        }
-
         binding.layoutStartDate.setOnClickListener {
             selectedStartDate = clickDatePicker(binding.startDate)
         }
 
         binding.layoutEndDate.setOnClickListener {
             selectedEndDate = clickDatePicker(binding.endDate)
-        }
-
-        binding.addRulesButton.setOnClickListener {
-            getContent.launch(arrayOf("application/pdf", "text/plain"))
-        }
-
-        binding.deleteButton.setOnClickListener {
-            binding.fileNameLayout.isVisible = false
-            binding.addRulesButton.isVisible = true
-            fileContent = null
         }
 
         binding.addOfferButton.setOnClickListener {
@@ -163,20 +148,6 @@ class AddOfferFragment : Fragment() {
             datePicker.datePicker.minDate = System.currentTimeMillis() - 1000
             datePicker.show()
         return selectedDate
-    }
-
-    private fun getFileNameFromUri(uri: Uri): Any {
-        var fileName = ""
-        val cursor = requireContext().contentResolver.query(uri, null, null, null, null)
-        cursor?.use {
-            if (it.moveToFirst()) {
-                val nameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-                if (nameIndex != -1) {
-                    fileName = it.getString(nameIndex)
-                }
-            }
-        }
-        return fileName
     }
 
     private fun collectData() {
@@ -217,7 +188,7 @@ class AddOfferFragment : Fragment() {
         test = validateTextView(binding.endDate, binding.layoutEndDate, binding.layoutEndDateHeader, binding.layoutEndDateWithHeader) && test
         test = validateSelectedProperty() && test
         test = validateDescription() && test
-        test = validateFileContent() && test
+        test = validateRules() && test
 
         return test
     }
@@ -278,16 +249,20 @@ class AddOfferFragment : Fragment() {
         }
     }
 
-    private fun validateFileContent(): Boolean {
-        return if (fileContent == null || fileContent!!.isEmpty()) {
-            binding.warning.isVisible = true
+    private fun validateRules(): Boolean {
+        val descriptionText = binding.rules.text.toString()
+        return if (descriptionText.isEmpty()) {
+            binding.layoutRules.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.background_wrong_input)
             false
         } else {
-            binding.warning.isVisible = false
-            offerViewModel.rules = fileContent.toString()
+            offerViewModel.rules = descriptionText
+            binding.layoutRules.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.background_input)
             true
         }
     }
+
 
     private fun validateTextView(textView: TextView, editTextLayout : ViewGroup, header : TextView, layoutWithHeader : ViewGroup): Boolean {
         val text = textView.text.toString()

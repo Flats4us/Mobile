@@ -2,8 +2,8 @@ package com.example.flats4us21.deserializer
 
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.Owner
-import com.example.flats4us21.data.SurveyOwnerOffer
 import com.example.flats4us21.data.Property
+import com.example.flats4us21.data.SurveyOwnerOffer
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
@@ -27,7 +27,7 @@ class OfferDeserializer : JsonDeserializer<Offer> {
         val rentId = if (jsonObject.get("rentId").isJsonNull) null else jsonObject.get("rentId").asInt
         val isInterested = jsonObject.get("isInterest").asBoolean
         val dateIssue = jsonObject.get("date").asString
-        val status = jsonObject.get("offerStatus").asString
+        val status = jsonObject.get("offerStatus").asInt
         val price = jsonObject.get("price").asString
         val deposit = jsonObject.get("deposit").asString
         val description = jsonObject.get("description").asString

@@ -8,13 +8,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flats4us21.R
+import com.example.flats4us21.adapters.InterestAdapter
 import com.example.flats4us21.data.UserType
 import com.example.flats4us21.data.utils.QuestionTranslator
 import com.example.flats4us21.databinding.FragmentRegisterBinding
 import com.example.flats4us21.viewmodels.UserViewModel
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
 import java.util.Locale
 
 private const val TAG = "RegisterFragment"
@@ -38,11 +45,24 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
+            val galleryUri = it
+            try{
+                binding.profilePicture.setImageURI(galleryUri)
+                profilePicture = galleryUri
+            }catch(e:Exception){
+                e.printStackTrace()
+            }
+        }
+
         pickedInterest = mutableListOf()
         setVisibility()
         setValues()
         setupInterest()
 
+        binding.editProfilePicture.setOnClickListener {
+            getImageFromGallery(galleryLauncher)
+        }
 
         binding.layoutLinks.setOnClickListener{
             val linksDialogFragment = LinksDialogFragment(links)
@@ -68,6 +88,10 @@ class RegisterFragment : Fragment() {
         }
     }
 
+    private fun getImageFromGallery(galleryLauncher: ActivityResultLauncher<String>) {
+        galleryLauncher.launch("image/*")
+    }
+
     private fun setVisibility() {
         if(userViewModel.userType.toString() == UserType.OWNER.toString()){
             binding.layoutLinksWithHeader.visibility = View.GONE
@@ -78,8 +102,24 @@ class RegisterFragment : Fragment() {
         }
     }
 
+    private fun updateInterestRecyclerView() {
+        if(pickedInterest.size == 0) {
+            binding.recyclerView.visibility = View.GONE
+            binding.interests.visibility = View.VISIBLE
+        } else {
+            binding.recyclerView.visibility = View.VISIBLE
+            binding.interests.visibility = View.GONE
+            val equipment = userViewModel.interests.value!!
+                .filter{ pickedInterest.contains(it.interestId)}
+                .map { QuestionTranslator.translateInterestName(it.interestName.lowercase(Locale.getDefault()), requireContext() ) }
+            val adapter = InterestAdapter(equipment)
+            binding.recyclerView.adapter = adapter
+            binding.recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        }
+    }
+
     private fun setupInterest() {
-        val interestTextView = binding.interests
+        val interestButton = binding.addInterest
         val selectedInterests: MutableList<Int> = mutableListOf()
 
         userViewModel.getInterests()
@@ -93,7 +133,7 @@ class RegisterFragment : Fragment() {
                 userViewModel.interest.contains(index + 1)
             }
 
-            interestTextView.setOnClickListener {
+            interestButton.setOnClickListener {
                 showInterestDialog(interestArray, selectedInterestArray, selectedInterests)
             }
         }
@@ -133,6 +173,7 @@ class RegisterFragment : Fragment() {
                 pickedInterest.remove(j + 1)
             }
         }
+        updateInterestRecyclerView()
     }
 
     private fun clearSelectedInterests(selectedInterestArray: BooleanArray, selectedInterests: MutableList<Int>) {
@@ -142,12 +183,16 @@ class RegisterFragment : Fragment() {
         selectedInterests.clear()
         binding.interests.text = ""
         pickedInterest.clear()
+        updateInterestRecyclerView()
     }
 
 
 
     private fun setValues() {
 
+        if (userViewModel.profilePicture != null) {
+            binding.profilePicture.setImageURI(userViewModel.profilePicture)
+        }
         if(userViewModel.name != ""){
             binding.name.setText(userViewModel.name)
         }
@@ -165,6 +210,7 @@ class RegisterFragment : Fragment() {
         }
         pickedInterest.clear()
         pickedInterest.addAll(userViewModel.interest)
+        updateInterestRecyclerView()
         links.clear()
         links.addAll(userViewModel.links)
     }
@@ -172,6 +218,23 @@ class RegisterFragment : Fragment() {
     private fun collectData() {
         if(profilePicture != null){
             userViewModel.profilePicture = profilePicture
+            val inputStream: InputStream? =
+                requireContext().contentResolver.openInputStream(profilePicture!!)
+            val mimeType = requireContext().contentResolver.getType(profilePicture!!)
+            val fileExtension = when (mimeType) {
+                "image/jpeg" -> ".jpg"
+                "image/png" -> ".png"
+                else -> ".jpg"
+            }
+            val file = File.createTempFile("temp_image", fileExtension, requireContext().cacheDir)
+            val outputStream = FileOutputStream(file)
+
+            inputStream?.use { input ->
+                outputStream.use { output ->
+                    input.copyTo(output)
+                }
+            }
+            userViewModel.profilePictureFile = file
         }
         if(!binding.name.text.isNullOrEmpty()) {
             userViewModel.name = binding.name.text.toString()

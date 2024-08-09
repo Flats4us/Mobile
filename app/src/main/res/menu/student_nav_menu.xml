@@ -8,14 +8,14 @@
         android:title="@string/start"/>
 
     <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/baseline_person_24"
+        android:title="@string/profile"/>
+
+    <item
         android:id="@+id/nav_roommates"
         android:icon="@drawable/baseline_people_24"
         android:title="@string/roommates"/>
-
-    <item
-        android:id="@+id/nav_observed"
-        android:icon="@drawable/heart"
-        android:title="@string/observed"/>
 
     <item
         android:id="@+id/nav_messages"
@@ -23,19 +23,9 @@
         android:title="@string/messages"/>
 
     <item
-        android:id="@+id/nav_profile"
-        android:icon="@drawable/baseline_person_24"
-        android:title="@string/profile"/>
-
-    <item
-        android:id="@+id/reviews"
-        android:icon="@drawable/baseline_edit_24"
-        android:title="@string/reviews"/>
-
-    <item
-        android:id="@+id/nav_settings"
-        android:icon="@drawable/baseline_settings_24"
-        android:title="@string/settings"/>
+        android:id="@+id/nav_map"
+        android:icon="@drawable/baseline_home_24"
+        android:title="@string/map"/>
 
     <item
         android:id="@+id/nav_my_rentals"
@@ -43,14 +33,34 @@
         android:title="@string/my_rentals"/>
 
     <item
-        android:id="@+id/nav_conflicts"
-        android:icon="@drawable/baseline_feedback_24"
-        android:title="@string/conflicts"/>
+        android:id="@+id/reviews"
+        android:icon="@drawable/baseline_edit_24"
+        android:title="@string/reviews"/>
+
+    <item
+        android:id="@+id/nav_observed"
+        android:icon="@drawable/heart"
+        android:title="@string/observed"/>
 
     <item
         android:id="@+id/nav_calendar"
         android:icon="@drawable/baseline_calendar_month_24"
         android:title="@string/calendar"/>
+
+    <item
+        android:id="@+id/nav_conflicts"
+        android:icon="@drawable/baseline_feedback_24"
+        android:title="@string/conflicts"/>
+
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/baseline_settings_24"
+        android:title="@string/settings"/>
+
+    <item
+        android:id="@+id/nav_report_issue"
+        android:icon="@drawable/baseline_report_problem_24"
+        android:title="@string/report_issue"/>
 
     <item
         android:id="@+id/nav_logout"

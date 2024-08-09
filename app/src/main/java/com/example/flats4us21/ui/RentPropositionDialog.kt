@@ -48,8 +48,14 @@ class RentPropositionDialogFragment : Fragment()  {
         }
 
         viewModel.resultMessage.observe(viewLifecycleOwner) { resultMessage ->
-            if (resultMessage != null) {
-                Toast.makeText(requireContext(), resultMessage, Toast.LENGTH_LONG).show()
+            resultMessage?.let {
+                val resourceId = requireContext().resources.getIdentifier(resultMessage, "string", requireContext().packageName)
+                val message = if (resourceId != 0) {
+                    requireContext().getString(resourceId)
+                } else {
+                    resultMessage
+                }
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
             }
         }
 
@@ -73,7 +79,7 @@ class RentPropositionDialogFragment : Fragment()  {
         }
 
         binding.yes.setOnClickListener {
-            viewModel.addRentDecision(rentPropositionId, true){
+            viewModel.addRentDecision(offerId!!, true){
                 if(it) {
                     (activity as? DrawerActivity)!!.goBack()
                 }

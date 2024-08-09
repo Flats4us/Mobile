@@ -52,12 +52,16 @@ class ArgumentsChatFragment : Fragment() {
         viewModel.startConnection()
 
         val chatId = arguments?.getInt(CHAT_ID)
+        val chatName = arguments?.getString(CHAT_NAME)
 
         if(chatId != null) {
             viewModel.getGroupChatInfo(chatId) {
                 if (it)
                     viewModel.getGroupChatHistory(chatId)
             }
+        }
+        if(chatName != null) {
+            bindChatInfoData(chatName)
         }
         argumentViewModel.getArgument()
 
@@ -76,7 +80,6 @@ class ArgumentsChatFragment : Fragment() {
 
         viewModel.groupChatInfo.observe(viewLifecycleOwner) { chatInfo ->
             Log.d(TAG, "Observed chat info: $chatInfo")
-            bindChatInfoData(chatInfo)
             adapter.updateChatUsers(chatInfo.users)
         }
 
@@ -138,9 +141,9 @@ class ArgumentsChatFragment : Fragment() {
         }
     }
 
-    private fun bindChatInfoData(chatInfo: GroupChatInfo?) {
+    private fun bindChatInfoData(name: String) {
         if (chatInfo != null) {
-            binding.groupName.text = chatInfo.name
+            binding.groupName.text = name
         }
     }
 

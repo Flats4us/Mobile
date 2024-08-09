@@ -17,6 +17,8 @@ import com.example.flats4us21.R
 import com.example.flats4us21.data.UserType
 import com.example.flats4us21.databinding.FragmentRegisterLogInDataBinding
 import com.example.flats4us21.viewmodels.UserViewModel
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -69,16 +71,25 @@ class RegisterLogInDataFragment : Fragment() {
             validateData { valid ->
                 if (valid) {
                     collectData()
-                    userViewModel.createUser {
-                        if (it) {
-                            val fragment = LoginFragment()
-                            (activity as? DrawerActivity)!!.replaceFragment(fragment)
-                            (requireParentFragment() as RegisterParentFragment).decreaseProgressBar(
-                                100
-                            )
-                            userViewModel.clearData()
+                    FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                        if (!task.isSuccessful) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                            return@OnCompleteListener
                         }
-                    }
+
+                        val token = task.result
+                        Log.d(TAG, "FCM Token: $token")
+                        userViewModel.createUser(token) {
+                            if (it) {
+                                val fragment = LoginFragment()
+                                (activity as? DrawerActivity)!!.replaceFragment(fragment)
+                                (requireParentFragment() as RegisterParentFragment).decreaseProgressBar(
+                                    100
+                                )
+                                userViewModel.clearData()
+                            }
+                        }
+                    })
                 } else {
                     warnings.forEach { warning ->
                         Toast.makeText(requireContext(), warning, Toast.LENGTH_LONG).show()

@@ -6,6 +6,8 @@ import com.google.gson.annotations.SerializedName
 data class Argument(
     @SerializedName("argumentId")
     val argumentId: Int,
+    @SerializedName("title")
+    val title: String,
     @SerializedName("description")
     val description: String,
     @SerializedName("startDate")

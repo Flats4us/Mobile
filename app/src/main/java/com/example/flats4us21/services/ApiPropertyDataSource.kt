@@ -91,7 +91,7 @@ object ApiPropertyDataSource : PropertyDataSource {
                 val propertyId = responseBody?.result ?: 0
                 ApiResult.Success(propertyId)
             } else {
-                ApiResult.Error("Failed to add property: ${createPropertyResponse.message()}")
+                ApiResult.Error("error_invalid_data")
             }
         } catch (e: Exception) {
             ApiResult.Error("An internal error occurred: ${e.message}")
@@ -100,12 +100,21 @@ object ApiPropertyDataSource : PropertyDataSource {
 
     override suspend fun addFilesToProperty(
         propertyId: Int,
-        titleDeedFile: File,
+        titleDeedFile: File?,
         imageFiles: List<File>
     ): ApiResult<String> {
         return try{
-            val titleDeedRequestBody = titleDeedFile.asRequestBody("text/plain".toMediaTypeOrNull())
-            val titleDeedPart = MultipartBody.Part.createFormData("titleDeed", titleDeedFile.name, titleDeedRequestBody)
+            val titleDeedPart = if(titleDeedFile != null) {
+                val titleDeedRequestBody =
+                    titleDeedFile.asRequestBody("text/plain".toMediaTypeOrNull())
+                MultipartBody.Part.createFormData(
+                    "titleDeed",
+                    titleDeedFile.name,
+                    titleDeedRequestBody
+                )
+            } else {
+                null
+            }
 
             val imageParts = imageFiles.mapIndexed { _, file ->
                 val requestBody = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
@@ -121,6 +130,27 @@ object ApiPropertyDataSource : PropertyDataSource {
             }
         } catch(e: Exception){
             ApiResult.Error("An internal error occurred: ${e.message}")
+        }
+    }
+
+    override suspend fun deleteFileFromProperty(
+        propertyId: Int,
+        fileId: String
+    ): ApiResult<String> {
+        return try {
+            val response = api.deleteFile(propertyId, fileId)
+            if(response.isSuccessful) {
+                val data = response.body()
+                if (data != null) {
+                    ApiResult.Success(data.result)
+                } else {
+                    ApiResult.Error("Odpowiedź jest pusta")
+                }
+            } else {
+                ApiResult.Error("Nie otrzymano danych: ${response.code()}")
+            }
+        } catch (e: Exception) {
+            ApiResult.Error("Wewnętrzny błąd: ${e.message}")
         }
     }
 
@@ -153,45 +183,7 @@ object ApiPropertyDataSource : PropertyDataSource {
 
     override suspend fun updateProperty(propertyId: Int, property: NewPropertyDto): ApiResult<NewPropertyApiResponse<String>> {
         return try {
-            val propertyTypePart = MultipartBody.Part.createFormData("propertyType", property.propertyType.toString())
-            val provincePart = MultipartBody.Part.createFormData("province", property.voivodeship)
-            val districtPart = MultipartBody.Part.createFormData("district", property.district ?: "")
-            val streetPart = MultipartBody.Part.createFormData("street", property.street)
-            val numberPart = MultipartBody.Part.createFormData("number", property.buildingNumber)
-            val flatPart = MultipartBody.Part.createFormData("flat", property.flatNumber ?: "")
-            val cityPart = MultipartBody.Part.createFormData("city", property.city)
-            val postalCodePart = MultipartBody.Part.createFormData("postalCode", property.postalCode)
-            val areaPart = MultipartBody.Part.createFormData("area", property.area.toString())
-            val maxNumberOfInhabitantsPart = MultipartBody.Part.createFormData("maxNumberOfInhabitants", property.maxNumberOfInhabitants.toString())
-            val constructionYearPart = MultipartBody.Part.createFormData("constructionYear", property.constructionYear.toString())
-            val numberOfRoomsPart = MultipartBody.Part.createFormData("numberOfRooms", property.numberOfRooms?.toString() ?: "")
-            val floorPart = MultipartBody.Part.createFormData("floor", property.floor?.toString() ?: "")
-            val numberOfFloorsPart = MultipartBody.Part.createFormData("numberOfFloors", property.numberOfFloors?.toString() ?: "")
-            val plotAreaPart = MultipartBody.Part.createFormData("plotArea", property.plotArea?.toString() ?: "")
-
-            val equipmentParts = property.equipment.map { equipmentId ->
-                MultipartBody.Part.createFormData("equipmentIds", equipmentId.toString())
-            }
-
-            val response = api.updateProperty(
-                propertyId,
-                propertyTypePart,
-                provincePart,
-                districtPart,
-                streetPart,
-                numberPart,
-                flatPart,
-                cityPart,
-                postalCodePart,
-                areaPart,
-                maxNumberOfInhabitantsPart,
-                constructionYearPart,
-                numberOfRoomsPart,
-                floorPart,
-                numberOfFloorsPart,
-                plotAreaPart,
-                equipmentParts
-            )
+            val response = api.updateProperty(propertyId, property)
             if(response.isSuccessful) {
                 val data = response.body()!!
                 Log.i(TAG, response.message())

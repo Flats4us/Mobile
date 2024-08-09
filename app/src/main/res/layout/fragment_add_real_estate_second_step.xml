@@ -388,38 +388,71 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layoutEquipment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                     android:background="@drawable/background_input"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
+                        android:id="@+id/imageView2"
                         android:layout_width="@dimen/icon_width"
                         android:layout_height="@dimen/icon_height"
-                        android:layout_marginStart="@dimen/icon_margin"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/baseline_weekend_24"/>
+                        android:src="@drawable/baseline_weekend_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/equipment"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="@dimen/edit_text_height"
                         android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                        android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
                         android:background="@null"
-                        android:drawablePadding="@dimen/drawable_padding"
                         android:gravity="center_vertical"
+                        android:visibility="gone"
                         android:hint="@string/equipment"
                         android:textSize="@dimen/regular_text_size"
                         android:textStyle="bold"
-                        app:drawableEndCompat="@drawable/baseline_arrow_drop_down_24" />
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/add_equipment"
+                        app:layout_constraintStart_toEndOf="@+id/imageView2"
+                        app:layout_constraintTop_toTopOf="parent"/>
 
-                </LinearLayout>
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:orientation="horizontal"
+                        android:scrollbars="horizontal"
+                        android:visibility="visible"
+                        android:layout_marginTop="10dp"
+                        android:foregroundGravity="center_vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/add_equipment"
+                        app:layout_constraintStart_toEndOf="@+id/imageView2"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/add_equipment"
+                        android:layout_width="@dimen/image_button_min_width"
+                        android:layout_height="@dimen/image_button_min_height"
+                        android:layout_marginEnd="@dimen/image_button_inside_edit_text_margin"
+                        android:background="@null"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/baseline_add_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/black" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -477,6 +510,19 @@
                     tools:ignore="SpeakableTextPresentCheck" />
 
             </LinearLayout>
+
+            <Button
+                android:id="@+id/addRulesButton"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/image_button_min_height"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/layout_edit_text_margin_top"
+                android:drawableStart="@drawable/baseline_attach_file_24"
+                android:text="@string/add_title_deed"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="TextContrastCheck" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

@@ -6,17 +6,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flats4us21.R
-import com.example.flats4us21.adapters.PhotoAdapter
 import com.example.flats4us21.data.DocumentType
 import com.example.flats4us21.data.UserType
 import com.example.flats4us21.databinding.FragmentRegisterSpecificDataBinding
 import com.example.flats4us21.viewmodels.UserViewModel
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
 import java.time.LocalDate
 import java.util.Calendar
 
@@ -24,12 +30,13 @@ class RegisterSpecificDataFragment : Fragment() {
     private  var _binding: FragmentRegisterSpecificDataBinding? = null
     private val binding get() = _binding!!
     private lateinit var userViewModel: UserViewModel
+    private var selectedDocument: String = ""
     private var selectedBirthDate : LocalDate? = null
     private var selectedExpireDate : LocalDate? = null
-    private lateinit var photoAdapter: PhotoAdapter
-    private var selectedImageUris : MutableList<Uri> = mutableListOf()
+    private var uri : Uri? = null
     private var lastIndexBeforeUpdate : Int = 0
-    private var selectedDocumentType : DocumentType? = null
+    private lateinit var propertyTypeAdapter : ArrayAdapter<String>
+    private lateinit var DEFAULT_PROPERTY_TYPE: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,8 +49,19 @@ class RegisterSpecificDataFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        DEFAULT_PROPERTY_TYPE = getString(R.string.choose_an_option)
+        val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
+            val galleryUri = it
+            try{
+                binding.document.setImageURI(galleryUri)
+                uri = galleryUri
+            }catch(e:Exception){
+                e.printStackTrace()
+            }
+        }
 
         setVisibility()
+        setupPropertyTypeSpinner()
         setValues()
 
         binding.layoutBirthDate.setOnClickListener {
@@ -52,6 +70,10 @@ class RegisterSpecificDataFragment : Fragment() {
 
         binding.layoutDocumentExpireDate.setOnClickListener {
             clickExpireDatePicker(binding.documentExpireDate)
+        }
+
+        binding.addPhotoButton.setOnClickListener {
+            getImageFromGallery(galleryLauncher)
         }
 
         val prevButton = binding.prevButton
@@ -73,6 +95,45 @@ class RegisterSpecificDataFragment : Fragment() {
                 (requireParentFragment() as RegisterParentFragment).increaseProgressBar()
             }
         }
+    }
+
+    private fun setupPropertyTypeSpinner() {
+        val propertyTypeSpinner = binding.documentSpinner
+        val documentArray = if (userViewModel.userType.toString() == UserType.OWNER.toString()) {
+            DocumentType.getOwnerDocuments()
+        } else {
+            DocumentType.getStudentDocuments()
+        }
+        propertyTypeAdapter = createSpinnerAdapter(documentArray.map { it.toLocalizedString(requireContext()) })
+        propertyTypeSpinner.adapter = propertyTypeAdapter
+
+        val onItemSelectedListener = createOnItemSelectedListener {
+            selectedDocument = it
+        }
+        propertyTypeSpinner.onItemSelectedListener = onItemSelectedListener
+    }
+
+    private fun createSpinnerAdapter(data: List<String>): ArrayAdapter<String> {
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, data)
+        if(data.isNotEmpty() && data[0] !=DEFAULT_PROPERTY_TYPE)
+            adapter.insert(DEFAULT_PROPERTY_TYPE, 0)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        return adapter
+    }
+
+    private fun createOnItemSelectedListener(action: (String) -> Unit): AdapterView.OnItemSelectedListener {
+        return object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                action(parent?.getItemAtPosition(position) as String)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+    }
+
+    private fun getImageFromGallery(galleryLauncher: ActivityResultLauncher<String>) {
+        galleryLauncher.launch("image/*")
     }
 
     private fun clickBirthDatePicker(textView: TextView) {
@@ -119,6 +180,10 @@ class RegisterSpecificDataFragment : Fragment() {
     }
 
     private fun setValues() {
+        if (userViewModel.documentType != null) {
+            binding.documentSpinner.setSelection(propertyTypeAdapter.getPosition(userViewModel.documentType?.toLocalizedString(requireContext())))
+            selectedDocument = userViewModel.documentType!!.toLocalizedString(requireContext())
+        }
         if(userViewModel.birthDate != null && userViewModel.userType == UserType.STUDENT.toString()){
             selectedBirthDate = userViewModel.birthDate
             binding.birthDate.text = userViewModel.birthDate.toString()
@@ -139,7 +204,9 @@ class RegisterSpecificDataFragment : Fragment() {
             selectedExpireDate = userViewModel.documentExpireDate
             binding.documentExpireDate.text = userViewModel.documentExpireDate.toString()
         }
-        selectedImageUris = userViewModel.images
+        if(userViewModel.images != null) {
+            binding.document.setImageURI(userViewModel.images)
+        }
     }
 
     private fun setVisibility() {
@@ -173,17 +240,34 @@ class RegisterSpecificDataFragment : Fragment() {
         if(!binding.bankAccount.text.isNullOrEmpty() && binding.layoutBankAccountWithHeader.isVisible){
             userViewModel.bankAccount = binding.bankAccount.text.toString()
         }
+        if (!selectedDocument.isNullOrEmpty() && selectedDocument != DEFAULT_PROPERTY_TYPE) {
+            userViewModel.documentType = DocumentType.fromLocalizedString(requireContext(), selectedDocument)
+        }
         if(!binding.documentNumber.text.isNullOrEmpty() && binding.layoutDocumentNumberWithHeader.isVisible){
             userViewModel.documentNumber = binding.documentNumber.text.toString()
-        }
-        if(selectedDocumentType != null){
-            userViewModel.documentType = selectedDocumentType
         }
         if(!binding.documentExpireDate.text.isNullOrEmpty() && binding.layoutDocumentExpireDateWithHeader.isVisible){
             userViewModel.documentExpireDate = selectedExpireDate
         }
-        if(selectedImageUris.size > 0){
-            userViewModel.images = selectedImageUris
+        if(uri != null) {
+            userViewModel.images = uri
+            val inputStream: InputStream? =
+                requireContext().contentResolver.openInputStream(uri!!)
+            val mimeType = requireContext().contentResolver.getType(uri!!)
+            val fileExtension = when (mimeType) {
+                "image/jpeg" -> ".jpg"
+                "image/png" -> ".png"
+                else -> ".jpg"
+            }
+            val file = File.createTempFile("temp_image", fileExtension, requireContext().cacheDir)
+            val outputStream = FileOutputStream(file)
+
+            inputStream?.use { input ->
+                outputStream.use { output ->
+                    input.copyTo(output)
+                }
+            }
+            userViewModel.imageFile = file
         }
     }
 
@@ -192,10 +276,22 @@ class RegisterSpecificDataFragment : Fragment() {
         val isUniversityValid = validateOptionalEditText(binding.university, binding.layoutUniversity, binding.layoutUniversityHeader, binding.layoutUniversityWithHeader)
         val isStudentNumberValid = validateOptionalEditText(binding.studentNumber, binding.layoutStudentNumber, binding.layoutStudentNumberHeader, binding.layoutStudentNumberWithHeader)
         val isBankAccountValid = validateOptionalEditText(binding.bankAccount, binding.layoutBankAccount, binding.layoutBankAccountHeader, binding.layoutBankAccountWithHeader)
+        val isDocumentTypeValid = validateSelectedItem(binding.documentSpinner, selectedDocument, binding.documentTypeHeader)
         val isDocumentNumberValid = validateOptionalEditText(binding.documentNumber, binding.layoutDocumentNumber, binding.layoutDocumentNumberHeader, binding.layoutDocumentNumberWithHeader)
         val isDocumentExpireDateValid = validateOptionalTextView(binding.documentExpireDate, binding.layoutDocumentExpireDate, binding.layoutDocumentExpireDateHeader, binding.layoutDocumentExpireDateWithHeader)
 
-        return isBirthDateValid && isUniversityValid && isStudentNumberValid && isBankAccountValid && isDocumentNumberValid && isDocumentExpireDateValid
+        return isBirthDateValid && isUniversityValid && isStudentNumberValid && isBankAccountValid && isDocumentTypeValid && isDocumentNumberValid && isDocumentExpireDateValid
+    }
+
+    private fun validateSelectedItem(
+        spinnerLayout: ViewGroup,
+        selectedItem: String,
+        header: TextView
+    ): Boolean {
+        val isValid = selectedItem != DEFAULT_PROPERTY_TYPE
+        val isRequired = header.text.last() == '*'
+        spinnerLayout.setBackgroundResource(if (isValid || !isRequired) R.drawable.background_input else R.drawable.background_wrong_input)
+        return isValid || !isRequired
     }
 
     private fun validateOptionalEditText(editText: EditText, editTextLayout : ViewGroup, header : TextView, layoutWithHeader : ViewGroup): Boolean {

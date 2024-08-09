@@ -29,38 +29,22 @@ interface PropertyService {
     @DELETE("/api/properties/{id}")
     suspend fun deleteProperty(@Path("id") propertyId: Int) : Response<Void>
 
-    @Multipart
     @PUT("/api/properties/{id}")
     suspend fun updateProperty(
         @Path("id") propertyId: Int,
-        @Part property: MultipartBody.Part,
-        @Part provincePart: MultipartBody.Part,
-        @Part districtPart: MultipartBody.Part,
-        @Part streetPart: MultipartBody.Part,
-        @Part numberPart: MultipartBody.Part,
-        @Part flatPart: MultipartBody.Part,
-        @Part cityPart: MultipartBody.Part,
-        @Part postalCodePart: MultipartBody.Part,
-        @Part areaPart: MultipartBody.Part,
-        @Part maxNumberOfInhabitantsPart: MultipartBody.Part,
-        @Part constructionYearPart: MultipartBody.Part,
-        @Part numberOfRoomsPart: MultipartBody.Part,
-        @Part floorPart: MultipartBody.Part,
-        @Part numberOfFloorsPart: MultipartBody.Part,
-        @Part plotAreaPart: MultipartBody.Part,
-        @Part equipmentParts: List<MultipartBody.Part>
+        @Body newProperty: NewPropertyDto
     ) : Response<NewPropertyApiResponse<String>>
 
     @Multipart
     @POST("/api/properties/{id}/files")
     suspend fun addFilesToProperty(
         @Path("id") propertyId: Int,
-        @Part titleDeed: MultipartBody.Part,
+        @Part titleDeed: MultipartBody.Part?,
         @Part images: List<MultipartBody.Part>
     ) : Response<NewPropertyApiResponse<String>>
 
     @DELETE("/api/properties/{id}/files/{fileId}")
-    suspend fun deleteFile( @Path("fileId") fileId: String)
+    suspend fun deleteFile(@Path("id") propertyId: Int, @Path("fileId") fileId: String): Response<NewPropertyApiResponse<String>>
 
     @POST("/api/offers/{rentId}/rent/opinion")
     suspend fun addOpinion(@Path("rentId") rentId: Int, @Body opinion: NewRentOpinionDto) : Response<NewPropertyApiResponse<String>>

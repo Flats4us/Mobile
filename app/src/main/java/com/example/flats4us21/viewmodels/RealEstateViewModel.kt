@@ -189,6 +189,13 @@ class RealEstateViewModel : ViewModel() {
             _imagesURI = value
         }
 
+    private var _imagesToDelete: MutableList<String> = mutableListOf()
+    var imagesToDelete: MutableList<String>
+        get() = _imagesToDelete
+        set(value) {
+            _imagesToDelete = value
+        }
+
     private var _images: MutableList<Image> = mutableListOf()
     var images: MutableList<Image>
         get() = _images
@@ -208,6 +215,13 @@ class RealEstateViewModel : ViewModel() {
         get() = _titleDeedFile
         set(value) {
             _titleDeedFile = value
+        }
+
+    private var _titleDeedFileName: String = ""
+    var titleDeedFileName: String
+        get() = _titleDeedFileName
+        set(value) {
+            _titleDeedFileName = value
         }
 
     private val _isLoading = MutableLiveData(false)
@@ -262,7 +276,22 @@ class RealEstateViewModel : ViewModel() {
                 when (val response = propertyRepository.addProperty(newProperty)) {
                     is ApiResult.Success -> {
                         val propertyId = response.data
-                       callback(true)
+                        Log.i(TAG, "BEFORE add files to property: $propertyId")
+                        val filesResponse = propertyRepository.addFilesToProperty(propertyId, titleDeedFile!!, imageFiles)
+                        when (filesResponse) {
+                            is ApiResult.Success -> {
+                                val message = filesResponse.data
+                                _isLoading.value = false
+                                Log.d(TAG, "New Property to create: $newProperty")
+                                callback(true)
+                            }
+                            is ApiResult.Error -> {
+                                val fileErrorMessage = filesResponse.message
+                                Log.e(TAG, "Error adding files to property: $fileErrorMessage")
+                                _errorMessage.value = fileErrorMessage
+                                callback(false)
+                            }
+                        }
                     }
                     is ApiResult.Error -> {
                         val errorMessage = response.message
@@ -283,7 +312,7 @@ class RealEstateViewModel : ViewModel() {
 
 
 
-    fun updateProperty() {
+    fun updateProperty(callback: (Boolean) -> Unit) {
         val property = NewPropertyDto(
             propertyType.toString().toInt(),
             voivodeship,
@@ -309,6 +338,34 @@ class RealEstateViewModel : ViewModel() {
                 when(val response = propertyRepository.updateProperty(propertyId, property)) {
                     is ApiResult.Success -> {
                         Log.i(TAG, response.data.result)
+                        val filesResponse = propertyRepository.addFilesToProperty(propertyId, null, imageFiles)
+                        when (filesResponse) {
+                            is ApiResult.Success -> {
+                                val message = filesResponse.data
+                            }
+                            is ApiResult.Error -> {
+                                val fileErrorMessage = filesResponse.message
+                                Log.e(TAG, "Error adding files to property: $fileErrorMessage")
+                                _errorMessage.value = fileErrorMessage
+                                callback(false)
+                            }
+                        }
+                        for (fileId in imagesToDelete) {
+                            val fileDeleteResponse = propertyRepository.deleteFileFromProperty(propertyId, fileId)
+                            when ( fileDeleteResponse) {
+                                is ApiResult.Success -> {
+
+                                }
+                                is ApiResult.Error -> {
+                                    val fileErrorMessage = fileDeleteResponse.message
+                                    Log.e(TAG, "Error in deleting files")
+                                    _errorMessage.value = fileErrorMessage
+                                    callback(false)
+                                }
+                            }
+                        }
+                        callback(true)
+                        _isLoading.value = false
                     }
                     is ApiResult.Error -> {
                         Log.e(TAG, response.message)
@@ -318,6 +375,7 @@ class RealEstateViewModel : ViewModel() {
             } catch (e: Exception) {
                 _errorMessage.value = e.message
                 Log.e(TAG, "Exception $e")
+                callback(false)
             } finally {
                 _isLoading.value = false
             }

@@ -71,6 +71,7 @@ class NotificationViewModel : ViewModel() {
         viewModelScope.launch {
             _errorMessage.value = null
             _isLoading.value = true
+            Log.i(TAG, "Asking for unread notifications")
             try{
                 when(val fetchedNotifications = apiNotificationRepository.getUnreadNotifications()) {
                     is ApiResult.Success -> {

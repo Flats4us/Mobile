@@ -113,6 +113,7 @@ object ApiUserDataSource : UserDataSource {
             if (response.isSuccessful) {
                 val data = response.body()
                 if (data != null) {
+                    DataStoreManager.saveUserData(data)
                     ApiResult.Success(data)
                 } else {
                     ApiResult.Error("Response body is null")
@@ -132,6 +133,7 @@ object ApiUserDataSource : UserDataSource {
             if (response.isSuccessful) {
                 val data = response.body()
                 if (data != null) {
+                    DataStoreManager.saveUserData(data)
                     ApiResult.Success(data)
                 } else {
                     ApiResult.Error("Response body is null")
@@ -228,7 +230,7 @@ object ApiUserDataSource : UserDataSource {
     ): ApiResult<String> {
         return try{
             val profilePicturePart : MultipartBody.Part? = if ( profilePicture != null) {
-                 MultipartBody.Part.createFormData("profilePicture", profilePicture.name, profilePicture.asRequestBody("image/jpeg".toMediaTypeOrNull()))
+                 MultipartBody.Part.createFormData("ProfilePicture", profilePicture.name, profilePicture.asRequestBody("image/jpeg".toMediaTypeOrNull()))
             } else {
                 null
             }
@@ -237,7 +239,7 @@ object ApiUserDataSource : UserDataSource {
             } else {
                 null
             }
-            val response = api.addUserFiles(profilePicturePart, documentPart)
+            val response = apiWithAuthInterceptor.addUserFiles(profilePicturePart, documentPart)
             if (response.isSuccessful) {
                 val data = response.body()!!.result
                 ApiResult.Success(data)

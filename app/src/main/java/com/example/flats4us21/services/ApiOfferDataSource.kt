@@ -111,6 +111,40 @@ object ApiOfferDataSource : OfferDataSource {
         }
     }
 
+    override suspend fun getOffersForMap(offerFilter: OfferFilter): ApiResult<MapOffersResult> {
+        return try {
+            val response = apiWithoutInterceptor.getOffersForMap(
+                offerFilter.city,
+                offerFilter.distnace,
+                offerFilter.propertyType,
+                offerFilter.minPrice,
+                offerFilter.maxPrice,
+                offerFilter.district,
+                offerFilter.minArea,
+                offerFilter.maxArea,
+                offerFilter.minYear,
+                offerFilter.maxYear,
+                offerFilter.minNumberOfRooms,
+                offerFilter.floor,
+                offerFilter.equipment
+            )
+            Log.d(TAG, "Response status: ${response.isSuccessful}")
+            if(response.isSuccessful) {
+                Log.d(TAG, "Response body: ${response.body()}")
+                val data = response.body()
+                if (data != null) {
+                    ApiResult.Success(data)
+                } else {
+                    ApiResult.Error("Response body is null")
+                }
+            } else {
+                ApiResult.Error("Failed to fetch data: ${response.message()}")
+            }
+        } catch (e: Exception) {
+            ApiResult.Error("An internal error occurred: ${e.message}")
+        }
+    }
+
     override suspend fun getMineOffers(): ApiResult<List<Offer>> {
         return try {
             val response = api.getMineOffers()
@@ -196,8 +230,12 @@ object ApiOfferDataSource : OfferDataSource {
             val response = api.addRentDecision(offerId, requestBody)
             Log.i(TAG, "Request completed: ${response.isSuccessful}")
             if (response.isSuccessful) {
-                val data = response.body()?.result ?: ""
-                Log.i(TAG, "Response body: $data")
+                val data = if (decision) {
+                    "accepted_rent"
+                } else {
+                    "denied_rent"
+                }
+                Log.i(TAG, data)
                 ApiResult.Success(data)
             } else {
                 ApiResult.Error("Failed to fetch data: ${response.errorBody()?.string() ?: ""}")
@@ -235,7 +273,7 @@ object ApiOfferDataSource : OfferDataSource {
             val response = api.createOffer(offer)
             if(response.isSuccessful) {
                 val data = response.body()?.result ?: ""
-                ApiResult.Success(data)
+                ApiResult.Success("offer_added_successfully")
             } else {
                 ApiResult.Error("Failed to fetch data: ${response.errorBody()?.string() ?: ""}")
             }
@@ -317,7 +355,7 @@ object ApiOfferDataSource : OfferDataSource {
                 val data = response.body()?.result ?: ""
                 ApiResult.Success(data)
             } else {
-                ApiResult.Error("Failed to cancel offer to watched: ${response.errorBody()?.string() ?: ""}")
+                ApiResult.Error("error_cannot_cancel")
             }
         } catch (e: Exception) {
             ApiResult.Error("An internal error occurred: ${e.message}")
