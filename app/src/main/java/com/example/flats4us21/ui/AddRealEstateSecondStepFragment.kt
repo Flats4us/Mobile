@@ -65,7 +65,7 @@ class AddRealEstateSecondStepFragment : Fragment() {
 
                 val inputStream = requireContext().contentResolver.openInputStream(uri)
 
-                file = createTempFile(fileName.toString(), ".tmp")
+                file = File.createTempFile("temp_document", ".pdf", requireContext().cacheDir)
 
                 inputStream?.use { input ->
                     file?.outputStream()?.use { output ->
@@ -81,7 +81,7 @@ class AddRealEstateSecondStepFragment : Fragment() {
         }
 
         binding.addRulesButton.setOnClickListener {
-            getContent.launch(arrayOf("application/pdf", "text/plain"))
+            getContent.launch(arrayOf("application/pdf"))
         }
 
         binding.deleteButton.setOnClickListener {

@@ -22,7 +22,6 @@ import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.Room
 import com.example.flats4us21.data.utils.QuestionTranslator
 import com.example.flats4us21.databinding.FragmentOwnerOfferDetailBinding
-import com.example.flats4us21.viewmodels.DetailOfferViewModel
 import com.example.flats4us21.viewmodels.OfferViewModel
 import java.time.Period
 import java.util.Locale
@@ -33,7 +32,7 @@ class OwnerOfferDetailFragment : Fragment() {
     private var _binding : FragmentOwnerOfferDetailBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel : OfferViewModel
-    private lateinit var detailOfferViewModel: DetailOfferViewModel
+    private lateinit var detailOfferViewModel: OfferViewModel
     private lateinit var currentOffer : Offer
 
     override fun onCreateView(
@@ -49,9 +48,9 @@ class OwnerOfferDetailFragment : Fragment() {
         val offerId = arguments?.getInt(OFFER_ID, -1)
 
         viewModel = ViewModelProvider(requireActivity())[OfferViewModel::class.java]
-        detailOfferViewModel = ViewModelProvider(this)[DetailOfferViewModel::class.java]
+        detailOfferViewModel = ViewModelProvider(requireActivity())[OfferViewModel::class.java]
 
-        detailOfferViewModel.getOfferDetails(offerId!!)
+        detailOfferViewModel.getOffer(offerId!!)
 
         detailOfferViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
@@ -71,7 +70,7 @@ class OwnerOfferDetailFragment : Fragment() {
         }
 
         detailOfferViewModel.offer.observe(viewLifecycleOwner) { offer ->
-            currentOffer = offer
+            currentOffer = offer!!
             bindOfferData(currentOffer)
         }
 
@@ -236,7 +235,8 @@ class OwnerOfferDetailFragment : Fragment() {
             viewModel.cancelOffer(currentOffer.offerId)
             dialog.dismiss()
             val fragment = OwnerOffersFragment()
-            (activity as? DrawerActivity)!!.replaceFragment(fragment)
+            dialog.dismiss()
+            //(activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
         rentPropositionButton.setOnClickListener {
             val fragment = RentPropositionDialogFragment()
@@ -245,6 +245,7 @@ class OwnerOfferDetailFragment : Fragment() {
             bundle.putInt(OFFER_ID, currentOffer.offerId)
             fragment.arguments = bundle
             (activity as? DrawerActivity)!!.replaceFragment(fragment)
+            dialog.dismiss()
         }
 
         if(currentOffer.isPromoted) {

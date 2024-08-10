@@ -1,6 +1,7 @@
 package com.example.flats4us21.services
 
 import com.example.flats4us21.URL
+import com.example.flats4us21.data.ApiResult
 import com.example.flats4us21.data.Equipment
 import com.example.flats4us21.deserializer.EquipmentDeserializer
 import com.google.gson.Gson
@@ -22,8 +23,22 @@ object ApiEquipmentDataSource : EquipmentDataSource {
             .create(EquipmentService::class.java)
     }
 
-    override suspend fun getEquipment(): List<Equipment> {
-        return api.getEquipments()
+    override suspend fun getEquipment(): ApiResult<List<Equipment>> {
+        return try {
+            val response = api.getEquipments()
+            if(response.isSuccessful) {
+                val data = response.body()
+                if (data != null) {
+                    ApiResult.Success(data)
+                } else {
+                    ApiResult.Error("Response body is null")
+                }
+            } else {
+                ApiResult.Error("Failed to fetch data: ${response.message()}")
+            }
+        } catch (e: Exception) {
+            ApiResult.Error("An internal error occurred: ${e.message}")
+        }
     }
 
 

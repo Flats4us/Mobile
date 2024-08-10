@@ -240,12 +240,29 @@ class RealEstateViewModel : ViewModel() {
         }
 
     fun getEquipmentList() {
+        _errorMessage.value = null
         _isLoading.value = true
         viewModelScope.launch {
-            val fetchedEquipments = equipmentRepository.getEquipment()
-            Log.i(TAG, "Fetched list of equipment: $fetchedEquipments")
-            _equipments.value = fetchedEquipments
-            _isLoading.value = false
+            try{
+                val fetchedEquipment = equipmentRepository.getEquipment()
+                Log.i(TAG, "Fetched equipment: $fetchedEquipment")
+                when(fetchedEquipment) {
+                    is ApiResult.Success -> {
+                        val equipment = fetchedEquipment.data
+                        _equipments.value = equipment
+                    }
+                    is ApiResult.Error -> {
+                        Log.i(TAG, "ERROR: ${fetchedEquipment.message}")
+                        _errorMessage.value = fetchedEquipment.message
+                        Log.e(TAG, "error: ${errorMessage.value}")
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 

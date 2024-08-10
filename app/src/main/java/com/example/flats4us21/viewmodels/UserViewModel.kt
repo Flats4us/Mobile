@@ -247,12 +247,29 @@ class UserViewModel: ViewModel() {
         }
 
     fun getInterests(){
+        _errorMessage.value = null
         _isLoading.value = true
         viewModelScope.launch {
-            val fetchedInterests = interestRepository.getInterests()
-            Log.i(TAG, "Fetched list of interest: $fetchedInterests")
-            _interests.value = fetchedInterests
-            _isLoading.value = false
+            try{
+                val fetchedInterests = interestRepository.getInterests()
+                Log.i(TAG, "Fetched interests: $fetchedInterests")
+                when(fetchedInterests) {
+                    is ApiResult.Success -> {
+                        val interests = fetchedInterests.data
+                        _interests.value = interests
+                    }
+                    is ApiResult.Error -> {
+                        Log.i(TAG, "ERROR: ${fetchedInterests.message}")
+                        _errorMessage.value = fetchedInterests.message
+                        Log.e(TAG, "error: ${errorMessage.value}")
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+                Log.e(TAG, "Exception $e")
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 
