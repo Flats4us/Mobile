@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -51,6 +52,19 @@ class UserOpinionsFragment : Fragment() {
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             binding.opinionsRecyclerView.visibility = if (isLoading) View.GONE else View.VISIBLE
+        }
+
+        viewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage?.let {
+                val resourceId = requireContext().resources.getIdentifier(errorMessage, "string", requireContext().packageName)
+                val message = if (resourceId != 0) {
+                    requireContext().getString(resourceId)
+                } else {
+                    errorMessage
+                }
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                viewModel.clearErrorMessage()
+            }
         }
     }
 

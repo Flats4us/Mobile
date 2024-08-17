@@ -32,9 +32,28 @@ class ForgotMyPasswordFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         userViewModel = ViewModelProvider(requireActivity())[UserViewModel::class.java]
 
+        userViewModel.resultMessage.observe(viewLifecycleOwner) { resultMessage ->
+            resultMessage?.let {
+                val resourceId = requireContext().resources.getIdentifier(resultMessage, "string", requireContext().packageName)
+                val message = if (resourceId != 0) {
+                    requireContext().getString(resourceId)
+                } else {
+                    resultMessage
+                }
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                userViewModel.clearResultMessage()
+            }
+        }
         userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
-            if(errorMessage != null) {
-                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+            errorMessage?.let {
+                val resourceId = requireContext().resources.getIdentifier(errorMessage, "string", requireContext().packageName)
+                val message = if (resourceId != 0) {
+                    requireContext().getString(resourceId)
+                } else {
+                    errorMessage
+                }
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                userViewModel.clearErrorMessage()
             }
         }
 
@@ -62,7 +81,7 @@ class ForgotMyPasswordFragment : Fragment() {
         val email = editText.text.toString().trim()
         val isValid = Patterns.EMAIL_ADDRESS.matcher(email).matches()
         if(!isValid){
-            warnings.add("Zły email")
+            warnings.add(getString(R.string.wrong_email))
         }
         editTextLayout.setBackgroundResource(if (isValid) R.drawable.background_input else R.drawable.background_wrong_input)
         return isValid

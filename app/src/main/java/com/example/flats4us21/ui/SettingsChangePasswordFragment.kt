@@ -40,8 +40,15 @@ class SettingsChangePasswordFragment : Fragment() {
         }
 
         userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
-            if(errorMessage != null) {
-                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+            errorMessage?.let {
+                val resourceId = requireContext().resources.getIdentifier(errorMessage, "string", requireContext().packageName)
+                val message = if (resourceId != 0) {
+                    requireContext().getString(resourceId)
+                } else {
+                    errorMessage
+                }
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                userViewModel.clearErrorMessage()
             }
         }
 
@@ -102,7 +109,7 @@ class SettingsChangePasswordFragment : Fragment() {
     private fun arePasswordsTheSame(password: EditText, repeatPassword: EditText): Boolean {
         val arePasswordsValid = password.text.toString() == repeatPassword.text.toString()
         if(!arePasswordsValid){
-            Toast.makeText(requireContext(), "Podane hasła różnią się", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), getString(R.string.passwords_not_matching), Toast.LENGTH_LONG).show()
         }
         return arePasswordsValid
     }

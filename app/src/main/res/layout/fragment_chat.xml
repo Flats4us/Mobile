@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:paddingStart="@dimen/nav_header_vertical_spacing"
-                tools:text="text"
+                tools:text=""
                 android:textSize="@dimen/h2"
                 android:textStyle="bold"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"

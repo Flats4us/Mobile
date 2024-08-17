@@ -823,9 +823,16 @@ class UserViewModel: ViewModel() {
         }
     }
 
-
     fun logout() {
         _loginResponse.value = null
         _myProfile.value = null
+    }
+
+    fun clearErrorMessage() {
+        _errorMessage.value = null
+    }
+
+    fun clearResultMessage() {
+        _resultMessage.value = null
     }
 }

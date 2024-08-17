@@ -66,6 +66,7 @@ class OwnerOfferDetailFragment : Fragment() {
                     errorMessage
                 }
                 Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                detailOfferViewModel.clearErrorMessage()
             }
         }
 
@@ -175,7 +176,7 @@ class OwnerOfferDetailFragment : Fragment() {
             }
         }
         if(offer.property.equipment.isEmpty()){
-            stringBuilder.append("BRAK")
+            stringBuilder.append(getString(R.string.missing))
         }
         if(offer.property.avgRating == 0){
             binding.emptyView.visibility = View.VISIBLE
@@ -233,10 +234,9 @@ class OwnerOfferDetailFragment : Fragment() {
         }
         endOfferButton.setOnClickListener {
             viewModel.cancelOffer(currentOffer.offerId)
-            dialog.dismiss()
             val fragment = OwnerOffersFragment()
             dialog.dismiss()
-            //(activity as? DrawerActivity)!!.replaceFragment(fragment)
+            (activity as? DrawerActivity)!!.replaceFragment(fragment)
         }
         rentPropositionButton.setOnClickListener {
             val fragment = RentPropositionDialogFragment()

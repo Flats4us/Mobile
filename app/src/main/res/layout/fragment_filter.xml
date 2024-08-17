@@ -315,7 +315,7 @@
                                 android:id="@+id/propertyTypeSpinner"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/spinner_height"
-                                android:contentDescription="@string/real_estate_type"/>
+                                android:contentDescription="@string/property_type"/>
 
                         </LinearLayout>
 
@@ -326,7 +326,7 @@
                             android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
                             android:background="@color/white"
                             android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
-                            android:text="@string/required_property_type"
+                            android:text="@string/property_type"
                             android:textAllCaps="true"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toTopOf="@id/layoutPropertyType"

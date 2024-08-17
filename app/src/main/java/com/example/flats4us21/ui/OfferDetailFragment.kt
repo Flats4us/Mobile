@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import coil.load
 import com.example.flats4us21.DataStoreManager
@@ -30,6 +31,13 @@ import com.example.flats4us21.data.utils.QuestionTranslator
 import com.example.flats4us21.databinding.FragmentOfferDetailBinding
 import com.example.flats4us21.viewmodels.DetailOfferViewModel
 import com.example.flats4us21.viewmodels.OfferViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.CustomZoomButtonsController
+import org.osmdroid.views.overlay.Marker
 import java.time.Period
 import java.util.Locale
 
@@ -67,14 +75,28 @@ class OfferDetailFragment : Fragment() {
         }
 
         detailOfferViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
-            if(errorMessage != null) {
-                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+            errorMessage?.let {
+                val resourceId = requireContext().resources.getIdentifier(errorMessage, "string", requireContext().packageName)
+                val message = if (resourceId != 0) {
+                    requireContext().getString(resourceId)
+                } else {
+                    errorMessage
+                }
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                detailOfferViewModel.clearErrorMessage()
             }
         }
 
         viewModel.resultMessage.observe(viewLifecycleOwner) { resultMessage ->
-            if(resultMessage != null) {
-                Toast.makeText(requireContext(), resultMessage, Toast.LENGTH_LONG).show()
+            resultMessage?.let {
+                val resourceId = requireContext().resources.getIdentifier(resultMessage, "string", requireContext().packageName)
+                val message = if (resourceId != 0) {
+                    requireContext().getString(resourceId)
+                } else {
+                    resultMessage
+                }
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                viewModel.clearResultMessage()
             }
             addButton.setOnClickListener {
                 if (isObserved ) {
@@ -147,9 +169,9 @@ class OfferDetailFragment : Fragment() {
         }
         binding.smoking.setOnClickListener {
             if(offer.surveyOwnerOffer.smokingAllowed) {
-                Toast.makeText(requireContext(), "Palenie dozwolone", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.smoking_allowed), Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(requireContext(), "Palenie niedozwolone", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.smoking_not_allowed), Toast.LENGTH_SHORT).show()
             }
         }
         if(offer.surveyOwnerOffer.animalsAllowed) {
@@ -159,9 +181,9 @@ class OfferDetailFragment : Fragment() {
         }
         binding.pets.setOnClickListener {
             if(offer.surveyOwnerOffer.animalsAllowed) {
-                Toast.makeText(requireContext(), "Zwierzęta dozwolone", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.animals_allowed), Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(requireContext(), "Zwierzęta niedozwolone", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.animals_not_allowed), Toast.LENGTH_SHORT).show()
             }
         }
         if(offer.surveyOwnerOffer.partiesAllowed){
@@ -171,9 +193,9 @@ class OfferDetailFragment : Fragment() {
         }
         binding.parties.setOnClickListener {
             if(offer.surveyOwnerOffer.partiesAllowed){
-                Toast.makeText(requireContext(), "Imprezy dozwolone", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.parties_allowed), Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(requireContext(), "Imprezy niedozwolone", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.parties_not_allowed), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -209,7 +231,7 @@ class OfferDetailFragment : Fragment() {
             }
         }
         if(offer.property.equipment.isEmpty()){
-            stringBuilder.append("BRAK")
+            stringBuilder.append(getString(R.string.missing))
         }
 
         if(offer.property.avgRating == 0){
@@ -222,6 +244,7 @@ class OfferDetailFragment : Fragment() {
 
         binding.equipment.text = stringBuilder.toString()
         binding.rules.text = offer.userRegulation
+        setMap(offer)
         binding.description.text = offer.description
         binding.ratingBar.rating = (offer.property.avgRating.toFloat() / 2)
         binding.sumService.text = offer.property.avgServiceRating.toString()
@@ -231,18 +254,57 @@ class OfferDetailFragment : Fragment() {
 
         when(offer.property){
             is House -> {
-                binding.title.text = PropertyType.HOUSE.toPolishString()
+                binding.title.text = PropertyType.HOUSE.toLocalizedString(requireContext())
                 val house: House = offer.property
                 binding.landArea.text = house.landArea.toString()
                 binding.landAreaLayout.visibility = View.VISIBLE
             }
             is Flat -> {
-                binding.title.text = PropertyType.FLAT.toPolishString()
+                binding.title.text = PropertyType.FLAT.toLocalizedString(requireContext())
             }
 
             is Room -> {
-                binding.title.text = PropertyType.ROOM.toPolishString()
+                binding.title.text = PropertyType.ROOM.toLocalizedString(requireContext())
             }
+        }
+    }
+
+    private fun setMap(offer: Offer) {
+        binding.mapFragment.apply {
+            setTileSource(TileSourceFactory.MAPNIK)
+            setMultiTouchControls(true)
+            zoomController.setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT)
+        }
+
+        lifecycleScope.launch {
+            val location = getGeoPoint(offer)
+            location?.let {
+                addOfferMarker(offer, it)
+            }
+        }
+    }
+
+    private fun addOfferMarker(offer: Offer, location: GeoPoint) {
+        val marker = Marker(binding.mapFragment).apply {
+            position = location
+            title = offer.offerId.toString()
+            setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+            setOnMarkerClickListener { _, _ ->
+                showDialog(offer.offerId)
+                true
+            }
+        }
+        val mapController = binding.mapFragment.controller
+        mapController.setZoom(15.5)
+        mapController.setCenter(location)
+        binding.mapFragment.overlays.add(marker)
+    }
+
+    private suspend fun getGeoPoint(offer: Offer): GeoPoint? = withContext(Dispatchers.IO) {
+        try {
+            GeoPoint(offer.property.geoLat, offer.property.geoLon)
+        } catch (e: Exception) {
+            null
         }
     }
 

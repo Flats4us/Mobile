@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flats4us21.DrawerActivity
@@ -33,6 +34,19 @@ class AddArgumentFragment : Fragment() {
 
         viewModel = ViewModelProvider(requireActivity())[ArgumentViewModel::class.java]
         val rentId = arguments?.getInt(RENT_ID, -1)
+
+        viewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage?.let {
+                val resourceId = requireContext().resources.getIdentifier(errorMessage, "string", requireContext().packageName)
+                val message = if (resourceId != 0) {
+                    requireContext().getString(resourceId)
+                } else {
+                    errorMessage
+                }
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                viewModel.clearErrorMessage()
+            }
+        }
 
         binding.createArgumentButton.setOnClickListener {
             if (validateData()) {

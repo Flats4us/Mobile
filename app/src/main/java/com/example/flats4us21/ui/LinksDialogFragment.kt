@@ -34,19 +34,20 @@ class LinksDialogFragment(private val addedLinks: MutableList<String>) : DialogF
                     binding.linkEditText.text.clear()
                     adapter.notifyItemInserted(links.lastIndex)
                 } else {
-                    Toast.makeText(requireContext(), "Podano zły link", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(),
+                        getString(R.string.wrong_link), Toast.LENGTH_LONG).show()
                 }
             }
 
             builder
-                .setTitle("Podaj linki")
+                .setTitle(getString(R.string.add_link))
                 .setCancelable(false)
                 .setView(binding.root)
-                .setPositiveButton("Akceptuj") { _, _ ->
+                .setPositiveButton(getString(R.string.accept)) { _, _ ->
                     addedLinks.removeAll(addedLinks)
                     addedLinks.addAll(links)
                 }
-                .setNegativeButton("Anuluj") { dialog, _ ->
+                .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                     dialog.dismiss()
                 }
 

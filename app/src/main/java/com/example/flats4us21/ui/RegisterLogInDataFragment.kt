@@ -59,6 +59,19 @@ class RegisterLogInDataFragment : Fragment() {
             }
         }
 
+        userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage?.let {
+                val resourceId = requireContext().resources.getIdentifier(errorMessage, "string", requireContext().packageName)
+                val message = if (resourceId != 0) {
+                    requireContext().getString(resourceId)
+                } else {
+                    errorMessage
+                }
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                userViewModel.clearErrorMessage()
+            }
+        }
+
         binding.prevButton.setOnClickListener {
             collectData()
             var fragment: Fragment = SurveyFragment()
@@ -134,11 +147,11 @@ class RegisterLogInDataFragment : Fragment() {
         val isValid = isNotEmpty && isLengthValid && isPasswordComplexValid
 
         if(!isNotEmpty){
-            warnings.add("Nie podano hasła")
+            warnings.add(getString(R.string.empty_password))
         } else if(!isLengthValid){
-            warnings.add("Hasło musi zawierać od 8 do 50 znaków")
+            warnings.add(getString(R.string.password_between_8_and_50_signs))
         }else if(!isPasswordComplexValid){
-            warnings.add("Hasło musi zawierać conajmniej jedną wielką literę, jedną mała literę i jeden znak")
+            warnings.add(getString(R.string.password_validation))
         }
 
         editTextLayout.setBackgroundResource(if (isValid) R.drawable.background_input else R.drawable.background_wrong_input)
@@ -148,7 +161,7 @@ class RegisterLogInDataFragment : Fragment() {
     private fun arePasswordsTheSame(password: EditText, repeatPassword: EditText): Boolean {
         val arePasswordsValid = password.text.toString() == repeatPassword.text.toString()
         if(!arePasswordsValid){
-            warnings.add("Podane hasła różnią się")
+            warnings.add(getString(R.string.passwords_not_matching))
         }
         return arePasswordsValid
     }

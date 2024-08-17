@@ -85,4 +85,8 @@ class RentViewModel: ViewModel() {
             }
         }
     }
+
+    fun clearErrorMessage() {
+        _errorMessage.value = null
+    }
 }

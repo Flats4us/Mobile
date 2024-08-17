@@ -52,7 +52,7 @@ class RealEstateRentalDialogFragment(private val detailOfferViewModel: DetailOff
                         binding.emailEditText.text.clear()
                         adapter.notifyItemInserted(emails.lastIndex)
                     } else {
-                        Toast.makeText(requireContext(), "Podano zły email", Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(), getString(R.string.wrong_email), Toast.LENGTH_LONG).show()
                     }
                 }
             }
@@ -61,11 +61,11 @@ class RealEstateRentalDialogFragment(private val detailOfferViewModel: DetailOff
             binding.linksRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
             builder
-                .setTitle("Wynajmij")
+                .setTitle(getString(R.string.rent))
                 .setCancelable(false)
                 .setView(binding.root)
-                .setPositiveButton("Wynajmij",null)
-                .setNegativeButton("Anuluj") { dialog, _ ->
+                .setPositiveButton(getString(R.string.rent),null)
+                .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                     dialog.dismiss()
                 }
 
@@ -149,7 +149,7 @@ class RealEstateRentalDialogFragment(private val detailOfferViewModel: DetailOff
         val isValid = isNotEmpty && isRequired && isVisible
 
         if (!isNotEmpty){
-            warnings.add("Nie podano okresu wynajęcia!")
+            warnings.add(getString(R.string.empty_rent_period))
         }
 
         editTextLayout.setBackgroundResource(if (isValid) R.drawable.background_input else R.drawable.background_wrong_input)
@@ -163,7 +163,7 @@ class RealEstateRentalDialogFragment(private val detailOfferViewModel: DetailOff
         val isVisible = layoutWithHeader.visibility == View.VISIBLE
 
         if (!isValid){
-            warnings.add("Nie podano daty!")
+            warnings.add(getString(R.string.empty_date))
         }
 
         editTextLayout.setBackgroundResource(if (isValid || !isRequired || !isVisible) R.drawable.background_input else R.drawable.background_wrong_input)

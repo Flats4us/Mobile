@@ -204,7 +204,7 @@ class FilterFragment : Fragment() {
 
     private fun setupPropertyTypeSpinner() {
         val propertyTypeSpinner = binding.propertyTypeSpinner
-        propertyTypeAdapter = createSpinnerAdapter(PropertyType.values().map { it.name })
+        propertyTypeAdapter = createSpinnerAdapter(PropertyType.values().map { it.toLocalizedString(requireContext()) })
         propertyTypeSpinner.adapter = propertyTypeAdapter
 
         val onItemSelectedListener = createOnItemSelectedListener {
@@ -251,7 +251,7 @@ class FilterFragment : Fragment() {
             equipment.setOnClickListener {
                 val builder = AlertDialog.Builder(requireContext())
 
-                builder.setTitle("Wybierz wyposażenie")
+                builder.setTitle(getString(R.string.pick_equipment))
                 builder.setCancelable(false)
                 builder.setMultiChoiceItems(equipmentArray, selectedEquipment) { _, position, isChecked ->
                     selectedEquipment[position] = isChecked
@@ -263,7 +263,7 @@ class FilterFragment : Fragment() {
                         equipmentList.remove(position)
                     }
                 }
-                builder.setPositiveButton("Akcepuj") { _, _ ->
+                builder.setPositiveButton(getString(R.string.accept)) { _, _ ->
                     for (j in selectedEquipment.indices) {
                         if (selectedEquipment[j] && !pickedEquipment.contains(j + 1)) {
                             pickedEquipment.add(j + 1)
@@ -272,10 +272,10 @@ class FilterFragment : Fragment() {
                         }
                     }
                 }
-                builder.setNegativeButton("Anuluj") { dialog, _ ->
+                builder.setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                     dialog.dismiss()
                 }
-                builder.setNeutralButton("Wyczyść") { _, _ ->
+                builder.setNeutralButton(getString(R.string.clear)) { _, _ ->
                     for (j in selectedEquipment.indices) {
                         selectedEquipment[j] = false
                         equipmentList.clear()
@@ -304,9 +304,10 @@ class FilterFragment : Fragment() {
                 sorting.setSelection(sortingAdapter.getPosition(QuestionTranslator.convertToSort(offerViewModel.sorting!!, requireContext())))
             else
                 sorting.setSelection(sortingAdapter.getPosition(DEFAULT_PROPERTY_TYPE))
-            if (offerViewModel.propertyType != null)
-                propertyTypeSpinner.setSelection(propertyTypeAdapter.getPosition(PropertyType.fromValue(offerViewModel.propertyType!!).name))
-            else
+            if (offerViewModel.propertyType != null) {
+                propertyTypeSpinner.setSelection(propertyTypeAdapter.getPosition(offerViewModel.propertyType!!.toLocalizedString(requireContext())))
+                selectedProperty = offerViewModel.propertyType!!.toLocalizedString(requireContext())
+            } else
                 propertyTypeSpinner.setSelection(sortingAdapter.getPosition(DEFAULT_PROPERTY_TYPE))
             pickedEquipment.clear()
             pickedEquipment.addAll(offerViewModel.equipment)
@@ -358,7 +359,7 @@ class FilterFragment : Fragment() {
         else
             offerViewModel.sorting = null
         if (selectedProperty.isNotEmpty() && selectedProperty != DEFAULT_PROPERTY_TYPE)
-            offerViewModel.propertyType = PropertyType.valueOf(selectedProperty).value
+            offerViewModel.propertyType = PropertyType.fromLocalizedString(requireContext(), selectedProperty)
         else
             offerViewModel.propertyType = null
         if (selectedVoivodeship.isNotEmpty())

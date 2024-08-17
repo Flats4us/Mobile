@@ -141,7 +141,7 @@ class RegisterFragment : Fragment() {
 
     private fun showInterestDialog(interestArray: Array<String>, selectedInterestArray: BooleanArray, selectedInterests: MutableList<Int>) {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Wybierz zainteresowania")
+        builder.setTitle(getString(R.string.pick_interest))
             .setCancelable(false)
             .setMultiChoiceItems(interestArray, selectedInterestArray) { _, position, isChecked ->
                 selectedInterestArray[position] = isChecked
@@ -151,13 +151,13 @@ class RegisterFragment : Fragment() {
                     selectedInterests.remove(position)
                 }
             }
-            .setPositiveButton("Akceptuj") { _, _ ->
+            .setPositiveButton(getString(R.string.accept)) { _, _ ->
                 updatePickedInterests(selectedInterestArray)
             }
-            .setNegativeButton("Anuluj") { dialog, _ ->
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                 dialog.dismiss()
             }
-            .setNeutralButton("Wyczyść") { _, _ ->
+            .setNeutralButton(getString(R.string.missing)) { _, _ ->
                 clearSelectedInterests(selectedInterestArray, selectedInterests)
             }
 

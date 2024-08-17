@@ -6,7 +6,11 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.flats4us21.R
@@ -49,7 +53,7 @@ class AddRealEstateFirstStepFragment : Fragment() {
 
     private fun setupPropertyTypeSpinner() {
         val propertyTypeSpinner = binding.propertyTypeSpinner
-        propertyTypeAdapter = createSpinnerAdapter(PropertyType.values().map { it.name })
+        propertyTypeAdapter = createSpinnerAdapter(PropertyType.values().map { it.toLocalizedString(requireContext()) })
         propertyTypeSpinner.adapter = propertyTypeAdapter
 
         val onItemSelectedListener = createOnItemSelectedListener {
@@ -149,7 +153,11 @@ class AddRealEstateFirstStepFragment : Fragment() {
 
     private fun setValues() {
         with(binding) {
-            propertyTypeSpinner.setSelection(propertyTypeAdapter.getPosition(realEstateViewModel.propertyType?.name))
+            if (realEstateViewModel.propertyType != null) {
+                propertyTypeSpinner.setSelection(propertyTypeAdapter.getPosition(realEstateViewModel.propertyType!!.toLocalizedString(requireContext())))
+                selectedProperty = realEstateViewModel.propertyType!!.toLocalizedString(requireContext())
+            } else
+                propertyTypeSpinner.setSelection(propertyTypeAdapter.getPosition(DEFAULT_PROPERTY_TYPE))
             voivodeship.setSelection(voivodeshipAdapter.getPosition(realEstateViewModel.voivodeship))
             city.setText(realEstateViewModel.city)
             val districts = realEstateViewModel.getDistricts(city.text.toString())
@@ -177,7 +185,7 @@ class AddRealEstateFirstStepFragment : Fragment() {
             selectedProperty,
             binding.propertyTypeHeader
         ) { value ->
-            realEstateViewModel.propertyType = PropertyType.valueOf(value)
+            realEstateViewModel.propertyType = PropertyType.fromLocalizedString(requireContext(), selectedProperty)
         }
         val isVoivodeshipValid = setSelectedItemAndValidate(
             binding.layoutVoivodeship,

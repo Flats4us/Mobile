@@ -154,4 +154,8 @@ class NotificationViewModel : ViewModel() {
         apiNotificationRepository.stopConnection()
         Log.d(TAG, "Zakończono połączenie")
     }
+
+    fun clearErrorMessage() {
+        _errorMessage.value = null
+    }
 }

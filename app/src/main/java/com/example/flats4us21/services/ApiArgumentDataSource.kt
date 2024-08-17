@@ -44,13 +44,13 @@ class ApiArgumentDataSource: ArgumentDataSource {
                 if (data != null) {
                     ApiResult.Success(data)
                 } else {
-                    ApiResult.Error("Response body is null")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.message()}")
+                ApiResult.Error("error_fail_to_retrieve_arguments")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_fail_to_retrieve_arguments")
         }
     }
 
@@ -60,15 +60,15 @@ class ApiArgumentDataSource: ArgumentDataSource {
             if(response.isSuccessful) {
                 val data = response.body()
                 if (data != null) {
-                    ApiResult.Success(data.result)
+                    ApiResult.Success("success_added_argument")
                 } else {
-                    ApiResult.Error("Response body is null")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.message()}")
+                ApiResult.Error("error_fail_to_add_argument")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_fail_to_add_argument")
         }
     }
 
@@ -78,15 +78,15 @@ class ApiArgumentDataSource: ArgumentDataSource {
             if(response.isSuccessful) {
                 val data = response.body()
                 if (data != null) {
-                    ApiResult.Success(data.result)
+                    ApiResult.Success("success_accepted_argument_from_student_side")
                 } else {
-                    ApiResult.Error("Response body is null")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.message()}")
+                ApiResult.Error("error_failed_to_accept_argument")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_accept_argument")
         }
     }
 
@@ -96,15 +96,15 @@ class ApiArgumentDataSource: ArgumentDataSource {
             if(response.isSuccessful) {
                 val data = response.body()
                 if (data != null) {
-                    ApiResult.Success(data.result)
+                    ApiResult.Success("success_accepted_argument_from_owner_side")
                 } else {
-                    ApiResult.Error("Response body is null")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.message()}")
+                ApiResult.Error("error_failed_to_accept_argument")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_accept_argument")
         }
     }
 
@@ -114,15 +114,15 @@ class ApiArgumentDataSource: ArgumentDataSource {
             if(response.isSuccessful) {
                 val data = response.body()
                 if (data != null) {
-                    ApiResult.Success(data.result)
+                    ApiResult.Success("success_asked_moderator_for_intervention")
                 } else {
-                    ApiResult.Error("Response body is null")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.message()}")
+                ApiResult.Error("error_failed_to_asking_for_intervention")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_asking_for_intervention")
         }
     }
 }

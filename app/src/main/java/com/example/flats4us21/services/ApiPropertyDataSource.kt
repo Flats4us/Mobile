@@ -55,13 +55,13 @@ object ApiPropertyDataSource : PropertyDataSource {
                 if (data != null) {
                     ApiResult.Success(data)
                 } else {
-                    ApiResult.Error("Response body is null")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.message()}")
+                ApiResult.Error("error_failed_to_retrieve_properties")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_retrieve_properties")
         }
     }
 
@@ -73,13 +73,13 @@ object ApiPropertyDataSource : PropertyDataSource {
                 if (data != null) {
                     ApiResult.Success(data)
                 } else {
-                    ApiResult.Error("Odpowiedź jest pusta")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("Nie otrzymano danych: ${response.code()}")
+                ApiResult.Error("error_failed_to_retrieve_properties")
             }
         } catch (e: Exception) {
-            ApiResult.Error("Wewnętrzny błąd: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_retrieve_properties")
         }
     }
 
@@ -94,7 +94,7 @@ object ApiPropertyDataSource : PropertyDataSource {
                 ApiResult.Error("error_invalid_data")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_add_property")
         }
     }
 
@@ -124,12 +124,12 @@ object ApiPropertyDataSource : PropertyDataSource {
             val response = api.addFilesToProperty(propertyId, titleDeedPart, imageParts)
             if(response.isSuccessful){
                 val data = response.body()?.result ?: ""
-                ApiResult.Success(data)
+                ApiResult.Success("success_added_files")
             } else {
-                ApiResult.Error("Failed to add files to the property: ${response.errorBody()?.string()}")
+                ApiResult.Error("error_failed_to_add_files_to_property")
             }
         } catch(e: Exception){
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_add_files_to_property")
         }
     }
 
@@ -142,15 +142,15 @@ object ApiPropertyDataSource : PropertyDataSource {
             if(response.isSuccessful) {
                 val data = response.body()
                 if (data != null) {
-                    ApiResult.Success(data.result)
+                    ApiResult.Success("success_deleted_files")
                 } else {
-                    ApiResult.Error("Odpowiedź jest pusta")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("Nie otrzymano danych: ${response.code()}")
+                ApiResult.Error("error_failed_to_remove_files_from_property")
             }
         } catch (e: Exception) {
-            ApiResult.Error("Wewnętrzny błąd: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_remove_files_from_property")
         }
     }
 
@@ -159,11 +159,11 @@ object ApiPropertyDataSource : PropertyDataSource {
             val response = api.addOpinion(rentId, opinion)
             if(response.isSuccessful) {
                 val data = response.body()!!.result
-                ApiResult.Success(data)
+                ApiResult.Success("success_added_rent_opinion")
             } else
-                ApiResult.Error( "${response.errorBody()?.string()}")
+                ApiResult.Error( "error_failed_to_add_rent_opinion")
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred in updating profile: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_add_rent_opinion")
         }
     }
 
@@ -171,13 +171,13 @@ object ApiPropertyDataSource : PropertyDataSource {
         return try {
             val response = api.deleteProperty(propertyId)
             if(response.isSuccessful) {
-                val data = "Deleted property"
+                val data = "success_deleted_property"
                 ApiResult.Success(data)
             } else {
-                ApiResult.Error("Failed to delete property: ${response.message()}")
+                ApiResult.Error("error_failed_to_delete_property")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_delete_property")
         }
     }
 
@@ -187,14 +187,14 @@ object ApiPropertyDataSource : PropertyDataSource {
             if(response.isSuccessful) {
                 val data = response.body()!!
                 Log.i(TAG, response.message())
-                ApiResult.Success(data)
+                ApiResult.Success(NewPropertyApiResponse("success_updated_property"))
             } else {
                 Log.e(TAG, response.errorBody()?.string() ?: "")
-                ApiResult.Error("Failed to update property: ${response.message()}")
+                ApiResult.Error("error_failed_to_update_property")
             }
         } catch (e: Exception) {
             Log.i(TAG, e.message ?: "")
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_update_property")
         }
     }
 

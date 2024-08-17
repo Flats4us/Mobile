@@ -94,8 +94,15 @@ class EditProfileFragment : Fragment() {
         }
 
         userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
-            if(errorMessage != null) {
-                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+            errorMessage?.let {
+                val resourceId = requireContext().resources.getIdentifier(errorMessage, "string", requireContext().packageName)
+                val message = if (resourceId != 0) {
+                    requireContext().getString(resourceId)
+                } else {
+                    errorMessage
+                }
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                userViewModel.clearErrorMessage()
             }
         }
 
@@ -123,7 +130,8 @@ class EditProfileFragment : Fragment() {
                 }
                 userViewModel.addUserFiles(file, null) {
                     if (it) {
-                        Toast.makeText(requireContext(), "Zaktualizowano zdjęcie", Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(),
+                            getString(R.string.success_updated_image), Toast.LENGTH_LONG).show()
                         userViewModel.getMyProfile{}
                         if(userViewModel.myProfile.value != null) {
                             (activity as? DrawerActivity)!!.setMyProfile(userViewModel.myProfile.value!!)
@@ -131,7 +139,7 @@ class EditProfileFragment : Fragment() {
                     } else {
                         Toast.makeText(
                             requireContext(),
-                            "Nie zaktualizowano zdjęcia",
+                            getString(R.string.error_failed_to_update_image),
                             Toast.LENGTH_LONG
                         ).show()
                     }

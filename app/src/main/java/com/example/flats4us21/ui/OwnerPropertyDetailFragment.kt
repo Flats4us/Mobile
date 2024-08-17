@@ -58,6 +58,19 @@ class OwnerPropertyDetailFragment : Fragment() {
             }
         }
 
+        realEstateViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage?.let {
+                val resourceId = requireContext().resources.getIdentifier(errorMessage, "string", requireContext().packageName)
+                val message = if (resourceId != 0) {
+                    requireContext().getString(resourceId)
+                } else {
+                    errorMessage
+                }
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                realEstateViewModel.clearErrorMessage()
+            }
+        }
+
         binding.reviewsButton.setOnClickListener {
             val bundle = Bundle()
             bundle.putInt(OFFER_ID, property.propertyId)
@@ -106,6 +119,10 @@ class OwnerPropertyDetailFragment : Fragment() {
             if(j != property.equipment.size-1){
                 stringBuilder.append(", ")
             }
+        }
+
+        if(property.equipment.isEmpty()){
+            stringBuilder.append(getString(R.string.missing))
         }
         binding.equipment.text = stringBuilder.toString()
 

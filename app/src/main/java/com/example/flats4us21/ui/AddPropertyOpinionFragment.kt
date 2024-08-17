@@ -34,6 +34,23 @@ class AddPropertyOpinionFragment : Fragment() {
         val rentId = arguments?.getInt(RENT_ID) ?: return
 
         setupButtons(rentId)
+
+        realEstateViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage?.let {
+                val resourceId = requireContext().resources.getIdentifier(
+                    errorMessage,
+                    "string",
+                    requireContext().packageName
+                )
+                val message = if (resourceId != 0) {
+                    requireContext().getString(resourceId)
+                } else {
+                    errorMessage
+                }
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                realEstateViewModel.clearErrorMessage()
+            }
+        }
     }
 
     private fun setupButtons(rentId: Int) {

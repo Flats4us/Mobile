@@ -101,13 +101,13 @@ object ApiOfferDataSource : OfferDataSource {
                 if (data != null) {
                         ApiResult.Success(data)
                 } else {
-                    ApiResult.Error("Response body is null")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.message()}")
+                ApiResult.Error("error_failed_to_retrieve_offers")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_retrieve_offers")
         }
     }
 
@@ -135,13 +135,13 @@ object ApiOfferDataSource : OfferDataSource {
                 if (data != null) {
                     ApiResult.Success(data)
                 } else {
-                    ApiResult.Error("Response body is null")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.message()}")
+                ApiResult.Error("error_failed_to_retrieve_offers")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_retrieve_offers")
         }
     }
 
@@ -153,13 +153,13 @@ object ApiOfferDataSource : OfferDataSource {
                 if (data != null) {
                     ApiResult.Success(data.result)
                 } else {
-                    ApiResult.Error("Response body is null")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.message()}")
+                ApiResult.Error("error_failed_to_retrieve_offers")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_retrieve_offers")
         }
     }
 
@@ -177,13 +177,13 @@ object ApiOfferDataSource : OfferDataSource {
                 if (data != null) {
                     ApiResult.Success(data)
                 } else {
-                    ApiResult.Error("Response body is null")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.message()}")
+                ApiResult.Error("error_failed_to_retrieve_offer")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_retrieve_offer")
         }
     }
 
@@ -195,13 +195,13 @@ object ApiOfferDataSource : OfferDataSource {
             val response = api.addRentProposition(offerId, rentProposition)
             if(response.isSuccessful) {
                 val data = response.body()?.result ?: ""
-                ApiResult.Success(data)
+                ApiResult.Success("success_added_rent_proposition")
             } else {
                 Log.e(TAG, "Network error ${response.errorBody()?.string() ?: ""}")
-                ApiResult.Error("Failed to rent proposition: ${response.errorBody()?.string() ?: ""}")
+                ApiResult.Error("error_failed_to_add_rent_proposition")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_add_rent_proposition")
         }
     }
 
@@ -213,13 +213,13 @@ object ApiOfferDataSource : OfferDataSource {
                 if (data != null) {
                     ApiResult.Success(data)
                 } else {
-                    ApiResult.Error("Response body is null")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("Failed to fetch rent proposition: $${response.errorBody()?.string() ?: ""}")
+                ApiResult.Error("error_failed_to_retrieve_rent_proposition")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_retrieve_rent_proposition")
         }
     }
 
@@ -238,14 +238,14 @@ object ApiOfferDataSource : OfferDataSource {
                 Log.i(TAG, data)
                 ApiResult.Success(data)
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.errorBody()?.string() ?: ""}")
+                ApiResult.Error("error_failed_to_add_rent_decision")
             }
         } catch (e: CancellationException) {
             Log.e(TAG, "Job was cancelled", e)
-            ApiResult.Error("Job was cancelled: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_add_rent_decision")
         } catch (e: Exception) {
             Log.e(TAG, "An internal error occurred", e)
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_add_rent_decision")
         }
     }
 
@@ -258,13 +258,13 @@ object ApiOfferDataSource : OfferDataSource {
                 if (data != null) {
                     ApiResult.Success(data)
                 } else {
-                    ApiResult.Error("Response body is null")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.message()}")
+                ApiResult.Error("error_failed_to_retrieve_offers")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_retrieve_offers")
         }
     }
 
@@ -275,10 +275,10 @@ object ApiOfferDataSource : OfferDataSource {
                 val data = response.body()?.result ?: ""
                 ApiResult.Success("offer_added_successfully")
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.errorBody()?.string() ?: ""}")
+                ApiResult.Error("error_failed_to_create_offer")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_create_offer")
         }
     }
 
@@ -287,12 +287,12 @@ object ApiOfferDataSource : OfferDataSource {
             val response = api.addOfferInterest(offerId)
             if(response.isSuccessful) {
                 val data = response.body()?.result ?: ""
-                ApiResult.Success(data)
+                ApiResult.Success("success_added_offer_to_watched")
             } else {
-                ApiResult.Error("Failed to add offer to watched: ${response.errorBody()?.string() ?: ""}")
+                ApiResult.Error("error_failed_to_add_offer_to_watched")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_add_offer_to_watched")
         }
     }
 
@@ -301,12 +301,12 @@ object ApiOfferDataSource : OfferDataSource {
             val response = api.deleteOfferInterest(offerId)
             if(response.isSuccessful) {
                 val data = response.body()?.result ?: ""
-                ApiResult.Success(data)
+                ApiResult.Success("success_removed_offer_from_watched")
             } else {
-                ApiResult.Error("Failed to delete offer from watched: ${response.errorBody()?.string() ?: ""}")
+                ApiResult.Error("error_failed_to_remove_offer_from_watched")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_remove_offer_from_watched")
         }
     }
 
@@ -318,13 +318,13 @@ object ApiOfferDataSource : OfferDataSource {
                 if (data != null) {
                     ApiResult.Success(data)
                 } else {
-                    ApiResult.Error("Response body is null")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.message()}")
+                ApiResult.Error("error_failed_to_retrieve_rents")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_retrieve_rents")
         }
     }
 
@@ -338,13 +338,13 @@ object ApiOfferDataSource : OfferDataSource {
                 if (data != null) {
                     ApiResult.Success(data)
                 } else {
-                    ApiResult.Error("Response body is null")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.message()}")
+                ApiResult.Error("error_failed_to_retrieve_rent")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_retrieve_rent")
         }
     }
 
@@ -353,12 +353,12 @@ object ApiOfferDataSource : OfferDataSource {
             val response = api.cancelOffer(offerId)
             if(response.isSuccessful) {
                 val data = response.body()?.result ?: ""
-                ApiResult.Success(data)
+                ApiResult.Success("success_canceled_offer")
             } else {
                 ApiResult.Error("error_cannot_cancel")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_cannot_cancel")
         }
     }
 
@@ -367,12 +367,12 @@ object ApiOfferDataSource : OfferDataSource {
             val response = api.promoteOffer(offerId)
             if(response.isSuccessful) {
                 val data = response.body()?.result ?: ""
-                ApiResult.Success(data)
+                ApiResult.Success("success_promoted_offer")
             } else {
-                ApiResult.Error("Failed to promote offer to watched: ${response.errorBody()?.string() ?: ""}")
+                ApiResult.Error("error_failed_to_promote_offer")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_promote_offer")
         }
     }
 

@@ -58,8 +58,8 @@ class StudentForMatcherFragment : Fragment() {
     private fun bindData(student: StudentForMatcher) {
         with(binding) {
             profileName.text = student.name
-            profileAge.text = "Wiek: ${student.age}"
-            profileUniversity.text = "Uczelnia: ${student.university}"
+            profileAge.text = getString(R.string.age_with_value, student.age.toString())
+            profileUniversity.text = getString(R.string.univerity_with_value, student.university)
 
             val url = "$URL/${student.profilePicture?.path.orEmpty()}"
             Log.i(TAG, url)

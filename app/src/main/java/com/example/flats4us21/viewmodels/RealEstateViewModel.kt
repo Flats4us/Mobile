@@ -518,4 +518,7 @@ class RealEstateViewModel : ViewModel() {
         return cities
     }
 
+    fun clearErrorMessage() {
+        _errorMessage.value = null
+    }
 }

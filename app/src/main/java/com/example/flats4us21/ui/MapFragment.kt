@@ -73,6 +73,18 @@ class MapFragment : Fragment() {
         viewModel.mapOffers.observe(viewLifecycleOwner) { offers ->
             showAvailableOffers(offers)
         }
+        viewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage?.let {
+                val resourceId = requireContext().resources.getIdentifier(errorMessage, "string", requireContext().packageName)
+                val message = if (resourceId != 0) {
+                    requireContext().getString(resourceId)
+                } else {
+                    errorMessage
+                }
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                viewModel.clearErrorMessage()
+            }
+        }
     }
 
     private fun setupListeners() {
@@ -83,7 +95,7 @@ class MapFragment : Fragment() {
                 geoPoint?.let {
                     binding.mapFragment.controller.setCenter(it)
                     binding.mapFragment.controller.setZoom(12.0)
-                } ?: Toast.makeText(context, "Address not found", Toast.LENGTH_SHORT).show()
+                } ?: Toast.makeText(context, getString(R.string.not_found), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -114,7 +126,7 @@ class MapFragment : Fragment() {
                 val location = getGeoPoint(offer)
                 location?.let {
                     addOfferMarker(offer, it)
-                } ?: Toast.makeText(context, "Address not found for", Toast.LENGTH_SHORT).show()
+                } ?: Toast.makeText(context, getString(R.string.not_found), Toast.LENGTH_SHORT).show()
             }
             offers.firstOrNull()?.let { offer ->
                 getGeoPoint(offer)?.let {

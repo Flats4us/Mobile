@@ -46,7 +46,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Otrzymuj powiadomienia e-mail, gdy użytkownik wyśle Ci wiadomość"
+                android:text="@string/settings_notification_email_message"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -65,7 +65,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Otrzymuj powiadomienia push, gdy użytkownik wyśle Ci wiadomość"
+                android:text="@string/settings_notification_push_message"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -84,7 +84,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Otrzymuj powiadomienia e-mail, gdy użytkownik dokona rezerwacji w Twoim obiekcie"
+                android:text="@string/settings_notification_email_rent"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -103,7 +103,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Otrzymuj powiadomienia push, gdy użytkownik dokona rezerwacji w Twoim obiekcie"
+                android:text="@string/settings_notification_push_rent"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -111,8 +111,8 @@
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/progress_bar_size"
+        android:layout_height="@dimen/progress_bar_size"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

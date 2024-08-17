@@ -298,4 +298,8 @@ class ChatViewModel : ViewModel() {
         val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSS", Locale.getDefault())
         return sdf.format(Date())
     }
+
+    fun clearErrorMessage() {
+        _errorMessage.value = null
+    }
 }

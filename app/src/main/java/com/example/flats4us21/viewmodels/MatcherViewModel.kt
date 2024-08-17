@@ -120,5 +120,11 @@ class MatcherViewModel : ViewModel() {
         }
     }
 
+    fun clearErrorMessage() {
+        _errorMessage.value = null
+    }
 
+    fun clearResultMessage() {
+        _resultMessage.value = null
+    }
 }

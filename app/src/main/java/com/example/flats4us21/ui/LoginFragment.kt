@@ -72,13 +72,14 @@ class LoginFragment : Fragment() {
     private fun observeViewModel() {
         userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
             errorMessage?.let {
-                val resourceId = requireContext().resources.getIdentifier("$errorMessage", "string", requireContext().packageName)
-                val stringToDisplay = if (resourceId != 0) {
+                val resourceId = requireContext().resources.getIdentifier(errorMessage, "string", requireContext().packageName)
+                val message = if (resourceId != 0) {
                     requireContext().getString(resourceId)
                 } else {
                     errorMessage
                 }
-                Toast.makeText(requireContext(), stringToDisplay, Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                userViewModel.clearErrorMessage()
             }
         }
         DataStoreManager.userRole.observe(viewLifecycleOwner) { userRole ->

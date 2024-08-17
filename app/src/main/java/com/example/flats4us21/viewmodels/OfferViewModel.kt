@@ -9,6 +9,7 @@ import com.example.flats4us21.data.ApiResult
 import com.example.flats4us21.data.MapOffer
 import com.example.flats4us21.data.Offer
 import com.example.flats4us21.data.Property
+import com.example.flats4us21.data.PropertyType
 import com.example.flats4us21.data.dto.NewOfferDto
 import com.example.flats4us21.data.dto.OfferFilter
 import com.example.flats4us21.services.ApiOfferDataSource
@@ -216,12 +217,12 @@ class OfferViewModel: ViewModel() {
     set(value) {
         _distance = value
     }
-    private var _propertyType : Int? = null
-    var propertyType : Int?
-    get() = _propertyType
-    set(value) {
-        _propertyType = value
-    }
+    private var _propertyType: PropertyType? = null
+    var propertyType: PropertyType?
+        get() = _propertyType
+        set(value) {
+            _propertyType = value
+        }
     private var _minPrice : Int? = null
     var minPrice : Int?
     get() = _minPrice
@@ -319,7 +320,7 @@ class OfferViewModel: ViewModel() {
                     province,
                     city,
                     distance,
-                    propertyType,
+                    propertyType?.value,
                     minPrice,
                     maxPrice,
                     district,
@@ -414,7 +415,7 @@ class OfferViewModel: ViewModel() {
                     province,
                     city,
                     distance,
-                    propertyType,
+                    propertyType?.value,
                     minPrice,
                     maxPrice,
                     district,
@@ -595,4 +596,11 @@ class OfferViewModel: ViewModel() {
         }
     }
 
+    fun clearErrorMessage() {
+        _errorMessage.value = null
+    }
+
+    fun clearResultMessage() {
+        _resultMessage.value = null
+    }
 }

@@ -96,13 +96,13 @@ object ApiUserDataSource : UserDataSource {
                         ApiResult.Error("moderator_login")
                     }
                 } else {
-                    ApiResult.Error("Response body is null")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.errorBody()?.string()}")
+                ApiResult.Error("error_failed_to_login")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_login")
         }
     }
 
@@ -116,13 +116,13 @@ object ApiUserDataSource : UserDataSource {
                     DataStoreManager.saveUserData(data)
                     ApiResult.Success(data)
                 } else {
-                    ApiResult.Error("Response body is null")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.message()}")
+                ApiResult.Error("error_failed_to_register")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_register")
         }
     }
 
@@ -136,13 +136,13 @@ object ApiUserDataSource : UserDataSource {
                     DataStoreManager.saveUserData(data)
                     ApiResult.Success(data)
                 } else {
-                    ApiResult.Error("Response body is null")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.message()}")
+                ApiResult.Error("error_failed_to_register")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_register")
         }
     }
 
@@ -158,10 +158,10 @@ object ApiUserDataSource : UserDataSource {
                 val data = response.body()!!.result
                 ApiResult.Success(data)
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.errorBody()?.string()}")
+                ApiResult.Error("error_failed_to_check_email")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_check_email")
         }
     }
 
@@ -172,10 +172,10 @@ object ApiUserDataSource : UserDataSource {
                 val data = response.body()!!
                 ApiResult.Success(data)
             } else {
-                ApiResult.Error("Failed to get profile: ${response.errorBody()?.string()}")
+                ApiResult.Error("error_failed_to_retrieve_profile")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An error occurred in getting profile information: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_retrieve_profile")
         }
     }
 
@@ -187,10 +187,10 @@ object ApiUserDataSource : UserDataSource {
                 val data = response.body()!!
                 ApiResult.Success(data)
             } else {
-                ApiResult.Error("Failed to get profile: ${response.errorBody()?.string()}")
+                ApiResult.Error("error_failed_to_retrieve_profile")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An error occurred in getting profile information: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_retrieve_profile")
         }
     }
 
@@ -200,12 +200,12 @@ object ApiUserDataSource : UserDataSource {
             val response = service.sendPasswordResetLink(email)
             if (response.isSuccessful) {
                 val data = response.body()!!.result
-                ApiResult.Success(data)
+                ApiResult.Success("send_email_with_forgot_my_password_link")
             } else {
-                ApiResult.Error("Failed to send password reset link: ${response.errorBody()?.string()}")
+                ApiResult.Error("error_failed_to_send_password_reset_link")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An error occurred in sending password reset link: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_send_password_reset_link")
         }
     }
 
@@ -215,12 +215,12 @@ object ApiUserDataSource : UserDataSource {
             val response = service.updateMyProfile(updateMyProfileDto)
             if (response.isSuccessful) {
                 val data = response.body()?.string() ?: "Empty response"
-                ApiResult.Success(data)
+                ApiResult.Success("success_updated_profile")
             } else {
-                ApiResult.Error("Failed to update profile: ${response.errorBody()?.string()}")
+                ApiResult.Error("error_failed_to_update_profile")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred in updating profile: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_update_profile")
         }
     }
 
@@ -242,12 +242,12 @@ object ApiUserDataSource : UserDataSource {
             val response = apiWithAuthInterceptor.addUserFiles(profilePicturePart, documentPart)
             if (response.isSuccessful) {
                 val data = response.body()!!.result
-                ApiResult.Success(data)
+                ApiResult.Success("success_added_files")
             } else {
-                ApiResult.Error("Failed to add user files: ${response.errorBody()?.string()}")
+                ApiResult.Error("error_failed_to_add_files")
             }
         } catch(e: Exception){
-        ApiResult.Error("An internal error occurred: ${e.message}")
+        ApiResult.Error("internal_error_failed_to_add_files")
         }
     }
 
@@ -257,12 +257,12 @@ object ApiUserDataSource : UserDataSource {
             val response = service.addOpinion(targetUserId, newUserOpinionDto)
             if (response.isSuccessful) {
                 val data = response.body()!!.result
-                ApiResult.Success(data)
+                ApiResult.Success("success_added_opinion")
             } else {
-                ApiResult.Error("Failed to add opinion: ${response.errorBody()?.string()}")
+                ApiResult.Error("error_failed_to_add_opinion")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred in adding opinion: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_add_opinion")
         }
     }
 
@@ -272,12 +272,12 @@ object ApiUserDataSource : UserDataSource {
             val response = service.changePassword(newPasswordDto)
             if (response.isSuccessful) {
                 val data = response.body()!!.result
-                ApiResult.Success(data)
+                ApiResult.Success("success_changed_password")
             } else {
-                ApiResult.Error("Failed to change password: ${response.errorBody()?.string()}")
+                ApiResult.Error("error_failed_to_change_password")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred in changing password: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_change_password")
         }
     }
 
@@ -296,12 +296,12 @@ object ApiUserDataSource : UserDataSource {
             val response = service.changeEmail(requestBody)
             if (response.isSuccessful) {
                 val data = response.body()!!.string()
-                ApiResult.Success(data)
+                ApiResult.Success("success_changed_email")
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.errorBody()?.string()}")
+                ApiResult.Error("error_failed_to_change_email")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_change_email")
         }
     }
 }

@@ -79,6 +79,7 @@ class AddOfferFragment : Fragment() {
                     resultMessage
                 }
                 Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                offerViewModel.clearResultMessage()
             }
         }
         offerViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
@@ -91,6 +92,7 @@ class AddOfferFragment : Fragment() {
                 }
                 Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
             }
+            offerViewModel.clearErrorMessage()
         }
         adapter = PropertySpinnerAdapter(requireContext(), fetchedProperties)
 

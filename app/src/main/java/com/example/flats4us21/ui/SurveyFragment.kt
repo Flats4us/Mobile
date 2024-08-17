@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.flats4us21.R
 import com.example.flats4us21.adapters.QuestionAdapter
 import com.example.flats4us21.data.SurveyQuestion
 import com.example.flats4us21.databinding.FragmentSurveyBinding
@@ -56,8 +57,15 @@ class SurveyFragment : Fragment() {
         }
 
         userViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
-            if(errorMessage != null) {
-                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+            errorMessage?.let {
+                val resourceId = requireContext().resources.getIdentifier(errorMessage, "string", requireContext().packageName)
+                val message = if (resourceId != 0) {
+                    requireContext().getString(resourceId)
+                } else {
+                    errorMessage
+                }
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                userViewModel.clearErrorMessage()
             }
         }
 
@@ -102,7 +110,8 @@ class SurveyFragment : Fragment() {
                         userResponses!!["maxRoommateAge"] == null ||
                         userResponses!!["city"] == null)
             ) {
-                Toast.makeText(requireContext(), "Please answer all required questions.", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(),
+                    getString(R.string.please_answer_required_questions), Toast.LENGTH_LONG).show()
                 return false
             } else {
                 return true

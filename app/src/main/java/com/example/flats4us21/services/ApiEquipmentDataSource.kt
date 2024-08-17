@@ -31,13 +31,13 @@ object ApiEquipmentDataSource : EquipmentDataSource {
                 if (data != null) {
                     ApiResult.Success(data)
                 } else {
-                    ApiResult.Error("Response body is null")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.message()}")
+                ApiResult.Error("error_failed_to_retrieve_equipment")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_retrieve_equipment")
         }
     }
 

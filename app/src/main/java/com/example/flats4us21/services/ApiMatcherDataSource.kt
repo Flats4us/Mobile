@@ -43,13 +43,13 @@ class ApiMatcherDataSource : MatcherDataSource {
                 if (data != null) {
                     ApiResult.Success(data)
                 } else {
-                    ApiResult.Error("Response body is null")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.message()}")
+                ApiResult.Error("error_failed_to_retrieve_potential_matches")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_retrieve_potential_matches")
         }
     }
 
@@ -61,13 +61,13 @@ class ApiMatcherDataSource : MatcherDataSource {
                 if (data != null) {
                     ApiResult.Success(data)
                 } else {
-                    ApiResult.Error("Response body is null")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.message()}")
+                ApiResult.Error("error_failed_to_retrieve_existing_matches")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_retrieve_existing_matches")
         }
     }
 
@@ -80,15 +80,15 @@ class ApiMatcherDataSource : MatcherDataSource {
             if(response.isSuccessful) {
                 val data = response.body()
                 if (data != null) {
-                    ApiResult.Success(data.result)
+                    ApiResult.Success("success_accepted_potential_match")
                 } else {
-                    ApiResult.Error("Response body is null")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("Failed to add new match: ${response.message()}")
+                ApiResult.Error("error_failed_to_accept_potential_match")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_accept_potential_match")
         }
     }
 }

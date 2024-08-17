@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.flats4us21.DrawerActivity
+import com.example.flats4us21.R
 import com.example.flats4us21.adapters.NewImageSliderAdapter
 import com.example.flats4us21.data.PropertyType
 import com.example.flats4us21.data.utils.QuestionTranslator
@@ -55,6 +56,7 @@ class AddRealEstateFourthStepFragment : Fragment() {
                     errorMessage
                 }
                 Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                realEstateViewModel.clearErrorMessage()
             }
         }
     }
@@ -97,7 +99,7 @@ class AddRealEstateFourthStepFragment : Fragment() {
 
     private fun performAction() {
         if(realEstateViewModel.errorMessage.value == null){
-            val message = if (realEstateViewModel.isCreating) "Utworzono nieruchomość" else "Zaktualizowano nieruchomość"
+            val message = if (realEstateViewModel.isCreating) getString(R.string.success_created_property) else getString(R.string.success_updated_property)
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
             val fragment = OwnerPropertiesFragment()
             (activity as? DrawerActivity)!!.replaceFragment(fragment)

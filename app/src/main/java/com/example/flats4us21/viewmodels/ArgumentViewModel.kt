@@ -167,4 +167,8 @@ class ArgumentViewModel: ViewModel() {
             }
         }
     }
+
+    fun clearErrorMessage() {
+        _errorMessage.value = null
+    }
 }

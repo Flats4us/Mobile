@@ -270,7 +270,7 @@
                 android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
                 android:background="@color/white"
                 android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
-                android:text="@string/place"
+                android:text="@string/place_without_colon"
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/layoutResidentialAddress"

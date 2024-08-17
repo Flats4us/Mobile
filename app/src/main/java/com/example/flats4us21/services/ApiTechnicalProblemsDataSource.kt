@@ -39,12 +39,12 @@ class ApiTechnicalProblemsDataSource : TechnicalProblemsDataSource {
             val response = api.addTechnicalProblems(newTechnicalProblemsDto)
             if(response.isSuccessful) {
                 val data = response.body()
-                    ApiResult.Success("Problem został zgłoszony")
+                ApiResult.Success("success_reported_technical_problem")
             } else {
-                ApiResult.Error("Failed to fetch data: ${response.message()}")
+                ApiResult.Error("error_failed_to_add_technical_problem")
             }
         } catch (e: Exception) {
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_add_technical_problem")
         }
     }
 }

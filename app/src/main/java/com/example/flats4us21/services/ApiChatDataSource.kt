@@ -55,7 +55,7 @@ class ApiChatDataSource :ChatDataSource {
             ApiResult.Success(true)
         } catch (e: Exception) {
             Log.e(TAG, "Error sending message: ${e.message}")
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_sending_message")
         }
     }
 
@@ -66,7 +66,7 @@ class ApiChatDataSource :ChatDataSource {
             ApiResult.Success(true)
         } catch (e: Exception) {
             Log.e(TAG, "Error sending message: ${e.message}")
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_sending_group_message")
         }
     }
 
@@ -79,14 +79,14 @@ class ApiChatDataSource :ChatDataSource {
                 if(data != null) {
                     ApiResult.Success(data)
                 } else {
-                    ApiResult.Error("No data found")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("An error occurred: ${response.code()}")
+                ApiResult.Error("error_failed_to_retrieve_chat_history")
             }
         } catch (e: Exception) {
             Log.e(TAG, "Error getting chat history: ${e.message}")
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_retrieve_chat_history")
         }
     }
 
@@ -98,14 +98,14 @@ class ApiChatDataSource :ChatDataSource {
                 if(data != null) {
                     ApiResult.Success(data.result)
                 } else {
-                    ApiResult.Error("No data found")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("An error occurred: ${response.code()}")
+                ApiResult.Error("error_failed_to_retrieve_chat_participants")
             }
         } catch (e: Exception) {
             Log.e(TAG, "Error getting chat participants: ${e.message}")
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_retrieve_chat_participants")
         }
     }
 
@@ -117,14 +117,14 @@ class ApiChatDataSource :ChatDataSource {
                 if(data != null) {
                     ApiResult.Success(data)
                 } else {
-                    ApiResult.Error("No data found")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("An error occurred: ${response.code()}")
+                ApiResult.Error("error_failed_to_retrieve_user_chats")
             }
         } catch (e: Exception) {
             Log.e(TAG, "Error getting user chats: ${e.message}")
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_retrieve_user_chats")
         }
     }
 
@@ -138,14 +138,14 @@ class ApiChatDataSource :ChatDataSource {
                     Log.d("ApiChatDataSource", "Group chat info: $data")
                     ApiResult.Success(data)
                 } else {
-                    ApiResult.Error("No data found")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("An error occurred: ${response.code()}")
+                ApiResult.Error("error_failed_to_retrieve_group_chat_info")
             }
         } catch (e: Exception) {
             Log.e(TAG, "Error getting group chat info: ${e.message}")
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_retrieve_group_chat_info")
         }
     }
 
@@ -158,14 +158,14 @@ class ApiChatDataSource :ChatDataSource {
                 if(data != null) {
                     ApiResult.Success(data)
                 } else {
-                    ApiResult.Error("No data found")
+                    ApiResult.Error("error_empty_body")
                 }
             } else {
-                ApiResult.Error("An error occurred: ${response.code()}")
+                ApiResult.Error("error_failed_to_retrieve_group_chat_history")
             }
         } catch (e: Exception) {
             Log.e(TAG, "Error getting group chat history: ${e.message}")
-            ApiResult.Error("An internal error occurred: ${e.message}")
+            ApiResult.Error("internal_error_failed_to_retrieve_group_chat_history")
         }
     }
 

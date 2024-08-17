@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -56,6 +57,19 @@ class AddRealEstateSecondStepFragment : Fragment() {
         setValues()
         setupEquipment()
         setListeners()
+
+        realEstateViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage?.let {
+                val resourceId = requireContext().resources.getIdentifier(errorMessage, "string", requireContext().packageName)
+                val message = if (resourceId != 0) {
+                    requireContext().getString(resourceId)
+                } else {
+                    errorMessage
+                }
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                realEstateViewModel.clearErrorMessage()
+            }
+        }
     }
 
     private fun setListeners() {
@@ -135,7 +149,7 @@ class AddRealEstateSecondStepFragment : Fragment() {
             equipment.setOnClickListener {
                 val builder = AlertDialog.Builder(requireContext())
 
-                builder.setTitle("Wybierz wyposażenie")
+                builder.setTitle(getString(R.string.pick_equipment))
                 builder.setCancelable(false)
                 builder.setMultiChoiceItems(equipmentArray, selectedEquipment) { _, position, isChecked ->
                     selectedEquipment[position] = isChecked
@@ -147,7 +161,7 @@ class AddRealEstateSecondStepFragment : Fragment() {
                         equipmentList.remove(position)
                     }
                 }
-                builder.setPositiveButton("Akcepuj") { _, _ ->
+                builder.setPositiveButton(getString(R.string.accept)) { _, _ ->
                     for (j in selectedEquipment.indices) {
                         if (selectedEquipment[j] && !pickedEquipment.contains(j + 1)) {
                             pickedEquipment.add(j + 1)
@@ -157,10 +171,10 @@ class AddRealEstateSecondStepFragment : Fragment() {
                     }
                     updateEquipmentRecyclerView()
                 }
-                builder.setNegativeButton("Anuluj") { dialog, _ ->
+                builder.setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                     dialog.dismiss()
                 }
-                builder.setNeutralButton("Wyczyść") { _, _ ->
+                builder.setNeutralButton(getString(R.string.clear)) { _, _ ->
                     for (j in selectedEquipment.indices) {
                         selectedEquipment[j] = false
                         equipmentList.clear()
