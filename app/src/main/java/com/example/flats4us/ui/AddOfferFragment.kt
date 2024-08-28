@@ -82,17 +82,7 @@ class AddOfferFragment : Fragment() {
                 Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
             }
         }
-//        offerViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
-//            errorMessage?.let {
-//                val resourceId = requireContext().resources.getIdentifier(errorMessage, "string", requireContext().packageName)
-//                val message = if (resourceId != 0) {
-//                    requireContext().getString(resourceId)
-//                } else {
-//                    errorMessage
-//                }
-//                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
-//            }
-//        }
+
         adapter = PropertySpinnerAdapter(requireContext(), fetchedProperties)
 
         binding.spinner.adapter = adapter

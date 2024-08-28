@@ -66,7 +66,6 @@ class OfferDeserializer : JsonDeserializer<Offer> {
             owner,
             surveyOwnerOffer
         )
-        //Log.d(TAG, "[deserialize] This is my offer: $offer")
         return offer
     }
 }

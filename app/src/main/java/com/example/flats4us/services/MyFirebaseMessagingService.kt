@@ -53,7 +53,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         return if (resourceId != 0) {
             getString(resourceId)
         } else {
-            ""
+            resourceString
         }
     }
 

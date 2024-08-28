@@ -650,6 +650,7 @@
     <string name="notification_channel_name">com.example.flats4us</string>
     <string name="meeting_canceled_title">Spotkanie anulowane</string>
     <string name="meeting_canceled_body">Właściciel usunął ofertę</string>
+    <string name="different_passwords">Podane hasła różnią się</string>
 
 
     <!-- TODO: meeting_row -->
