@@ -403,7 +403,8 @@ class EditProfileFragment : Fragment() {
     private fun arePasswordsTheSame(password: EditText, repeatPassword: EditText): Boolean {
         val arePasswordsValid = password.text.toString() == repeatPassword.text.toString()
         if(!arePasswordsValid){
-            Toast.makeText(requireContext(), "Podane hasła różnią się", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(),
+                getString(R.string.different_passwords), Toast.LENGTH_LONG).show()
         }
         return arePasswordsValid
     }

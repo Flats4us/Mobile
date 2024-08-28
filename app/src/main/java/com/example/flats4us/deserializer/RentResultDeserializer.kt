@@ -14,7 +14,6 @@ class RentResultDeserializer : JsonDeserializer<RentResult> {
 
         val totalCount = jsonObject.get("totalCount").asInt
 
-        // Define the type of the list of Rent objects
         val listType = object : TypeToken<List<Rent>>() {}.type
 
         val result = context.deserialize<List<Rent>>(jsonObject.get("result"), listType)

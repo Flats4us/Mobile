@@ -88,7 +88,6 @@ class OffersDeserializer : JsonDeserializer<OffersResult> {
                     surveyOwnerOffer
                 )
                 offers.add(offer)
-//                Log.d(TAG, "[deserialize] Offer: $offer")
             } catch (e: Exception) {
                 Log.e(TAG, "Error deserializing offer: ${e.message}")
             }

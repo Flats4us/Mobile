@@ -268,6 +268,8 @@ class DrawerActivity : AppCompatActivity(), NetworkChangeReceiver.NetworkChangeL
             if(it) {
                 notificationViewModel.stopConnection()
                 viewModelStore.clear()
+                viewModel = ViewModelProvider(this)[UserViewModel::class.java]
+                notificationViewModel = ViewModelProvider(this)[NotificationViewModel::class.java]
                 clearUserData()
                 val profilePicture = headerView.findViewById<ImageView>(R.id.profilePicture)
                 val mail : TextView = headerView.findViewById(R.id.mail)
@@ -336,11 +338,6 @@ class DrawerActivity : AppCompatActivity(), NetworkChangeReceiver.NetworkChangeL
                             setMyProfile(profile)
                             runBlocking {
                                 DataStoreManager.saveUserData(viewModel.loginResponse.value!!)
-//                                val userRole = DataStoreManager.readUserData()?.role ?: ""
-//                                Log.i(TAG, "userRole: $userRole")
-//                                navView.menu.clear()
-//                                setUserMenu(userRole)
-//                                setupDrawerContent()
                                 replaceFragment(SearchFragment())
                             }
                         }

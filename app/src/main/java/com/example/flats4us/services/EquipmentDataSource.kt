@@ -6,7 +6,7 @@ import com.example.flats4us.data.Equipment
 interface EquipmentDataSource {
 
     fun getHardcodedEquipment(): List<String> {
-        //TODO: for hardcoded data - later to delete
+        //TODO: for hardcoded data
         return listOf()
     }
     suspend fun getEquipment(): ApiResult<List<Equipment>>{
