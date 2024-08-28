@@ -11,8 +11,8 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/header_vertical_space"
-        android:layout_marginBottom="@dimen/header_vertical_space"
+        android:layout_marginTop="@dimen/header_vertical_margin"
+        android:layout_marginBottom="@dimen/header_vertical_margin"
         android:gravity="center_horizontal"
         android:text="@string/my_rentals"
         android:textSize="@dimen/h1"
@@ -22,35 +22,33 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TextContrastCheck" />
 
-    <LinearLayout
+    <com.google.android.material.tabs.TabLayout
         android:id="@+id/buttonsLayout"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:background="@null"
         app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <Button
-            android:id="@+id/btnActiveRents"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Active Rents" />
+        <com.google.android.material.tabs.TabItem
+            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:text="@string/active_rents"
+            android:background="@null"/>
 
-        <Button
-            android:id="@+id/btnFinishedRents"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Finished Rents"
-            android:layout_marginStart="16dp"/>
-    </LinearLayout>
+        <com.google.android.material.tabs.TabItem
+            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:text="@string/close_rents"
+            android:background="@null"/>
+
+    </com.google.android.material.tabs.TabLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rentRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:padding="@dimen/recyclerview_padding"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,20 +58,20 @@
         android:id="@+id/emptyView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:text="@string/no_rentals_available"
-        android:textSize="18sp"
+        android:textSize="@dimen/regular_text_size"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/buttonsLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonsLayout"
+        tools:ignore="TextContrastCheck"
         tools:visibility="visible" />
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/progress_bar_size"
+        android:layout_height="@dimen/progress_bar_size"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

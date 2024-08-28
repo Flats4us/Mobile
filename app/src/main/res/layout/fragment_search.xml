@@ -11,10 +11,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/header_vertical_margin"
+        android:layout_marginBottom="@dimen/header_vertical_margin"
+        android:gravity="center_horizontal"
+        android:text="@string/offers"
+        android:textSize="@dimen/h1"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TextContrastCheck" />
+
         <Button
             android:id="@+id/filterButton"
             android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/header_vertical_space"
+            android:layout_marginTop="@dimen/header_vertical_margin"
             android:layout_height="@dimen/button_height"
             android:background="@null"
             android:text="@string/FilteringAndSorting"
@@ -24,7 +39,18 @@
             android:layout_marginEnd="@dimen/buttons_margin_horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <TextView
+            android:id="@+id/noDataText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_data_available"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/propertyRecyclerView"
@@ -38,8 +64,8 @@
 
         <ProgressBar
             android:id="@+id/progressBar"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/progress_bar_size"
+            android:layout_height="@dimen/progress_bar_size"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -48,6 +74,5 @@
             tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </FrameLayout>

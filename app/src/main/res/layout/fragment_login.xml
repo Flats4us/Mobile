@@ -5,9 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.LoginFragment"
-    android:padding="16dp"
-    android:background="@drawable/app_background">
+    android:padding="@dimen/app_padding"
+    android:background="@drawable/app_background"
+    tools:context=".ui.LoginFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,24 +18,26 @@
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:paddingVertical="4dp"
-                android:layout_marginTop="8dp"
+                android:paddingVertical="@dimen/nav_header_vertical_spacing"
                 android:layout_gravity="center"
                 android:background="@drawable/rectangle_white_background">
+
                 <ImageView
                     android:layout_width="@dimen/image_view_logo_width"
                     android:layout_height="@dimen/image_view_logo_height"
                     android:src="@drawable/logo"
                     android:contentDescription="@string/logo" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/header_vertical_space"
+                    android:layout_marginTop="@dimen/header_vertical_margin"
                     android:text="@string/login"
                     android:textColor="@color/black"
                     android:textSize="@dimen/h1"
@@ -44,24 +46,25 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp">
+                    android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
+
                     <LinearLayout
                         android:id="@+id/layoutEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/layout_login_margin_top"
+                        android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                         android:background="@drawable/background_input"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         app:layout_constraintTop_toTopOf="parent">
+
                         <ImageView
                             android:layout_width="@dimen/icon_width"
                             android:layout_height="@dimen/icon_height"
                             android:layout_marginStart="@dimen/icon_margin"
                             android:contentDescription="@string/app_name"
-                            android:src="@drawable/baseline_email_24"
-                            app:tint="@color/black" />
+                            android:src="@drawable/baseline_email_24"/>
+
                         <EditText
                             android:id="@+id/email"
                             android:layout_width="match_parent"
@@ -71,19 +74,18 @@
                             android:imeOptions="actionNext"
                             android:importantForAutofill="no"
                             android:inputType="textEmailAddress"
-                            android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                            android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin"
+                            android:paddingHorizontal="@dimen/edit_text_padding_horizontal"
                             android:textSize="@dimen/edit_text_size"
                             android:textStyle="bold"/>
+
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                        android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
                         android:background="@color/white"
-                        android:paddingStart="@dimen/layout_name_padding_vertical"
-                        android:paddingEnd="@dimen/layout_name_padding_vertical"
+                        android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
                         android:text="@string/email"
                         android:textAllCaps="true"
                         android:textStyle="bold"
@@ -96,13 +98,13 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp">
+                    android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
+
                     <LinearLayout
                         android:id="@+id/layoutPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/layout_login_margin_top"
+                        android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                         android:background="@drawable/background_input"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
@@ -120,7 +122,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-
                             <EditText
                                 android:id="@+id/textPassword"
                                 android:layout_width="0dp"
@@ -130,8 +131,7 @@
                                 android:imeOptions="actionNext"
                                 android:importantForAutofill="no"
                                 android:inputType="textPassword"
-                                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                                android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin"
+                                android:paddingHorizontal="@dimen/edit_text_padding_horizontal"
                                 android:textSize="@dimen/edit_text_size"
                                 android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -153,15 +153,15 @@
                                 app:tint="@color/black" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
+
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                        android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
                         android:background="@color/white"
-                        android:paddingStart="@dimen/layout_name_padding_vertical"
-                        android:paddingEnd="@dimen/layout_name_padding_vertical"
+                        android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
                         android:text="@string/password"
                         android:textAllCaps="true"
                         android:textStyle="bold"
@@ -170,6 +170,7 @@
                         app:layout_constraintTop_toTopOf="@id/layoutPassword"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <TextView
                     android:id="@+id/forgotYourPassword"
                     android:layout_width="wrap_content"
@@ -199,6 +200,5 @@
         </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </FrameLayout>

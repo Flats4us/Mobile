@@ -9,14 +9,9 @@
         android:title="@string/start"/>
 
     <item
-        android:id="@+id/nav_observed"
-        android:icon="@drawable/heart"
-        android:title="@string/observed"/>
-
-    <item
-        android:id="@+id/nav_map"
-        android:icon="@drawable/baseline_location_on_24"
-        android:title="@string/map"/>
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/baseline_person_24"
+        android:title="@string/profile"/>
 
     <item
         android:id="@+id/nav_messages"
@@ -24,39 +19,9 @@
         android:title="@string/messages"/>
 
     <item
-        android:id="@+id/nav_profile"
-        android:icon="@drawable/baseline_person_24"
-        android:title="@string/profile"/>
-
-    <item
-        android:id="@+id/reviews"
-        android:icon="@drawable/baseline_edit_24"
-        android:title="@string/reviews"/>
-
-    <item
-        android:id="@+id/nav_settings"
-        android:icon="@drawable/baseline_settings_24"
-        android:title="@string/settings"/>
-
-
-    <item
-        android:title="@string/payment">
-        <menu>
-
-            <item
-                android:id="@+id/nav_his"
-                android:title="@string/payment_history"/>
-
-            <item
-                android:id="@+id/nav_method"
-                android:title="@string/payment_methods"/>
-
-            <item
-                android:id="@+id/nav_rent"
-                android:title="@string/fee"/>
-
-        </menu>
-    </item>
+        android:id="@+id/nav_map"
+        android:icon="@drawable/baseline_home_24"
+        android:title="@string/map"/>
 
     <item
         android:id="@+id/nav_my_rentals"
@@ -75,14 +40,24 @@
         android:title="@string/my_properties"/>
 
     <item
+        android:id="@+id/nav_calendar"
+        android:icon="@drawable/baseline_calendar_month_24"
+        android:title="@string/calendar"/>
+
+    <item
         android:id="@+id/nav_conflicts"
         android:icon="@drawable/baseline_feedback_24"
         android:title="@string/conflicts"/>
 
     <item
-        android:id="@+id/nav_calendar"
-        android:icon="@drawable/baseline_calendar_month_24"
-        android:title="@string/calendar"/>
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/baseline_settings_24"
+        android:title="@string/settings"/>
+
+    <item
+        android:id="@+id/nav_report_issue"
+        android:icon="@drawable/baseline_report_problem_24"
+        android:title="@string/report_issue"/>
 
     <item
         android:id="@+id/nav_logout"

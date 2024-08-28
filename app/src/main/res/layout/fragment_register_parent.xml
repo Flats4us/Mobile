@@ -10,8 +10,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/header_vertical_space"
-        android:layout_marginBottom="@dimen/header_vertical_space"
+        android:layout_marginTop="@dimen/app_padding"
+        android:layout_marginBottom="@dimen/header_vertical_margin"
         android:gravity="center_horizontal"
         android:text="@string/register"
         android:textSize="@dimen/h1"
@@ -22,14 +22,16 @@
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:progressDrawable="@drawable/custom_progress_bar"/>
+        android:layout_height="@dimen/progress_bar_add_property_height"
+        android:progressDrawable="@drawable/custom_progress_bar"
+        android:layout_marginBottom="@dimen/progress_bar_add_property_margin_bottom"/>
 
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/registerStep"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout="@layout/fragment_register"/>
+        tools:layout="@layout/fragment_register"
+        android:layout_marginHorizontal="@dimen/horizontal_space"/>
 
 </LinearLayout>

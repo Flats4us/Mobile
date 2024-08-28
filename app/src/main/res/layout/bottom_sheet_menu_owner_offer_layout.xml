@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_bottom_sheet">
+
+    <TextView
+        android:id="@+id/promoteButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/promote_offer"
+        android:drawablePadding="@dimen/text_view_menu_margin_start"
+        android:padding="@dimen/layout_menu_item_padding"
+        android:textSize="@dimen/text_view_menu_text_size"
+        app:drawableStartCompat="@drawable/release_alert" />
+
+    <TextView
+        android:id="@+id/relatedPropertyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/related_property"
+        android:drawablePadding="@dimen/text_view_menu_margin_start"
+        android:padding="@dimen/layout_menu_item_padding"
+        android:textSize="@dimen/text_view_menu_text_size"
+        app:drawableStartCompat="@drawable/baseline_home_work_24" />
+
+    <TextView
+        android:id="@+id/endOfferButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/end_offer"
+        android:drawablePadding="@dimen/text_view_menu_margin_start"
+        android:padding="@dimen/layout_menu_item_padding"
+        android:textSize="@dimen/text_view_menu_text_size"
+        app:drawableStartCompat="@drawable/baseline_cancel_24" />
+
+    <TextView
+        android:id="@+id/rentPropositionButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/rent_proposition"
+        android:drawablePadding="@dimen/text_view_menu_margin_start"
+        android:padding="@dimen/layout_menu_item_padding"
+        android:textSize="@dimen/text_view_menu_text_size"
+        app:drawableStartCompat="@drawable/baseline_notifications_24"
+        app:drawableTint="@color/black" />
+
+</LinearLayout>

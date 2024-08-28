@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:padding="16dp"
+    android:padding="@dimen/layout_recycler_view_item_padding"
+    android:layout_marginVertical="@dimen/layout_recycler_view_item_margin_vertical"
     android:background="@drawable/rectangle_white_background">
 
     <LinearLayout
@@ -41,8 +42,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|center_vertical"
-        android:layout_marginBottom="31dp"
-        android:textSize="14sp"
+        android:layout_marginBottom="@dimen/text_view_opinion_date_margin"
+        android:textSize="@dimen/text_view_date_size"
         app:layout_constraintBottom_toBottomOf="@+id/userInfo"
         app:layout_constraintEnd_toEndOf="@+id/userInfo"
         app:layout_constraintTop_toTopOf="parent"
@@ -65,8 +66,8 @@
             android:progressBackgroundTint="@color/design_default_color_secondary_variant"
             android:progressTint="@color/orange"
             android:secondaryProgressTint="@color/design_default_color_secondary_variant"
-            android:stepSize="1"
-            tools:rating="2" />
+            android:stepSize="0.5"
+            tools:rating="2.5" />
 
         <TextView
             android:id="@+id/numberRating"
@@ -77,19 +78,16 @@
             android:textSize="@dimen/h3"
             android:textStyle="bold" />
 
-
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/opinionLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
+        android:layout_marginHorizontal="@dimen/text_view_horizontal_margin"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rating">
-
-    </LinearLayout>
 
     <TextView
         android:id="@+id/opinionDescription"
@@ -101,13 +99,12 @@
         android:focusableInTouchMode="true"
         android:gravity="start"
         android:importantForAccessibility="yes"
-        android:inputType="textMultiLine"
         android:maxLines="10"
-        android:padding="8dp"
-        android:text="Example description of the user opinion that might span multiple lines and needs to be fully visible."
+        android:padding="@dimen/text_view_padding"
+        android:text="@string/description_example"
         android:textColor="@android:color/black"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/opinionLayout" />
+        android:textSize="@dimen/subtext_text_size"/>
 
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

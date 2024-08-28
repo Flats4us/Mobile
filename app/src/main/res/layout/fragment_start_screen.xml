@@ -4,55 +4,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/app_padding"
+    android:background="@drawable/app_background"
     tools:context=".ui.StartScreenFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="@dimen/image_view_logo_width"
-            android:layout_height="@dimen/image_view_logo_height"
-            android:layout_marginTop="@dimen/image_view_logo_margin_top"
-            android:src="@drawable/logo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
+            android:background="@drawable/rectangle_white_background"
+            android:paddingVertical="@dimen/nav_header_vertical_spacing"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <Button
-                android:id="@+id/buttonLogin"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/button_height"
-                android:layout_marginStart="@dimen/buttons_margin_horizontal"
-                android:layout_marginTop="@dimen/layout_register_margin_top"
-                android:layout_marginEnd="@dimen/buttons_margin_horizontal"
-                android:text="@string/login"
-                android:textSize="@dimen/regular_text_size"
-                android:textStyle="bold" />
-            <Button
-                android:id="@+id/buttonRegister"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/button_height"
-                android:layout_marginStart="@dimen/buttons_margin_horizontal"
-                android:layout_marginTop="@dimen/layout_register_margin_top"
-                android:layout_marginEnd="@dimen/buttons_margin_horizontal"
-                android:text="@string/register"
-                android:textSize="@dimen/regular_text_size"
-                android:textStyle="bold"/>
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="@dimen/image_view_logo_width"
+                android:layout_height="@dimen/image_view_logo_height"
+                android:layout_marginTop="@dimen/image_view_logo_margin_top"
+                android:src="@drawable/logo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+                <Button
+                    android:id="@+id/buttonLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginStart="@dimen/buttons_margin_horizontal"
+                    android:layout_marginTop="@dimen/layout_edit_text_margin_top"
+                    android:layout_marginEnd="@dimen/buttons_margin_horizontal"
+                    android:text="@string/login"
+                    android:textSize="@dimen/regular_text_size"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/buttonRegister"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginStart="@dimen/buttons_margin_horizontal"
+                    android:layout_marginTop="@dimen/layout_edit_text_margin_top"
+                    android:layout_marginEnd="@dimen/buttons_margin_horizontal"
+                    android:layout_marginBottom="@dimen/buttons_margin_horizontal"
+                    android:text="@string/register"
+                    android:textSize="@dimen/regular_text_size"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

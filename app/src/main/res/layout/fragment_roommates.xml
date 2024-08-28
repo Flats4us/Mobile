@@ -4,53 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.RoommatesFragment"
-    android:background="@drawable/app_background">
+    android:background="@drawable/app_background"
+    tools:context=".ui.RoommatesFragment">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="Współlokatorzy"
-        android:textColor="@color/black"
-        android:textSize="@dimen/h2"
+        android:text="@string/roommates"
         android:textStyle="bold"
+        android:textSize="@dimen/h1"
+        android:layout_marginTop="@dimen/header_vertical_margin"
+        android:layout_marginBottom="@dimen/header_vertical_margin"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
+    <com.google.android.material.tabs.TabLayout
         android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
+        android:background="@null"
         app:layout_constraintTop_toBottomOf="@+id/title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-            android:id="@+id/potentialButton"
+        <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/oval_white_background"
-            android:padding="4dp"
-            android:text="Propozycje"
-            android:textSize="@dimen/h3"
-            android:textStyle="bold" />
+            android:text="@string/proposed"
+            android:background="@null"/>
 
-        <TextView
-            android:id="@+id/existingButton"
+        <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/oval_white_background"
-            android:padding="4dp"
-            android:text="Istniejący"
-            android:textSize="@dimen/h3" />
+            android:text="@string/matched"
+            android:background="@null"/>
 
-    </LinearLayout>
+    </com.google.android.material.tabs.TabLayout>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/matches"
@@ -61,4 +53,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

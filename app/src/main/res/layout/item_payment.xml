@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:stretchColumns="1,2,3,4">
+
+    <TableRow>
+        <TextView
+            android:id="@+id/type"
+            android:textSize="@dimen/subtext_text_size"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/text_view_table_row_padding"
+            android:layout_weight="1" />
+        <TextView
+            android:id="@+id/amount"
+            android:textSize="@dimen/subtext_text_size"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/text_view_table_row_padding"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/isPaid"
+            android:textSize="@dimen/subtext_text_size"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/text_view_table_row_padding"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/paidAtDate"
+            android:textSize="@dimen/subtext_text_size"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/text_view_table_row_padding"
+            android:layout_weight="1"/>
+    </TableRow>
+
+</TableLayout>

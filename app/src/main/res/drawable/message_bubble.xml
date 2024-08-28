@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#e0e0e0"/> <!-- Bubble color -->
+    <solid android:color="@color/orange"/>
 
-    <!-- Reduced corner radius for a more square-like appearance -->
-    <corners android:radius="8dp"/>
+    <corners
+        android:topLeftRadius="8dp"
+        android:topRightRadius="8dp"
+        android:bottomLeftRadius="8dp"
+        android:bottomRightRadius="1dp"/>
 
-    <!-- Increased padding inside the bubble -->
     <padding
         android:left="24dp"
         android:top="24dp"
         android:right="24dp"
         android:bottom="24dp"/>
 
-    <!-- Optional: Add a stroke to the bubble -->
     <stroke
         android:width="2dp"
-        android:color="#bdbdbd"/> <!-- Stroke color -->
+        android:color="#bdbdbd"/>
 </shape>

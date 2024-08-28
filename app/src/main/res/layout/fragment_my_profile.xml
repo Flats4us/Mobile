@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,106 +7,100 @@
     tools:context=".ui.MyProfileFragment"
     android:background="@drawable/app_background">
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/mainLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_horizontal"
-            android:layout_marginBottom="10dp">
-
-            <TextView
-                android:id="@+id/accountButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/profile"
-                android:textSize="@dimen/h3"
-                android:textStyle="bold"
-                android:layout_marginEnd="8dp"
-                android:padding="4dp"
-                android:background="@drawable/oval_white_background"/>
-
-            <TextView
-                android:id="@+id/personalDataButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/personal_data"
-                android:textSize="@dimen/h3"
-                android:padding="4dp"
-                android:background="@drawable/oval_white_background"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/profileLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center_horizontal"
-            tools:visibility="gone">
+            android:layout_marginTop="@dimen/header_vertical_margin">
 
-            <!-- Profile Header -->
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/buttonsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profile"
+                    android:background="@null"/>
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/personal_data"
+                    android:background="@null"/>
+
+            </com.google.android.material.tabs.TabLayout>
+
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/profileLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center_horizontal"
-                android:background="@drawable/oval_white_background">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="10dp"
-                    android:layout_marginHorizontal="10dp">
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/profile_picture"
-                        android:layout_width="200dp"
-                        android:layout_height="200dp"
-                        android:layout_centerHorizontal="true"
-                        android:background="@color/white"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/candidate"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:shapeAppearanceOverlay="@style/Circular" />
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/verified"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/orange"
-                        android:src="@drawable/verified"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:shapeAppearanceOverlay="@style/Circular" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <TextView
-                    android:id="@+id/name_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="John"
-                    android:textSize="24sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center_horizontal">
+                android:layout_margin="@dimen/app_padding"
+                android:background="@drawable/rectangle_white_background"
+                tools:visibility="visible">
 
                 <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:background="@drawable/oval_white_background">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/image_view_profile_picture_margin">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/profile_picture"
+                            android:layout_width="@dimen/image_view_profile_picture_size"
+                            android:layout_height="@dimen/image_view_profile_picture_size"
+                            android:layout_centerHorizontal="true"
+                            android:background="@color/white"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/candidate"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:shapeAppearanceOverlay="@style/Circular" />
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/verified"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/orange"
+                            android:src="@drawable/verified"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:shapeAppearanceOverlay="@style/Circular" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:id="@+id/name_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="John"
+                        android:textSize="@dimen/h2" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ratingLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -126,67 +120,736 @@
 
                     <ImageButton
                         android:id="@+id/reviewsButton"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="@dimen/image_button_reviews_size"
+                        android:layout_height="@dimen/image_button_reviews_size"
                         android:src="@drawable/list"
                         tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/surveyFlexboxLayout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    app:alignContent="center"
+                    app:alignItems="stretch"
+                    app:justifyContent="center"
+                    android:layout_gravity="center_vertical"
+                    app:flexWrap="wrap">
 
-                    <TextView
-                        android:id="@+id/reviewsPer"
+                    <LinearLayout
+                        android:id="@+id/smokingLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="3"/>
+                        android:orientation="horizontal"
+                        android:background="@drawable/oval_white_background"
+                        android:backgroundTint="@color/orange"
+                        android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                        android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
+                        android:padding="@dimen/layout_opinion_padding">
 
-                    <TextView
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/smoking"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/smoking"
+                            android:textSize="@dimen/regular_text_size"
+                            android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/sociabilityLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="% pozytywnych opinii"/>
+                        android:orientation="horizontal"
+                        android:background="@drawable/oval_white_background"
+                        android:backgroundTint="@color/orange"
+                        android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                        android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
+                        android:padding="@dimen/layout_opinion_padding">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/baseline_people_24"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/sociability"
+                            android:textSize="@dimen/regular_text_size"
+                            android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/veganLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="@drawable/oval_white_background"
+                        android:backgroundTint="@color/orange"
+                        android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                        android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
+                        android:padding="@dimen/layout_opinion_padding">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/vegan"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/vegan"
+                            android:textSize="@dimen/regular_text_size"
+                            android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/animalsLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="@drawable/oval_white_background"
+                        android:backgroundTint="@color/orange"
+                        android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                        android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
+                        android:padding="@dimen/layout_opinion_padding">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/pets" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/animals"
+                            android:textSize="@dimen/regular_text_size"
+                            android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"/>
+
+                    </LinearLayout>
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/layout_profile_margin_vertical"
+                    android:orientation="vertical"
+                    android:background="@drawable/rectangle_white_background"
+                    android:paddingVertical="@dimen/layout_profile_padding_vertical">
+
+                    <LinearLayout
+                        android:id="@+id/studyLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginHorizontal="@dimen/layout_profile_margin_horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/university"
+                            android:textSize="@dimen/h2"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:gravity="center_vertical"
+                            app:drawableStartCompat="@drawable/school" />
+
+                        <TextView
+                            android:id="@+id/university"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:text="@string/university_example"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/interestsLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginHorizontal="@dimen/layout_profile_margin_horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/interests"
+                            android:textSize="@dimen/h2"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:gravity="center_vertical"
+                            app:drawableStartCompat="@drawable/hobby" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/interestsRecyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/emptyView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/no_data_available"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/socialMediaLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginHorizontal="@dimen/layout_profile_margin_horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/social_media"
+                            android:textSize="@dimen/h2"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:gravity="center_vertical"
+                            app:drawableStartCompat="@drawable/school" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:orientation="horizontal">
+
+                            <ImageButton
+                                android:id="@+id/facebook"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/facebook"
+                                android:padding="@dimen/image_button_social_media_padding"
+                                android:background="@null"
+                                tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+
+                            <ImageButton
+                                android:id="@+id/twitter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/twitter"
+                                android:padding="@dimen/image_button_social_media_padding"
+                                android:background="@null"
+                                tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+
+                            <ImageButton
+                                android:id="@+id/instagram"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/instagram"
+                                android:padding="@dimen/image_button_social_media_padding"
+                                android:background="@null"
+                                tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/opinionLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginHorizontal="@dimen/layout_profile_margin_horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/reviews"
+                            android:textSize="@dimen/h2"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:gravity="center_vertical"
+                            app:drawableStartCompat="@drawable/baseline_edit_48" />
+
+                        <com.google.android.flexbox.FlexboxLayout
+                            android:id="@+id/reviewsFlexboxLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:alignContent="flex_start"
+                            app:alignItems="stretch"
+                            app:flexWrap="wrap">
+
+                            <TextView
+                                android:id="@+id/noReviewsText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/no_data_available"
+                                android:visibility="gone"/>
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/layoutHelpful"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                                android:background="@drawable/oval_white_background"
+                                android:backgroundTint="@color/orange"
+                                android:padding="@dimen/layout_opinion_padding">
+
+                                <TextView
+                                    android:id="@+id/helpful"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="@string/helpful"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/sumHelpful"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
+                                    android:singleLine="true"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/helpful"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="0"
+                                    tools:ignore="RtlSymmetry" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/layoutCooperative"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                                android:background="@drawable/oval_white_background"
+                                android:backgroundTint="@color/orange"
+                                android:padding="@dimen/layout_opinion_padding">
+
+                                <TextView
+                                    android:id="@+id/cooperative"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="@string/cooperative"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/sumCooperative"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
+                                    android:singleLine="true"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/cooperative"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="0"
+                                    tools:ignore="RtlSymmetry" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/layoutTidy"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                                android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
+                                android:background="@drawable/oval_white_background"
+                                android:backgroundTint="@color/orange"
+                                android:padding="@dimen/layout_opinion_padding">
+
+                                <TextView
+                                    android:id="@+id/tidy"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="@string/tidy"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/sumTidy"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
+                                    android:singleLine="true"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/tidy"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="0"
+                                    tools:ignore="RtlSymmetry" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/layoutFriendly"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                                android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
+                                android:background="@drawable/oval_white_background"
+                                android:backgroundTint="@color/orange"
+                                android:padding="@dimen/layout_opinion_padding">
+
+                                <TextView
+                                    android:id="@+id/friendly"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="@string/friendly"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/sumFriendly"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
+                                    android:singleLine="true"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/friendly"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="0"
+                                    tools:ignore="RtlSymmetry" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/layoutRespectingPrivacy"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                                android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
+                                android:background="@drawable/oval_white_background"
+                                android:backgroundTint="@color/orange"
+                                android:padding="@dimen/layout_opinion_padding">
+
+                                <TextView
+                                    android:id="@+id/respectingPrivacy"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="@string/respectingPrivacy"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/sumRespectingPrivacy"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
+                                    android:singleLine="true"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/respectingPrivacy"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="0"
+                                    tools:ignore="RtlSymmetry" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/layoutCommunicative"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                                android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
+                                android:background="@drawable/oval_white_background"
+                                android:backgroundTint="@color/orange"
+                                android:padding="@dimen/layout_opinion_padding">
+
+                                <TextView
+                                    android:id="@+id/communicative"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="@string/communicative"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    tools:ignore="RtlSymmetry"
+                                    android:id="@+id/sumCommunicative"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
+                                    android:singleLine="true"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/communicative"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="0" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/layoutUnfair"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                                android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
+                                android:background="@drawable/oval_white_background"
+                                android:backgroundTint="@color/orange"
+                                android:padding="@dimen/layout_opinion_padding">
+
+                                <TextView
+                                    android:id="@+id/unfair"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="@string/unfair"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/sumUnfair"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
+                                    android:singleLine="true"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/unfair"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="0"
+                                    tools:ignore="RtlSymmetry" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/layoutLackOfHygiene"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                                android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
+                                android:background="@drawable/oval_white_background"
+                                android:backgroundTint="@color/orange"
+                                android:padding="@dimen/layout_opinion_padding">
+
+                                <TextView
+                                    android:id="@+id/lackOfHygiene"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="@string/lackOfHygiene"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/sumLackOfHygiene"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
+                                    android:singleLine="true"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/lackOfHygiene"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="0"
+                                    tools:ignore="RtlSymmetry" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/layoutUntidy"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                                android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
+                                android:background="@drawable/oval_white_background"
+                                android:backgroundTint="@color/orange"
+                                android:padding="@dimen/layout_opinion_padding">
+
+                                <TextView
+                                    android:id="@+id/untidy"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="@string/untidy"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/sumUntidy"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
+                                    android:singleLine="true"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/untidy"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="0"
+                                    tools:ignore="RtlSymmetry" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/layoutConflicting"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                                android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
+                                android:background="@drawable/oval_white_background"
+                                android:backgroundTint="@color/orange"
+                                android:padding="@dimen/layout_opinion_padding">
+
+                                <TextView
+                                    android:id="@+id/conflicting"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="@string/conflicting"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/sumConflicting"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
+                                    android:singleLine="true"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/conflicting"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="0"
+                                    tools:ignore="RtlSymmetry" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/layoutNoisy"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                                android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
+                                android:background="@drawable/oval_white_background"
+                                android:backgroundTint="@color/orange"
+                                android:padding="@dimen/layout_opinion_padding">
+
+                                <TextView
+                                    android:id="@+id/noisy"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="@string/noisy"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/sumNoisy"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
+                                    android:singleLine="true"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/noisy"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="0"
+                                    tools:ignore="RtlSymmetry" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/layoutNotFollowingTheArrangements"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/layout_opinion_margin_horizontal"
+                                android:layout_marginTop="@dimen/layout_opinion_margin_vertical"
+                                android:background="@drawable/oval_white_background"
+                                android:backgroundTint="@color/orange"
+                                android:padding="@dimen/layout_opinion_padding">
+
+                                <TextView
+                                    android:id="@+id/notFollowingTheArrangements"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:text="@string/notFollowingTheArrangements"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/sumNotFollowingTheArrangements"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="@dimen/layout_text_view_opinion_padding_horizontal"
+                                    android:singleLine="true"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/notFollowingTheArrangements"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="0"
+                                    tools:ignore="RtlSymmetry" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </com.google.android.flexbox.FlexboxLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/accountCreationDateLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginHorizontal="@dimen/layout_profile_margin_horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginVertical="@dimen/header_vertical_margin">
+
+                            <ImageView
+                                android:layout_width="@dimen/image_view_header_icon_size"
+                                android:layout_height="@dimen/image_view_header_icon_size"
+                                android:src="@drawable/baseline_calendar_month_24"
+                                tools:ignore="ContentDescription" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/user_from"
+                                android:textSize="@dimen/h2"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"/>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/accountCreationDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:text="@string/example"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center_horizontal">
-
-                <ImageButton
-                    android:id="@+id/facebook"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/facebook"
-                    android:padding="10dp"
-                    android:background="@null"
-                    tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
-
-                <ImageButton
-                    android:id="@+id/twitter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/twitter"
-                    android:padding="10dp"
-                    android:background="@null"
-                    tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
-
-                <ImageButton
-                    android:id="@+id/instagram"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/instagram"
-                    android:padding="10dp"
-                    android:background="@null"
-                    tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
-
-            </LinearLayout>
+        <LinearLayout
+            android:id="@+id/personalDataLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -197,29 +860,29 @@
                 android:paddingVertical="10dp">
 
                 <LinearLayout
-                    android:id="@+id/studyLayout"
+                    android:id="@+id/emailLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginHorizontal="24dp">
+                    android:layout_marginHorizontal="@dimen/layout_profile_margin_horizontal">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
-                        android:layout_marginVertical="4dp">
+                        android:layout_marginVertical="@dimen/header_vertical_margin">
 
                         <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/school"
+                            android:layout_width="@dimen/image_view_header_icon_size"
+                            android:layout_height="@dimen/image_view_header_icon_size"
+                            android:src="@drawable/baseline_email_24"
                             tools:ignore="ContentDescription" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/university"
+                            android:text="@string/email"
                             android:textSize="@dimen/h2"
                             android:textStyle="bold"
                             android:textColor="@color/black"/>
@@ -227,510 +890,238 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/university"
+                        android:id="@+id/email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:text="Collegium Civitas w Warszawie"/>
+                        tools:text="@string/mail_example"/>
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/interestsLayout"
+                    android:id="@+id/phoneNumberLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginHorizontal="24dp">
+                    android:layout_marginHorizontal="@dimen/layout_profile_margin_horizontal">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
-                        android:layout_marginVertical="4dp">
+                        android:layout_marginVertical="@dimen/header_vertical_margin">
 
                         <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/hobby"
+                            android:layout_width="@dimen/image_view_header_icon_size"
+                            android:layout_height="@dimen/image_view_header_icon_size"
+                            android:src="@drawable/baseline_phone_24"
                             tools:ignore="ContentDescription" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/interests"
+                            android:text="@string/phone_number"
                             android:textSize="@dimen/h2"
                             android:textStyle="bold"
                             android:textColor="@color/black"/>
 
                     </LinearLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/interestsRecyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
 
                     <TextView
-                        android:id="@+id/emptyView"
+                        android:id="@+id/phoneNumber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="@string/no_data_available"
-                        android:visibility="gone" />
+                        tools:text="@string/example"/>
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/opinionLayout"
+                    android:id="@+id/studentNumberLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginHorizontal="24dp">
+                    android:layout_marginHorizontal="@dimen/layout_profile_margin_horizontal">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
-                        android:layout_marginVertical="4dp">
+                        android:layout_marginVertical="@dimen/header_vertical_margin">
 
                         <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/baseline_edit_24"
+                            android:layout_width="@dimen/image_view_header_icon_size"
+                            android:layout_height="@dimen/image_view_header_icon_size"
+                            android:src="@drawable/baseline_person_24"
                             tools:ignore="ContentDescription" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/reviews"
+                            android:text="@string/student_number"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/h2"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/studentNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="@string/example"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/birthDateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginHorizontal="@dimen/layout_profile_margin_horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginVertical="@dimen/header_vertical_margin">
+
+                        <ImageView
+                            android:layout_width="@dimen/image_view_header_icon_size"
+                            android:layout_height="@dimen/image_view_header_icon_size"
+                            android:src="@drawable/baseline_calendar_month_24"
+                            tools:ignore="ContentDescription" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/birth_date"
                             android:textSize="@dimen/h2"
                             android:textStyle="bold"
                             android:textColor="@color/black"/>
 
                     </LinearLayout>
 
-                    <com.google.android.flexbox.FlexboxLayout
-                        android:id="@+id/reviewsFlexboxLayout"
+                    <TextView
+                        android:id="@+id/birthDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:alignContent="flex_start"
-                        app:alignItems="stretch"
-                        app:flexWrap="wrap">
+                        tools:text="@string/example"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/bankAccountLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginHorizontal="@dimen/layout_profile_margin_horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginVertical="@dimen/header_vertical_margin">
+
+                        <ImageView
+                            android:layout_width="@dimen/image_view_header_icon_size"
+                            android:layout_height="@dimen/image_view_header_icon_size"
+                            android:src="@drawable/baseline_person_24"
+                            tools:ignore="ContentDescription" />
 
                         <TextView
-                            android:id="@+id/noReviewsText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/no_data_available"
-                            android:visibility="gone"/>
+                            android:text="@string/bank_account"
+                            android:textSize="@dimen/h2"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"/>
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/layoutHelpful"
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/bankAccount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="@string/example"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/documentNumberLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginHorizontal="@dimen/layout_profile_margin_horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginVertical="@dimen/header_vertical_margin">
+
+                        <ImageView
+                            android:layout_width="@dimen/image_view_header_icon_size"
+                            android:layout_height="@dimen/image_view_header_icon_size"
+                            android:src="@drawable/baseline_person_24"
+                            tools:ignore="ContentDescription" />
+
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
-                            android:background="@drawable/oval_white_background"
-                            android:backgroundTint="#44C3FA"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="8dp">
+                            android:text="@string/document_number"
+                            android:textSize="@dimen/h2"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"/>
 
-                            <TextView
-                                android:id="@+id/helpful"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:singleLine="true"
-                                android:text="@string/helpful"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                    </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/sumHelpful"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="4dp"
-                                android:singleLine="true"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toEndOf="@+id/helpful"
-                                app:layout_constraintTop_toTopOf="parent"
-                                tools:text="0" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/documentNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="@string/example"/>
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/layoutCooperative"
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/documentExpireDateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginHorizontal="@dimen/layout_profile_margin_horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginVertical="@dimen/header_vertical_margin">
+
+                        <ImageView
+                            android:layout_width="@dimen/image_view_header_icon_size"
+                            android:layout_height="@dimen/image_view_header_icon_size"
+                            android:src="@drawable/baseline_person_24"
+                            tools:ignore="ContentDescription" />
+
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
-                            android:background="@drawable/oval_white_background"
-                            android:backgroundTint="#44C3FA"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="8dp">
+                            android:text="@string/document_expire_date"
+                            android:textSize="@dimen/h2"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"/>
 
-                            <TextView
-                                android:id="@+id/cooperative"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:singleLine="true"
-                                android:text="@string/cooperative"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                    </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/sumCooperative"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="4dp"
-                                android:singleLine="true"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toEndOf="@+id/cooperative"
-                                app:layout_constraintTop_toTopOf="parent"
-                                tools:text="0" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/layoutTidy"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
-                            android:layout_marginTop="4dp"
-                            android:background="@drawable/oval_white_background"
-                            android:backgroundTint="#44C3FA"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="8dp">
-
-                            <TextView
-                                android:id="@+id/tidy"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:singleLine="true"
-                                android:text="@string/tidy"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/sumTidy"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="4dp"
-                                android:singleLine="true"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toEndOf="@+id/tidy"
-                                app:layout_constraintTop_toTopOf="parent"
-                                tools:text="0" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/layoutFriendly"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
-                            android:layout_marginTop="4dp"
-                            android:background="@drawable/oval_white_background"
-                            android:backgroundTint="#44C3FA"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="8dp">
-
-                            <TextView
-                                android:id="@+id/friendly"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:singleLine="true"
-                                android:text="@string/friendly"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/sumFriendly"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="4dp"
-                                android:singleLine="true"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toEndOf="@+id/friendly"
-                                app:layout_constraintTop_toTopOf="parent"
-                                tools:text="0" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/layoutRespectingPrivacy"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
-                            android:layout_marginTop="4dp"
-                            android:background="@drawable/oval_white_background"
-                            android:backgroundTint="#44C3FA"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="8dp">
-
-                            <TextView
-                                android:id="@+id/respectingPrivacy"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:singleLine="true"
-                                android:text="@string/respectingPrivacy"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/sumRespectingPrivacy"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="4dp"
-                                android:singleLine="true"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toEndOf="@+id/respectingPrivacy"
-                                app:layout_constraintTop_toTopOf="parent"
-                                tools:text="0" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/layoutCommunicative"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
-                            android:layout_marginTop="4dp"
-                            android:background="@drawable/oval_white_background"
-                            android:backgroundTint="#44C3FA"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="8dp">
-
-                            <TextView
-                                android:id="@+id/communicative"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:singleLine="true"
-                                android:text="@string/communicative"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/sumCommunicative"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="4dp"
-                                android:singleLine="true"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toEndOf="@+id/communicative"
-                                app:layout_constraintTop_toTopOf="parent"
-                                tools:text="0" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/layoutUnfair"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
-                            android:layout_marginTop="4dp"
-                            android:background="@drawable/oval_white_background"
-                            android:backgroundTint="#44C3FA"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="8dp">
-
-                            <TextView
-                                android:id="@+id/unfair"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:singleLine="true"
-                                android:text="@string/unfair"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/sumUnfair"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="4dp"
-                                android:singleLine="true"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toEndOf="@+id/unfair"
-                                app:layout_constraintTop_toTopOf="parent"
-                                tools:text="0" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/layoutLackOfHygiene"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
-                            android:layout_marginTop="4dp"
-                            android:background="@drawable/oval_white_background"
-                            android:backgroundTint="#44C3FA"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="8dp">
-
-                            <TextView
-                                android:id="@+id/lackOfHygiene"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:singleLine="true"
-                                android:text="@string/lackOfHygiene"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/sumLackOfHygiene"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="4dp"
-                                android:singleLine="true"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toEndOf="@+id/lackOfHygiene"
-                                app:layout_constraintTop_toTopOf="parent"
-                                tools:text="0" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/layoutUntidy"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
-                            android:layout_marginTop="4dp"
-                            android:background="@drawable/oval_white_background"
-                            android:backgroundTint="#44C3FA"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="8dp">
-
-                            <TextView
-                                android:id="@+id/untidy"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:singleLine="true"
-                                android:text="@string/untidy"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/sumUntidy"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="4dp"
-                                android:singleLine="true"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toEndOf="@+id/untidy"
-                                app:layout_constraintTop_toTopOf="parent"
-                                tools:text="0" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/layoutConflicting"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
-                            android:layout_marginTop="4dp"
-                            android:background="@drawable/oval_white_background"
-                            android:backgroundTint="#44C3FA"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="8dp">
-
-                            <TextView
-                                android:id="@+id/conflicting"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:singleLine="true"
-                                android:text="@string/conflicting"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/sumConflicting"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="4dp"
-                                android:singleLine="true"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toEndOf="@+id/conflicting"
-                                app:layout_constraintTop_toTopOf="parent"
-                                tools:text="0" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/layoutNoisy"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
-                            android:layout_marginTop="4dp"
-                            android:background="@drawable/oval_white_background"
-                            android:backgroundTint="#44C3FA"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="8dp">
-
-                            <TextView
-                                android:id="@+id/noisy"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:singleLine="true"
-                                android:text="@string/noisy"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/sumNoisy"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="4dp"
-                                android:singleLine="true"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toEndOf="@+id/noisy"
-                                app:layout_constraintTop_toTopOf="parent"
-                                tools:text="0" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/layoutNotFollowingTheArrangements"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="8dp"
-                            android:layout_marginTop="4dp"
-                            android:background="@drawable/oval_white_background"
-                            android:backgroundTint="#44C3FA"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="8dp">
-
-                            <TextView
-                                android:id="@+id/notFollowingTheArrangements"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:singleLine="true"
-                                android:text="@string/notFollowingTheArrangements"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/sumNotFollowingTheArrangements"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="4dp"
-                                android:singleLine="true"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toEndOf="@+id/notFollowingTheArrangements"
-                                app:layout_constraintTop_toTopOf="parent"
-                                tools:text="0" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    </com.google.android.flexbox.FlexboxLayout>
+                    <TextView
+                        android:id="@+id/documentExpireDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="@string/example"/>
 
                 </LinearLayout>
 
@@ -738,299 +1129,27 @@
 
         </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/personalDataLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:visibility="gone">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
-            android:orientation="vertical"
-            android:background="@drawable/rectangle_white_background"
-            android:paddingVertical="10dp">
-
-            <LinearLayout
-                android:id="@+id/emailLayout"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/editProfileButton"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginHorizontal="24dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginVertical="4dp">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/baseline_email_24"
-                        tools:ignore="ContentDescription" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/email"
-                        android:textSize="@dimen/h2"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"/>
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:text="@string/mail_example"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/phoneNumberLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginHorizontal="24dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginVertical="4dp">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/baseline_phone_24"
-                        tools:ignore="ContentDescription" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/phone_number"
-                        android:textSize="@dimen/h2"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"/>
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/phoneNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:text="@string/example"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/studentNumberLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginHorizontal="24dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginVertical="4dp">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/baseline_person_24"
-                        tools:ignore="ContentDescription" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/student_number"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/h2"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/studentNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:text="@string/example"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/birthDateLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginHorizontal="24dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginVertical="4dp">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/baseline_calendar_month_24"
-                        tools:ignore="ContentDescription" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/birth_date"
-                        android:textSize="@dimen/h2"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"/>
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/birthDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:text="@string/example"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/bankAccountLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginHorizontal="24dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginVertical="4dp">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/baseline_person_24"
-                        tools:ignore="ContentDescription" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/bank_account"
-                        android:textSize="@dimen/h2"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"/>
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/bankAccount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:text="@string/example"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/documentNumberLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginHorizontal="24dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginVertical="4dp">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/baseline_person_24"
-                        tools:ignore="ContentDescription" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/document_number"
-                        android:textSize="@dimen/h2"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"/>
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/documentNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:text="@string/example"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/documentExpireDateLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginHorizontal="24dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginVertical="4dp">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/baseline_person_24"
-                        tools:ignore="ContentDescription" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/document_expire_date"
-                        android:textSize="@dimen/h2"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"/>
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/documentExpireDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:text="@string/example"/>
-
-            </LinearLayout>
+                android:layout_marginTop="@dimen/button_margin_top"
+                android:layout_marginBottom="@dimen/button_margin_top"
+                android:text="@string/edit_profile" />
 
         </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
 
-        <Button
-            android:id="@+id/editProfileButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="@string/edit_profile" />
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="@dimen/progress_bar_size"
+        android:layout_height="@dimen/progress_bar_size"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
-    </LinearLayout>
-
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

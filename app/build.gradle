@@ -2,15 +2,15 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-parcelize'
-
+    id 'com.google.gms.google-services'
 }
 
 android {
-    namespace 'com.example.flats4us21'
+    namespace 'com.example.flats4us'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.flats4us21"
+        applicationId "com.example.flats4us"
         minSdk 26
         targetSdk 33
         versionCode 1
@@ -53,6 +53,12 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0'
     implementation "androidx.datastore:datastore-preferences:1.0.0"
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
+    implementation 'com.microsoft.signalr:signalr:7.0.0'
+    implementation(platform("com.google.firebase:firebase-bom:33.2.0"))
+    implementation("com.google.firebase:firebase-messaging")
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'org.apache.commons:commons-imaging:1.0-alpha2'
+
 
 
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
@@ -64,8 +70,10 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+    implementation 'com.google.firebase:firebase-messaging:24.0.0'
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-core:3.12.4'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation 'androidx.preference:preference-ktx:1.2.1'
 }

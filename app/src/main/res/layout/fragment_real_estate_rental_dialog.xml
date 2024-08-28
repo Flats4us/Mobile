@@ -11,14 +11,13 @@
         android:id="@+id/layoutRentalDateWithHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-        android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+        android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
 
         <LinearLayout
             android:id="@+id/layoutRentalDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_register_margin_top"
+            android:layout_marginTop="@dimen/layout_edit_text_margin_top"
             android:background="@drawable/background_input"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -29,31 +28,29 @@
                 android:layout_height="@dimen/icon_height"
                 android:layout_marginStart="@dimen/icon_margin"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/baseline_calendar_month_24"
-                app:tint="@color/black" />
+                android:src="@drawable/baseline_calendar_month_24"/>
 
             <TextView
                 android:id="@+id/rentalDate"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
-                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                android:paddingHorizontal="@dimen/edit_text_padding_horizontal"
                 android:gravity="center_vertical"
                 android:background="@null"
                 android:hint="@string/required_rental_date"
                 android:importantForAutofill="no"
-                android:textSize="@dimen/regular_text_size"
+                android:textSize="@dimen/edit_text_size"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
         <TextView
             android:id="@+id/layoutRentalDateHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/layout_name_margin_vertical"
+            android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
             android:background="@color/white"
-            android:paddingStart="@dimen/layout_name_padding_vertical"
-            android:paddingEnd="@dimen/layout_name_padding_vertical"
+            android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
             android:text="@string/required_rental_date"
             android:textAllCaps="true"
             android:textStyle="bold"
@@ -67,14 +64,13 @@
         android:id="@+id/layoutRentalPeriodWithHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-        android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+        android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutRentalPeriod"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_register_margin_top"
+            android:layout_marginTop="@dimen/layout_edit_text_margin_top"
             android:background="@drawable/background_input"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -84,8 +80,7 @@
                 android:id="@+id/rentalPeriod"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_text_height"
-                android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                android:paddingHorizontal="@dimen/edit_text_padding_horizontal"
                 android:background="@null"
                 android:hint="@string/required_rental_period"
                 android:imeOptions="actionNext"
@@ -108,16 +103,16 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/layoutRentalPeriodHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/layout_name_margin_vertical"
+            android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
             android:background="@color/white"
-            android:paddingStart="@dimen/layout_name_padding_vertical"
-            android:paddingEnd="@dimen/layout_name_padding_vertical"
+            android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
             android:text="@string/required_rental_period"
             android:textAllCaps="true"
             android:textStyle="bold"
@@ -131,8 +126,7 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/layout_with_edit_text_horizontal_margin"
-        android:layout_marginEnd="@dimen/layout_with_edit_text_horizontal_margin">
+        android:layout_marginHorizontal="@dimen/layout_edit_text_margin_horizontal">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutEmailWithHeader"
@@ -145,7 +139,7 @@
                 android:id="@+id/layoutEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/layout_register_margin_top"
+                android:layout_marginTop="@dimen/layout_edit_text_margin_top"
                 android:background="@drawable/background_input"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -156,8 +150,7 @@
                     android:layout_height="@dimen/icon_height"
                     android:layout_marginStart="@dimen/icon_margin"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/baseline_email_24"
-                    app:tint="@color/black" />
+                    android:src="@drawable/baseline_email_24"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -167,14 +160,13 @@
                         android:id="@+id/emailEditText"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/edit_text_height"
-                        android:layout_marginStart="@dimen/edit_text_horizontal_margin"
-                        android:layout_marginEnd="@dimen/edit_text_horizontal_margin"
+                        android:paddingHorizontal="@dimen/edit_text_padding_horizontal"
                         android:background="@null"
                         android:hint="@string/roommates_email"
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
                         android:inputType="textEmailAddress"
-                        android:textSize="@dimen/regular_text_size"
+                        android:textSize="@dimen/edit_text_size"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/addEmailButton"
@@ -195,15 +187,15 @@
                         app:tint="@color/black" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/layout_name_margin_vertical"
+                android:layout_marginStart="@dimen/text_view_edit_text_header_margin"
                 android:background="@color/white"
-                android:paddingStart="@dimen/layout_name_padding_vertical"
-                android:paddingEnd="@dimen/layout_name_padding_vertical"
+                android:paddingHorizontal="@dimen/text_view_edit_text_header_padding_horizontal"
                 android:text="@string/roommates_email"
                 android:textAllCaps="true"
                 android:textStyle="bold"
@@ -230,10 +222,11 @@
                 android:id="@+id/emptyTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/empty"
+                android:text="@string/no_data_available"
                 android:textSize="@dimen/h2"
                 android:visibility="gone"
                 android:gravity="center"/>
+
         </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

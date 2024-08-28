@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:layout_marginVertical="@dimen/header_vertical_space">
+    android:layout_marginVertical="@dimen/header_vertical_margin">
+
     <TextView
         android:id="@+id/time"
         android:layout_width="wrap_content"
@@ -12,6 +13,7 @@
         android:text=""
         android:textSize="@dimen/h2"
         android:layout_weight="1"/>
+
     <TextView
         android:id="@+id/reason"
         android:layout_width="wrap_content"
@@ -19,6 +21,5 @@
         android:text=""
         android:textSize="@dimen/regular_text_size"
         android:layout_weight="1"/>
-
 
 </LinearLayout>
