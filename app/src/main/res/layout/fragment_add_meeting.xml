@@ -252,7 +252,7 @@
                         android:importantForAutofill="no"
                         android:inputType="textPostalAddress"
                         android:paddingHorizontal="@dimen/edit_text_padding_horizontal"
-                        android:hint="@string/address_example"
+                        android:hint=""
                         android:textSize="@dimen/edit_text_size"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"

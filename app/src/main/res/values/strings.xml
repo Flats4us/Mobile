@@ -646,6 +646,10 @@
     <string name="flat">Mieszkanie</string>
     <string name="house">Dom</string>
     <string name="room">Pokój</string>
+    <string name="notification_channel_id">notification_channel</string>
+    <string name="notification_channel_name">com.example.flats4us</string>
+    <string name="meeting_canceled_title">Spotkanie anulowane</string>
+    <string name="meeting_canceled_body">Właściciel usunął ofertę</string>
 
 
     <!-- TODO: meeting_row -->
